@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<model name="rpsd:salesdemo" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+	<description>Sales Demo Model</description>
+	<author>Repill Linpro AB</author>
+	<version>1.0.0</version>
+
+	<imports>
+		<!-- Import Alfresco System Definitions -->
+		<import uri="http://www.alfresco.org/model/system/1.0" prefix="sys" />
+		<!-- Import Alfresco Dictionary Definitions -->
+		<import uri="http://www.alfresco.org/model/dictionary/1.0"
+			prefix="d" />
+		<!-- Import Alfresco Content Domain Model Definitions -->
+		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+		<!-- Import Alfresco Rendition Domain Model Definitions -->
+		<import uri="http://www.alfresco.org/model/rendition/1.0"
+			prefix="rn" />
+	</imports>
+
+	<namespaces>
+		<namespace uri="http://www.redpill-linpro.com/model/salesdemo/1.0"
+			prefix="rpsd" />
+	</namespaces>
+	<constraints>
+		<constraint name="rpsd:measurementFieldReportConstraint"
+			type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Oxygen</value>
+					<value>Pollution</value>
+				</list>
+			</parameter>
+			<parameter name="caseSensitive">
+				<value>false</value>
+			</parameter>
+		</constraint>
+		<constraint name="rpsd:locationFieldReportConstraint" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Ängelholm</value>
+					<value>Kristianstad</value>
+					<value>Helsingborg</value>
+				</list>
+			</parameter>
+			<parameter name="caseSensitive">
+				<value>false</value>
+			</parameter>
+		</constraint>
+	</constraints>
+	<types>
+		<type name="rpsd:document">
+			<title>Redpill Linpro Document</title>
+			<parent>cm:content</parent>
+		</type>
+		<type name="rpsd:folder">
+			<title>Redpill Linpro Folder</title>
+			<parent>cm:folder</parent>
+		</type>
+	</types>
+
+	<aspects>
+		<aspect name="rpsd:baseAspect">
+			<title>Redpill Base Aspect</title>
+		</aspect>
+		<aspect name="rpsd:directReportAspect">
+			<title>Redpill Direct Report Base Aspect</title>
+			<parent>rpsd:baseAspect</parent>
+			<properties>
+				<property name="rpsd:name">
+					<title>Placeholder for name</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="rpsd:content">
+					<title>Placeholder for content</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="rpsd:fieldReport">
+			<title>Field Report</title>
+			<parent>rpsd:directReportAspect</parent>
+			<properties>
+				<property name="rpsd:reportDate">
+					<title>Report Date</title>
+					<type>d:datetime</type>
+					<mandatory>true</mandatory>
+				</property>
+				<property name="rpsd:reportLocation">
+					<title>Report Location</title>
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<constraints>
+						<constraint ref="rpsd:locationFieldReportConstraint" />
+					</constraints>
+				</property>
+				<property name="rpsd:reportMeasurement">
+					<title>Report Measurement</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+					<constraints>
+						<constraint ref="rpsd:measurementFieldReportConstraint" />
+					</constraints>
+				</property>
+				<property name="rpsd:reportMeasurementValue">
+					<title>Measured Value</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="rpsd:reportResponsible">
+					<title>Report Responsible</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="rpsd:reportContact">
+					<title>Report Contact</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+			</properties>
+		</aspect>
+	</aspects>
+
+</model>
