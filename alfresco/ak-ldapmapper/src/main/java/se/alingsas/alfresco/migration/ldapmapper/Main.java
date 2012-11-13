@@ -1,10 +1,10 @@
 package se.alingsas.alfresco.migration.ldapmapper;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.ldap.core.LdapTemplate;
 
 public class Main {
 
@@ -13,25 +13,14 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		if (args.length<3) {
+		if (args.length<2) {
 			System.out.println("Error: Invalid arguments");
-			System.out.println("Usage: java -cp ldapmapper-1.0.0.jar se.alingsas.alfresco.migration.ldapmapper.Main sourcefile targetfile propertyfile.properties");
+			System.out.println("Usage: java -cp ldapmapper-1.0.0.jar se.alingsas.alfresco.migration.ldapmapper.Main sourcefile targetfile");
+			System.out.println("Info: A file called ldap.properties must exist on the classpath which contains connection details for the ldap server");
 		} else {
 			String sourceFile = args[0];
 			String destinationFile = args[1];
-			String propertyfile = args[2];
-			
-			Properties properties = new Properties();
-			
-			try {
-				properties.load(new FileInputStream(propertyfile));
-			} catch (FileNotFoundException e) {
-				System.out.println("Error: Could not find property file "+ propertyfile);
-			} catch (IOException e) {					
-				System.out.println("Error: Error reading "+ propertyfile);
-				e.printStackTrace();
-				return;
-			}
+
 			
 			File file=new File(sourceFile);
 			if (!file.exists()) {
@@ -41,11 +30,16 @@ public class Main {
 			
 			file=new File(destinationFile);
 			if (file.exists()) {
-				System.out.println("Error: Destionation file already exists "+ destinationFile);
+				System.out.println("Error: Destination file already exists "+ destinationFile);
 				return;
 			}
 			
-			LdapMapper ldapMapper = new LdapMapper(sourceFile, destinationFile, properties);
+			ApplicationContext context = new ClassPathXmlApplicationContext("ldap-context.xml");
+			
+			
+			LdapMapper ldapMapper = new LdapMapper(sourceFile, destinationFile);
+			ldapMapper.setLdapTemplate(context.getBean("ldapTemplate", LdapTemplate.class));
+
 			ldapMapper.run();
 		}
 		

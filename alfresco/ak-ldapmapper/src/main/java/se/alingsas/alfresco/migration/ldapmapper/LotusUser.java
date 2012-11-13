@@ -1,5 +1,10 @@
 package se.alingsas.alfresco.migration.ldapmapper;
 
+/**
+ * The Pojo for relevant ldap properties for a notes user
+ * @author mars
+ *
+ */
 public class LotusUser {
 
 	private String commonName;

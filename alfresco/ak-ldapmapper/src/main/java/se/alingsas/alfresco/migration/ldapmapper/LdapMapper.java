@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
-import java.util.Properties;
 import java.util.Scanner;
 
 import org.springframework.ldap.core.LdapTemplate;
@@ -16,16 +15,28 @@ public class LdapMapper {
 
 	private String sourceFile;
 	private String destinationFile;
-	private Properties properties;
 	private LdapTemplate ldapTemplate;
+	private final String stringSeparator = "#!#";
 
-	public LdapMapper(String sourceFile, String destinationFile,
-			Properties properties) {
+	/**
+	 * Constructor
+	 * 
+	 * @param sourceFile
+	 * @param destinationFile
+	 * @param properties
+	 */
+	public LdapMapper(String sourceFile, String destinationFile) {
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
-		this.properties = properties;
 	}
 
+	/**
+	 * Perform a ldap search for each user to get the relevant properties
+	 * 
+	 * @param commonName
+	 * @param base
+	 * @return
+	 */
 	private LotusUser getUser(String commonName, String base) {
 		System.out.println("Looking up user " + commonName + " at " + base
 				+ " in LDAP");
@@ -46,17 +57,45 @@ public class LdapMapper {
 		}
 	}
 
-	private String extractAndReplaceUid(String row) {
-		String[] columns = row.split("#!#");
-		String notesUserPath = columns[1];
-		String commonName = notesUserPath.substring(2, notesUserPath.indexOf("/OU"));
-		String base = notesUserPath.substring(notesUserPath.indexOf("/OU")+1).replace("/",",");
-		LotusUser user = getUser(commonName, base);
-		columns[1] = user.getUid();
-		
-		return "";
+	/**
+	 * Implode an array of strings with a separator of choise
+	 * 
+	 * @param strArr
+	 * @param separator
+	 * @return
+	 */
+	private String implodeStringArray(String[] strArr, String separator) {
+		StringBuilder sb = new StringBuilder();
+		for (String str : strArr) {
+			sb.append(str);
+			sb.append(separator);
+		}
+		return sb.toString();
 	}
 
+	/**
+	 * Take the Notes id of a user and lookup its uid
+	 * 
+	 * @param row
+	 *            A single row of data separated by "stringSeparator"
+	 * @return The row with the uid instead of the Notes id
+	 */
+	private String extractAndReplaceUid(String row) {
+		String[] columns = row.split(stringSeparator);
+		String notesUserPath = columns[1];
+		String commonName = notesUserPath.substring(3,
+				notesUserPath.indexOf("/OU"));
+		String base = notesUserPath.substring(notesUserPath.indexOf("/OU") + 1)
+				.replace("/", ",");
+		LotusUser user = getUser(commonName, base);
+		columns[1] = user.getUid();
+		return implodeStringArray(columns, stringSeparator);
+	}
+
+	/**
+	 * Triggers the function to read from source file and write to destination
+	 * file translating the notes user id into uid
+	 */
 	public void run() {
 		try {
 			FileInputStream fis = new FileInputStream(sourceFile);
@@ -93,5 +132,9 @@ public class LdapMapper {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void setLdapTemplate(LdapTemplate ldapTemplate) {
+		this.ldapTemplate = ldapTemplate;
 	}
 }
