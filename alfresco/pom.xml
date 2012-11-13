@@ -19,6 +19,7 @@
 	<modules>
 	    <module>ak-repo-dm</module>
 	    <module>ak-share-dm</module>
+	    <module>ak-ldapmapper</module>
 	</modules>
 
 	<build>
