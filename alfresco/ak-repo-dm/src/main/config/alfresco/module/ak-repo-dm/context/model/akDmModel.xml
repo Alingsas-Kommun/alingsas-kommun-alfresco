@@ -80,11 +80,85 @@
 				<value>false</value>
 			</parameter>
 		</constraint>
+		<constraint name="akdm:docStatusConstraint" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Arbetsdokument</value>
+					<value>Färdigt dokument</value>
+				</list>
+			</parameter>
+			<parameter name="caseSensitive">
+				<value>false</value>
+			</parameter>
+		</constraint>
+		<constraint name="akdm:secrecyStatusConstraint" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Sekretessbelagt</value>
+					<value>Offentligt</value>
+				</list>
+			</parameter>
+			<parameter name="caseSensitive">
+				<value>false</value>
+			</parameter>
+		</constraint>
 	</constraints>
 	<types>
 		<type name="akdm:document">
-			<title>Alingsås Kommun Document</title>
+			<title>Alingsås Kommun Dokument</title>
 			<parent>cm:content</parent>
+			<mandatory-aspects>
+				<aspect>akdm:commonAspect</aspect>
+				<aspect>cm:versionable</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:direction">
+			<title>Anvisning</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:protocolAspect</aspect>
+				<aspect>akdm:directionAspect</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:constitution">
+			<title>Författning</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:protocolAspect</aspect>
+				<aspect>akdm:directionAspect</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:handbook">
+			<title>Handbok</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:handbookAspect</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:protocol">
+			<title>Protokoll</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:protocolAspect</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:generaldocument">
+			<title>Generellt dokument</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:generalDocumentAspect</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:economydocument">
+			<title>Ekonomidokument</title>
+			<parent>akdm:document</parent>
+		</type>
+		<type name="akdm:byggreda">
+			<title>ByggReda</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:byggRedaAspect</aspect>
+			</mandatory-aspects>
 		</type>
 		<type name="akdm:folder">
 			<title>Alingsås Kommun Folder</title>
@@ -96,23 +170,44 @@
 		<aspect name="akdm:aspect">
 			<title>Alingsås Kommun Aspect</title>
 		</aspect>
+		<aspect name="akdm:commonAspect">
+			<title>Generella metadata</title>
+			<parent>akdm:aspect</parent>
+			<properties>
+				<property name="akdm:documentNumber">
+					<title>Dokumentnummer</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:documentStatus">
+					<title>Dokumentstatus</title>
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<default>Arbetsdokument</default>
+					<constraints>
+						<constraint ref="akdm:docStatusConstraint" />
+					</constraints>
+				</property>
+				<property name="akdm:documentSecrecy">
+					<title>Sekretess</title>
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<constraints>
+						<constraint ref="akdm:secrecyStatusConstraint" />
+					</constraints>
+				</property>
+			</properties>
+		</aspect>
 		<aspect name="akdm:directionAspect">
 			<title>Anvisning</title>
 			<parent>akdm:aspect</parent>
 			<properties>
-				<property name="akdm:directionProtocolId">
-					<title>Protokollid</title>
-					<type>d:text</type>
-					<mandatory>false</mandatory>
-				</property>
 				<property name="akdm:directionDecisionDate">
 					<title>Beslutsdatum</title>
 					<type>d:date</type>
 					<mandatory>false</mandatory>
 				</property>
-				<property name="akdm:directionGroup"><constraints>
-						<constraint ref="akdm:handbookConstraint" />
-					</constraints>
+				<property name="akdm:directionGroup">
 					<title>Grupp</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
@@ -148,24 +243,8 @@
 			<title>Protokoll</title>
 			<parent>akdm:aspect</parent>
 			<properties>
-				<property name="akdm:protocolProtocolId">
+				<property name="akdm:protocolId">
 					<title>Protokollid</title>
-					<type>d:text</type>
-					<mandatory>false</mandatory>
-				</property>
-			</properties>
-		</aspect>
-		<aspect name="akdm:frameworkAgreementAspect">
-			<title>Ramavtal</title>
-			<parent>akdm:aspect</parent>
-			<properties>
-				<property name="akdm:frameworkAgreementReferenceNumber">
-					<title>Referensnr/Diarienr</title>
-					<type>d:text</type>
-					<mandatory>false</mandatory>
-				</property>
-				<property name="akdm:frameworkAgreementDatePeriod">
-					<title>Avtalstid</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 				</property>

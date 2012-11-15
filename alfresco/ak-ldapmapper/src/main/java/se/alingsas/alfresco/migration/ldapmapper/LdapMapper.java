@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 
+import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.LdapTemplate;
 
 public class LdapMapper {
@@ -17,7 +20,7 @@ public class LdapMapper {
 	private String destinationFile;
 	private LdapTemplate ldapTemplate;
 	private final String stringSeparator = "#!#";
-
+	private Map<String, LotusUser> cachedUserRegistry;
 	/**
 	 * Constructor
 	 * 
@@ -28,6 +31,7 @@ public class LdapMapper {
 	public LdapMapper(String sourceFile, String destinationFile) {
 		this.sourceFile = sourceFile;
 		this.destinationFile = destinationFile;
+		cachedUserRegistry = new HashMap<String, LotusUser>();
 	}
 
 	/**
@@ -37,19 +41,22 @@ public class LdapMapper {
 	 * @param base
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private LotusUser getUser(String commonName, String base) {
 		System.out.println("Looking up user " + commonName + " at " + base
 				+ " in LDAP");
 		UserAttributesMapper mapper = new UserAttributesMapper();
-		HashSet<LotusUser> hashSet = new HashSet<LotusUser>(
-				ldapTemplate
-						.search(base, "(objectClass=inetOrgPerson)", mapper));
-		if (hashSet.size() == 1) {
-			return (LotusUser) hashSet.toArray()[0];
-		} else if (hashSet.size() == 0) {
+		HashSet<LotusUser> hashSet = new HashSet<LotusUser>();
+		try {
+			hashSet.addAll(ldapTemplate.search(base,
+					"(objectClass=inetOrgPerson)", mapper));
+		} catch (NameNotFoundException e) {
 			System.out.println("No user with CN=" + commonName
 					+ " found, returning null");
 			return null;
+		}
+		if (hashSet.size() == 1) {
+			return (LotusUser) hashSet.toArray()[0];
 		} else {
 			System.out.println("More than one user with CN=" + commonName
 					+ " found, returning null");
@@ -87,8 +94,16 @@ public class LdapMapper {
 				notesUserPath.indexOf("/OU"));
 		String base = notesUserPath.substring(notesUserPath.indexOf("/OU") + 1)
 				.replace("/", ",");
-		LotusUser user = getUser(commonName, base);
-		columns[1] = user.getUid();
+		LotusUser user;
+		if (!cachedUserRegistry.containsKey(notesUserPath)) {
+			user = getUser(commonName, base);
+			cachedUserRegistry.put(notesUserPath, user);
+		} else {
+			user = cachedUserRegistry.get(notesUserPath);
+		}
+		if (null!=user) {
+			columns[1] = user.getUid();
+		}
 		return implodeStringArray(columns, stringSeparator);
 	}
 
@@ -108,8 +123,11 @@ public class LdapMapper {
 			try {
 				try {
 					while (scanner.hasNextLine()) {
-						String fixedLine = extractAndReplaceUid(scanner
-								.nextLine());
+						String nextLine = scanner.nextLine();
+						if (nextLine.length()==0) {
+							continue;
+						}
+						String fixedLine = extractAndReplaceUid(nextLine);
 						out.write(fixedLine + NL);
 					}
 				} catch (IOException e) {
