@@ -19,22 +19,4 @@
 		<property name="contentService" ref="ContentService" />
 		<property name="searchService" ref="SearchService" />
 	</bean>
-
-	<!-- <bean id="webscript.com.redpill-linpro.alfresco.aspectsubtypes.aspectsubtypes.get" 
-		class="com.redpill_linpro.alfresco.sales_demo.webscripts.AspectSubtypesWebScript" 
-		parent="webscript"> <property name="dictionaryService" ref="DictionaryService" 
-		/> <property name="namespaceService" ref="NamespaceService" /> </bean> <bean 
-		id="webscript.com.redpill-linpro.alfresco.directreport.directreport.post" 
-		class="com.redpill_linpro.alfresco.sales_demo.webscripts.DirectReportPostWebScript" 
-		parent="webscript"> <property name="dictionaryService" ref="DictionaryService" 
-		/> <property name="nodeService" ref="NodeService" /> <property name="siteService" 
-		ref="SiteService" /> <property name="namespaceService" ref="NamespaceService" 
-		/> <property name="contentService" ref="ContentService" /> </bean> <bean 
-		id="webscript.com.redpill-linpro.alfresco.directreport.directreport.get" 
-		class="com.redpill_linpro.alfresco.sales_demo.webscripts.DirectReportGetWebScript" 
-		parent="webscript"> <property name="dictionaryService" ref="DictionaryService" 
-		/> <property name="nodeService" ref="NodeService" /> <property name="siteService" 
-		ref="SiteService" /> <property name="namespaceService" ref="NamespaceService" 
-		/> <property name="contentService" ref="ContentService" /> <property name="searchService" 
-		ref="SearchService" /> </bean> -->
 </beans>
