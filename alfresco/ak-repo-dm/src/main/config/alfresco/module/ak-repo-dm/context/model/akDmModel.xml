@@ -24,7 +24,7 @@
 			prefix="akdm" />
 	</namespaces>
 	<constraints>
-		<constraint name="akdm:jaNejConstraint"
+		<constraint name="akdm:yesNoConstraint"
 			type="LIST">
 			<parameter name="allowedValues">
 				<list>
@@ -65,7 +65,7 @@
 				<value>false</value>
 			</parameter>
 		</constraint>
-		<constraint name="akdm:handbookConstraint" type="LIST">
+		<constraint name="akdm:manualConstraint" type="LIST">
 			<parameter name="allowedValues">
 				<list>
 					<value>PA</value>
@@ -112,27 +112,27 @@
 				<aspect>cm:versionable</aspect>
 			</mandatory-aspects>
 		</type>
-		<type name="akdm:direction">
+		<type name="akdm:instruction">
 			<title>Anvisning</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:protocolAspect</aspect>
-				<aspect>akdm:directionAspect</aspect>
+				<aspect>akdm:instructionAspect</aspect>
 			</mandatory-aspects>
 		</type>
-		<type name="akdm:constitution">
+		<type name="akdm:ordinance">
 			<title>Författning</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:protocolAspect</aspect>
-				<aspect>akdm:directionAspect</aspect>
+				<aspect>akdm:instructionAspect</aspect>
 			</mandatory-aspects>
 		</type>
-		<type name="akdm:handbook">
+		<type name="akdm:manual">
 			<title>Handbok</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
-				<aspect>akdm:handbookAspect</aspect>
+				<aspect>akdm:manualAspect</aspect>
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:protocol">
@@ -153,6 +153,7 @@
 			<title>Ekonomidokument</title>
 			<parent>akdm:document</parent>
 		</type>
+		<!-- 
 		<type name="akdm:byggreda">
 			<title>ByggReda</title>
 			<parent>akdm:document</parent>
@@ -160,6 +161,7 @@
 				<aspect>akdm:byggRedaAspect</aspect>
 			</mandatory-aspects>
 		</type>
+		 -->
 		<type name="akdm:folder">
 			<title>Alingsås Kommun Folder</title>
 			<parent>cm:folder</parent>
@@ -198,16 +200,16 @@
 				</property>
 			</properties>
 		</aspect>
-		<aspect name="akdm:directionAspect">
-			<title>Anvisning</title>
+		<aspect name="akdm:instructionAspect">
+			<title>Anvisning Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
-				<property name="akdm:directionDecisionDate">
+				<property name="akdm:instructionDecisionDate">
 					<title>Beslutsdatum</title>
 					<type>d:date</type>
 					<mandatory>false</mandatory>
 				</property>
-				<property name="akdm:directionGroup">
+				<property name="akdm:instructionGroup">
 					<title>Grupp</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
@@ -217,11 +219,11 @@
 				</property>
 			</properties>
 		</aspect>
-		<aspect name="akdm:handbookAspect">
-			<title>Handbok</title>
+		<aspect name="akdm:manualAspect">
+			<title>Manual Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
-				<property name="akdm:handbookFunction">
+				<property name="akdm:manualFunction">
 					<title>Funktion</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
@@ -229,18 +231,18 @@
 						<constraint ref="akdm:functionConstraint" />
 					</constraints>
 				</property>
-				<property name="akdm:handbookHandbook">
+				<property name="akdm:manualManual">
 					<title>Handbok</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 					<constraints>
-						<constraint ref="akdm:handbookConstraint" />
+						<constraint ref="akdm:manualConstraint" />
 					</constraints>
 				</property>
 			</properties>
 		</aspect>
 		<aspect name="akdm:protocolAspect">
-			<title>Protokoll</title>
+			<title>Protokoll Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:protocolId">
@@ -251,7 +253,7 @@
 			</properties>
 		</aspect>
 		<aspect name="akdm:generalDocumentAspect">
-			<title>Generellt dokument</title>
+			<title>Generellt dokument Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:generalDocumentDescription">
@@ -266,7 +268,7 @@
 				</property>
 			</properties>
 		</aspect>
-		<aspect name="akdm:byggRedaAspect">
+		<!-- <aspect name="akdm:byggRedaAspect">
 			<title>ByggReda</title>
 			<parent>akdm:aspect</parent>
 			<properties>
@@ -335,12 +337,12 @@
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 					<constraints>
-						<constraint ref="akdm:jaNejConstraint" />
+						<constraint ref="akdm:yesNoConstraint" />
 					</constraints>
 				</property>
 			</properties>
 		</aspect>
-		
+		 -->
 	</aspects>
 
 </model>
