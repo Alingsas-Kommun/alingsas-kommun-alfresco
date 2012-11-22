@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN//EN' 'http://www.springframework.org/dtd/spring-beans.dtd'>
+
+<beans>
+
+   <!-- GLOBAL -->
+
+   <!-- Share config that always will be applied  -->
+   <bean id="ak.dm.config" class="org.springframework.extensions.config.ConfigBootstrap" init-method="register">
+      <property name="configService" ref="web.config" />
+      <property name="configs">
+         <list>
+            <value>classpath:alfresco/web-extension/ak-share-dm-forms-config.xml</value>
+         </list>
+      </property>
+   </bean>
+
+   <!-- I18N -->
+
+   <!-- Add RD messages -->
+   <bean id="acme.rd.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+      <property name="resourceBundles">
+         <list>
+            <value>alfresco.messages.ak-dm</value>
+         </list>
+      </property>
+   </bean>
+
+</beans>

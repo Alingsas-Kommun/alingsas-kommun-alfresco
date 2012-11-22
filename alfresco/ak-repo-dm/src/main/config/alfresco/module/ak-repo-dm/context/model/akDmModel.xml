@@ -107,7 +107,7 @@
 	</constraints>
 	<types>
 		<type name="akdm:document">
-			<title>Alingsås Kommun Dokument</title>
+			<title>Alingsås Kommun Document</title>
 			<parent>cm:content</parent>
 			<mandatory-aspects>
 				<aspect>akdm:commonAspect</aspect>
@@ -115,7 +115,7 @@
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:instruction">
-			<title>Anvisning</title>
+			<title>Instruction</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:protocolAspect</aspect>
@@ -123,7 +123,7 @@
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:ordinance">
-			<title>Författning</title>
+			<title>Ordinance</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:protocolAspect</aspect>
@@ -131,28 +131,28 @@
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:manual">
-			<title>Handbok</title>
+			<title>Manual</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:manualAspect</aspect>
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:protocol">
-			<title>Protokoll</title>
+			<title>Protocol</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:protocolAspect</aspect>
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:generaldocument">
-			<title>Generellt dokument</title>
+			<title>General document</title>
 			<parent>akdm:document</parent>
 			<mandatory-aspects>
 				<aspect>akdm:generalDocumentAspect</aspect>
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:economydocument">
-			<title>Ekonomidokument</title>
+			<title>Economy document</title>
 			<parent>akdm:document</parent>
 		</type>
 		<!-- <type name="akdm:byggreda"> <title>ByggReda</title> <parent>akdm:document</parent> 
@@ -169,16 +169,16 @@
 			<title>Alingsås Kommun Aspect</title>
 		</aspect>
 		<aspect name="akdm:commonAspect">
-			<title>Generella metadata</title>
+			<title>Common</title>
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:documentNumber">
-					<title>Dokumentnummer</title>
+					<title>Document number</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 				</property>
 				<property name="akdm:documentStatus">
-					<title>Dokumentstatus</title>
+					<title>Document status</title>
 					<type>d:text</type>
 					<mandatory>true</mandatory>
 					<default>Arbetsdokument</default>
@@ -187,7 +187,7 @@
 					</constraints>
 				</property>
 				<property name="akdm:documentSecrecy">
-					<title>Sekretess</title>
+					<title>Secrecy</title>
 					<type>d:text</type>
 					<mandatory>true</mandatory>
 					<constraints>
@@ -197,16 +197,16 @@
 			</properties>
 		</aspect>
 		<aspect name="akdm:instructionAspect">
-			<title>Anvisning Aspect</title>
+			<title>Instruction Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:instructionDecisionDate">
-					<title>Beslutsdatum</title>
+					<title>Decision Date</title>
 					<type>d:date</type>
 					<mandatory>false</mandatory>
 				</property>
 				<property name="akdm:instructionGroup">
-					<title>Grupp</title>
+					<title>Group</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 					<constraints>
@@ -220,7 +220,7 @@
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:manualFunction">
-					<title>Funktion</title>
+					<title>Function</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 					<constraints>
@@ -228,7 +228,7 @@
 					</constraints>
 				</property>
 				<property name="akdm:manualManual">
-					<title>Handbok</title>
+					<title>Manual</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 					<constraints>
@@ -238,27 +238,27 @@
 			</properties>
 		</aspect>
 		<aspect name="akdm:protocolAspect">
-			<title>Protokoll Aspect</title>
+			<title>Protocol Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:protocolId">
-					<title>Protokollid</title>
+					<title>Protocol id</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 				</property>
 			</properties>
 		</aspect>
 		<aspect name="akdm:generalDocumentAspect">
-			<title>Generellt dokument Aspect</title>
+			<title>General document Aspect</title>
 			<parent>akdm:aspect</parent>
 			<properties>
 				<property name="akdm:generalDocumentDescription">
-					<title>Beskrivning</title>
+					<title>Description</title>
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 				</property>
 				<property name="akdm:generalDocumentDate">
-					<title>Datum</title>
+					<title>Date</title>
 					<type>d:date</type>
 					<mandatory>false</mandatory>
 				</property>

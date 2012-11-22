@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<presets>
+	<preset id="ak-dm-public">
+		<components>
+			<!-- title -->
+			<component>
+				<scope>page</scope>
+				<region-id>title</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/title/collaboration-title</url>
+			</component>
+			<!-- navigation -->
+			<component>
+				<scope>page</scope>
+				<region-id>navigation</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/navigation/collaboration-navigation</url>
+			</component>
+			<!-- dashboard components -->
+			<component>
+				<scope>page</scope>
+				<region-id>full-width-dashlet</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/dashlets/dynamic-welcome</url>
+				<properties>
+					<dashboardType>site</dashboardType>
+				</properties>
+			</component>
+			<component>
+				<scope>page</scope>
+				<region-id>component-1-1</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/dashlets/colleagues</url>
+				<properties>
+					<height>504</height>
+				</properties>
+			</component>
+			<component>
+				<scope>page</scope>
+				<region-id>component-2-1</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/dashlets/docsummary</url>
+			</component>
+			<component>
+				<scope>page</scope>
+				<region-id>component-2-2</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/dashlets/activityfeed</url>
+			</component>
+		</components>
+		<pages>
+			<page id="site/${siteid}/dashboard">
+				<title>Sammarbetsyta för offentliga dokument</title>
+				<title-id>page.siteDashboard.title</title-id>
+				<description>Collaboration site's dashboard page</description>
+				<description-id>page.siteDashboard.description</description-id>
+				<template-instance>dashboard-2-columns-wide-right
+				</template-instance>
+				<authentication>user</authentication>
+				<properties>
+					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>
+				</properties>
+			</page>
+		</pages>
+	</preset>
+	<!-- Acme RD site preset Defines a predefined dashbaord config and the default 
+		site pages that shall be visible. The preset id will be saved in the repo 
+		for the site and can later be used to decide if customizations shall be applied 
+		or not using a site evaluator. -->
+	<preset id="acme-rd-preset">
+		<components>
+
+			<!-- Dashboard title (mandatory) -->
+			<component>
+				<scope>page</scope>
+				<region-id>title</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/title/collaboration-title</url>
+			</component>
+			<!-- Dashboard navigation (mandatory) -->
+			<component>
+				<scope>page</scope>
+				<region-id>navigation</region-id>
+				<source-id>site/${siteid}/dashboard</source-id>
+				<url>/components/navigation/collaboration-navigation</url>
+			</component>
+
+			<!-- Dashlets (Optional) <component> <scope>page</scope> <region-id>component-1-1</region-id> 
+				<source-id>site/${siteid}/dashboard</source-id> <url>/components/dashlets/colleagues</url> 
+				</component> -->
+		</components>
+		<pages>
+			<page id="site/${siteid}/dashboard">
+				<title>${siteid}</title>
+				<title-id>page.acme-rd-dashboard.title</title-id>
+				<description>RD site's dashboard page</description>
+				<description-id>page.acme-rd-dashboard.description</description-id>
+
+				<!-- dashboard-2-columns-wide-left, dashboard-2-columns-wide-right, dashboard-3-columns, 
+					dashboard-4-columns -->
+				<template-instance>dashboard-1-column</template-instance>
+				<authentication>user</authentication>
+
+				<!-- Every site has a dashboard page object, let's use it's properties 
+					to site specific string properties. Can be read (& modified) by webscripts 
+					using: sitedata.getPage("site/" + siteId + "/dashboard").properties.sitePages -->
+				<properties>
+
+					<!-- Defined the default pages that shall be visible for the site -->
+					<sitePages>
+						[ { "pageId": "acme-rd-introduction" }, { "pageId":
+						"documentlibrary" } ]
+					</sitePages>
+
+				</properties>
+			</page>
+		</pages>
+	</preset>
+
+</presets>
