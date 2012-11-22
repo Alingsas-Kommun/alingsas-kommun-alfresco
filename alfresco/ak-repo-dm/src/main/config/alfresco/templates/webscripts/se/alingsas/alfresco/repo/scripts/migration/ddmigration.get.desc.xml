@@ -1,0 +1,8 @@
+<webscript>
+  <shortname>DD Migration Script</shortname>
+  <description>DominoDoc Migration Script</description>
+  <url>/alingsas/migration?site={site}&amp;archive={archive}</url>
+  <authentication>user</authentication>
+  <format default="html">argument</format>
+  <family>Alingsås</family>
+</webscript>

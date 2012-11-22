@@ -10,41 +10,41 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class AlingsasDocument {
-	
-	//General properties
+
+	// General properties
 	public String documentNumber;
 	public String createdBy;
 	public Date createdDate;
 	public String fileName;
 	public String title;
-	public String documentType;	
+	public String documentType;
 	public String documentStatus;
 	public String description;
 	public String secrecy;
 	public String version;
 
-	//Anvisning properties
+	// Anvisning properties
 	public String protocolId;
 	public String decisionDate;
 	public String group;
-	
-	//Författning properties
-	//public String protocolId;
-	//public String decisionDate;
-	//public String group;
 
-	//Handbok properties
+	// Författning properties
+	// public String protocolId;
+	// public String decisionDate;
+	// public String group;
+
+	// Handbok properties
 	public String function;
 	public String handbook;
-	
-	//General document
+
+	// General document
 	public String generalDocumentDate;
 	public String generalDocumentDescription;
-	
-	//Protokoll properties
-	//public String protocolId;
-	
-	//Internal migration properties
+
+	// Protokoll properties
+	// public String protocolId;
+
+	// Internal migration properties
 	public int lineNumber;
 	public QName documentTypeQName;
 	public File file;
@@ -54,7 +54,7 @@ public class AlingsasDocument {
 	public String ddUUID;
 	public String fileExtension;
 	public String tmpStorageFolder;
-	
+
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);

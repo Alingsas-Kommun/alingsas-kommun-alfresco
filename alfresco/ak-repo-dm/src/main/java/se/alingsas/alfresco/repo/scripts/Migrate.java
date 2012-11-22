@@ -31,12 +31,8 @@ public class Migrate extends DeclarativeWebScript implements InitializingBean {
 
 	private static final Logger LOG = Logger.getLogger(Migrate.class);
 
-	private static final String ARCHIVE_HMF = "hmf";
-	private static final String ARCHIVE_POLITISKA_NAMNDER = "pn";
-	private static final String ARCHIVE_PV_FBD = "pvfbd";
-	private static final String ARCHIVE_REGIONSERVICE = "rs";
-	private static final String ARCHIVE_RK = "rk";
-	private static final String ARCHIVE_SOCIALDEMOKRATERNA = "sd";
+	private static final String ARCHIVE_TEST = "test";
+
 
 	private String _baseFolder;
 
@@ -59,24 +55,9 @@ public class Migrate extends DeclarativeWebScript implements InitializingBean {
 		String textfile = _baseFolder + "/";
 		String folder = _baseFolder + "/";
 
-		if (ARCHIVE_HMF.equals(archive)) {
-			textfile += "HMF Arbetsdokument/HMF Arbetsdokument Metadata.txt";
-			folder += "HMF Arbetsdokument/Files";
-		} else if (ARCHIVE_POLITISKA_NAMNDER.equals(archive)) {
-			textfile += "Politiska namnder och styrelser Arbetsdokument/Politiska namnder och styrelser Arbetsdokument Metadata.txt";
-			folder += "Politiska namnder och styrelser Arbetsdokument/Files";
-		} else if (ARCHIVE_PV_FBD.equals(archive)) {
-			textfile += "PV FBD Arbetsdokument/PV FBD Arbetsdokument Metadata.txt";
-			folder += "PV FBD Arbetsdokument/Files";
-		} else if (ARCHIVE_REGIONSERVICE.equals(archive)) {
-			textfile += "Regionservice Arbetsdokument/Regionservice Arbetsdokument Metadata.txt";
-			folder += "Regionservice Arbetsdokument/Files";
-		} else if (ARCHIVE_RK.equals(archive)) {
-			textfile += "RK Arbetsdokument/RK Arbetsdokument Metadata.txt";
-			folder += "RK Arbetsdokument/Files";
-		} else if (ARCHIVE_SOCIALDEMOKRATERNA.equals(archive)) {
-			textfile += "Socialdemokraterna Arbetsdokument/Socialdemokraterna Arbetsdokument Metadata.txt";
-			folder += "Socialdemokraterna Arbetsdokument/Files";
+		if (ARCHIVE_TEST.equals(archive)) {
+			textfile += "Test/Test Metadata.txt";
+			folder += "Test/Files";
 		} else {
 			status.setCode(400);
 			status.setMessage("Wrong archive argument.");
@@ -95,7 +76,12 @@ public class Migrate extends DeclarativeWebScript implements InitializingBean {
 		
 		MigrationUtil mu = new MigrationUtil();
 		MigrationCollection migratedDocuments = mu.run(new File(textfile), folder, siteId);
-
+		if (migratedDocuments==null) {
+			status.setCode(400);
+			status.setMessage("Migration failed, site does not exist or other error occured, please check the server logs for more information.");
+			status.setRedirect(true);
+			return null;		
+		}
 		model.put("migrated", migratedDocuments.noOfDocuments());
 
 		return model;

@@ -42,13 +42,13 @@ public class MigrationUtil {
 	private static final Logger LOG = Logger.getLogger(MigrationUtil.class);
 	private static final String EXTENSION_CHARACTER = ".";
 	private static final String MSG_WORKING_COPY_LABEL = "(Working Copy)";
-	protected FileFolderService fileFolderService;
-	protected SiteService siteService;
-	protected NodeService nodeService;
-	protected CheckOutCheckInService checkOutCheckInService;
-	protected VersionService versionService;
-	protected ContentService contentService;
-	protected SearchService searchService;
+	protected static FileFolderService fileFolderService;
+	protected static SiteService siteService;
+	protected static NodeService nodeService;
+	protected static CheckOutCheckInService checkOutCheckInService;
+	protected static VersionService versionService;
+	protected static ContentService contentService;
+	protected static SearchService searchService;
 
 	public MigrationCollection run(File f, String folder, String siteId) {
 
@@ -152,7 +152,7 @@ public class MigrationUtil {
 	private NodeRef createVersion(NodeRef folderNodeRef,
 			AlingsasDocument version) {
 		NodeRef childByName = nodeService.getChildByName(folderNodeRef,
-				ContentModel.TYPE_CONTENT, version.fileName);
+				ContentModel.ASSOC_CONTAINS, version.fileName);
 		if (childByName != null) {
 			// File already exists
 			Map<QName, Serializable> properties = nodeService
@@ -175,7 +175,7 @@ public class MigrationUtil {
 						(String) properties
 								.get(ContentModel.PROP_VERSION_LABEL));
 				VersionNumber thisVersion = new VersionNumber(version.version);
-				if (thisVersion.compareTo(existingVersion) >= 0) {
+				if (thisVersion.compareTo(existingVersion) <= 0) {
 					LOG.info("Document " + version.documentNumber + " v."
 							+ version.version + " already migrated, skipping");
 					return childByName;
@@ -208,8 +208,6 @@ public class MigrationUtil {
 		addFile(baseVersion, version);
 		// create the version history
 		createVersionHistory(baseVersion);
-		LOG.info("Migrated document " + version.documentNumber + " version '"
-				+ version.version + "'");
 		return baseVersion;
 	}
 
@@ -226,22 +224,14 @@ public class MigrationUtil {
 
 		// adjust the versioning if needed needed?
 		// baseVersion = adjustMajorVersioning(baseVersion, document);
-
 		final NodeRef workingCopy = checkOutCheckInService
 				.checkout(baseVersion);
-
 		addProperties(workingCopy, version, true);
-
 		addFile(workingCopy, version);
-
 		final String madeBy = version.createdBy;
-
 		NodeRef checkinVersion = checkinVersion(workingCopy,
 				isMajorVersion(version) ? VersionType.MAJOR
 						: VersionType.MINOR, madeBy);
-
-		LOG.info("Migrated document " + version.documentNumber + " version '"
-				+ version.version + "'");
 		return checkinVersion;
 	}
 
@@ -360,7 +350,7 @@ public class MigrationUtil {
 			nodeService.setProperty(workingCopy, ContentModel.PROP_CREATOR,
 					madeBy);
 		}
-
+		
 		return checkOutCheckInService.checkin(workingCopy, properties);
 	}
 
@@ -456,7 +446,7 @@ public class MigrationUtil {
 				if (parts.length < 1) {
 					continue;
 				}
-				AlingsasDocument document = createDocument(parts);
+				AlingsasDocument document = createDocument(parts, folder);
 				if (document == null) {
 					LOG.error("Document found on line number '" + lineNumber
 							+ "' has no document number, skipping...");
@@ -464,7 +454,7 @@ public class MigrationUtil {
 					continue;
 				}
 				document.lineNumber = lineNumber;
-				document.tmpStorageFolder = folder;
+				
 				collection.put(document.documentNumber, document);
 			}
 			return collection;
@@ -476,11 +466,12 @@ public class MigrationUtil {
 		}
 	}
 
-	private AlingsasDocument createDocument(final String[] parts) {
+	private AlingsasDocument createDocument(final String[] parts, String folder) {
 		final AlingsasDocument document = new AlingsasDocument();
 
 		int position = 0;
-
+		document.tmpStorageFolder = folder;
+		
 		document.documentNumber = parts[position];
 		document.createdBy = parts[++position];
 		++position;// TODO field?
@@ -503,8 +494,7 @@ public class MigrationUtil {
 		document.ddUUID = parts[++position];
 		document.description = parts[++position];
 		document.fileExtension = FilenameUtils.getExtension(document.fileName);
-		document.file = new File(document.filePath + document.ddUUID
-				+ document.fileExtension);
+		document.file = new File(document.tmpStorageFolder + "/" + document.ddUUID + '.' + document.fileExtension);
 		document.mimetype = getMimetype(FilenameUtils
 				.getExtension(document.fileName));
 		// document.fileExtension = parts[++position];
@@ -623,12 +613,12 @@ public class MigrationUtil {
 			return null;
 		}
 
-		filepath = filepath.startsWith("\\") ? filepath.substring(1) : filepath;
-		filepath = filepath.endsWith("\\") ? filepath.substring(0,
+		filepath = filepath.startsWith("/") ? filepath.substring(1) : filepath;
+		filepath = filepath.endsWith("/") ? filepath.substring(0,
 				filepath.length() - 1) : filepath;
 
 		filepath = filepath.replace(":", "-");
-		filepath = filepath.replace("/", "-");
+		//filepath = filepath.replace("/", "-");
 
 		return filepath;
 	}
