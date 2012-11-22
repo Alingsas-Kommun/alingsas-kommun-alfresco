@@ -19,5 +19,7 @@
 		<property name="versionService" ref="VersionService" />
 		<property name="contentService" ref="ContentService" />
 		<property name="searchService" ref="SearchService" />
+		<property name="behaviourFilter" ref="policyBehaviourFilter"/>
+		<property name="serviceRegistry" ref="ServiceRegistry" />
 	</bean>
 </beans>

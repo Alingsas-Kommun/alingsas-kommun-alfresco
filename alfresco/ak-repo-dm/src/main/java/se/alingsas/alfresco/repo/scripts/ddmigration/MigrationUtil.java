@@ -12,8 +12,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.faces.context.FacesContext;
+
 import org.alfresco.model.ContentModel;
+import org.alfresco.repo.policy.BehaviourFilter;
+import org.alfresco.repo.transaction.RetryingTransactionHelper;
+import org.alfresco.repo.transaction.RetryingTransactionHelper.RetryingTransactionCallback;
 import org.alfresco.repo.version.VersionModel;
+import org.alfresco.service.ServiceRegistry;
 import org.alfresco.service.cmr.coci.CheckOutCheckInService;
 import org.alfresco.service.cmr.model.FileExistsException;
 import org.alfresco.service.cmr.model.FileFolderService;
@@ -30,6 +36,8 @@ import org.alfresco.service.cmr.version.VersionService;
 import org.alfresco.service.cmr.version.VersionType;
 import org.alfresco.service.namespace.QName;
 import org.alfresco.util.VersionNumber;
+import org.alfresco.web.bean.repository.Repository;
+import org.alfresco.web.ui.common.ReportedException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
@@ -49,6 +57,8 @@ public class MigrationUtil {
 	protected static VersionService versionService;
 	protected static ContentService contentService;
 	protected static SearchService searchService;
+	private static BehaviourFilter behaviourFilter;
+	private static ServiceRegistry serviceRegistry;
 
 	public MigrationCollection run(File f, String folder, String siteId) {
 
@@ -84,20 +94,37 @@ public class MigrationUtil {
 	 * @return
 	 */
 	public MigrationCollection migrateDocuments(
-			final MigrationCollection documents, SiteInfo site) {
+			final MigrationCollection documents, final SiteInfo site) {
 		MigrationCollection migratedDocuments = new MigrationCollection();
 		if (site == null) {
 			LOG.error("Site is null, aborting");
 			return migratedDocuments;
 		}
-		Set<String> keys = documents.getKeys();
-		Iterator<String> it = keys.iterator();
-		while (it.hasNext()) {
-			String key = it.next();
-			Set<AlingsasDocument> document = documents.get(key);
-			migratedDocuments = migrateDocument(migratedDocuments, document,
-					site);
-		}
+		
+		RetryingTransactionHelper txnHelper = getServiceRegistry().getRetryingTransactionHelper();
+		migratedDocuments = txnHelper.doInTransaction(new RetryingTransactionCallback<MigrationCollection>()
+            {
+                @Override
+                public MigrationCollection execute()
+                {
+                    // Disable the auditable aspect's behaviours for this transaction, to allow creation & modification dates to be set
+                    behaviourFilter.disableBehaviour(ContentModel.ASPECT_AUDITABLE);
+                    MigrationCollection migratedDocuments = new MigrationCollection();
+                    Set<String> keys = documents.getKeys();
+            		Iterator<String> it = keys.iterator();
+            		while (it.hasNext()) {
+            			String key = it.next();
+            			Set<AlingsasDocument> document = documents.get(key);
+            			migratedDocuments = migrateDocument(migratedDocuments, document,
+            					site);
+            		}
+            		return migratedDocuments;                    
+                }
+            },
+            false,    // read only flag
+            false);  // requires new txn flag
+		
+		
 		return migratedDocuments;
 	}
 
@@ -109,10 +136,12 @@ public class MigrationUtil {
 	 * @return
 	 */
 	private MigrationCollection migrateDocument(
-			MigrationCollection migratedDocuments,
-			Set<AlingsasDocument> document, SiteInfo site) {
+			final MigrationCollection migratedDocuments,
+			final Set<AlingsasDocument> document, final SiteInfo site) {
+
 		Iterator<AlingsasDocument> it = document.iterator();
 		String documentNumber = "N/A";
+
 		while (it.hasNext()) {
 			AlingsasDocument version = it.next();
 			if (migrateDocumentVersion(version, site)) {
@@ -125,8 +154,11 @@ public class MigrationUtil {
 						+ version.documentNumber + " was not migrated");
 			}
 		}
+
 		LOG.info("Completed migrating document " + documentNumber);
+
 		return migratedDocuments;
+
 	}
 
 	/**
@@ -135,10 +167,11 @@ public class MigrationUtil {
 	 * @param document
 	 * @return
 	 */
-	private boolean migrateDocumentVersion(AlingsasDocument version,
-			SiteInfo site) {
+	private boolean migrateDocumentVersion(final AlingsasDocument version,
+			final SiteInfo site) {
 		final NodeRef folderNodeRef = createFolder(version.filePath, site);
 		final NodeRef versionNodeRef = createVersion(folderNodeRef, version);
+		behaviourFilter.enableBehaviour(ContentModel.ASPECT_AUDITABLE);
 		return (versionNodeRef != null);
 	}
 
@@ -229,9 +262,10 @@ public class MigrationUtil {
 		addProperties(workingCopy, version, true);
 		addFile(workingCopy, version);
 		final String madeBy = version.createdBy;
-		NodeRef checkinVersion = checkinVersion(workingCopy,
-				isMajorVersion(version) ? VersionType.MAJOR
-						: VersionType.MINOR, madeBy);
+		NodeRef checkinVersion = checkinVersion(
+				workingCopy,
+				isMajorVersion(version) ? VersionType.MAJOR : VersionType.MINOR,
+				madeBy);
 		return checkinVersion;
 	}
 
@@ -254,32 +288,43 @@ public class MigrationUtil {
 		}
 
 		// final String checksum = _serviceUtils.getChecksum(document.file);
-		//Alfresco general properties
+		// Alfresco general properties
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION_PROPS, true);
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION, true);
 		addProperty(properties, ContentModel.PROP_TITLE, document.title);
 		addProperty(properties, ContentModel.PROP_CREATOR, document.createdBy);
 		addProperty(properties, ContentModel.PROP_MODIFIER, document.createdBy);
-		addProperty(properties, ContentModel.PROP_MODIFIED, document.createdDate);
+		addProperty(properties, ContentModel.PROP_MODIFIED,
+				document.createdDate);
 		addProperty(properties, ContentModel.PROP_CREATED, document.createdDate);
-		addProperty(properties, ContentModel.PROP_DESCRIPTION, document.description);
-		
-		//Common
-		addProperty(properties, AkDmModel.PROP_AKDM_DOC_NUMBER, document.documentNumber);
-		addProperty(properties, AkDmModel.PROP_AKDM_DOC_STATUS, document.documentStatus);
-		addProperty(properties, AkDmModel.PROP_AKDM_DOC_SECRECY, document.secrecy);
-		//Anvisning & Författning properties
-		addProperty(properties, AkDmModel.PROP_AKDM_PROTOCOL_ID, document.protocolId);
-		addProperty(properties, AkDmModel.PROP_AKDM_INSTRUCTION_DECISION_DATE, document.decisionDate);
-		addProperty(properties, AkDmModel.PROP_AKDM_INSTRUCTION_GROUP, document.group);
-		//Handbok properties
-		addProperty(properties, AkDmModel.PROP_AKDM_MANUAL_FUNCTION, document.function);
-		addProperty(properties, AkDmModel.PROP_AKDM_MANUAL_MANUAL, document.handbook);
-		//General document
-		addProperty(properties, AkDmModel.PROP_AKDM_GENERAL_DOCUMENT_DATE, document.generalDocumentDate);
-		addProperty(properties, AkDmModel.PROP_AKDM_GENERAL_DOCUMENT_DESCRIPTION, document.generalDocumentDescription);
-		
-		
+		addProperty(properties, ContentModel.PROP_DESCRIPTION,
+				document.description);
+
+		// Common
+		addProperty(properties, AkDmModel.PROP_AKDM_DOC_NUMBER,
+				document.documentNumber);
+		addProperty(properties, AkDmModel.PROP_AKDM_DOC_STATUS,
+				document.documentStatus);
+		addProperty(properties, AkDmModel.PROP_AKDM_DOC_SECRECY,
+				document.secrecy);
+		// Anvisning & Författning properties
+		addProperty(properties, AkDmModel.PROP_AKDM_PROTOCOL_ID,
+				document.protocolId);
+		addProperty(properties, AkDmModel.PROP_AKDM_INSTRUCTION_DECISION_DATE,
+				document.decisionDate);
+		addProperty(properties, AkDmModel.PROP_AKDM_INSTRUCTION_GROUP,
+				document.group);
+		// Handbok properties
+		addProperty(properties, AkDmModel.PROP_AKDM_MANUAL_FUNCTION,
+				document.function);
+		addProperty(properties, AkDmModel.PROP_AKDM_MANUAL_MANUAL,
+				document.handbook);
+		// General document
+		addProperty(properties, AkDmModel.PROP_AKDM_GENERAL_DOCUMENT_DATE,
+				document.generalDocumentDate);
+		addProperty(properties,
+				AkDmModel.PROP_AKDM_GENERAL_DOCUMENT_DESCRIPTION,
+				document.generalDocumentDescription);
 
 		nodeService.addProperties(nodeRef, properties);
 	}
@@ -309,7 +354,7 @@ public class MigrationUtil {
 		InputStream inputStream = null;
 
 		try {
-			
+
 			inputStream = new FileInputStream(document.file);
 
 			final ContentWriter writer = contentService.getWriter(nodeRef,
@@ -350,7 +395,7 @@ public class MigrationUtil {
 			nodeService.setProperty(workingCopy, ContentModel.PROP_CREATOR,
 					madeBy);
 		}
-		
+
 		return checkOutCheckInService.checkin(workingCopy, properties);
 	}
 
@@ -454,7 +499,7 @@ public class MigrationUtil {
 					continue;
 				}
 				document.lineNumber = lineNumber;
-				
+
 				collection.put(document.documentNumber, document);
 			}
 			return collection;
@@ -471,7 +516,7 @@ public class MigrationUtil {
 
 		int position = 0;
 		document.tmpStorageFolder = folder;
-		
+
 		document.documentNumber = parts[position];
 		document.createdBy = parts[++position];
 		++position;// TODO field?
@@ -489,19 +534,19 @@ public class MigrationUtil {
 		++position;// TODO field?
 		++position;// TODO field?
 		++position;// TODO field?
-		document.fileName = document.title+".txt"; //Temporary for testing
+		document.fileName = document.title + ".txt"; // Temporary for testing
 		document.filePath = parseFilePath(parts[++position]);
 		document.ddUUID = parts[++position];
 		document.description = parts[++position];
 		document.fileExtension = FilenameUtils.getExtension(document.fileName);
-		document.file = new File(document.tmpStorageFolder + "/" + document.ddUUID + '.' + document.fileExtension);
+		document.file = new File(document.tmpStorageFolder + "/"
+				+ document.ddUUID + '.' + document.fileExtension);
 		document.mimetype = getMimetype(FilenameUtils
 				.getExtension(document.fileName));
 		// document.fileExtension = parts[++position];
 		// document.createdDate = parseDate(parts[++position]);
-		//document.fileName = parts[++position];
-		
-		
+		// document.fileName = parts[++position];
+
 		// Internal properties
 		document.documentTypeQName = parseKnownQNames(document.documentType);
 		if (!StringUtils.hasText(document.documentNumber)) {
@@ -574,13 +619,13 @@ public class MigrationUtil {
 			return "0.1";
 		}
 	}
-	
+
 	private boolean isMajorVersion(final AlingsasDocument document) {
 		final String[] parts = StringUtils.split(document.version, ".");
 
 		return parts[1].equals("0");
 	}
-	
+
 	private String createWorkingCopyName(String name) {
 		if (this.getWorkingCopyLabel() != null
 				&& this.getWorkingCopyLabel().length() != 0) {
@@ -618,7 +663,7 @@ public class MigrationUtil {
 				filepath.length() - 1) : filepath;
 
 		filepath = filepath.replace(":", "-");
-		//filepath = filepath.replace("/", "-");
+		// filepath = filepath.replace("/", "-");
 
 		return filepath;
 	}
@@ -680,7 +725,7 @@ public class MigrationUtil {
 			return;
 		}
 
-		//TODO what is this?
+		// TODO what is this?
 		if (value.toString().startsWith("LNID:= ")) {
 			value = StringUtils.replace(value.toString(), "LNID:= ", "");
 		}
@@ -692,7 +737,7 @@ public class MigrationUtil {
 
 		properties.put(key, value);
 	}
-	
+
 	private SiteInfo findSite(final String siteId) {
 		if (!StringUtils.hasText(siteId)) {
 			return null;
@@ -706,7 +751,7 @@ public class MigrationUtil {
 	}
 
 	public void setFileFolderService(FileFolderService fileFolderService) {
-		this.fileFolderService = fileFolderService;
+		MigrationUtil.fileFolderService = fileFolderService;
 	}
 
 	public SiteService getSiteService() {
@@ -714,7 +759,7 @@ public class MigrationUtil {
 	}
 
 	public void setSiteService(SiteService siteService) {
-		this.siteService = siteService;
+		MigrationUtil.siteService = siteService;
 	}
 
 	public NodeService getNodeService() {
@@ -722,7 +767,7 @@ public class MigrationUtil {
 	}
 
 	public void setNodeService(NodeService nodeService) {
-		this.nodeService = nodeService;
+		MigrationUtil.nodeService = nodeService;
 	}
 
 	public CheckOutCheckInService getCheckOutCheckInService() {
@@ -731,7 +776,7 @@ public class MigrationUtil {
 
 	public void setCheckOutCheckInService(
 			CheckOutCheckInService checkOutCheckInService) {
-		this.checkOutCheckInService = checkOutCheckInService;
+		MigrationUtil.checkOutCheckInService = checkOutCheckInService;
 	}
 
 	public VersionService getVersionService() {
@@ -739,7 +784,7 @@ public class MigrationUtil {
 	}
 
 	public void setVersionService(VersionService versionService) {
-		this.versionService = versionService;
+		MigrationUtil.versionService = versionService;
 	}
 
 	public ContentService getContentService() {
@@ -747,7 +792,7 @@ public class MigrationUtil {
 	}
 
 	public void setContentService(ContentService contentService) {
-		this.contentService = contentService;
+		MigrationUtil.contentService = contentService;
 	}
 
 	public SearchService getSearchService() {
@@ -755,6 +800,22 @@ public class MigrationUtil {
 	}
 
 	public void setSearchService(SearchService searchService) {
-		this.searchService = searchService;
+		MigrationUtil.searchService = searchService;
+	}
+
+	public BehaviourFilter getBehaviourFilter() {
+		return behaviourFilter;
+	}
+
+	public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
+		MigrationUtil.behaviourFilter = behaviourFilter;
+	}
+
+	public ServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		MigrationUtil.serviceRegistry = serviceRegistry;
 	}
 }
