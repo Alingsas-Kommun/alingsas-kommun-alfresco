@@ -10,16 +10,10 @@
 		class="se.alingsas.alfresco.repo.scripts.Migrate" parent="webscript">
 		<property name="baseFolder" value="/opt/alfresco/ddmigration" />
 	</bean>
-	<bean id="se.alingsas.alfresco.repo.scripts.ddmigration.migrationUtil"
-		class="se.alingsas.alfresco.repo.scripts.ddmigration.MigrationUtil">
-		<property name="fileFolderService" ref="FileFolderService" />
-		<property name="siteService" ref="SiteService" />
-		<property name="nodeService" ref="NodeService" />
-		<property name="checkOutCheckInService" ref="CheckOutCheckInService" />
-		<property name="versionService" ref="VersionService" />
-		<property name="contentService" ref="ContentService" />
-		<property name="searchService" ref="SearchService" />
-		<property name="behaviourFilter" ref="policyBehaviourFilter"/>
-		<property name="serviceRegistry" ref="ServiceRegistry" />
+	
+	<!-- Bean configurations for User Homes Linking script -->
+	<bean
+		id="webscript.se.alingsas.alfresco.repo.scripts.userhome.link.get"
+		class="se.alingsas.alfresco.repo.scripts.LinkUserHome" parent="webscript">
 	</bean>
 </beans>

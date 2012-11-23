@@ -23,8 +23,8 @@ public class MigrationUtilTest {
 		assertEquals(0,readDocuments.noOfDocumentVersions());
 		readDocuments = mu.readDocuments(new File("src/test/resources/ddmigration/file_metadata_test_small.txt"), null);
 		assertNotNull(readDocuments);
-		assertEquals(2,readDocuments.noOfDocuments());
-		assertEquals(4,readDocuments.noOfDocumentVersions());
+		assertEquals(3,readDocuments.noOfDocuments());
+		assertEquals(6,readDocuments.noOfDocumentVersions());
 	}
 
 	@Test
@@ -52,6 +52,7 @@ public class MigrationUtilTest {
 		Iterator<AlingsasDocument> it = allVersions.iterator();
 		while (it.hasNext()) {
 			AlingsasDocument next = it.next();
+			next.fileExtension = "txt";
 			assertTrue(mu.validateFile(next));
 		}
 		

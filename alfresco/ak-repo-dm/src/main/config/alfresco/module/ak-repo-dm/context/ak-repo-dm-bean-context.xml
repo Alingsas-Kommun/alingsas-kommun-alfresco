@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="se.alingsas.alfresco.repo.scripts.ddmigration.migrationUtil"
+		class="se.alingsas.alfresco.repo.scripts.ddmigration.MigrationUtil">
+		<property name="fileFolderService" ref="FileFolderService" />
+		<property name="siteService" ref="SiteService" />
+		<property name="nodeService" ref="NodeService" />
+		<property name="checkOutCheckInService" ref="CheckOutCheckInService" />
+		<property name="versionService" ref="VersionService" />
+		<property name="contentService" ref="ContentService" />
+		<property name="searchService" ref="SearchService" />
+		<property name="behaviourFilter" ref="policyBehaviourFilter"/>
+		<property name="serviceRegistry" ref="ServiceRegistry" />
+	</bean>
+	
+	<bean id="se.alingsas.alfresco.repo.scripts.userhome.userHomesLinkingUtil"
+		class="se.alingsas.alfresco.repo.scripts.userhome.UserHomesLinkingUtil">
+		<property name="serviceRegistry" ref="ServiceRegistry" />
+	</bean>
+</beans>

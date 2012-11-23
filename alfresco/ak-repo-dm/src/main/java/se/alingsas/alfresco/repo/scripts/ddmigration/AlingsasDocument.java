@@ -25,7 +25,7 @@ public class AlingsasDocument {
 
 	// Anvisning properties
 	public String protocolId;
-	public String decisionDate;
+	public Date decisionDate;
 	public String group;
 
 	// Författning properties
@@ -38,7 +38,7 @@ public class AlingsasDocument {
 	public String handbook;
 
 	// General document
-	public String generalDocumentDate;
+	public Date generalDocumentDate;
 	public String generalDocumentDescription;
 
 	// Protokoll properties

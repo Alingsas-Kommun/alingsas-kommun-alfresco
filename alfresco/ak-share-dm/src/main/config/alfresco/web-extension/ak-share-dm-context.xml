@@ -25,5 +25,39 @@
          </list>
       </property>
    </bean>
-
+   
+   <!-- Override Sharepoint bean definitions -->
+	
+	<bean id="evaluator.doclib.action.onlineEditMimetype" parent="evaluator.doclib.action.isMimetype">
+      <property name="mimetypes">
+         <list>
+            <value>application/vnd.ms-excel</value>
+            <value>application/vnd.ms-powerpoint</value>
+            <value>application/msword</value>
+            <value>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</value>
+            <value>application/vnd.openxmlformats-officedocument.presentationml.presentation</value>
+            <value>application/vnd.openxmlformats-officedocument.wordprocessingml.document</value>
+            <value>application/vnd.ms-word.document.macroenabled.12</value>
+            <value>application/vnd.ms-word.template.macroenabled.12</value>
+            <value>application/vnd.ms-excel.sheet.macroenabled.12</value>
+            <value>application/vnd.ms-excel.template.macroenabled.12</value>
+            <value>application/vnd.ms-powerpoint.presentation.macroenabled.12</value>
+            <value>application/vnd.ms-powerpoint.template.macroenabled.12</value>
+            <value>application/vnd.oasis.opendocument.presentation</value>
+            <value>application/vnd.oasis.opendocument.spreadsheet</value>
+            <value>application/vnd.oasis.opendocument.text</value>
+         </list>
+      </property>
+   </bean>
+   
+   <bean id="evaluator.doclib.action.onlineEdit" parent="evaluator.doclib.action.chainedMatchAll">
+      <property name="evaluators">
+         <list>
+            <!-- <ref bean="evaluator.doclib.action.siteBased" /> -->
+            <ref bean="evaluator.doclib.action.onlineEditVtiServer" />
+            <ref bean="evaluator.doclib.action.onlineEditMimetype" />
+            <ref bean="evaluator.doclib.action.notEditBrowser" />
+         </list>
+      </property>
+   </bean>
 </beans>

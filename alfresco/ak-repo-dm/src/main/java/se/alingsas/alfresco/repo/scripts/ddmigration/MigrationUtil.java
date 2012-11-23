@@ -24,6 +24,7 @@ import org.alfresco.service.cmr.coci.CheckOutCheckInService;
 import org.alfresco.service.cmr.model.FileExistsException;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.model.FileInfo;
+import org.alfresco.service.cmr.model.FileNotFoundException;
 import org.alfresco.service.cmr.repository.ContentService;
 import org.alfresco.service.cmr.repository.ContentWriter;
 import org.alfresco.service.cmr.repository.NodeRef;
@@ -121,8 +122,8 @@ public class MigrationUtil {
             		return migratedDocuments;                    
                 }
             },
-            false,    // read only flag
-            false);  // requires new txn flag
+            false,
+            false);
 		
 		
 		return migratedDocuments;
@@ -141,10 +142,21 @@ public class MigrationUtil {
 
 		Iterator<AlingsasDocument> it = document.iterator();
 		String documentNumber = "N/A";
-
+		AlingsasDocument lastVersion = null;
+		int noOfPreviousVersion = checkPreviousVersion(document, site);
+		if (noOfPreviousVersion>0) {
+			LOG.info("Document " + ((AlingsasDocument) document.toArray()[0]).documentNumber + " have "
+					+ noOfPreviousVersion + " versions already migrated, skipping those");
+		}
+		for (int i=0; i<noOfPreviousVersion; i++) {
+			if (it.hasNext()) {
+				AlingsasDocument version = it.next();
+				migratedDocuments.put(version.documentNumber, version);
+			}
+		}
 		while (it.hasNext()) {
 			AlingsasDocument version = it.next();
-			if (migrateDocumentVersion(version, site)) {
+			if (migrateDocumentVersion(version, lastVersion, site)) {
 				migratedDocuments.put(version.documentNumber, version);
 				documentNumber = version.documentNumber;
 				LOG.debug("Migrated document " + version.documentNumber
@@ -153,6 +165,7 @@ public class MigrationUtil {
 				LOG.warn("Version " + version.version + " of document "
 						+ version.documentNumber + " was not migrated");
 			}
+			lastVersion = version;
 		}
 
 		LOG.info("Completed migrating document " + documentNumber);
@@ -160,18 +173,33 @@ public class MigrationUtil {
 		return migratedDocuments;
 
 	}
+	
+	private int checkPreviousVersion(Set<AlingsasDocument> documents, SiteInfo site) {
+		
+		for (AlingsasDocument version : documents) {
+			NodeRef folder = createFolder(version.filePath, site);
+			if (folder!=null) {
+				NodeRef nodeRef = nodeService.getChildByName(folder,
+						ContentModel.ASSOC_CONTAINS, version.fileName);
+				if (nodeRef!=null) {
+					VersionHistory versionHistory = versionService.getVersionHistory(nodeRef);
+					return versionHistory.getAllVersions().size();
+				}
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 * Will migrate a single version of a document
+	 * @param lastVersion 
 	 * 
 	 * @param document
 	 * @return
 	 */
 	private boolean migrateDocumentVersion(final AlingsasDocument version,
-			final SiteInfo site) {
-		final NodeRef folderNodeRef = createFolder(version.filePath, site);
-		final NodeRef versionNodeRef = createVersion(folderNodeRef, version);
-		behaviourFilter.enableBehaviour(ContentModel.ASPECT_AUDITABLE);
+			AlingsasDocument lastVersion, final SiteInfo site) {
+		final NodeRef versionNodeRef = createVersion(version, lastVersion, site);
 		return (versionNodeRef != null);
 	}
 
@@ -180,12 +208,36 @@ public class MigrationUtil {
 	 * 
 	 * @param folderNodeRef
 	 * @param version
+	 * @param lastVersion 
+	 * @param site 
 	 * @return
 	 */
-	private NodeRef createVersion(NodeRef folderNodeRef,
-			AlingsasDocument version) {
-		NodeRef childByName = nodeService.getChildByName(folderNodeRef,
+	private NodeRef createVersion(AlingsasDocument version, AlingsasDocument lastVersion, SiteInfo site) {
+		NodeRef childByName;
+		NodeRef destinationFolderRef;
+		NodeRef sourceFolderRef;
+		
+		destinationFolderRef = createFolder(version.filePath, site);
+		/**
+		 * Check if file was moved to another folder
+		 */
+		if (lastVersion!=null && !version.filePath.equals(lastVersion.filePath)) {
+			sourceFolderRef = createFolder(lastVersion.filePath, site);
+		} else {
+			sourceFolderRef = destinationFolderRef;
+		}		
+		
+		/**
+		 * If the file was renamed, then get the last version
+		 */
+		if (lastVersion!=null && !version.fileName.equals(lastVersion.fileName)) {			
+			childByName = nodeService.getChildByName(sourceFolderRef,
+					ContentModel.ASSOC_CONTAINS, lastVersion.fileName);
+		} else {
+			childByName = nodeService.getChildByName(sourceFolderRef,
 				ContentModel.ASSOC_CONTAINS, version.fileName);
+		}
+
 		if (childByName != null) {
 			// File already exists
 			Map<QName, Serializable> properties = nodeService
@@ -201,7 +253,7 @@ public class MigrationUtil {
 						+ "." + version.fileExtension);
 				version.fileName = version.documentNumber + "."
 						+ version.fileExtension;
-				childByName = nodeService.getChildByName(folderNodeRef,
+				childByName = nodeService.getChildByName(sourceFolderRef,
 						ContentModel.TYPE_CONTENT, version.fileName);
 			} else {
 				VersionNumber existingVersion = new VersionNumber(
@@ -217,9 +269,17 @@ public class MigrationUtil {
 		}
 
 		if (childByName != null) {
-			return createNewVersion(childByName, version);
+			try {
+				return createNewVersion(childByName, version, sourceFolderRef, destinationFolderRef);
+			} catch (FileExistsException e) {
+				LOG.error("File "+version.filePath+"/"+version.fileName+" already exists, aborting...");
+				return null;
+			} catch (FileNotFoundException e) {
+				LOG.error("File "+version.filePath+"/"+version.fileName+" could not be found, aborting...");
+				return null;
+			}
 		} else {
-			return createFirstVersion(folderNodeRef, version);
+			return createFirstVersion(destinationFolderRef, version);
 		}
 	}
 
@@ -250,15 +310,20 @@ public class MigrationUtil {
 	 * 
 	 * @param childByName
 	 * @param version
+	 * @param destinationFolderRef 
+	 * @param sourceFolderRef 
 	 * @return
+	 * @throws FileNotFoundException 
+	 * @throws FileExistsException 
 	 */
 	private NodeRef createNewVersion(NodeRef baseVersion,
-			AlingsasDocument version) {
+			AlingsasDocument version, NodeRef sourceFolderRef, NodeRef destinationFolderRef) throws FileExistsException, FileNotFoundException {
 
 		// adjust the versioning if needed needed?
 		// baseVersion = adjustMajorVersioning(baseVersion, document);
 		final NodeRef workingCopy = checkOutCheckInService
 				.checkout(baseVersion);
+		
 		addProperties(workingCopy, version, true);
 		addFile(workingCopy, version);
 		final String madeBy = version.createdBy;
@@ -266,6 +331,12 @@ public class MigrationUtil {
 				workingCopy,
 				isMajorVersion(version) ? VersionType.MAJOR : VersionType.MINOR,
 				madeBy);
+		if (!sourceFolderRef.equals(destinationFolderRef)) {
+			//Move the file
+			fileFolderService.move(checkinVersion, destinationFolderRef, version.fileName);
+			LOG.debug("Moving document "+version.documentNumber);
+		}
+		
 		return checkinVersion;
 	}
 
@@ -519,22 +590,20 @@ public class MigrationUtil {
 
 		document.documentNumber = parts[position];
 		document.createdBy = parts[++position];
-		++position;// TODO field?
+		document.createdDate = parseDate(parts[++position]);
 		document.title = parts[++position];
+		document.fileName = parts[++position];
 		document.version = parseVersion(parts[++position]);
 		document.documentType = parts[++position];
 		document.documentStatus = parts[++position];
 		document.secrecy = parts[++position];
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		++position;// TODO field?
-		document.fileName = document.title + ".txt"; // Temporary for testing
+		document.protocolId = parts[++position];
+		document.decisionDate = parseDate(parts[++position]);
+		document.group = parts[++position];
+		document.function = parts[++position];
+		document.handbook = parts[++position];
+		document.generalDocumentDescription = parts[++position];
+		document.generalDocumentDate = parseDate(parts[++position]);
 		document.filePath = parseFilePath(parts[++position]);
 		document.ddUUID = parts[++position];
 		document.description = parts[++position];
@@ -705,7 +774,19 @@ public class MigrationUtil {
 			mimetype = "application/zip";
 		} else if (extension.equalsIgnoreCase("txt")) {
 			mimetype = "text/plain";
-		} else {
+		} else if (extension.equalsIgnoreCase("odt")) {
+			mimetype = "application/vnd.oasis.opendocument.text";
+		} else if (extension.equalsIgnoreCase("ods")) {
+			mimetype = "application/vnd.oasis.opendocument.spreadsheet";
+		} else if (extension.equalsIgnoreCase("odp")) {
+			mimetype = "application/vnd.oasis.opendocument.presentation";
+		} else if (extension.equalsIgnoreCase("tif")) {
+			mimetype = "image/tiff";
+		} else if (extension.equalsIgnoreCase("tiff")) {
+			mimetype = "image/tiff";
+		}
+		
+		else {
 			throw new RuntimeException("The extension '" + extension
 					+ "' has no configured mimetype.");
 		}
