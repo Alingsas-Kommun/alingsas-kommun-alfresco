@@ -101,31 +101,31 @@ public class MigrationUtil {
 			LOG.error("Site is null, aborting");
 			return migratedDocuments;
 		}
-		
-		RetryingTransactionHelper txnHelper = getServiceRegistry().getRetryingTransactionHelper();
-		migratedDocuments = txnHelper.doInTransaction(new RetryingTransactionCallback<MigrationCollection>()
-            {
-                @Override
-                public MigrationCollection execute()
-                {
-                    // Disable the auditable aspect's behaviours for this transaction, to allow creation & modification dates to be set
-                    behaviourFilter.disableBehaviour(ContentModel.ASPECT_AUDITABLE);
-                    MigrationCollection migratedDocuments = new MigrationCollection();
-                    Set<String> keys = documents.getKeys();
-            		Iterator<String> it = keys.iterator();
-            		while (it.hasNext()) {
-            			String key = it.next();
-            			Set<AlingsasDocument> document = documents.get(key);
-            			migratedDocuments = migrateDocument(migratedDocuments, document,
-            					site);
-            		}
-            		return migratedDocuments;                    
-                }
-            },
-            false,
-            false);
-		
-		
+
+		RetryingTransactionHelper txnHelper = getServiceRegistry()
+				.getRetryingTransactionHelper();
+		migratedDocuments = txnHelper.doInTransaction(
+				new RetryingTransactionCallback<MigrationCollection>() {
+					@Override
+					public MigrationCollection execute() {
+						// Disable the auditable aspect's behaviours for this
+						// transaction, to allow creation & modification dates
+						// to be set
+						behaviourFilter
+								.disableBehaviour(ContentModel.ASPECT_AUDITABLE);
+						MigrationCollection migratedDocuments = new MigrationCollection();
+						Set<String> keys = documents.getKeys();
+						Iterator<String> it = keys.iterator();
+						while (it.hasNext()) {
+							String key = it.next();
+							Set<AlingsasDocument> document = documents.get(key);
+							migratedDocuments = migrateDocument(
+									migratedDocuments, document, site);
+						}
+						return migratedDocuments;
+					}
+				}, false, false);
+
 		return migratedDocuments;
 	}
 
@@ -144,11 +144,13 @@ public class MigrationUtil {
 		String documentNumber = "N/A";
 		AlingsasDocument lastVersion = null;
 		int noOfPreviousVersion = checkPreviousVersion(document, site);
-		if (noOfPreviousVersion>0) {
-			LOG.info("Document " + ((AlingsasDocument) document.toArray()[0]).documentNumber + " have "
-					+ noOfPreviousVersion + " versions already migrated, skipping those");
+		if (noOfPreviousVersion > 0) {
+			LOG.info("Document "
+					+ ((AlingsasDocument) document.toArray()[0]).documentNumber
+					+ " have " + noOfPreviousVersion
+					+ " versions already migrated, skipping those");
 		}
-		for (int i=0; i<noOfPreviousVersion; i++) {
+		for (int i = 0; i < noOfPreviousVersion; i++) {
 			if (it.hasNext()) {
 				AlingsasDocument version = it.next();
 				migratedDocuments.put(version.documentNumber, version);
@@ -173,16 +175,18 @@ public class MigrationUtil {
 		return migratedDocuments;
 
 	}
-	
-	private int checkPreviousVersion(Set<AlingsasDocument> documents, SiteInfo site) {
-		
+
+	private int checkPreviousVersion(Set<AlingsasDocument> documents,
+			SiteInfo site) {
+
 		for (AlingsasDocument version : documents) {
 			NodeRef folder = createFolder(version.filePath, site);
-			if (folder!=null) {
+			if (folder != null) {
 				NodeRef nodeRef = nodeService.getChildByName(folder,
 						ContentModel.ASSOC_CONTAINS, version.fileName);
-				if (nodeRef!=null) {
-					VersionHistory versionHistory = versionService.getVersionHistory(nodeRef);
+				if (nodeRef != null) {
+					VersionHistory versionHistory = versionService
+							.getVersionHistory(nodeRef);
 					return versionHistory.getAllVersions().size();
 				}
 			}
@@ -192,7 +196,8 @@ public class MigrationUtil {
 
 	/**
 	 * Will migrate a single version of a document
-	 * @param lastVersion 
+	 * 
+	 * @param lastVersion
 	 * 
 	 * @param document
 	 * @return
@@ -208,34 +213,37 @@ public class MigrationUtil {
 	 * 
 	 * @param folderNodeRef
 	 * @param version
-	 * @param lastVersion 
-	 * @param site 
+	 * @param lastVersion
+	 * @param site
 	 * @return
 	 */
-	private NodeRef createVersion(AlingsasDocument version, AlingsasDocument lastVersion, SiteInfo site) {
+	private NodeRef createVersion(AlingsasDocument version,
+			AlingsasDocument lastVersion, SiteInfo site) {
 		NodeRef childByName;
 		NodeRef destinationFolderRef;
 		NodeRef sourceFolderRef;
-		
+
 		destinationFolderRef = createFolder(version.filePath, site);
 		/**
 		 * Check if file was moved to another folder
 		 */
-		if (lastVersion!=null && !version.filePath.equals(lastVersion.filePath)) {
+		if (lastVersion != null
+				&& !version.filePath.equals(lastVersion.filePath)) {
 			sourceFolderRef = createFolder(lastVersion.filePath, site);
 		} else {
 			sourceFolderRef = destinationFolderRef;
-		}		
-		
+		}
+
 		/**
 		 * If the file was renamed, then get the last version
 		 */
-		if (lastVersion!=null && !version.fileName.equals(lastVersion.fileName)) {			
+		if (lastVersion != null
+				&& !version.fileName.equals(lastVersion.fileName)) {
 			childByName = nodeService.getChildByName(sourceFolderRef,
 					ContentModel.ASSOC_CONTAINS, lastVersion.fileName);
 		} else {
 			childByName = nodeService.getChildByName(sourceFolderRef,
-				ContentModel.ASSOC_CONTAINS, version.fileName);
+					ContentModel.ASSOC_CONTAINS, version.fileName);
 		}
 
 		if (childByName != null) {
@@ -270,12 +278,15 @@ public class MigrationUtil {
 
 		if (childByName != null) {
 			try {
-				return createNewVersion(childByName, version, sourceFolderRef, destinationFolderRef);
+				return createNewVersion(childByName, version, sourceFolderRef,
+						destinationFolderRef);
 			} catch (FileExistsException e) {
-				LOG.error("File "+version.filePath+"/"+version.fileName+" already exists, aborting...");
+				LOG.error("File " + version.filePath + "/" + version.fileName
+						+ " already exists, aborting...");
 				return null;
 			} catch (FileNotFoundException e) {
-				LOG.error("File "+version.filePath+"/"+version.fileName+" could not be found, aborting...");
+				LOG.error("File " + version.filePath + "/" + version.fileName
+						+ " could not be found, aborting...");
 				return null;
 			}
 		} else {
@@ -310,20 +321,22 @@ public class MigrationUtil {
 	 * 
 	 * @param childByName
 	 * @param version
-	 * @param destinationFolderRef 
-	 * @param sourceFolderRef 
+	 * @param destinationFolderRef
+	 * @param sourceFolderRef
 	 * @return
-	 * @throws FileNotFoundException 
-	 * @throws FileExistsException 
+	 * @throws FileNotFoundException
+	 * @throws FileExistsException
 	 */
 	private NodeRef createNewVersion(NodeRef baseVersion,
-			AlingsasDocument version, NodeRef sourceFolderRef, NodeRef destinationFolderRef) throws FileExistsException, FileNotFoundException {
+			AlingsasDocument version, NodeRef sourceFolderRef,
+			NodeRef destinationFolderRef) throws FileExistsException,
+			FileNotFoundException {
 
 		// adjust the versioning if needed needed?
 		// baseVersion = adjustMajorVersioning(baseVersion, document);
 		final NodeRef workingCopy = checkOutCheckInService
 				.checkout(baseVersion);
-		
+
 		addProperties(workingCopy, version, true);
 		addFile(workingCopy, version);
 		final String madeBy = version.createdBy;
@@ -332,11 +345,12 @@ public class MigrationUtil {
 				isMajorVersion(version) ? VersionType.MAJOR : VersionType.MINOR,
 				madeBy);
 		if (!sourceFolderRef.equals(destinationFolderRef)) {
-			//Move the file
-			fileFolderService.move(checkinVersion, destinationFolderRef, version.fileName);
-			LOG.debug("Moving document "+version.documentNumber);
+			// Move the file
+			fileFolderService.move(checkinVersion, destinationFolderRef,
+					version.fileName);
+			LOG.debug("Moving document " + version.documentNumber);
 		}
-		
+
 		return checkinVersion;
 	}
 
@@ -423,21 +437,25 @@ public class MigrationUtil {
 	private void addFile(final NodeRef nodeRef, final AlingsasDocument document) {
 
 		InputStream inputStream = null;
+		if (document.file.exists()) {
+			try {
 
-		try {
+				inputStream = new FileInputStream(document.file);
 
-			inputStream = new FileInputStream(document.file);
+				final ContentWriter writer = contentService.getWriter(nodeRef,
+						ContentModel.PROP_CONTENT, true);
 
-			final ContentWriter writer = contentService.getWriter(nodeRef,
-					ContentModel.PROP_CONTENT, true);
+				writer.setMimetype(document.mimetype);
 
-			writer.setMimetype(document.mimetype);
+				writer.putContent(inputStream);
 
-			writer.putContent(inputStream);
-		} catch (final Exception ex) {
-			IOUtils.closeQuietly(inputStream);
+			} catch (final Exception ex) {
+				IOUtils.closeQuietly(inputStream);
 
-			throw new RuntimeException(ex);
+				throw new RuntimeException(ex);
+			}
+		} else {
+			LOG.warn(document.documentNumber + " file does not exist, creating empty file in repository with metadata");
 		}
 	}
 
@@ -785,7 +803,7 @@ public class MigrationUtil {
 		} else if (extension.equalsIgnoreCase("tiff")) {
 			mimetype = "image/tiff";
 		}
-		
+
 		else {
 			throw new RuntimeException("The extension '" + extension
 					+ "' has no configured mimetype.");
