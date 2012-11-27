@@ -25,6 +25,8 @@ public interface AkDmModel {
 			AKDM_URI, "generaldocument");
 	public static final QName TYPE_AKDM_ECONOMY_DOC = QName.createQName(
 			AKDM_URI, "economydocument");
+	public static final QName TYPE_AKDM_BYGGREDA_DOC = QName.createQName(
+			AKDM_URI, "byggredadocument");
 	public static final QName TYPE_AKDM_FOLDER = QName.createQName(AKDM_URI,
 			"folder");
 
@@ -68,5 +70,32 @@ public interface AkDmModel {
 			.createQName(AKDM_URI, "generalDocumentDescription");
 	public static final QName PROP_AKDM_GENERAL_DOCUMENT_DATE = QName
 			.createQName(AKDM_URI, "generalDocumentDate");
+
+	public static final QName ASPECT_AKDM_BYGGREDA = QName.createQName(
+			AKDM_URI, "byggRedaAspect");
+	public static final QName PROP_AKDM_BYGGREDA_FILM = QName.createQName(
+			AKDM_URI, "byggRedaFilm");
+	public static final QName PROP_AKDM_BYGGREDA_SERIAL_NUMBER = QName
+			.createQName(AKDM_URI, "byggRedaSerialNumber");
+	public static final QName PROP_AKDM_BYGGREDA_RECORD_NUMBER = QName
+			.createQName(AKDM_URI, "byggRedaRecordNumber");
+	public static final QName PROP_AKDM_BYGGREDA_BUILDING_DESCR = QName
+			.createQName(AKDM_URI, "byggRedaBuildingDescription");
+	public static final QName PROP_AKDM_BYGGREDA_LAST_PROPERTY_DESCR = QName
+			.createQName(AKDM_URI, "byggRedaLastBuildingDescription");
+	public static final QName PROP_AKDM_BYGGREDA_ADDRESS = QName.createQName(
+			AKDM_URI, "byggRedaAddress");
+	public static final QName PROP_AKDM_BYGGREDA_LAST_ADDRESS = QName
+			.createQName(AKDM_URI, "byggRedaLastAddress");
+	public static final QName PROP_AKDM_BYGGREDA_DECISION = QName.createQName(
+			AKDM_URI, "byggRedaDecision");
+	public static final QName PROP_AKDM_BYGGREDA_FOR = QName.createQName(
+			AKDM_URI, "For");
+	public static final QName PROP_AKDM_BYGGREDA_ISSUE_PURPOSE = QName
+			.createQName(AKDM_URI, "byggRedaIssuePurpose");
+	public static final QName PROP_AKDM_BYGGREDA_NOTE = QName.createQName(
+			AKDM_URI, "byggRedaNote");
+	public static final QName PROP_AKDM_BYGGREDA_RECORDS = QName.createQName(
+			AKDM_URI, "byggRedaRecords");
 
 }

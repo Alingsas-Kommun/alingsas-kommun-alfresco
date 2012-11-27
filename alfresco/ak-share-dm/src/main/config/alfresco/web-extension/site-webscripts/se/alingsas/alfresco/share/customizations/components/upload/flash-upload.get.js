@@ -21,6 +21,9 @@ function getContentTypes() {
 	}, {
 		id : "akdm:economydocument",
 		value : "type.akdm_economydocument"
+	}, {
+		id : "akdm:byggredadocument",
+		value : "type.akdm_byggredadocument"
 	} ];
 
 	return contentTypes;

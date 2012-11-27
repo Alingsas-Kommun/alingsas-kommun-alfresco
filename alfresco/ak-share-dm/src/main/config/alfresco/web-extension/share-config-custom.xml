@@ -150,6 +150,7 @@
          	<subtype name="akdm:protocol" />
          	<subtype name="akdm:generaldocument" />
          	<subtype name="akdm:economydocument" />
+         	<subtype name="akdm:byggredadocument" />
          </type>
 
          <type name="cm:folder">

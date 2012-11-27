@@ -155,9 +155,13 @@
 			<title>Economy document</title>
 			<parent>akdm:document</parent>
 		</type>
-		<!-- <type name="akdm:byggreda"> <title>ByggReda</title> <parent>akdm:document</parent> 
-			<mandatory-aspects> <aspect>akdm:byggRedaAspect</aspect> </mandatory-aspects> 
-			</type> -->
+		<type name="akdm:byggredadocument">
+			<title>ByggReda Document</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:byggRedaAspect</aspect>
+			</mandatory-aspects>
+		</type>
 		<type name="akdm:folder">
 			<title>Alingsås Kommun Folder</title>
 			<parent>cm:folder</parent>
@@ -264,28 +268,72 @@
 				</property>
 			</properties>
 		</aspect>
-		<!-- <aspect name="akdm:byggRedaAspect"> <title>ByggReda</title> <parent>akdm:aspect</parent> 
-			<properties> <property name="akdm:byggRedaFilm"> <title>Film</title> <type>d:text</type> 
-			<mandatory>false</mandatory> </property> <property name="akdm:byggRedaLopnr"> 
-			<title>Löpnummer</title> <type>d:text</type> <mandatory>false</mandatory> 
-			</property> <property name="akdm:byggRedaDnr"> <title>Diarienummer</title> 
-			<type>d:text</type> <mandatory>false</mandatory> </property> <property name="akdm:byggRedaFastBet"> 
-			<title>Fastighetsbeteckning</title> <type>d:text</type> <mandatory>false</mandatory> 
-			</property> <property name="akdm:byggRedaTidFastBet"> <title>Tidigare fastighetsbeteckning</title> 
-			<type>d:text</type> <mandatory>false</mandatory> </property> <property name="akdm:byggRedaAdress"> 
-			<title>Adress</title> <type>d:text</type> <mandatory>false</mandatory> </property> 
-			<property name="akdm:byggRedaTidAdress"> <title>Tidigare adress</title> <type>d:text</type> 
-			<mandatory>false</mandatory> </property> <property name="akdm:byggRedaBeslut"> 
-			<title>Beslut</title> <type>d:text</type> <mandatory>false</mandatory> </property> 
-			<property name="akdm:byggRedaAvser"> <title>Beslut</title> <type>d:text</type> 
-			<mandatory>false</mandatory> </property> <property name="akdm:byggRedaArendemening"> 
-			<title>Ärendemening</title> <type>d:text</type> <mandatory>false</mandatory> 
-			</property> <property name="akdm:byggRedaAnteckning"> <title>Anteckning</title> 
-			<type>d:text</type> <mandatory>false</mandatory> </property> <property name="akdm:byggRedaHandlingar"> 
-			<title>Handlingar</title> <type>d:text</type> <mandatory>false</mandatory> 
-			</property> <property name="akdm:byggRedaSekretess"> <title>Sekretess</title> 
-			<type>d:text</type> <mandatory>false</mandatory> <constraints> <constraint 
-			ref="akdm:yesNoConstraint" /> </constraints> </property> </properties> </aspect> -->
+		<aspect name="akdm:byggRedaAspect">
+			<title>ByggReda</title>
+			<parent>akdm:aspect</parent>
+			<properties>
+				<property name="akdm:byggRedaFilm">
+					<title>Film</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaSerialNumber">
+					<title>Serial number</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaRecordNumber">
+					<title>Record number</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaBuildingDescription">
+					<title>Building description</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaLastBuildingDescription">
+					<title>Last building description</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaAddress">
+					<title>Address</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaLastAddress">
+					<title>Last address</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaDecision">
+					<title>Decision</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaFor">
+					<title>For</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaIssuePurpose">
+					<title>Issue Purpose</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaNote">
+					<title>Note</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaRecords">
+					<title>Records</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+			</properties>
+		</aspect>
 	</aspects>
 
 </model>

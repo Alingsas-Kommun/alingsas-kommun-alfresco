@@ -372,4 +372,86 @@
 			</form>
 		</forms>
 	</config>
+	<!-- ByggReda -->
+	<config evaluator="node-type" condition="akdm:byggredadocument">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:description" />
+					<show id="cm:creator" />
+					<show id="cm:created" />
+					<show id="cm:modifier" />
+					<show id="cm:modified" />
+					<show id="cm:versionLabel" />
+
+					<show id="akdm:documentNumber" />
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+					
+					<!-- ByggReda -->
+					<show id="akdm:byggRedaFilm" />
+					<show id="akdm:byggRedaSerialNumber" />
+					<show id="akdm:byggRedaRecordNumber" />
+					<show id="akdm:byggRedaBuildingDescription" />
+					<show id="akdm:byggRedaLastBuildingDescription" />
+					<show id="akdm:byggRedaAddress" />
+					<show id="akdm:byggRedaLastAddress" />
+					<show id="akdm:byggRedaDecision" />
+					<show id="akdm:byggRedaFor" />
+					<show id="akdm:byggRedaIssuePurpose" />
+					<show id="akdm:byggRedaNote" />
+					<show id="akdm:byggRedaRecords" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					
+					<set id="byggRedaDocument" appearance="bordered-panel" label-id="set.akdm.byggRedaDocument" />
+					<field id="akdm:byggRedaFilm" set="byggRedaDocument" label-id="property.akdm_byggRedaFilm" />
+					<field id="akdm:byggRedaSerialNumber" set="byggRedaDocument" label-id="property.akdm_byggRedaSerialNumber" />
+					<field id="akdm:byggRedaRecordNumber" set="byggRedaDocument" label-id="property.akdm_byggRedaRecordNumber" />
+					<field id="akdm:byggRedaBuildingDescription" set="byggRedaDocument" label-id="property.akdm_byggRedaBuildingDescription" />
+					<field id="akdm:byggRedaLastBuildingDescription" set="byggRedaDocument" label-id="property.akdm_byggRedaLastBuildingDescription" />
+					<field id="akdm:byggRedaAddress" set="byggRedaDocument" label-id="property.akdm_byggRedaAddress" />					
+					<field id="akdm:byggRedaLastAddress" set="byggRedaDocument" label-id="property.akdm_byggRedaLastAddress" />
+					<field id="akdm:byggRedaDecision" set="byggRedaDocument" label-id="property.akdm_byggRedaDecision" />
+					<field id="akdm:byggRedaFor" set="byggRedaDocument" label-id="property.akdm_byggRedaFor" />
+					<field id="akdm:byggRedaIssuePurpose" set="byggRedaDocument" label-id="property.akdm_byggRedaIssuePurpose" />
+					<field id="akdm:byggRedaNote" set="byggRedaDocument" label-id="property.akdm_byggRedaNote" />
+					<field id="akdm:byggRedaRecords" set="byggRedaDocument" label-id="property.akdm_byggRedaRecords" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
 </alfresco-config>
