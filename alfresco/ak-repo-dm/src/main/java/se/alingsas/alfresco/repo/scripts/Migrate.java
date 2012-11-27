@@ -20,6 +20,11 @@ public class Migrate extends DeclarativeWebScript implements InitializingBean {
 	private static final Logger LOG = Logger.getLogger(Migrate.class);
 
 	private static final String ARCHIVE_TEST = "test";
+	private static final String ARCHIVE_DOKUMENT = "dokument";
+	private static final String ARCHIVE_EKONOMI = "ekonomi";
+	private static final String ARCHIVE_SOCIAL = "social";
+	private static final String ARCHIVE_VAN = "van";
+	private static final String ARCHIVE_VERKSAMHETSSYSTEM = "verksamhetssystem";
 
 	private String _baseFolder;
 
@@ -45,6 +50,21 @@ public class Migrate extends DeclarativeWebScript implements InitializingBean {
 		if (ARCHIVE_TEST.equals(archive)) {
 			textfile += "Test/Test Metadata.txt";
 			folder += "Test/Files";
+		} else if (ARCHIVE_DOKUMENT.equals(archive)) {
+			textfile += "Dokument_clean.txt";
+			folder += "Files";
+		} else if (ARCHIVE_EKONOMI.equals(archive)) {
+			textfile += "Ekonomi_clean.txt";
+			folder += "Files";
+		} else if (ARCHIVE_VAN.equals(archive)) {
+			textfile += "VAN_clean.txt";
+			folder += "Files";
+		} else if (ARCHIVE_SOCIAL.equals(archive)) {
+			textfile += "Social_clean.txt";
+			folder += "Files";
+		} else if (ARCHIVE_VERKSAMHETSSYSTEM.equals(archive)) {
+			textfile += "Verksamhetssystem_clean.txt";
+			folder += "Files";
 		} else {
 			status.setCode(400);
 			status.setMessage("Wrong archive argument.");

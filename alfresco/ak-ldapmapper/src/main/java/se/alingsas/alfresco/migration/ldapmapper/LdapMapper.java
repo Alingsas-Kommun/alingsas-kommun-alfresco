@@ -8,11 +8,15 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
 
 public class LdapMapper {
 
@@ -21,6 +25,7 @@ public class LdapMapper {
 	private LdapTemplate ldapTemplate;
 	private final String stringSeparator = "#!#";
 	private Map<String, LotusUser> cachedUserRegistry;
+
 	/**
 	 * Constructor
 	 * 
@@ -42,21 +47,53 @@ public class LdapMapper {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private LotusUser getUser(String commonName, String base) {
+	public LotusUser getUser(String commonName, String base) {
 		System.out.println("Looking up user " + commonName + " at " + base
 				+ " in LDAP");
 		UserAttributesMapper mapper = new UserAttributesMapper();
 		HashSet<LotusUser> hashSet = new HashSet<LotusUser>();
 		try {
-			hashSet.addAll(ldapTemplate.search(base,
-					"(objectClass=inetOrgPerson)", mapper));
+			AndFilter filterObject = new AndFilter();
+			filterObject.and(new EqualsFilter("objectClass", "inetOrgPerson"));
+			filterObject.and(new EqualsFilter("cn", commonName));
+			List search = ldapTemplate.search(base, filterObject.encode(),
+					mapper);
+			hashSet.addAll(search);
 		} catch (NameNotFoundException e) {
 			System.out.println("No user with CN=" + commonName
-					+ " found, returning null");
+					+ " found, setting name to CN + base");
+			String ou = "";
+			try {
+				ou = " ("+ base.substring(3,
+					base.indexOf(",")) +")";
+			} catch (StringIndexOutOfBoundsException e1) {
+				//Do nothing, just ignore it
+			}
+			LotusUser lotusUser = new LotusUser();
+			lotusUser.setCommonName(commonName);
+			lotusUser.setUid(commonName + ou);
+			//e.printStackTrace();
+			return lotusUser;
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 		if (hashSet.size() == 1) {
 			return (LotusUser) hashSet.toArray()[0];
+		} else if (hashSet.size() == 0) {
+			System.out.println("No user with CN=" + commonName
+					+ " found, setting name to CN + base");
+			String ou = "";
+			try {
+				ou = " ("+ base.substring(3,
+					base.indexOf(",")) +")";
+			} catch (StringIndexOutOfBoundsException e1) {
+				//Do nothing, just ignore it
+			}
+			LotusUser lotusUser = new LotusUser();
+			lotusUser.setCommonName(commonName);
+			lotusUser.setUid(commonName + ou);
+			return lotusUser;
 		} else {
 			System.out.println("More than one user with CN=" + commonName
 					+ " found, returning null");
@@ -91,8 +128,8 @@ public class LdapMapper {
 		String[] columns = row.split(stringSeparator);
 		String notesUserPath = columns[1];
 		String commonName = notesUserPath.substring(3,
-				notesUserPath.indexOf("/OU"));
-		String base = notesUserPath.substring(notesUserPath.indexOf("/OU") + 1)
+				notesUserPath.indexOf("/"));
+		String base = notesUserPath.substring(notesUserPath.indexOf("/") + 1)
 				.replace("/", ",");
 		LotusUser user;
 		if (!cachedUserRegistry.containsKey(notesUserPath)) {
@@ -101,7 +138,7 @@ public class LdapMapper {
 		} else {
 			user = cachedUserRegistry.get(notesUserPath);
 		}
-		if (null!=user) {
+		if (null != user) {
 			columns[1] = user.getUid();
 		}
 		return implodeStringArray(columns, stringSeparator);
@@ -124,7 +161,7 @@ public class LdapMapper {
 				try {
 					while (scanner.hasNextLine()) {
 						String nextLine = scanner.nextLine();
-						if (nextLine.length()==0) {
+						if (nextLine.length() == 0) {
 							continue;
 						}
 						String fixedLine = extractAndReplaceUid(nextLine);

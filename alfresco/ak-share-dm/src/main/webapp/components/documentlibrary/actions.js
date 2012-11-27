@@ -726,12 +726,14 @@
                if (loc.site==undefined) {
             	   //We are not on a site, usually we are in User Home, so replace the loc.site 
             	   //The webdavurl holds the path to the file. Just simulate a site called user-homes and append the webdavpath to it.
-            	   loc.path = record.webdavUrl.substring(7,record.webdavUrl.lastIndexOf("/")+1);
+            	   loc.path = decodeURIComponent(record.webdavUrl);
+            	   loc.file = loc.path.substring(loc.path.lastIndexOf("/")+1);
+            	   loc.path = loc.path.substring(7,loc.path.lastIndexOf("/"));
             	   loc.site = {name: "user-homes"};
             	   loc.container = {name: "documentLibrary"};
                }
-             //Alingsås customization end
-            	var onlineEditUrl = this.doclistMetadata.custom.vtiServer.host + ":" +
+               //Alingsås customization end
+               var onlineEditUrl = this.doclistMetadata.custom.vtiServer.host + ":" +
                      this.doclistMetadata.custom.vtiServer.port + "/" +
                      $combine("alfresco", loc.site.name, loc.container.name, loc.path, loc.file.replace(/#/g,"%23"));
 

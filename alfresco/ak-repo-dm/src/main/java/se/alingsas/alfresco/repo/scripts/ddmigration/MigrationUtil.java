@@ -154,6 +154,7 @@ public class MigrationUtil {
 			if (it.hasNext()) {
 				AlingsasDocument version = it.next();
 				migratedDocuments.put(version.documentNumber, version);
+				documentNumber = version.documentNumber;
 			}
 		}
 		while (it.hasNext()) {
@@ -304,14 +305,20 @@ public class MigrationUtil {
 	private NodeRef createFirstVersion(NodeRef folderNodeRef,
 			AlingsasDocument version) {
 		// create the new file
+		String fileName;
+		if ("".equals(version.fileName) || version.fileName==null) {
+			fileName = version.title;
+		} else {
+			fileName = version.fileName;
+		}
 		final FileInfo fileInfo = fileFolderService.create(folderNodeRef,
-				version.fileName, version.documentTypeQName);
+				fileName, version.documentTypeQName);
 		NodeRef baseVersion = fileInfo.getNodeRef();
 		addProperties(baseVersion, version, false);
 		// add the file
 		addFile(baseVersion, version);
 		// create the version history
-		createVersionHistory(baseVersion);
+		createVersionHistory(baseVersion, version);
 		return baseVersion;
 	}
 
@@ -414,14 +421,14 @@ public class MigrationUtil {
 		nodeService.addProperties(nodeRef, properties);
 	}
 
-	private void createVersionHistory(final NodeRef baseVersion) {
+	private void createVersionHistory(final NodeRef baseVersion, AlingsasDocument version) {
 		final VersionHistory versionHistory = versionService
 				.getVersionHistory(baseVersion);
 
 		if (versionHistory == null) {
 			// check it in again, with supplied version history note
 			final Map<String, Serializable> properties = new HashMap<String, Serializable>();
-			properties.put(VersionModel.PROP_VERSION_TYPE, VersionType.MAJOR);
+			properties.put(VersionModel.PROP_VERSION_TYPE, isMajorVersion(version) ? VersionType.MAJOR : VersionType.MINOR);
 			versionService.createVersion(baseVersion, properties);
 		}
 	}
@@ -645,15 +652,15 @@ public class MigrationUtil {
 	public QName parseKnownQNames(String type) throws IllegalArgumentException {
 		if ("Anvisning".equals(type)) {
 			return AkDmModel.TYPE_AKDM_INSTRUCTION;
-		} else if ("Författning".equals(type)) {
+		} else if ("Författning".equalsIgnoreCase(type)) {
 			return AkDmModel.TYPE_AKDM_ORDINANCE;
-		} else if ("Handbok".equals(type)) {
+		} else if ("Handbok".equalsIgnoreCase(type)) {
 			return AkDmModel.TYPE_AKDM_MANUAL;
-		} else if ("Protokoll".equals(type)) {
+		} else if ("Protokoll".equalsIgnoreCase(type)) {
 			return AkDmModel.TYPE_AKDM_PROTOCOL;
-		} else if ("Generellt Dokument".equals(type)) {
+		} else if ("Generellt Dokument".equalsIgnoreCase(type)) {
 			return AkDmModel.TYPE_AKDM_GENERAL_DOC;
-		} else if ("Ekonomidokument".equals(type)) {
+		} else if ("Ekonomidokument".equalsIgnoreCase(type)) {
 			return AkDmModel.TYPE_AKDM_ECONOMY_DOC;
 		} else {
 			throw new IllegalArgumentException("Unknown type: " + type);
@@ -802,6 +809,8 @@ public class MigrationUtil {
 			mimetype = "image/tiff";
 		} else if (extension.equalsIgnoreCase("tiff")) {
 			mimetype = "image/tiff";
+		} else if (extension.equalsIgnoreCase("pcx")) {
+			mimetype = "image/pcx";
 		}
 
 		else {
