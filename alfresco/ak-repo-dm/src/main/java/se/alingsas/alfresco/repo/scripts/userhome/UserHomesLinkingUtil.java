@@ -14,6 +14,11 @@ public class UserHomesLinkingUtil {
 	
 	private static ServiceRegistry serviceRegistry;
 	
+	/**
+	 * Add a reference to the user homes folder inside a specific site.
+	 * @param siteId
+	 * @return
+	 */
 	public boolean linkUserHomesWithSite(String siteId) {
 		SiteInfo site = serviceRegistry.getSiteService().getSite(siteId);
 		if (site==null) {
