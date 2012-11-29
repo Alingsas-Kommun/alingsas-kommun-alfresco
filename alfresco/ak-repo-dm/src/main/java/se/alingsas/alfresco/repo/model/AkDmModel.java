@@ -81,7 +81,7 @@ public interface AkDmModel {
 			.createQName(AKDM_URI, "byggRedaRecordNumber");
 	public static final QName PROP_AKDM_BYGGREDA_BUILDING_DESCR = QName
 			.createQName(AKDM_URI, "byggRedaBuildingDescription");
-	public static final QName PROP_AKDM_BYGGREDA_LAST_PROPERTY_DESCR = QName
+	public static final QName PROP_AKDM_BYGGREDA_LAST_BUILDING_DESCR = QName
 			.createQName(AKDM_URI, "byggRedaLastBuildingDescription");
 	public static final QName PROP_AKDM_BYGGREDA_ADDRESS = QName.createQName(
 			AKDM_URI, "byggRedaAddress");
