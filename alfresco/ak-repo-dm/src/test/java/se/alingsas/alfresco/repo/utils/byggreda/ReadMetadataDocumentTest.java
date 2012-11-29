@@ -3,6 +3,7 @@ package se.alingsas.alfresco.repo.utils.byggreda;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-public class ByggRedaDocumentTest {
+public class ReadMetadataDocumentTest {
 	public static final String HEADER = "\"Film\";\"Löpnr\";\"Diarieår\";\"Dnr\";\"Fastbet\";\"TidFastbet\";\"Adress\";\"TidAdress\";\"Beslut\";\"Avser\";\"Ärendemening\";\"Anteckning\";\"Handlingar\";\"Filnamn \"";
 	public static final String VALID_LINE = "\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn\"";
 	public static final String INVALID_LINE_START = "10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn\"";
@@ -23,7 +24,7 @@ public class ByggRedaDocumentTest {
 	public static final String LINE_BREAK_2 = "\r\n";
 
 	@Test
-	public void testRead() {
+	public void testRead() throws IOException {
 
 		// Test valid document with just header
 		try {

@@ -67,7 +67,7 @@ public class ReadMetadataDocument {
 			}
 		} catch (final Exception ex) {
 			throw new RuntimeException("Error on line '" + lineNumber + "'", ex);
-		} finally {
+		}  finally {
 			IOUtils.closeQuietly(inputStream);
 			LineIterator.closeQuietly(lineIterator);
 		}
