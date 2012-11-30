@@ -181,7 +181,7 @@ public class MigrationUtil {
 			SiteInfo site) {
 
 		for (AlingsasDocument version : documents) {
-			NodeRef folder = createFolder(version.filePath, site);
+			NodeRef folder = createFolder(fileFolderService, version.filePath, site);
 			if (folder != null) {
 				NodeRef nodeRef = nodeService.getChildByName(folder,
 						ContentModel.ASSOC_CONTAINS, version.fileName);
@@ -224,13 +224,13 @@ public class MigrationUtil {
 		NodeRef destinationFolderRef;
 		NodeRef sourceFolderRef;
 
-		destinationFolderRef = createFolder(version.filePath, site);
+		destinationFolderRef = createFolder(fileFolderService, version.filePath, site);
 		/**
 		 * Check if file was moved to another folder
 		 */
 		if (lastVersion != null
 				&& !version.filePath.equals(lastVersion.filePath)) {
-			sourceFolderRef = createFolder(lastVersion.filePath, site);
+			sourceFolderRef = createFolder(fileFolderService, lastVersion.filePath, site);
 		} else {
 			sourceFolderRef = destinationFolderRef;
 		}
@@ -502,9 +502,9 @@ public class MigrationUtil {
 	 * @param site
 	 * @return
 	 */
-	private NodeRef createFolder(final String filepath, final SiteInfo site) {
+	private NodeRef createFolder(FileFolderService fileFolderService, final String filepath, final SiteInfo site) {
 		NodeRef rootNodeRef = fileFolderService.searchSimple(site.getNodeRef(),
-				"documentLibrary");
+				SiteService.DOCUMENT_LIBRARY);
 
 		final String[] parts = StringUtils.delimitedListToStringArray(filepath,
 				"/");

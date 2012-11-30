@@ -7,6 +7,7 @@ public class ByggRedaDocument {
 	public String errorMsg = "";
 	public NodeRef nodeRef = null;
 	public int lineNumber;
+	public String mimetype = "";
 	
 	public String film = "";
 	public String serialNumber = "";

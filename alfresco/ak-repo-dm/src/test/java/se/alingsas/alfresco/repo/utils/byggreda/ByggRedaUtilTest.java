@@ -9,23 +9,32 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.alfresco.model.ContentModel;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.model.FileInfo;
 import org.alfresco.service.cmr.model.FileNotFoundException;
 import org.alfresco.service.cmr.repository.ContentData;
 import org.alfresco.service.cmr.repository.ContentReader;
 import org.alfresco.service.cmr.repository.ContentService;
+import org.alfresco.service.cmr.repository.ContentWriter;
 import org.alfresco.service.cmr.repository.NodeRef;
+import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.repository.StoreRef;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
+import org.alfresco.service.cmr.version.VersionService;
+import org.alfresco.service.namespace.QName;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.StringUtils;
+
+import se.alingsas.alfresco.repo.model.AkDmModel;
 
 public class ByggRedaUtilTest {
 	final Mockery context = new Mockery();
@@ -36,7 +45,10 @@ public class ByggRedaUtilTest {
 	final FileInfo fileInfo = context.mock(FileInfo.class);
 	final ContentService contentService = context.mock(ContentService.class);
 	final ContentReader contentReader = context.mock(ContentReader.class);
-
+	final NodeService nodeService = context.mock(NodeService.class);
+	final ContentWriter contentWriter = context.mock(ContentWriter.class);
+	final VersionService versionService = context.mock(VersionService.class);
+	
 	final StoreRef storeRef = new StoreRef("workspace://SpacesStore");
 	final String dummyNodeId = "cafebabe-cafe-babe-cafe-babecafebabe";
 	final NodeRef dummyNodeRef = new NodeRef(storeRef, dummyNodeId);
@@ -47,8 +59,9 @@ public class ByggRedaUtilTest {
 	final String invalidDestinationPath = "src/test/resources/byggreda/nodestination";
 	final String validLogsPath = "src/test/resources/byggreda/logs";
 	final String invalidLogsPath = "src/test/resources/byggreda/nologs";
-	final String validFileName = "metadata.txt";
-	final String invalidFileName = "nometadata.txt";
+	final String validMetaFileName = "metadata.txt";
+	final String invalidMetaFileName = "nometadata.txt";
+	final String validFileName = "test.pdf";
 	List<String> validSourcePathList = new ArrayList<String>();
 	List<String> invalidSourcePathList = new ArrayList<String>();
 	List<String> validDestinationPathList = new ArrayList<String>();
@@ -57,13 +70,16 @@ public class ByggRedaUtilTest {
 	List<String> invalidLogsPathList = new ArrayList<String>();
 	List<String> validFilePathList = new ArrayList<String>();
 	List<String> invalidFilePathList = new ArrayList<String>();
+	List<String> validFilePathList2 = new ArrayList<String>();
+	List<String> invalidFilePathList2 = new ArrayList<String>();
 
 	InputStream validInputStream;
 	InputStream validInputStream2;
 	ContentData contentData;
 
 	@Before
-	public void setUp() throws FileNotFoundException, java.io.FileNotFoundException {
+	public void setUp() throws FileNotFoundException,
+			java.io.FileNotFoundException {
 		// Source
 		String[] parts = StringUtils.delimitedListToStringArray(
 				validSourcePath, "/");
@@ -100,20 +116,28 @@ public class ByggRedaUtilTest {
 
 		// Files
 		parts = StringUtils.delimitedListToStringArray(validSourcePath + "/"
-				+ validFileName, "/");
+				+ validMetaFileName, "/");
 		for (String part : parts) {
 			validFilePathList.add(part);
 		}
 
 		parts = StringUtils.delimitedListToStringArray(validSourcePath + "/"
-				+ invalidFileName, "/");
+				+ invalidMetaFileName, "/");
 		for (String part : parts) {
 			invalidFilePathList.add(part);
 		}
+		
+		parts = StringUtils.delimitedListToStringArray(validSourcePath + "/"
+				+ validFileName, "/");
+		for (String part : parts) {
+			validFilePathList2.add(part);
+		}
+
 
 		contentData = new ContentData("file", "text/plain", 0, "UTF-8");
 
-		validInputStream = new FileInputStream(validSourcePath+"/"+validFileName);
+		validInputStream = new FileInputStream(validSourcePath + "/"
+				+ validMetaFileName);
 		context.checking(new Expectations() {
 			{
 				allowing(siteService).getSite("test");
@@ -168,9 +192,38 @@ public class ByggRedaUtilTest {
 				allowing(fileInfo).getContentData();
 				will(returnValue(contentData));
 
+				allowing(fileInfo).getNodeRef();
+				will(returnValue(dummyNodeRef));
+				
 				allowing(contentReader).getContentInputStream();
 				will(returnValue(validInputStream));
 
+				//Import documents
+				allowing(fileFolderService).searchSimple(with(equal(dummyNodeRef)),
+						with(any(String.class)));
+				will(returnValue(dummyNodeRef));
+
+				allowing(fileFolderService).create(with(equal(dummyNodeRef)),
+						with(any(String.class)), with(equal(AkDmModel.TYPE_AKDM_BYGGREDA_DOC)));
+				will(returnValue(fileInfo));
+				
+				allowing(nodeService).addProperties(with(equal(dummyNodeRef)), with(any(HashMap.class)));
+				
+				allowing(fileFolderService).resolveNamePath(dummyNodeRef, validFilePathList2, false);
+				will(returnValue(fileInfo));
+				
+				allowing(contentService).getWriter(dummyNodeRef, ContentModel.PROP_CONTENT, true);
+				will(returnValue(contentWriter));
+				
+				allowing(contentWriter).setMimetype(with(any(String.class)));
+				
+				allowing(contentWriter).putContent(with(any(InputStream.class)));
+				
+				allowing(versionService).getVersionHistory(dummyNodeRef);
+				will(returnValue(null));
+				
+				allowing(versionService).createVersion(with(equal(dummyNodeRef)), with(any(Map.class)));
+				
 			}
 		});
 	}
@@ -198,12 +251,11 @@ public class ByggRedaUtilTest {
 				validFilePathList, false));
 		assertNull(fileFolderService.resolveNamePath(dummyNodeRef,
 				invalidFilePathList, false));
-		assertEquals(contentReader, contentService.getRawReader(contentData.getContentUrl()));
+		assertEquals(contentReader,
+				contentService.getRawReader(contentData.getContentUrl()));
 		assertEquals(contentData, fileInfo.getContentData());
 		assertEquals(validInputStream, contentReader.getContentInputStream());
-		
-		
-		
+		assertEquals(contentWriter, contentService.getWriter(dummyNodeRef, ContentModel.PROP_CONTENT, true));
 		context.assertIsSatisfied();
 	}
 
@@ -214,13 +266,15 @@ public class ByggRedaUtilTest {
 		bru.setFileFolderService(fileFolderService);
 		bru.setContentService(contentService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_FS);
-
+		bru.setNodeService(nodeService);
+		bru.setVersionService(versionService);
+		
 		// All valid
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertTrue(bru.run(validSourcePath, validFileName));
-		
+		assertTrue(bru.run(validSourcePath, validMetaFileName));
+
 		context.assertIsSatisfied();
 	}
 
@@ -231,84 +285,89 @@ public class ByggRedaUtilTest {
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_FS);
-
+		bru.setNodeService(nodeService);
+		bru.setVersionService(versionService);
+		
 		// Invalid Destinationpath
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath(null);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 
 		// Invalid Logs path
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(invalidLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(null);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 
 		// Invalid site name
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("fail");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 
 		// Invalid Source folder
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(invalidSourcePath, validFileName));
+		assertFalse(bru.run(invalidSourcePath, validMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(null, validFileName));
+		assertFalse(bru.run(null, validMetaFileName));
 
 		// Invalid Metadata filename
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, invalidFileName));
+		assertFalse(bru.run(validSourcePath, invalidMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
 		assertFalse(bru.run(validSourcePath, null));
-		
+
 		context.assertIsSatisfied();
 	}
 
 	@Test
-	public void testRepoSourceReadValid() throws IOException, FileNotFoundException {
+	public void testRepoSourceReadValid() throws IOException,
+			FileNotFoundException {
 		ByggRedaUtil bru = new ByggRedaUtil();
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
-
+		bru.setNodeService(nodeService);
+		bru.setVersionService(versionService);
+		
 		// All valid
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertTrue(bru.run(validSourcePath, validFileName));
+		assertTrue(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath("/" + validDestinationPath + "/");
 		bru.setLogPath("/" + validLogsPath + "/");
 		try {
-			bru.run("/" + validSourcePath + "/", validFileName);
+			bru.run("/" + validSourcePath + "/", validMetaFileName);
 			assertTrue(false);
 		} catch (RuntimeException ex) {
-			//Expected since the file was already used and closed			
+			// Expected since the file was already used and closed
 		}
-		
+
 		context.assertIsSatisfied();
 	}
-	
+
 	@Test
 	public void testRepoSourceReadInvalid() throws IOException {
 
@@ -316,57 +375,59 @@ public class ByggRedaUtilTest {
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
-
+		bru.setNodeService(nodeService);
+		bru.setVersionService(versionService);
+		
 		// Invalid Destinationpath
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath(null);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 
 		// Invalid Logs path
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(invalidLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(null);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 
 		// Invalid site name
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("fail");
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName(null);
-		assertFalse(bru.run(validSourcePath, validFileName));
+		assertFalse(bru.run(validSourcePath, validMetaFileName));
 
 		// Invalid Source folder
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(invalidSourcePath, validFileName));
+		assertFalse(bru.run(invalidSourcePath, validMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(null, validFileName));
+		assertFalse(bru.run(null, validMetaFileName));
 
 		// Invalid Metadata filename
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, invalidFileName));
+		assertFalse(bru.run(validSourcePath, invalidMetaFileName));
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
 		assertFalse(bru.run(validSourcePath, null));
-		
+
 		context.assertIsSatisfied();
 	}
 
