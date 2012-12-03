@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.alfresco.model.ContentModel;
 import org.alfresco.service.cmr.model.FileFolderService;
@@ -72,7 +73,8 @@ public class ByggRedaUtilTest {
 	List<String> invalidFilePathList = new ArrayList<String>();
 	List<String> validFilePathList2 = new ArrayList<String>();
 	List<String> invalidFilePathList2 = new ArrayList<String>();
-
+	List<String> validFilePathList3 = new ArrayList<String>();
+	List<String> invalidFilePathList3 = new ArrayList<String>();
 	InputStream validInputStream;
 	InputStream validInputStream2;
 	ContentData contentData;
@@ -131,6 +133,12 @@ public class ByggRedaUtilTest {
 				+ validFileName, "/");
 		for (String part : parts) {
 			validFilePathList2.add(part);
+		}
+		
+		parts = StringUtils.delimitedListToStringArray(validDestinationPath+"/A/A/"
+				+ validFileName, "/");
+		for (String part : parts) {
+			validFilePathList3.add(part);
 		}
 
 
@@ -207,9 +215,16 @@ public class ByggRedaUtilTest {
 						with(any(String.class)), with(equal(AkDmModel.TYPE_AKDM_BYGGREDA_DOC)));
 				will(returnValue(fileInfo));
 				
+				allowing(fileFolderService).create(with(equal(dummyNodeRef)),
+						with(any(String.class)), with(equal(AkDmModel.TYPE_AKDM_DOCUMENT)));
+				will(returnValue(fileInfo));
+				
 				allowing(nodeService).addProperties(with(equal(dummyNodeRef)), with(any(HashMap.class)));
 				
 				allowing(fileFolderService).resolveNamePath(dummyNodeRef, validFilePathList2, false);
+				will(returnValue(fileInfo));
+				
+				allowing(fileFolderService).resolveNamePath(dummyNodeRef, validFilePathList3, false);
 				will(returnValue(fileInfo));
 				
 				allowing(contentService).getWriter(dummyNodeRef, ContentModel.PROP_CONTENT, true);
@@ -223,6 +238,9 @@ public class ByggRedaUtilTest {
 				will(returnValue(null));
 				
 				allowing(versionService).createVersion(with(equal(dummyNodeRef)), with(any(Map.class)));
+				
+				allowing(contentReader).exists();
+				will(returnValue(true));
 				
 			}
 		});
@@ -274,7 +292,9 @@ public class ByggRedaUtilTest {
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
 		assertTrue(bru.run(validSourcePath, validMetaFileName));
-
+		Set<ByggRedaDocument> documents = bru.getDocuments();
+		assertTrue(documents!=null);
+		assertEquals(1, documents.size());
 		context.assertIsSatisfied();
 	}
 

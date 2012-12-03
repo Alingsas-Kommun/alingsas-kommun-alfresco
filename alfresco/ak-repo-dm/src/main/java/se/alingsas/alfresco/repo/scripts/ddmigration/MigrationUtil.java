@@ -46,6 +46,7 @@ import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
+import se.alingsas.alfresco.repo.utils.CommonFileUtil;
 
 public class MigrationUtil {
 	private static final Logger LOG = Logger.getLogger(MigrationUtil.class);
@@ -181,7 +182,8 @@ public class MigrationUtil {
 			SiteInfo site) {
 
 		for (AlingsasDocument version : documents) {
-			NodeRef folder = createFolder(fileFolderService, version.filePath, site);
+			NodeRef folder = createFolder(fileFolderService, version.filePath,
+					site);
 			if (folder != null) {
 				NodeRef nodeRef = nodeService.getChildByName(folder,
 						ContentModel.ASSOC_CONTAINS, version.fileName);
@@ -224,13 +226,15 @@ public class MigrationUtil {
 		NodeRef destinationFolderRef;
 		NodeRef sourceFolderRef;
 
-		destinationFolderRef = createFolder(fileFolderService, version.filePath, site);
+		destinationFolderRef = createFolder(fileFolderService,
+				version.filePath, site);
 		/**
 		 * Check if file was moved to another folder
 		 */
 		if (lastVersion != null
 				&& !version.filePath.equals(lastVersion.filePath)) {
-			sourceFolderRef = createFolder(fileFolderService, lastVersion.filePath, site);
+			sourceFolderRef = createFolder(fileFolderService,
+					lastVersion.filePath, site);
 		} else {
 			sourceFolderRef = destinationFolderRef;
 		}
@@ -306,7 +310,7 @@ public class MigrationUtil {
 			AlingsasDocument version) {
 		// create the new file
 		String fileName;
-		if ("".equals(version.fileName) || version.fileName==null) {
+		if ("".equals(version.fileName) || version.fileName == null) {
 			fileName = version.title;
 		} else {
 			fileName = version.fileName;
@@ -421,14 +425,17 @@ public class MigrationUtil {
 		nodeService.addProperties(nodeRef, properties);
 	}
 
-	private void createVersionHistory(final NodeRef baseVersion, AlingsasDocument version) {
+	private void createVersionHistory(final NodeRef baseVersion,
+			AlingsasDocument version) {
 		final VersionHistory versionHistory = versionService
 				.getVersionHistory(baseVersion);
 
 		if (versionHistory == null) {
 			// check it in again, with supplied version history note
 			final Map<String, Serializable> properties = new HashMap<String, Serializable>();
-			properties.put(VersionModel.PROP_VERSION_TYPE, isMajorVersion(version) ? VersionType.MAJOR : VersionType.MINOR);
+			properties.put(VersionModel.PROP_VERSION_TYPE,
+					isMajorVersion(version) ? VersionType.MAJOR
+							: VersionType.MINOR);
 			versionService.createVersion(baseVersion, properties);
 		}
 	}
@@ -462,7 +469,8 @@ public class MigrationUtil {
 				throw new RuntimeException(ex);
 			}
 		} else {
-			LOG.warn(document.documentNumber + " file does not exist, creating empty file in repository with metadata");
+			LOG.warn(document.documentNumber
+					+ " file does not exist, creating empty file in repository with metadata");
 		}
 	}
 
@@ -502,7 +510,8 @@ public class MigrationUtil {
 	 * @param site
 	 * @return
 	 */
-	private NodeRef createFolder(FileFolderService fileFolderService, final String filepath, final SiteInfo site) {
+	private NodeRef createFolder(FileFolderService fileFolderService,
+			final String filepath, final SiteInfo site) {
 		NodeRef rootNodeRef = fileFolderService.searchSimple(site.getNodeRef(),
 				SiteService.DOCUMENT_LIBRARY);
 
@@ -515,23 +524,9 @@ public class MigrationUtil {
 			NodeRef folder = fileFolderService.searchSimple(rootNodeRef, part);
 
 			while (folder == null) {
-				try {
-					folder = fileFolderService.create(rootNodeRef, part,
-							AkDmModel.TYPE_AKDM_FOLDER).getNodeRef();
-				} catch (FileExistsException e) {
-					try {
-						LOG.debug("Folder not found with search but exists. Search index might not have synchronized in time, sleeping 1s");
-						Thread.sleep(1000);
-						folder = fileFolderService.searchSimple(rootNodeRef,
-								part);
-
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						LOG.error(e1);
-						break;
-					}
-				}
-
+				folder = fileFolderService.create(rootNodeRef, part,
+						ContentModel.TYPE_FOLDER).getNodeRef();
+				nodeService.setProperty(folder, ContentModel.PROP_TITLE, part);
 			}
 
 			rootNodeRef = folder;
@@ -635,7 +630,7 @@ public class MigrationUtil {
 		document.fileExtension = FilenameUtils.getExtension(document.fileName);
 		document.file = new File(document.tmpStorageFolder + "/"
 				+ document.ddUUID + '.' + document.fileExtension);
-		document.mimetype = getMimetype(FilenameUtils
+		document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils
 				.getExtension(document.fileName));
 		// document.fileExtension = parts[++position];
 		// document.createdDate = parseDate(parts[++position]);
@@ -760,65 +755,6 @@ public class MigrationUtil {
 		// filepath = filepath.replace("/", "-");
 
 		return filepath;
-	}
-
-	private String getMimetype(final String extension) {
-		String mimetype;
-
-		if (!StringUtils.hasText(extension)) {
-			mimetype = "application/octet-stream";
-		} else if (extension.equalsIgnoreCase("pdf")) {
-			mimetype = "application/pdf";
-		} else if (extension.equalsIgnoreCase("ppt")) {
-			mimetype = "application/vnd.ms-powerpoint";
-		} else if (extension.equalsIgnoreCase("doc")) {
-			mimetype = "application/msword";
-		} else if (extension.equalsIgnoreCase("vsd")) {
-			mimetype = "application/visio";
-		} else if (extension.equalsIgnoreCase("bmp")) {
-			mimetype = "image/bmp";
-		} else if (extension.equalsIgnoreCase("htm")) {
-			mimetype = "text/html";
-		} else if (extension.equalsIgnoreCase("html")) {
-			mimetype = "text/html";
-		} else if (extension.equalsIgnoreCase("dot")) {
-			mimetype = "application/msword";
-		} else if (extension.equalsIgnoreCase("xls")) {
-			mimetype = "application/vnd.ms-excel";
-		} else if (extension.equalsIgnoreCase("jpg")) {
-			mimetype = "image/jpeg";
-		} else if (extension.equalsIgnoreCase("pot")) {
-			mimetype = "application/vnd.ms-powerpoint";
-		} else if (extension.equalsIgnoreCase("rtf")) {
-			mimetype = "application/rtf";
-		} else if (extension.equalsIgnoreCase("tiff")) {
-			mimetype = "image/tiff";
-		} else if (extension.equalsIgnoreCase("eps")) {
-			mimetype = "application/eps";
-		} else if (extension.equalsIgnoreCase("zip")) {
-			mimetype = "application/zip";
-		} else if (extension.equalsIgnoreCase("txt")) {
-			mimetype = "text/plain";
-		} else if (extension.equalsIgnoreCase("odt")) {
-			mimetype = "application/vnd.oasis.opendocument.text";
-		} else if (extension.equalsIgnoreCase("ods")) {
-			mimetype = "application/vnd.oasis.opendocument.spreadsheet";
-		} else if (extension.equalsIgnoreCase("odp")) {
-			mimetype = "application/vnd.oasis.opendocument.presentation";
-		} else if (extension.equalsIgnoreCase("tif")) {
-			mimetype = "image/tiff";
-		} else if (extension.equalsIgnoreCase("tiff")) {
-			mimetype = "image/tiff";
-		} else if (extension.equalsIgnoreCase("pcx")) {
-			mimetype = "image/pcx";
-		}
-
-		else {
-			throw new RuntimeException("The extension '" + extension
-					+ "' has no configured mimetype.");
-		}
-
-		return mimetype;
 	}
 
 	private void addProperty(final Map<QName, Serializable> properties,

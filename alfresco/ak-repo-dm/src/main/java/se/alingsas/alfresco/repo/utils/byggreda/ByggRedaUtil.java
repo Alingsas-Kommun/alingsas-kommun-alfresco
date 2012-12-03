@@ -1,11 +1,16 @@
 package se.alingsas.alfresco.repo.utils.byggreda;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,6 +47,7 @@ public class ByggRedaUtil {
 	private static final Logger LOG = Logger.getLogger(ByggRedaUtil.class);
 	public static final String SOURCE_TYPE_REPO = "repository";
 	public static final String SOURCE_TYPE_FS = "filesystem";
+	public static final String LINE_BREAK = "\r\n";
 
 	private static String sourceType;
 	private static String siteName;
@@ -55,8 +61,9 @@ public class ByggRedaUtil {
 	private static ContentService contentService;
 	private final String DOC_STATUS_COMPLETE = "Färdigt dokument";
 	private final String DOC_SECRECY_PUBLIC = "Offentligt";
-	
+
 	private Set<ByggRedaDocument> documents = null;
+	private String logMessage;
 
 	/**
 	 * Main method which runs an import of material.
@@ -69,8 +76,8 @@ public class ByggRedaUtil {
 	 * @throws IOException
 	 * 
 	 */
-	public boolean run(String sourcePath, String metaFileName)
-			throws IOException {
+	public boolean run(String sourcePath, final String metaFileName)
+			{
 		LOG.debug("sourcePath: " + sourcePath + ", metaFileName: "
 				+ metaFileName);
 		if (!SOURCE_TYPE_REPO.equals(sourceType)
@@ -84,7 +91,7 @@ public class ByggRedaUtil {
 			return false;
 		}
 
-		SiteInfo site = findSite(siteName);
+		final SiteInfo site = findSite(siteName);
 		if (site == null) {
 			LOG.error("Could not find site " + siteName);
 			return false;
@@ -160,15 +167,21 @@ public class ByggRedaUtil {
 			LOG.error("No filename supplied");
 			return false;
 		}
-
-		InputStream metadataFile = readFile(site, sourcePath, metaFileName);
+		final String finalSourcePath = sourcePath;
+		/*
+		 * return AuthenticationUtil.runAsSystem(new
+		 * AuthenticationUtil.RunAsWork<Boolean>() {
+		 * 
+		 * @Override public Boolean doWork() throws Exception {
+		 */
+		InputStream metadataFile = readFile(site, finalSourcePath, metaFileName);
 
 		if (metadataFile == null) {
-			LOG.error("Could not find metadata file at " + sourcePath + "/"
-					+ metaFileName);
+			LOG.error("Could not find metadata file at " + finalSourcePath
+					+ "/" + metaFileName);
 			return false;
 		} else {
-			
+
 			try {
 				documents = ReadMetadataDocument.read(metadataFile);
 
@@ -178,11 +191,86 @@ public class ByggRedaUtil {
 			if (documents == null) {
 				return false;
 			}
-			documents = importDocuments(site, sourcePath, documents);
+			documents = importDocuments(site, finalSourcePath, documents);
+			logDocuments(site);
 			return true;
+		}
+
+		// }});
+
+	}
+
+	/**
+	 * Store a log in Alfresco of the result of the import
+	 * 
+	 * @param site
+	 */
+	private void logDocuments(SiteInfo site) {
+		NodeRef folderNodeRef = createFolder(logPath, site);
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String currentDate = formatter.format(new Date());
+		formatter = new SimpleDateFormat("yyyy-MM-dd HHmmss");
+		String fileName = formatter.format(new Date()) + " Import.log";
+
+		StringBuilder common = new StringBuilder();
+		StringBuilder failed = new StringBuilder();
+		Iterator<ByggRedaDocument> it = documents.iterator();
+		int failedCount = 0;
+		while (it.hasNext()) {
+			ByggRedaDocument next = it.next();
+			if (!next.readSuccessfully) {
+				failed.append("#" + next.lineNumber + ": " + next.errorMsg
+						+ LINE_BREAK);
+				failedCount++;
+			}
+
+		}
+		common.append("Summary of import " + LINE_BREAK);
+		common.append("--------------------------" + LINE_BREAK);
+		common.append("Date/time for import: " + currentDate + LINE_BREAK);
+		common.append("Number of documents read: " + documents.size()
+				+ LINE_BREAK);
+		common.append("Successful imports: " + (documents.size() - failedCount)
+				+ LINE_BREAK);
+		common.append("Failed imports: " + failedCount + LINE_BREAK);
+		common.append("--------------------------" + LINE_BREAK + LINE_BREAK);
+		if (failedCount > 0) {
+			common.append("Error log:" + LINE_BREAK);
+			common.append("--------------------------" + LINE_BREAK);
+			common.append(failed);
+			common.append("--------------------------" + LINE_BREAK);
+		}
+		FileInfo fileInfo = fileFolderService.create(folderNodeRef, fileName,
+				AkDmModel.TYPE_AKDM_DOCUMENT);
+		
+		logMessage = common.toString();
+		try {
+			InputStream is = new ByteArrayInputStream(common.toString()
+					.getBytes("UTF-8"));
+			try {
+				final ContentWriter writer = contentService.getWriter(
+						fileInfo.getNodeRef(), ContentModel.PROP_CONTENT, true);
+
+				writer.setMimetype("text/plain");
+
+				writer.putContent(is);
+			} finally {
+				IOUtils.closeQuietly(is);
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			LOG.error("Error while creating log file, Unsupported Encoding", e);
 		}
 	}
 
+	/**
+	 * Look up a site by its id (shortname)
+	 * 
+	 * @param siteId
+	 * @return
+	 */
 	private SiteInfo findSite(final String siteId) {
 		if (!StringUtils.hasText(siteId)) {
 			return null;
@@ -191,6 +279,13 @@ public class ByggRedaUtil {
 		return siteService.getSite(siteId);
 	}
 
+	/**
+	 * Validate that the sourceFolder exists
+	 * 
+	 * @param site
+	 * @param path
+	 * @return
+	 */
 	private boolean sourceFolderExists(SiteInfo site, String path) {
 		if (sourceType.equals(SOURCE_TYPE_FS)) {
 			// Check filesystem for source folder
@@ -201,6 +296,13 @@ public class ByggRedaUtil {
 		}
 	}
 
+	/**
+	 * Get a file or folder from the Repository
+	 * 
+	 * @param site
+	 * @param path
+	 * @return
+	 */
 	private FileInfo getRepoFileFolder(SiteInfo site, String path) {
 		// Check Alfresco for folder
 		final String[] parts = StringUtils
@@ -219,10 +321,27 @@ public class ByggRedaUtil {
 		}
 	}
 
+	/**
+	 * Return whether or not a certain file or folder exists.
+	 * 
+	 * @param site
+	 * @param path
+	 * @return
+	 */
 	private boolean repoFolderExists(SiteInfo site, String path) {
 		return getRepoFileFolder(site, path) != null;
 	}
 
+	/**
+	 * Read a file either from filesystem or from repository, returns an
+	 * InputStream. It is important to note that it is up to the caller of this
+	 * method to properly close the input stream when done.
+	 * 
+	 * @param site
+	 * @param path
+	 * @param fileName
+	 * @return
+	 */
 	private InputStream readFile(SiteInfo site, String path, String fileName) {
 		if (sourceType.equals(SOURCE_TYPE_FS)) {
 			try {
@@ -239,7 +358,12 @@ public class ByggRedaUtil {
 				ContentReader rawReader = contentService
 						.getRawReader(repoFileFolder.getContentData()
 								.getContentUrl());
-				return rawReader.getContentInputStream();
+				if (rawReader.exists()) {
+					return rawReader.getContentInputStream();
+				}
+				else {
+					return null;
+				}
 			}
 		}
 	}
@@ -283,12 +407,21 @@ public class ByggRedaUtil {
 	 */
 	private ByggRedaDocument importDocument(SiteInfo site, String sourcePath,
 			ByggRedaDocument document) {
-		destinationPath = destinationPath + "/"
+		final String currentDestinationPath = destinationPath + "/"
 				+ document.buildingDescription.substring(0, 1).toUpperCase()
 				+ "/" + document.buildingDescription.toUpperCase();
 		
+		//Check if file exists already
+		if (getRepoFileFolder(site, currentDestinationPath.replace(':', '_')+"/"+document.fileName)!=null) {
+			document.readSuccessfully = false;
+			document.errorMsg = "File already exists at path "
+					+ currentDestinationPath;
+			LOG.error(document.errorMsg);
+			return document;
+		}
+
 		try {
-			NodeRef folderNodeRef = createFolder(destinationPath, site);
+			NodeRef folderNodeRef = createFolder(currentDestinationPath, site);
 			final FileInfo fileInfo = fileFolderService.create(folderNodeRef,
 					document.fileName, AkDmModel.TYPE_AKDM_BYGGREDA_DOC);
 			document.nodeRef = fileInfo.getNodeRef();
@@ -296,21 +429,26 @@ public class ByggRedaUtil {
 			createFile(document.nodeRef, site, sourcePath, document);
 			createVersionHistory(document.nodeRef);
 			document.readSuccessfully = true;
-			LOG.debug("Imported document "+document.recordNumber);
+			LOG.debug("Imported document " + document.recordNumber);
 		} catch (FileExistsException ex) {
 			document.readSuccessfully = false;
 			document.errorMsg = "File already exists at path "
-					+ destinationPath;
+					+ currentDestinationPath;
 			LOG.error(document.errorMsg);
 		} catch (Exception e) {
 			document.readSuccessfully = false;
 			document.errorMsg = e.getMessage();
-			LOG.error("Error importing document "+document.recordNumber,e);
+			LOG.error("Error importing document " + document.recordNumber, e);
 		}
 		return document;
 
 	}
-	
+
+	/**
+	 * Creates version history if it does not already exist
+	 * 
+	 * @param nodeRef
+	 */
 	private void createVersionHistory(final NodeRef nodeRef) {
 		final VersionHistory versionHistory = getVersionService()
 				.getVersionHistory(nodeRef);
@@ -323,6 +461,14 @@ public class ByggRedaUtil {
 		}
 	}
 
+	/**
+	 * Create a ByggReda file in the repository
+	 * 
+	 * @param nodeRef
+	 * @param site
+	 * @param sourcePath
+	 * @param document
+	 */
 	private void createFile(NodeRef nodeRef, SiteInfo site, String sourcePath,
 			ByggRedaDocument document) {
 		InputStream inputStream = readFile(site, sourcePath, document.fileName);
@@ -337,6 +483,8 @@ public class ByggRedaUtil {
 			} finally {
 				IOUtils.closeQuietly(inputStream);
 			}
+		} else {
+			LOG.error("Input file could not be read. "+sourcePath+"/"+document.fileName);
 		}
 	}
 
@@ -360,8 +508,9 @@ public class ByggRedaUtil {
 			NodeRef folder = fileFolderService.searchSimple(rootNodeRef, part);
 
 			while (folder == null) {
-				folder = fileFolderService.create(rootNodeRef, part,
-						AkDmModel.TYPE_AKDM_FOLDER).getNodeRef();
+				folder = fileFolderService.create(rootNodeRef, part.replace(':', '_'),
+						ContentModel.TYPE_FOLDER).getNodeRef();
+				nodeService.setProperty(folder, ContentModel.PROP_TITLE, part);
 			}
 
 			rootNodeRef = folder;
@@ -369,33 +518,43 @@ public class ByggRedaUtil {
 
 		return rootNodeRef;
 	}
-	
+
+	/**
+	 * Add properties to a node in the repository for a ByggReda document
+	 * 
+	 * @param nodeRef
+	 * @param document
+	 */
 	private void addProperties(final NodeRef nodeRef,
 			final ByggRedaDocument document) {
 		final Map<QName, Serializable> properties = new HashMap<QName, Serializable>();
 
 		addProperty(properties, ContentModel.PROP_NAME, document.fileName);
-		
 
 		// final String checksum = _serviceUtils.getChecksum(document.file);
 		// Alfresco general properties
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION_PROPS, true);
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION, true);
-		addProperty(properties, ContentModel.PROP_TITLE, document.recordNumber + " "+document.issuePurpose);
-		addProperty(properties, ContentModel.PROP_CREATOR, AuthenticationUtil.SYSTEM_USER_NAME);
-		addProperty(properties, ContentModel.PROP_MODIFIER, AuthenticationUtil.SYSTEM_USER_NAME);
-		//addProperty(properties, ContentModel.PROP_MODIFIED, document.createdDate);
-		//addProperty(properties, ContentModel.PROP_CREATED, document.createdDate);
-		//addProperty(properties, ContentModel.PROP_DESCRIPTION, document.description);
+		addProperty(properties, ContentModel.PROP_TITLE, document.recordNumber
+				+ " " + document.issuePurpose);
+		addProperty(properties, ContentModel.PROP_CREATOR,
+				AuthenticationUtil.SYSTEM_USER_NAME);
+		addProperty(properties, ContentModel.PROP_MODIFIER,
+				AuthenticationUtil.SYSTEM_USER_NAME);
+		// addProperty(properties, ContentModel.PROP_MODIFIED,
+		// document.createdDate);
+		// addProperty(properties, ContentModel.PROP_CREATED,
+		// document.createdDate);
+		// addProperty(properties, ContentModel.PROP_DESCRIPTION,
+		// document.description);
 
 		// Common
-		
 
 		addProperty(properties, AkDmModel.PROP_AKDM_DOC_STATUS,
 				DOC_STATUS_COMPLETE);
 		addProperty(properties, AkDmModel.PROP_AKDM_DOC_SECRECY,
 				DOC_SECRECY_PUBLIC);
-		//ByggReda
+		// ByggReda
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FILM,
 				document.film);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_SERIAL_NUMBER,
@@ -404,7 +563,8 @@ public class ByggRedaUtil {
 				document.recordNumber);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_BUILDING_DESCR,
 				document.buildingDescription);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_LAST_BUILDING_DESCR,
+		addProperty(properties,
+				AkDmModel.PROP_AKDM_BYGGREDA_LAST_BUILDING_DESCR,
 				document.lastBuildingDescription);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_ADDRESS,
 				document.address);
@@ -412,19 +572,24 @@ public class ByggRedaUtil {
 				document.lastAddress);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_DECISION,
 				document.decision);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FOR,
-				document.forA);
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FOR, document.forA);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_ISSUE_PURPOSE,
 				document.issuePurpose);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_NOTE,
 				document.note);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORDS,
 				document.records);
-		
 
 		nodeService.addProperties(nodeRef, properties);
 	}
-	
+
+	/**
+	 * Add a single property to a property map
+	 * 
+	 * @param properties
+	 * @param key
+	 * @param value
+	 */
 	private void addProperty(final Map<QName, Serializable> properties,
 			final QName key, Serializable value) {
 		// if no text, just exit
@@ -444,6 +609,7 @@ public class ByggRedaUtil {
 
 		properties.put(key, value);
 	}
+
 	public String getSourceType() {
 		return sourceType;
 	}
@@ -522,5 +688,13 @@ public class ByggRedaUtil {
 
 	public void setDocuments(Set<ByggRedaDocument> documents) {
 		this.documents = documents;
+	}
+
+	public String getLogMessage() {
+		return logMessage;
+	}
+
+	public void setLogMessage(String logMessage) {
+		this.logMessage = logMessage;
 	}
 }

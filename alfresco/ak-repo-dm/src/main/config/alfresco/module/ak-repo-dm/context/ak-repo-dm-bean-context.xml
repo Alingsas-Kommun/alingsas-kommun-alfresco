@@ -35,6 +35,6 @@
 		<property name="sourceType" value="repository" />
 		<property name="siteName" value="byggreda" />
 		<property name="destinationPath" value="Plan- och Byggarkiv" />
-		<property name="logPath" value="logs" />
+		<property name="logPath" value="Loggar" />
 	</bean>
 </beans>

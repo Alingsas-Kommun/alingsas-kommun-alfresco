@@ -4,10 +4,13 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.LineIterator;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
+
+import se.alingsas.alfresco.repo.utils.CommonFileUtil;
 
 public class ReadMetadataDocument {
 	private static final Logger LOG = Logger
@@ -115,6 +118,7 @@ public class ReadMetadataDocument {
 			document.records = parts[i++];
 			// Remove postfix " from last part
 			document.fileName = parts[i].substring(0, parts[i++].length() - 1);
+			document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.fileName));
 		}
 		return document;
 	}

@@ -13,11 +13,11 @@ import org.junit.Test;
 
 public class ReadMetadataDocumentTest {
 	public static final String HEADER = "\"Film\";\"Löpnr\";\"Diarieår\";\"Dnr\";\"Fastbet\";\"TidFastbet\";\"Adress\";\"TidAdress\";\"Beslut\";\"Avser\";\"Ärendemening\";\"Anteckning\";\"Handlingar\";\"Filnamn \"";
-	public static final String VALID_LINE = "\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn\"";
-	public static final String INVALID_LINE_START = "10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn\"";
-	public static final String INVALID_LINE_END = "\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn";
-	public static final String INVALID_LINE_MISSING = "\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn\"";
-	public static final String INVALID_LINE_EXTRA = "\"10\";\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.lmn\"";
+	public static final String VALID_LINE = "\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.pdf\"";
+	public static final String INVALID_LINE_START = "10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.pdf\"";
+	public static final String INVALID_LINE_END = "\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.pdf";
+	public static final String INVALID_LINE_MISSING = "\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.pdf\"";
+	public static final String INVALID_LINE_EXTRA = "\"10\";\"10\";\"123\";\"2012\";\"0012\";\"Abc\";\"Bcd\";\"Cde 12\";\"Def 11\";\"Efg\";\"Fgh\";\"Ghi\";\"Hij\";\"2011.0001\";\"ijk.pdf\"";
 	public static final String VALID_LINE_EMPTY = "";
 	public static final String VALID_LINE_COMMENT = "#Comment";
 	public static final String LINE_BREAK_1 = "\n";

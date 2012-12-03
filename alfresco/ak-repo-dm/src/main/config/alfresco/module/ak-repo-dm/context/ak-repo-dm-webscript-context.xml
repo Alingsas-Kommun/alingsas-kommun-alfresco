@@ -16,4 +16,10 @@
 		id="webscript.se.alingsas.alfresco.repo.scripts.userhome.link.get"
 		class="se.alingsas.alfresco.repo.scripts.LinkUserHome" parent="webscript">
 	</bean>
+	
+	<!-- Bean configurations for ByggRedaImpor script -->
+	<bean
+		id="webscript.se.alingsas.alfresco.repo.scripts.byggreda.import.get"
+		class="se.alingsas.alfresco.repo.scripts.ByggRedaImport" parent="webscript">
+	</bean>
 </beans>
