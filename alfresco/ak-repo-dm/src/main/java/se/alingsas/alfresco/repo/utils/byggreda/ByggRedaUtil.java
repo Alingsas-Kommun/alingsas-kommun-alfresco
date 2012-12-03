@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +15,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.alfresco.model.ContentModel;
+import org.alfresco.repo.admin.SysAdminParams;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.version.VersionModel;
 import org.alfresco.service.cmr.model.FileExistsException;
@@ -36,12 +37,12 @@ import org.alfresco.service.cmr.version.VersionHistory;
 import org.alfresco.service.cmr.version.VersionService;
 import org.alfresco.service.cmr.version.VersionType;
 import org.alfresco.service.namespace.QName;
+import org.alfresco.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
-import se.alingsas.alfresco.repo.scripts.ddmigration.AlingsasDocument;
 
 public class ByggRedaUtil {
 	private static final Logger LOG = Logger.getLogger(ByggRedaUtil.class);
@@ -53,6 +54,7 @@ public class ByggRedaUtil {
 	private static String siteName;
 	private static String destinationPath;
 	private static String logPath;
+	private static String outputPath;
 
 	private static SiteService siteService;
 	private static NodeService nodeService;
@@ -65,6 +67,10 @@ public class ByggRedaUtil {
 	private Set<ByggRedaDocument> documents = null;
 	private String logMessage;
 
+	private static Properties globalProperties;
+
+	private static SysAdminParams sysAdminParams;
+
 	/**
 	 * Main method which runs an import of material.
 	 * 
@@ -76,8 +82,7 @@ public class ByggRedaUtil {
 	 * @throws IOException
 	 * 
 	 */
-	public boolean run(String sourcePath, final String metaFileName)
-			{
+	public boolean run(String sourcePath, final String metaFileName) {
 		LOG.debug("sourcePath: " + sourcePath + ", metaFileName: "
 				+ metaFileName);
 		if (!SOURCE_TYPE_REPO.equals(sourceType)
@@ -193,6 +198,7 @@ public class ByggRedaUtil {
 			}
 			documents = importDocuments(site, finalSourcePath, documents);
 			logDocuments(site);
+			createOutputDocument(site);
 			return true;
 		}
 
@@ -243,8 +249,63 @@ public class ByggRedaUtil {
 		}
 		FileInfo fileInfo = fileFolderService.create(folderNodeRef, fileName,
 				AkDmModel.TYPE_AKDM_DOCUMENT);
-		
+
 		logMessage = common.toString();
+		try {
+			InputStream is = new ByteArrayInputStream(common.toString()
+					.getBytes("UTF-8"));
+			try {
+				final ContentWriter writer = contentService.getWriter(
+						fileInfo.getNodeRef(), ContentModel.PROP_CONTENT, true);
+
+				writer.setMimetype("text/plain");
+
+				writer.putContent(is);
+			} finally {
+				IOUtils.closeQuietly(is);
+			}
+
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			LOG.error("Error while creating log file, Unsupported Encoding", e);
+		}
+	}
+
+	/**
+	 * Store a log in Alfresco of the result of the import
+	 * 
+	 * @param site
+	 */
+	private void createOutputDocument(SiteInfo site) {
+		NodeRef folderNodeRef = createFolder(logPath, site);
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter = new SimpleDateFormat("yyyy-MM-dd HHmmss");
+		String fileName = formatter.format(new Date()) + " Output.log";
+
+		StringBuilder common = new StringBuilder();
+		Iterator<ByggRedaDocument> it = documents.iterator();
+		while (it.hasNext()) {
+			ByggRedaDocument next = it.next();
+			if (next.readSuccessfully) {
+				common.append(next.recordNumber.replace(".", ";") + ";");
+				common.append(next.buildingDescription + ";");
+
+				String url = UrlUtil.getShareUrl(sysAdminParams) + "/"
+						+ "proxy/alfresco/api/node/content/"
+						+ next.nodeRef.getStoreRef().getProtocol() + "/"
+						+ next.nodeRef.getStoreRef().getIdentifier() + "/"
+						+ next.nodeRef.getId() + "/" + next.fileName
+						+ "?a=true";
+
+				// http://localhost:8081/share/proxy/alfresco/api/node/content/workspace/SpacesStore/abb7a6c6-1329-473e-b1b0-621e7aff4d2c/2012-12-03%20095912%20Output.log?a=true
+				common.append(url + LINE_BREAK);// TODO add correct URL
+			}
+		}
+
+		FileInfo fileInfo = fileFolderService.create(folderNodeRef, fileName,
+				AkDmModel.TYPE_AKDM_DOCUMENT);
+
 		try {
 			InputStream is = new ByteArrayInputStream(common.toString()
 					.getBytes("UTF-8"));
@@ -360,8 +421,7 @@ public class ByggRedaUtil {
 								.getContentUrl());
 				if (rawReader.exists()) {
 					return rawReader.getContentInputStream();
-				}
-				else {
+				} else {
 					return null;
 				}
 			}
@@ -410,9 +470,10 @@ public class ByggRedaUtil {
 		final String currentDestinationPath = destinationPath + "/"
 				+ document.buildingDescription.substring(0, 1).toUpperCase()
 				+ "/" + document.buildingDescription.toUpperCase();
-		
-		//Check if file exists already
-		if (getRepoFileFolder(site, currentDestinationPath.replace(':', '_')+"/"+document.fileName)!=null) {
+
+		// Check if file exists already
+		if (getRepoFileFolder(site, currentDestinationPath.replace(':', '_')
+				+ "/" + document.fileName) != null) {
 			document.readSuccessfully = false;
 			document.errorMsg = "File already exists at path "
 					+ currentDestinationPath;
@@ -484,7 +545,8 @@ public class ByggRedaUtil {
 				IOUtils.closeQuietly(inputStream);
 			}
 		} else {
-			LOG.error("Input file could not be read. "+sourcePath+"/"+document.fileName);
+			LOG.error("Input file could not be read. " + sourcePath + "/"
+					+ document.fileName);
 		}
 	}
 
@@ -508,8 +570,9 @@ public class ByggRedaUtil {
 			NodeRef folder = fileFolderService.searchSimple(rootNodeRef, part);
 
 			while (folder == null) {
-				folder = fileFolderService.create(rootNodeRef, part.replace(':', '_'),
-						ContentModel.TYPE_FOLDER).getNodeRef();
+				folder = fileFolderService.create(rootNodeRef,
+						part.replace(':', '_'), ContentModel.TYPE_FOLDER)
+						.getNodeRef();
 				nodeService.setProperty(folder, ContentModel.PROP_TITLE, part);
 			}
 
@@ -696,5 +759,29 @@ public class ByggRedaUtil {
 
 	public void setLogMessage(String logMessage) {
 		this.logMessage = logMessage;
+	}
+
+	public String getOutputPath() {
+		return outputPath;
+	}
+
+	public void setOutputPath(String outputPath) {
+		ByggRedaUtil.outputPath = outputPath;
+	}
+
+	public Properties getGlobalProperties() {
+		return globalProperties;
+	}
+
+	public void setGlobalProperties(Properties globalProperties) {
+		ByggRedaUtil.globalProperties = globalProperties;
+	}
+
+	public SysAdminParams getSysAdminParams() {
+		return sysAdminParams;
+	}
+
+	public void setSysAdminParams(SysAdminParams sysAdminParams) {
+		ByggRedaUtil.sysAdminParams = sysAdminParams;
 	}
 }

@@ -31,10 +31,17 @@
 		<property name="nodeService" ref="NodeService" />
 		<property name="versionService" ref="VersionService" />
 		<property name="contentService" ref="ContentService" />
-		
+
 		<property name="sourceType" value="repository" />
 		<property name="siteName" value="byggreda" />
 		<property name="destinationPath" value="Plan- och Byggarkiv" />
 		<property name="logPath" value="Loggar" />
+		<property name="outputPath" value="Output" />
+
+		<property name="globalProperties">
+			<ref bean="global-properties" />
+		</property>
+		
+		<property name="sysAdminParams" ref="sysAdminParams" />
 	</bean>
 </beans>

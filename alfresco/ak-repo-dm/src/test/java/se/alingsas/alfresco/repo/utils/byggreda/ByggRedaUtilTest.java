@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.alfresco.model.ContentModel;
+import org.alfresco.repo.admin.SysAdminParams;
+import org.alfresco.repo.admin.SysAdminParamsImpl;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.model.FileInfo;
 import org.alfresco.service.cmr.model.FileNotFoundException;
@@ -78,10 +81,13 @@ public class ByggRedaUtilTest {
 	InputStream validInputStream;
 	InputStream validInputStream2;
 	ContentData contentData;
+	SysAdminParams sysAdminParams = context.mock(SysAdminParams.class);
 
 	@Before
 	public void setUp() throws FileNotFoundException,
 			java.io.FileNotFoundException {
+		
+		
 		// Source
 		String[] parts = StringUtils.delimitedListToStringArray(
 				validSourcePath, "/");
@@ -225,7 +231,7 @@ public class ByggRedaUtilTest {
 				will(returnValue(fileInfo));
 				
 				allowing(fileFolderService).resolveNamePath(dummyNodeRef, validFilePathList3, false);
-				will(returnValue(fileInfo));
+				will(returnValue(null));
 				
 				allowing(contentService).getWriter(dummyNodeRef, ContentModel.PROP_CONTENT, true);
 				will(returnValue(contentWriter));
@@ -241,6 +247,15 @@ public class ByggRedaUtilTest {
 				
 				allowing(contentReader).exists();
 				will(returnValue(true));
+				
+				allowing(sysAdminParams).getShareContext();
+				will(returnValue("share"));
+				allowing(sysAdminParams).getShareHost();
+				will(returnValue("localhost"));
+				allowing(sysAdminParams).getSharePort();
+				will(returnValue(8081));
+				allowing(sysAdminParams).getShareProtocol();
+				will(returnValue("http"));
 				
 			}
 		});
@@ -280,6 +295,7 @@ public class ByggRedaUtilTest {
 	@Test
 	public void testFsSourceReadValid() throws IOException {
 		ByggRedaUtil bru = new ByggRedaUtil();
+		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setContentService(contentService);
@@ -302,6 +318,7 @@ public class ByggRedaUtilTest {
 	public void testFsSourceReadInvalid() throws IOException {
 
 		ByggRedaUtil bru = new ByggRedaUtil();
+		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_FS);
@@ -365,6 +382,7 @@ public class ByggRedaUtilTest {
 	public void testRepoSourceReadValid() throws IOException,
 			FileNotFoundException {
 		ByggRedaUtil bru = new ByggRedaUtil();
+		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
@@ -392,6 +410,7 @@ public class ByggRedaUtilTest {
 	public void testRepoSourceReadInvalid() throws IOException {
 
 		ByggRedaUtil bru = new ByggRedaUtil();
+		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
