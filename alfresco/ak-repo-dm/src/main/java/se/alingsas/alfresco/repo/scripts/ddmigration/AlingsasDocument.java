@@ -25,7 +25,7 @@ public class AlingsasDocument {
 
 	// Anvisning properties
 	public String protocolId;
-	public Date decisionDate;
+	public String decisionDate;
 	public String group;
 
 	// Författning properties
@@ -54,6 +54,7 @@ public class AlingsasDocument {
 	public String ddUUID;
 	public String fileExtension;
 	public String tmpStorageFolder;
+	public Date meetingDate;
 
 	@Override
 	public String toString() {

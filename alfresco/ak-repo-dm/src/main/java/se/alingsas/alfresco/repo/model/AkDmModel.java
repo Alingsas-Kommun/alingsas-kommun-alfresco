@@ -25,10 +25,17 @@ public interface AkDmModel {
 			AKDM_URI, "generaldocument");
 	public static final QName TYPE_AKDM_ECONOMY_DOC = QName.createQName(
 			AKDM_URI, "economydocument");
+	public static final QName TYPE_AKDM_ISSUE_LIST = QName.createQName(AKDM_URI,
+			"issuelist");
+	public static final QName TYPE_AKDM_INTERNAL_VALIDATION = QName.createQName(AKDM_URI,
+			"internalvalidation");
+	public static final QName TYPE_AKDM_PUL_LIST = QName.createQName(AKDM_URI,
+			"listpul");
 	public static final QName TYPE_AKDM_BYGGREDA_DOC = QName.createQName(
 			AKDM_URI, "byggredadocument");
 	public static final QName TYPE_AKDM_FOLDER = QName.createQName(AKDM_URI,
 			"folder");
+	
 
 	/**
 	 * Aspects
@@ -70,6 +77,11 @@ public interface AkDmModel {
 			.createQName(AKDM_URI, "generalDocumentDescription");
 	public static final QName PROP_AKDM_GENERAL_DOCUMENT_DATE = QName
 			.createQName(AKDM_URI, "generalDocumentDate");
+	
+	public static final QName ASPECT_AKDM_ISSUE_LIST = QName.createQName(
+			AKDM_URI, "issueListAspect");
+	public static final QName PROP_AKDM_ISSUE_LIST_MEETINGDATE = QName.createQName(
+			AKDM_URI, "issuelistMeetingDate");
 
 	public static final QName ASPECT_AKDM_BYGGREDA = QName.createQName(
 			AKDM_URI, "byggRedaAspect");

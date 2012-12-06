@@ -26,7 +26,7 @@
       </property>
    </bean>
    
-   <!-- Override Sharepoint bean definitions -->
+   <!-- Override Sharepoint bean definitions 
 	
 	<bean id="evaluator.doclib.action.onlineEditMimetype" parent="evaluator.doclib.action.isMimetype">
       <property name="mimetypes">
@@ -49,6 +49,7 @@
          </list>
       </property>
    </bean>
+   -->
    
    <bean id="evaluator.doclib.action.onlineEdit" parent="evaluator.doclib.action.chainedMatchAll">
       <property name="evaluators">

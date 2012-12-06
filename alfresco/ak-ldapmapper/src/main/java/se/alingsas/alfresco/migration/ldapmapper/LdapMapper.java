@@ -64,20 +64,21 @@ public class LdapMapper {
 					+ " found, setting name to CN + base");
 			String ou = "";
 			try {
-				ou = " ("+ base.substring(3,
-					base.indexOf(",")) +")";
+				ou = " (" + base.substring(3, base.indexOf(",")) + ")";
 			} catch (StringIndexOutOfBoundsException e1) {
-				//Do nothing, just ignore it
+				// Do nothing, just ignore it
 			}
 			LotusUser lotusUser = new LotusUser();
 			lotusUser.setCommonName(commonName);
 			lotusUser.setUid(commonName + ou);
-			//e.printStackTrace();
+			// e.printStackTrace();
 			return lotusUser;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+		
+		
 		if (hashSet.size() == 1) {
 			return (LotusUser) hashSet.toArray()[0];
 		} else if (hashSet.size() == 0) {
@@ -85,10 +86,9 @@ public class LdapMapper {
 					+ " found, setting name to CN + base");
 			String ou = "";
 			try {
-				ou = " ("+ base.substring(3,
-					base.indexOf(",")) +")";
+				ou = " (" + base.substring(3, base.indexOf(",")) + ")";
 			} catch (StringIndexOutOfBoundsException e1) {
-				//Do nothing, just ignore it
+				// Do nothing, just ignore it
 			}
 			LotusUser lotusUser = new LotusUser();
 			lotusUser.setCommonName(commonName);
@@ -127,20 +127,42 @@ public class LdapMapper {
 	private String extractAndReplaceUid(String row) {
 		String[] columns = row.split(stringSeparator);
 		String notesUserPath = columns[1];
-		String commonName = notesUserPath.substring(3,
-				notesUserPath.indexOf("/"));
-		String base = notesUserPath.substring(notesUserPath.indexOf("/") + 1)
-				.replace("/", ",");
-		LotusUser user;
-		if (!cachedUserRegistry.containsKey(notesUserPath)) {
-			user = getUser(commonName, base);
-			cachedUserRegistry.put(notesUserPath, user);
-		} else {
-			user = cachedUserRegistry.get(notesUserPath);
+
+		if (notesUserPath.length() > 0) {
+			String commonName;
+			String base;
+			if (notesUserPath.indexOf("CN=") == -1) {
+				String[] split = notesUserPath.split("/");
+				if (split.length==3) {
+					commonName = split[0];
+					base = "OU="+split[1]+",O="+split[2];
+				} else {
+					commonName = notesUserPath;
+					base = "";
+				}
+			} else {
+				commonName = notesUserPath.substring(3,
+						notesUserPath.indexOf("/"));
+				base = notesUserPath.substring(
+						notesUserPath.indexOf("/") + 1).replace("/", ",");
+			}
+			LotusUser user;
+			if (!cachedUserRegistry.containsKey(notesUserPath)) {
+				user = getUser(commonName, base);
+				cachedUserRegistry.put(notesUserPath, user);
+			} else {
+				user = cachedUserRegistry.get(notesUserPath);
+			}
+			if (null != user) {
+				if (user.getUid().equalsIgnoreCase("administ")) {
+					user.setUid("admin");
+				}
+				columns[1] = user.getUid();
+			}
+		} else { // If author is not set, then set it to admin
+			columns[1] = "admin";
 		}
-		if (null != user) {
-			columns[1] = user.getUid();
-		}
+
 		return implodeStringArray(columns, stringSeparator);
 	}
 

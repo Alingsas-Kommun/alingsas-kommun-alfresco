@@ -162,6 +162,21 @@
 				<aspect>akdm:byggRedaAspect</aspect>
 			</mandatory-aspects>
 		</type>
+		<type name="akdm:issuelist">
+			<title>Issue List Document</title>
+			<parent>akdm:document</parent>
+			<mandatory-aspects>
+				<aspect>akdm:issueListAspect</aspect>
+			</mandatory-aspects>
+		</type>
+		<type name="akdm:internalvalidation">
+			<title>Internal Validation Document</title>
+			<parent>akdm:document</parent>
+		</type>
+		<type name="akdm:listpul">
+			<title>PUL List</title>
+			<parent>akdm:document</parent>
+		</type>
 		<type name="akdm:folder">
 			<title>Alingsås Kommun Folder</title>
 			<parent>cm:folder</parent>
@@ -206,7 +221,7 @@
 			<properties>
 				<property name="akdm:instructionDecisionDate">
 					<title>Decision Date</title>
-					<type>d:date</type>
+					<type>d:text</type>
 					<mandatory>false</mandatory>
 				</property>
 				<property name="akdm:instructionGroup">
@@ -330,6 +345,17 @@
 				<property name="akdm:byggRedaRecords">
 					<title>Records</title>
 					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="akdm:issueListAspect">
+			<title>Issue List Aspect</title>
+			<parent>akdm:aspect</parent>
+			<properties>
+				<property name="akdm:issuelistMeetingDate">
+					<title>Meeting date</title>
+					<type>d:date</type>
 					<mandatory>false</mandatory>
 				</property>
 			</properties>

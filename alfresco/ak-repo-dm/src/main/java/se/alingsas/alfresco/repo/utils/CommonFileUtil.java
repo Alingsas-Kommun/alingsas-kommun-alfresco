@@ -3,9 +3,10 @@ package se.alingsas.alfresco.repo.utils;
 import org.springframework.util.StringUtils;
 
 public class CommonFileUtil {
-	
+
 	/**
 	 * Get mimetype by a files extension
+	 * 
 	 * @param extension
 	 * @return
 	 */
@@ -38,13 +39,15 @@ public class CommonFileUtil {
 			mimetype = "application/vnd.ms-powerpoint";
 		} else if (extension.equalsIgnoreCase("rtf")) {
 			mimetype = "application/rtf";
-		} else if (extension.equalsIgnoreCase("tiff")) {
-			mimetype = "image/tiff";
 		} else if (extension.equalsIgnoreCase("eps")) {
 			mimetype = "application/eps";
 		} else if (extension.equalsIgnoreCase("zip")) {
 			mimetype = "application/zip";
 		} else if (extension.equalsIgnoreCase("txt")) {
+			mimetype = "text/plain";
+		} else if (extension.equalsIgnoreCase("text")) {
+			mimetype = "text/plain";
+		} else if (extension.equalsIgnoreCase("log")) {
 			mimetype = "text/plain";
 		} else if (extension.equalsIgnoreCase("odt")) {
 			mimetype = "application/vnd.oasis.opendocument.text";
@@ -52,13 +55,36 @@ public class CommonFileUtil {
 			mimetype = "application/vnd.oasis.opendocument.spreadsheet";
 		} else if (extension.equalsIgnoreCase("odp")) {
 			mimetype = "application/vnd.oasis.opendocument.presentation";
+		} else if (extension.equalsIgnoreCase("ott")) {
+			mimetype = "application/vnd.oasis.opendocument.formula-template";
 		} else if (extension.equalsIgnoreCase("tif")) {
 			mimetype = "image/tiff";
 		} else if (extension.equalsIgnoreCase("tiff")) {
 			mimetype = "image/tiff";
 		} else if (extension.equalsIgnoreCase("pcx")) {
 			mimetype = "image/pcx";
+		} else if (extension.equalsIgnoreCase("docx")) {
+			mimetype = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+		} else if (extension.equalsIgnoreCase("xlsx")) {
+			mimetype = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+		} else if (extension.equalsIgnoreCase("pptx")) {
+			mimetype = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+		} else if (extension.equalsIgnoreCase("nal")) {
+			mimetype = "application/octet-stream";
+		} else if (extension.equalsIgnoreCase("indd")) {
+			mimetype = "application/ocet-stream";
+		} else if (extension.equalsIgnoreCase("pmd")) {
+			mimetype = "application/ocet-stream";
+		} else if (extension.equalsIgnoreCase("mht")) {
+			mimetype = "application/ocet-stream";
+		} else if (extension.equalsIgnoreCase("lnk")) {
+			mimetype = "application/ocet-stream";
 		}
+		
+				
+				
+		
+		
 
 		else {
 			throw new RuntimeException("The extension '" + extension

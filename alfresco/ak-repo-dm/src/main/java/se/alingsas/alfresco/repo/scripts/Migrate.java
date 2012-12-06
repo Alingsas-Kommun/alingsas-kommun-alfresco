@@ -67,7 +67,7 @@ public class Migrate extends DeclarativeWebScript implements InitializingBean {
 			folder += "Files";
 		} else {
 			status.setCode(400);
-			status.setMessage("Wrong archive argument.");
+			status.setMessage("Wrong archive argument: "+archive	);
 			status.setRedirect(true);
 
 			return null;

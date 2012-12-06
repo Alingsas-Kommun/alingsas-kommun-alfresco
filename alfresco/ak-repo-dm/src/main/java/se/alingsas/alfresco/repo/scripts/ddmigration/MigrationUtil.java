@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.context.FacesContext;
+import javax.transaction.Status;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
 
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.policy.BehaviourFilter;
@@ -52,6 +55,7 @@ public class MigrationUtil {
 	private static final Logger LOG = Logger.getLogger(MigrationUtil.class);
 	private static final String EXTENSION_CHARACTER = ".";
 	private static final String MSG_WORKING_COPY_LABEL = "(Working Copy)";
+	private static final String NAME_FOLDER_EMPTY_NAME = "Ingen kategori";
 	protected static FileFolderService fileFolderService;
 	protected static SiteService siteService;
 	protected static NodeService nodeService;
@@ -103,29 +107,40 @@ public class MigrationUtil {
 			return migratedDocuments;
 		}
 
-		RetryingTransactionHelper txnHelper = getServiceRegistry()
-				.getRetryingTransactionHelper();
-		migratedDocuments = txnHelper.doInTransaction(
-				new RetryingTransactionCallback<MigrationCollection>() {
-					@Override
-					public MigrationCollection execute() {
-						// Disable the auditable aspect's behaviours for this
-						// transaction, to allow creation & modification dates
-						// to be set
-						behaviourFilter
-								.disableBehaviour(ContentModel.ASPECT_AUDITABLE);
-						MigrationCollection migratedDocuments = new MigrationCollection();
-						Set<String> keys = documents.getKeys();
-						Iterator<String> it = keys.iterator();
-						while (it.hasNext()) {
-							String key = it.next();
-							Set<AlingsasDocument> document = documents.get(key);
-							migratedDocuments = migrateDocument(
-									migratedDocuments, document, site);
-						}
-						return migratedDocuments;
+		Set<String> keys = documents.getKeys();
+		Iterator<String> it = keys.iterator();
+		// int counter = 0;
+
+		while (it.hasNext()) {
+			String key = it.next();
+			Set<AlingsasDocument> document = documents.get(key);
+			// counter++;
+			UserTransaction trx = serviceRegistry.getTransactionService()
+					.getUserTransaction();
+			try {
+				trx.begin();
+				// if (counter >= 10) {
+				// throw new RuntimeException("Test exception");
+				// }
+				migratedDocuments = migrateDocument(migratedDocuments,
+						document, site);
+				trx.commit();
+			} catch (Exception e) {
+				LOG.error("An exception occured while migrating the document "
+						+ document.toString());
+				try {
+					if (trx.getStatus() == Status.STATUS_ACTIVE) {
+						trx.rollback();
 					}
-				}, false, false);
+				} catch (Exception e2) {
+					LOG.error("Exception: ", e);
+					LOG.error("Exception while rolling back transaction", e2);
+					throw new RuntimeException(e2);
+				}
+
+				throw new RuntimeException(e);
+			}
+		}
 
 		return migratedDocuments;
 	}
@@ -141,40 +156,63 @@ public class MigrationUtil {
 			final MigrationCollection migratedDocuments,
 			final Set<AlingsasDocument> document, final SiteInfo site) {
 
-		Iterator<AlingsasDocument> it = document.iterator();
-		String documentNumber = "N/A";
-		AlingsasDocument lastVersion = null;
-		int noOfPreviousVersion = checkPreviousVersion(document, site);
-		if (noOfPreviousVersion > 0) {
-			LOG.info("Document "
-					+ ((AlingsasDocument) document.toArray()[0]).documentNumber
-					+ " have " + noOfPreviousVersion
-					+ " versions already migrated, skipping those");
-		}
-		for (int i = 0; i < noOfPreviousVersion; i++) {
-			if (it.hasNext()) {
-				AlingsasDocument version = it.next();
-				migratedDocuments.put(version.documentNumber, version);
-				documentNumber = version.documentNumber;
-			}
-		}
-		while (it.hasNext()) {
-			AlingsasDocument version = it.next();
-			if (migrateDocumentVersion(version, lastVersion, site)) {
-				migratedDocuments.put(version.documentNumber, version);
-				documentNumber = version.documentNumber;
-				LOG.debug("Migrated document " + version.documentNumber
-						+ " v. " + version.version);
-			} else {
-				LOG.warn("Version " + version.version + " of document "
-						+ version.documentNumber + " was not migrated");
-			}
-			lastVersion = version;
-		}
+		RetryingTransactionHelper txnHelper = getServiceRegistry()
+				.getRetryingTransactionHelper();
+		return txnHelper.doInTransaction(
+				new RetryingTransactionCallback<MigrationCollection>() {
+					@Override
+					public MigrationCollection execute() {
+						// Disable the auditable aspect's behaviours for this
+						// transaction, to allow creation & modification dates
+						// to be set
+						behaviourFilter
+								.disableBehaviour(ContentModel.ASPECT_AUDITABLE);
 
-		LOG.info("Completed migrating document " + documentNumber);
+						Iterator<AlingsasDocument> it = document.iterator();
+						String documentNumber = "N/A";
+						AlingsasDocument lastVersion = null;
+						/*int noOfPreviousVersion = checkPreviousVersion(
+								document, site);
+						if (noOfPreviousVersion > 0) {
+							LOG.info("Document "
+									+ ((AlingsasDocument) document.toArray()[0]).documentNumber
+									+ " have "
+									+ noOfPreviousVersion
+									+ " versions already migrated, skipping those");
+						}
+						for (int i = 0; i < noOfPreviousVersion; i++) {
+							if (it.hasNext()) {
+								AlingsasDocument version = it.next();
+								migratedDocuments.put(version.documentNumber,
+										version);
+								documentNumber = version.documentNumber;
+							}
+						}*/
+						while (it.hasNext()) {
+							AlingsasDocument version = it.next();
+							if (migrateDocumentVersion(version, lastVersion,
+									site)) {
+								migratedDocuments.put(version.documentNumber,
+										version);
+								documentNumber = version.documentNumber;
+								LOG.debug("Migrated document "
+										+ version.documentNumber + " v. "
+										+ version.version);
+							} else {
+								LOG.warn("Version " + version.version
+										+ " of document "
+										+ version.documentNumber
+										+ " was not migrated");
+							}
+							lastVersion = version;
+						}
 
-		return migratedDocuments;
+						LOG.info("Completed migrating document "
+								+ documentNumber);
+
+						return migratedDocuments;
+					}
+				}, false, true);
 
 	}
 
@@ -187,10 +225,15 @@ public class MigrationUtil {
 			if (folder != null) {
 				NodeRef nodeRef = nodeService.getChildByName(folder,
 						ContentModel.ASSOC_CONTAINS, version.fileName);
+
 				if (nodeRef != null) {
-					VersionHistory versionHistory = versionService
-							.getVersionHistory(nodeRef);
-					return versionHistory.getAllVersions().size();
+					String property = (String) nodeService.getProperty(nodeRef,
+							AkDmModel.PROP_AKDM_DOC_NUMBER);
+					if (version.documentNumber.equalsIgnoreCase(property)) {
+						VersionHistory versionHistory = versionService
+								.getVersionHistory(nodeRef);
+						return versionHistory.getAllVersions().size();
+					}
 				}
 			}
 		}
@@ -222,10 +265,10 @@ public class MigrationUtil {
 	 */
 	private NodeRef createVersion(AlingsasDocument version,
 			AlingsasDocument lastVersion, SiteInfo site) {
-		NodeRef childByName;
+		NodeRef thisVersionNodeRef;
 		NodeRef destinationFolderRef;
 		NodeRef sourceFolderRef;
-
+		NodeRef lastVersionNodeRef = null;
 		destinationFolderRef = createFolder(fileFolderService,
 				version.filePath, site);
 		/**
@@ -241,34 +284,113 @@ public class MigrationUtil {
 
 		/**
 		 * If the file was renamed, then get the last version
+		 * 
+		 * Split last version noderef from current one, and handle special case
+		 * with moving where a version has been renamed by the system to its doc
+		 * number
 		 */
-		if (lastVersion != null
+		if (lastVersion != null) {
+			thisVersionNodeRef = nodeService.getChildByName(sourceFolderRef,
+					ContentModel.ASSOC_CONTAINS, version.fileName);
+			String tmpFileName;
+			if (thisVersionNodeRef != null) {
+				//Name collission
+				String docNum = (String) nodeService.getProperty(
+						thisVersionNodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
+				
+				if (!version.documentNumber.equalsIgnoreCase(docNum)) {
+					LOG.debug("Last version was renamed due to name collission, renaming this version as well.");
+					version.fileName = tmpFileName = getRenamedDocumentFileName(version);
+				}
+			} else {
+				//File was renamed, but previous version exist and no collission was detected
+				
+			}
+			lastVersionNodeRef = nodeService.getChildByName(sourceFolderRef,
+					ContentModel.ASSOC_CONTAINS, lastVersion.fileName);
+			if (lastVersionNodeRef != null) {
+				String docNum = (String) nodeService.getProperty(lastVersionNodeRef,
+						AkDmModel.PROP_AKDM_DOC_NUMBER);
+				
+				if (!version.documentNumber.equalsIgnoreCase(docNum)) {
+					// The file was renamed to its documentnumber
+
+					tmpFileName = getRenamedDocumentFileName(lastVersion);
+
+					if (version.title.equals("Attestlista 2")) {
+						LOG.debug("Attestlista 2");
+					}
+					lastVersionNodeRef = nodeService.getChildByName(
+							sourceFolderRef, ContentModel.ASSOC_CONTAINS,
+							tmpFileName);
+					if (lastVersionNodeRef == null) {
+						throw new RuntimeException(
+								"Not able to find previous version of document. Last Version: "
+										+ lastVersion.toString()
+										+ " New Version: " + version.toString());
+					}
+				} else if (thisVersionNodeRef != null) {
+					VersionNumber existingVersion = new VersionNumber(
+							(String) nodeService.getProperty(lastVersionNodeRef,
+									ContentModel.PROP_VERSION_LABEL));
+					VersionNumber thisVersion = new VersionNumber(version.version);
+					if (thisVersion.compareTo(existingVersion) <= 0) {
+						LOG.info("Document " + version.documentNumber + " v."
+								+ version.version + " already migrated, skipping");
+						return thisVersionNodeRef;
+					}
+				}
+			}
+			if (lastVersionNodeRef == null) {
+				// The file was renamed
+				tmpFileName = getRenamedDocumentFileName(lastVersion);
+				lastVersionNodeRef = nodeService.getChildByName(
+						sourceFolderRef, ContentModel.ASSOC_CONTAINS,
+						tmpFileName);
+				if (lastVersionNodeRef == null) {
+					throw new RuntimeException(
+							"Not able to find previous version of document. Last Version: "
+									+ lastVersion.toString() + " New Version: "
+									+ version.toString());
+				}
+			}
+		}
+		if (lastVersionNodeRef != null) {
+			thisVersionNodeRef = lastVersionNodeRef;
+		} else if (lastVersion != null
 				&& !version.fileName.equals(lastVersion.fileName)) {
-			childByName = nodeService.getChildByName(sourceFolderRef,
+			thisVersionNodeRef = nodeService.getChildByName(sourceFolderRef,
 					ContentModel.ASSOC_CONTAINS, lastVersion.fileName);
 		} else {
-			childByName = nodeService.getChildByName(sourceFolderRef,
+			thisVersionNodeRef = nodeService.getChildByName(sourceFolderRef,
 					ContentModel.ASSOC_CONTAINS, version.fileName);
 		}
 
-		if (childByName != null) {
+		if (thisVersionNodeRef != null) {
 			// File already exists
 			Map<QName, Serializable> properties = nodeService
-					.getProperties(childByName);
+					.getProperties(thisVersionNodeRef);
 			String docNumber = (String) properties
 					.get(AkDmModel.PROP_AKDM_DOC_NUMBER);
 			if (!version.documentNumber.equals(docNumber)) {
+				// TODO some smarter handling here to handle moving of files
+				String tmpFileName = getRenamedDocumentFileName(version);
+
 				LOG.warn("Document name collission! File " + version.filePath
-						+ version.fileName
+						+ "/" + version.fileName
 						+ " already exists. Existing document: " + docNumber
 						+ ", New document: " + version.documentNumber
-						+ ", Renaming document to " + version.documentNumber
-						+ "." + version.fileExtension);
-				version.fileName = version.documentNumber + "."
-						+ version.fileExtension;
-				childByName = nodeService.getChildByName(sourceFolderRef,
-						ContentModel.TYPE_CONTENT, version.fileName);
-			} else {
+						+ ", Renaming document to " + tmpFileName);
+
+				version.fileName = tmpFileName;
+				thisVersionNodeRef = nodeService.getChildByName(
+						sourceFolderRef, ContentModel.ASSOC_CONTAINS,
+						version.fileName);
+				if (thisVersionNodeRef != null) {
+					properties = nodeService.getProperties(thisVersionNodeRef);
+				}
+			}
+			if (thisVersionNodeRef != null) {
 				VersionNumber existingVersion = new VersionNumber(
 						(String) properties
 								.get(ContentModel.PROP_VERSION_LABEL));
@@ -276,15 +398,15 @@ public class MigrationUtil {
 				if (thisVersion.compareTo(existingVersion) <= 0) {
 					LOG.info("Document " + version.documentNumber + " v."
 							+ version.version + " already migrated, skipping");
-					return childByName;
+					return thisVersionNodeRef;
 				}
 			}
 		}
 
-		if (childByName != null) {
+		if (thisVersionNodeRef != null) {
 			try {
-				return createNewVersion(childByName, version, sourceFolderRef,
-						destinationFolderRef);
+				return createNewVersion(thisVersionNodeRef, version,
+						sourceFolderRef, destinationFolderRef);
 			} catch (FileExistsException e) {
 				LOG.error("File " + version.filePath + "/" + version.fileName
 						+ " already exists, aborting...");
@@ -297,6 +419,17 @@ public class MigrationUtil {
 		} else {
 			return createFirstVersion(destinationFolderRef, version);
 		}
+	}
+
+	private String getRenamedDocumentFileName(AlingsasDocument document) {
+		String tmpFileName;
+		if (StringUtils.hasText(document.fileExtension)) {
+			tmpFileName = document.documentNumber + "."
+					+ document.fileExtension;
+		} else {
+			tmpFileName = document.documentNumber;
+		}
+		return tmpFileName;
 	}
 
 	/**
@@ -421,7 +554,10 @@ public class MigrationUtil {
 		addProperty(properties,
 				AkDmModel.PROP_AKDM_GENERAL_DOCUMENT_DESCRIPTION,
 				document.generalDocumentDescription);
-
+		// Ärendelista
+		addProperty(properties, AkDmModel.PROP_AKDM_ISSUE_LIST_MEETINGDATE, 
+				document.meetingDate);
+		
 		nodeService.addProperties(nodeRef, properties);
 	}
 
@@ -520,7 +656,11 @@ public class MigrationUtil {
 
 		for (String part : parts) {
 			part = StringUtils.trimWhitespace(part);
-
+			part = StringUtils.trimTrailingCharacter(part, '.');
+			if (!StringUtils.hasText(part)) {
+				part = NAME_FOLDER_EMPTY_NAME;
+			}
+			
 			NodeRef folder = fileFolderService.searchSimple(rootNodeRef, part);
 
 			while (folder == null) {
@@ -588,6 +728,14 @@ public class MigrationUtil {
 							+ "' has no document number, skipping...");
 
 					continue;
+				} else if (document.documentTypeQName == null) {
+					LOG.error("Document found on line number '" + lineNumber
+							+ "' has no type, skipping... Document number: "
+							+ document.documentNumber + ", FileName: "
+							+ document.fileName);
+
+					continue;
+
 				}
 				document.lineNumber = lineNumber;
 
@@ -613,23 +761,46 @@ public class MigrationUtil {
 		document.createdDate = parseDate(parts[++position]);
 		document.title = parts[++position];
 		document.fileName = parts[++position];
+		if (!StringUtils.hasText(document.fileName)) {
+			if (!StringUtils.hasText(document.title)) {
+				document.fileName = document.documentNumber;
+			} else {
+				document.fileName = document.title;
+			}
+		}
 		document.version = parseVersion(parts[++position]);
 		document.documentType = parts[++position];
 		document.documentStatus = parts[++position];
 		document.secrecy = parts[++position];
 		document.protocolId = parts[++position];
-		document.decisionDate = parseDate(parts[++position]);
+		document.decisionDate = parts[++position];// parseDate(parts[++position]);
+		// Decisiondate some times also have paragraph references. So cut these
+		// and paste them into the description field instead
+		/*
+		 * if (document.decisionDate == null &&
+		 * StringUtils.hasText(parts[position])) { document.description =
+		 * parts[position]; LOG.info(document.documentNumber + "v." +
+		 * document.version +
+		 * " had an invalid decisionDate. The value as been written " +
+		 * "to the description field and should be manually checked."); }
+		 */
 		document.group = parts[++position];
 		document.function = parts[++position];
 		document.handbook = parts[++position];
 		document.generalDocumentDescription = parts[++position];
 		document.generalDocumentDate = parseDate(parts[++position]);
+		document.meetingDate = parseDate(parts[++position]);
 		document.filePath = parseFilePath(parts[++position]);
 		document.ddUUID = parts[++position];
-		document.description = parts[++position];
+		document.description = document.description + " " + parts[++position];
 		document.fileExtension = FilenameUtils.getExtension(document.fileName);
-		document.file = new File(document.tmpStorageFolder + "/"
-				+ document.ddUUID + '.' + document.fileExtension);
+		if (!StringUtils.hasText(document.fileExtension)) {
+			document.file = new File(document.tmpStorageFolder + "/"
+					+ document.ddUUID);
+		} else {
+			document.file = new File(document.tmpStorageFolder + "/"
+					+ document.ddUUID + '.' + document.fileExtension);
+		}
 		document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils
 				.getExtension(document.fileName));
 		// document.fileExtension = parts[++position];
@@ -657,6 +828,14 @@ public class MigrationUtil {
 			return AkDmModel.TYPE_AKDM_GENERAL_DOC;
 		} else if ("Ekonomidokument".equalsIgnoreCase(type)) {
 			return AkDmModel.TYPE_AKDM_ECONOMY_DOC;
+		} else if ("Ärendelista".equalsIgnoreCase(type)) {
+			return AkDmModel.TYPE_AKDM_ISSUE_LIST;
+		} else if ("Intern kontroll".equalsIgnoreCase(type)) {
+			return AkDmModel.TYPE_AKDM_INTERNAL_VALIDATION;
+		} else if ("Förteckning - PUL".equalsIgnoreCase(type)) {
+			return AkDmModel.TYPE_AKDM_PUL_LIST;
+		} else if (!StringUtils.hasText(type)) {
+			return null;
 		} else {
 			throw new IllegalArgumentException("Unknown type: " + type);
 		}
@@ -674,17 +853,30 @@ public class MigrationUtil {
 
 		try {
 			final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-
+					"yyyy-MM-dd HH:mm:ss"); // Datetime
 			return simpleDateFormat.parse(date);
 		} catch (final ParseException ex) {
-			final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
-					"yyyy-MM-dd");
-
 			try {
+				final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+						"yyyy-MM-dd"); // Date
 				return simpleDateFormat.parse(date);
 			} catch (final ParseException ex1) {
-				throw new RuntimeException(ex1);
+				try {
+					final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+							"yyyy-MM"); // Date with only year and month
+					return simpleDateFormat.parse(date);
+				} catch (ParseException ex2) {
+					try {
+						final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
+								"yyyy"); // Date with only year
+						return simpleDateFormat.parse(date);
+					} catch (ParseException ex3) {
+						// throw new RuntimeException(ex3);
+						LOG.error("Error while parsing date " + date, ex);
+						return null;
+					}
+				}
+
 			}
 		}
 	}

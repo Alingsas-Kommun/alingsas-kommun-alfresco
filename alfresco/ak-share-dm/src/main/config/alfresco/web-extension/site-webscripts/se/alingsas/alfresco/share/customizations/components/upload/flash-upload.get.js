@@ -22,6 +22,15 @@ function getContentTypes() {
 		id : "akdm:economydocument",
 		value : "type.akdm_economydocument"
 	}, {
+		id : "akdm:issuelist",
+		value : "type.akdm_issuelist"
+	}, {
+		id : "akdm:internalvalidation",
+		value : "type.akdm_internalvalidation"
+	}, {
+		id : "akdm:listpul",
+		value : "type.akdm_listpul"
+	},{
 		id : "akdm:byggredadocument",
 		value : "type.akdm_byggredadocument"
 	} ];
