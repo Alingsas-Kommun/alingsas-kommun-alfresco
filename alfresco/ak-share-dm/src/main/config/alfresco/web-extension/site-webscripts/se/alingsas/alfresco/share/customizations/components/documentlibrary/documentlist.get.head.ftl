@@ -1,0 +1,2 @@
+<link rel="stylesheet" type="text/css" href="${page.url.context}/res/ak/components/documentlibrary/documentlist-custom.css" />
+<script type="text/javascript" src="${page.url.context}/res/ak/components/documentlibrary/documentlist-custom.js"></script>
