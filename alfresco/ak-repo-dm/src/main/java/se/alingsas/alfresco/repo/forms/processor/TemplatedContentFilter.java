@@ -1,0 +1,106 @@
+package se.alingsas.alfresco.repo.forms.processor;
+
+import java.util.List;
+import java.util.Map;
+
+import org.alfresco.model.ContentModel;
+import org.alfresco.repo.forms.Form;
+import org.alfresco.repo.forms.FormData;
+import org.alfresco.repo.forms.FormData.FieldData;
+import org.alfresco.repo.forms.processor.AbstractFilter;
+import org.alfresco.service.ServiceRegistry;
+import org.alfresco.service.cmr.model.FileFolderService;
+import org.alfresco.service.cmr.repository.ContentReader;
+import org.alfresco.service.cmr.repository.ContentWriter;
+import org.alfresco.service.cmr.repository.NodeRef;
+import org.alfresco.service.cmr.repository.NodeService;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+
+public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
+	private static final Logger LOG = Logger
+			.getLogger(TemplatedContentFilter.class);
+	private static ServiceRegistry serviceRegistry;
+
+	public static final String PROP_NAME = "prop_cm_name";
+	public static final String ASSOC_TEMPLATE = "assoc_akdm_basedOnTemplate_added";
+
+	/**
+	 * Will copy template contents into the newly created node if a template was
+	 * set
+	 */
+	@Override
+	public void afterPersist(Object item, FormData data, NodeRef persistedObject) {
+		FieldData fieldData = data.getFieldData(ASSOC_TEMPLATE);
+		if (fieldData != null
+				&& NodeRef.isNodeRef((String) fieldData.getValue())) {
+			NodeRef templateNode = new NodeRef((String) fieldData.getValue());
+			LOG.debug("Updating node " + persistedObject.toString()
+					+ " based on template " + templateNode);
+			if (serviceRegistry.getNodeService().exists(templateNode)) {
+				FileFolderService fileFolderService = serviceRegistry
+						.getFileFolderService();
+				ContentReader reader = fileFolderService
+						.getReader(templateNode);
+				ContentWriter writer = fileFolderService
+						.getWriter(persistedObject);
+				writer.putContent(reader);
+			} else {
+				LOG.warn("The template " + templateNode
+						+ " could not be found.");
+			}
+		}
+
+	}
+
+	@Override
+	public void afterGenerate(Object item, List fields, List forcedFields,
+			Form form, Map context) {
+	}
+
+	@Override
+	public void beforeGenerate(Object item, List fields, List forcedFields,
+			Form form, Map context) {
+	}
+
+	/**
+	 * Will make sure the name contains the same document extension as the
+	 * template
+	 */
+	@Override
+	public void beforePersist(Object item, FormData data) {
+		FieldData fieldData = data.getFieldData(PROP_NAME);
+		String name = (String) fieldData.getValue();
+		fieldData = data.getFieldData(ASSOC_TEMPLATE);
+		if (fieldData != null
+				&& NodeRef.isNodeRef((String) fieldData.getValue())) {
+			NodeRef templateNode = new NodeRef((String) fieldData.getValue());
+			NodeService nodeService = serviceRegistry.getNodeService();
+
+			if (nodeService.exists(templateNode)) {
+				String templateName = (String) nodeService.getProperty(
+						templateNode, ContentModel.PROP_NAME);
+				String templateExtension = FilenameUtils
+						.getExtension(templateName);
+				String thisExtension = FilenameUtils.getExtension(name);
+				if (!templateExtension.equalsIgnoreCase(thisExtension)) {
+					LOG.debug("Detected that file extension of new document does not match the one from the template. Changing the file extension to "
+							+ templateExtension);
+					name = name + "." + templateExtension;
+					data.addFieldData(PROP_NAME, name, true);
+				}
+			} else {
+				LOG.warn("The template " + templateNode
+						+ " could not be found.");
+			}
+		}
+	}
+
+	public ServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		TemplatedContentFilter.serviceRegistry = serviceRegistry;
+	}
+}

@@ -7,6 +7,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -26,6 +27,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -66,6 +68,77 @@
 		</forms>
 	</config>
 
+	<!-- Skapa Anvisning -->
+	<config evaluator="model-type" condition="akdm:instruction">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:protocolId" />
+					<show id="akdm:instructionDecisionDate" />
+					<show id="akdm:instructionGroup" />
+
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="instruction" appearance="bordered-panel" label-id="set.akdm.instruction" />
+					<field id="akdm:protocolId" set="instruction" label-id="property.akdm_protocolId" />
+					<field id="akdm:instructionDecisionDate" set="instruction"
+						label-id="property.akdm_instructionDecisionDate" />
+					<field id="akdm:instructionGroup" set="instruction"
+						label-id="property.akdm_instructionGroup" />
+					<field id="akdm:basedOnTemplate" set="instruction" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
 	<!-- Författning -->
 	<config evaluator="node-type" condition="akdm:ordinance">
 		<forms>
@@ -73,6 +146,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -92,6 +166,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -132,6 +207,78 @@
 		</forms>
 	</config>
 
+	<!-- Skapa Författning -->
+	<config evaluator="model-type" condition="akdm:ordinance">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:protocolId" />
+					<show id="akdm:instructionDecisionDate" />
+					<show id="akdm:instructionGroup" />
+
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="ordinance" appearance="bordered-panel" label-id="set.akdm.ordinance" />
+					<field id="akdm:protocolId" set="ordinance" label-id="property.akdm_protocolId" />
+					<field id="akdm:instructionDecisionDate" set="ordinance"
+						label-id="property.akdm_instructionDecisionDate" />
+					<field id="akdm:instructionGroup" set="ordinance"
+						label-id="property.akdm_instructionGroup" />
+
+					<field id="akdm:basedOnTemplate" set="ordinance" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
 	<!-- Handbok -->
 	<config evaluator="node-type" condition="akdm:manual">
 		<forms>
@@ -139,6 +286,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -157,6 +305,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -190,7 +339,77 @@
 					<field id="akdm:manualFunction" set="manual"
 						label-id="property.akdm_manualFunction" />
 					<field id="akdm:manualManual" set="manual"
+						label-id="property.akdm_manualManual" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<!-- Skapa Handbok -->
+	<config evaluator="model-type" condition="akdm:manual">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:manualFunction" />
+					<show id="akdm:manualManual" />
+
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="manual" appearance="bordered-panel" label-id="set.akdm.manual" />
+					<field id="akdm:manualFunction" set="manual"
 						label-id="property.akdm_manualFunction" />
+					<field id="akdm:manualManual" set="manual"
+						label-id="property.akdm_manualManual" />
+
+					<field id="akdm:basedOnTemplate" set="manual" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
 				</appearance>
 			</form>
 		</forms>
@@ -203,6 +422,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -220,6 +440,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -255,7 +476,71 @@
 			</form>
 		</forms>
 	</config>
-	
+
+	<!-- Skapa Protokoll -->
+	<config evaluator="model-type" condition="akdm:protocol">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:protocolId" />
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="protocol" appearance="bordered-panel" label-id="set.akdm.protocol" />
+					<field id="akdm:protocolId" set="protocol" label-id="property.akdm_protocolId" />
+					<field id="akdm:basedOnTemplate" set="protocol" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
 	<!-- Generellt dokument -->
 	<config evaluator="node-type" condition="akdm:generaldocument">
 		<forms>
@@ -263,6 +548,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -281,6 +567,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -311,13 +598,84 @@
 					</field>
 
 					<set id="generalDocument" appearance="bordered-panel" label-id="set.akdm.generalDocument" />
-					<field id="akdm:generalDocumentDescription" set="generalDocument" label-id="property.akdm_generalDocumentDescription" />
-					<field id="akdm:generalDocumentDate" set="generalDocument" label-id="property.akdm_generalDocumentDate" />
+					<field id="akdm:generalDocumentDescription" set="generalDocument"
+						label-id="property.akdm_generalDocumentDescription" />
+					<field id="akdm:generalDocumentDate" set="generalDocument"
+						label-id="property.akdm_generalDocumentDate" />
 				</appearance>
 			</form>
 		</forms>
 	</config>
-	
+
+	<!-- Skapa Generellt dokument -->
+	<config evaluator="model-type" condition="akdm:generaldocument">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:generalDocumentDescription" />
+					<show id="akdm:generalDocumentDate" />
+
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="generalDocument" appearance="bordered-panel" label-id="set.akdm.generalDocument" />
+					<field id="akdm:generalDocumentDescription" set="generalDocument"
+						label-id="property.akdm_generalDocumentDescription" />
+					<field id="akdm:generalDocumentDate" set="generalDocument"
+						label-id="property.akdm_generalDocumentDate" />
+					<field id="akdm:basedOnTemplate" set="generalDocument"
+						mandatory="true" label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
 	<!-- Ekonomidokument -->
 	<config evaluator="node-type" condition="akdm:economydocument">
 		<forms>
@@ -325,6 +683,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -340,6 +699,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -372,6 +732,68 @@
 			</form>
 		</forms>
 	</config>
+	
+	<!-- Skapa Ekonomidokument -->
+	<config evaluator="model-type" condition="akdm:economydocument">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+					
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+					
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					
+					<field id="akdm:basedOnTemplate" set="documentdescription" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
 	<!-- ByggReda -->
 	<config evaluator="node-type" condition="akdm:byggredadocument">
 		<forms>
@@ -379,6 +801,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -389,7 +812,7 @@
 					<show id="akdm:documentNumber" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
-					
+
 					<!-- ByggReda -->
 					<show id="akdm:byggRedaFilm" />
 					<show id="akdm:byggRedaSerialNumber" />
@@ -408,6 +831,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -436,27 +860,138 @@
 								event="change" />
 						</constraint-handlers>
 					</field>
-					
-					<set id="byggRedaDocument" appearance="bordered-panel" label-id="set.akdm.byggRedaDocument" />
-					<field id="akdm:byggRedaFilm" set="byggRedaDocument" label-id="property.akdm_byggRedaFilm" />
-					<field id="akdm:byggRedaSerialNumber" set="byggRedaDocument" label-id="property.akdm_byggRedaSerialNumber" />
-					<field id="akdm:byggRedaRecordNumber" set="byggRedaDocument" label-id="property.akdm_byggRedaRecordNumber" />
-					<field id="akdm:byggRedaBuildingDescription" set="byggRedaDocument" label-id="property.akdm_byggRedaBuildingDescription" />
-					<field id="akdm:byggRedaLastBuildingDescription" set="byggRedaDocument" label-id="property.akdm_byggRedaLastBuildingDescription" />
-					<field id="akdm:byggRedaAddress" set="byggRedaDocument" label-id="property.akdm_byggRedaAddress" />					
-					<field id="akdm:byggRedaLastAddress" set="byggRedaDocument" label-id="property.akdm_byggRedaLastAddress" />
-					<field id="akdm:byggRedaDecision" set="byggRedaDocument" label-id="property.akdm_byggRedaDecision" />
+
+					<set id="byggRedaDocument" appearance="bordered-panel"
+						label-id="set.akdm.byggRedaDocument" />
+					<field id="akdm:byggRedaFilm" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaFilm" />
+					<field id="akdm:byggRedaSerialNumber" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaSerialNumber" />
+					<field id="akdm:byggRedaRecordNumber" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecordNumber" />
+					<field id="akdm:byggRedaBuildingDescription" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaBuildingDescription" />
+					<field id="akdm:byggRedaLastBuildingDescription" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaLastBuildingDescription" />
+					<field id="akdm:byggRedaAddress" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaAddress" />
+					<field id="akdm:byggRedaLastAddress" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaLastAddress" />
+					<field id="akdm:byggRedaDecision" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaDecision" />
 					<field id="akdm:byggRedaFor" set="byggRedaDocument" label-id="property.akdm_byggRedaFor" />
-					<field id="akdm:byggRedaIssuePurpose" set="byggRedaDocument" label-id="property.akdm_byggRedaIssuePurpose" />
-					<field id="akdm:byggRedaNote" set="byggRedaDocument" label-id="property.akdm_byggRedaNote" />
-					<field id="akdm:byggRedaRecords" set="byggRedaDocument" label-id="property.akdm_byggRedaRecords" />
+					<field id="akdm:byggRedaIssuePurpose" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaIssuePurpose" />
+					<field id="akdm:byggRedaNote" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaNote" />
+					<field id="akdm:byggRedaRecords" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecords" />
 				</appearance>
 			</form>
-			
-			
 		</forms>
 	</config>
 	
+	<!-- Skapa ByggReda -->
+	<config evaluator="model-type" condition="akdm:byggredadocument">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+					
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<!-- ByggReda -->
+					<show id="akdm:byggRedaFilm" />
+					<show id="akdm:byggRedaSerialNumber" />
+					<show id="akdm:byggRedaRecordNumber" />
+					<show id="akdm:byggRedaBuildingDescription" />
+					<show id="akdm:byggRedaLastBuildingDescription" />
+					<show id="akdm:byggRedaAddress" />
+					<show id="akdm:byggRedaLastAddress" />
+					<show id="akdm:byggRedaDecision" />
+					<show id="akdm:byggRedaFor" />
+					<show id="akdm:byggRedaIssuePurpose" />
+					<show id="akdm:byggRedaNote" />
+					<show id="akdm:byggRedaRecords" />
+					
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="byggRedaDocument" appearance="bordered-panel"
+						label-id="set.akdm.byggRedaDocument" />
+					<field id="akdm:byggRedaFilm" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaFilm" />
+					<field id="akdm:byggRedaSerialNumber" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaSerialNumber" />
+					<field id="akdm:byggRedaRecordNumber" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecordNumber" />
+					<field id="akdm:byggRedaBuildingDescription" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaBuildingDescription" />
+					<field id="akdm:byggRedaLastBuildingDescription" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaLastBuildingDescription" />
+					<field id="akdm:byggRedaAddress" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaAddress" />
+					<field id="akdm:byggRedaLastAddress" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaLastAddress" />
+					<field id="akdm:byggRedaDecision" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaDecision" />
+					<field id="akdm:byggRedaFor" set="byggRedaDocument" label-id="property.akdm_byggRedaFor" />
+					<field id="akdm:byggRedaIssuePurpose" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaIssuePurpose" />
+					<field id="akdm:byggRedaNote" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaNote" />
+					<field id="akdm:byggRedaRecords" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecords" />
+						
+						<field id="akdm:basedOnTemplate" set="byggRedaDocument" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
 	<!-- Ärendelista -->
 	<config evaluator="node-type" condition="akdm:issuelist">
 		<forms>
@@ -464,6 +999,7 @@
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -481,6 +1017,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -511,34 +1048,33 @@
 					</field>
 
 					<set id="issuelist" appearance="bordered-panel" label-id="set.akdm.issuelist" />
-					<field id="akdm:issuelistMeetingDate" set="issuelist" label-id="property.akdm_issuelistMeetingDate" />
+					<field id="akdm:issuelistMeetingDate" set="issuelist"
+						label-id="property.akdm_issuelistMeetingDate" />
 				</appearance>
 			</form>
 		</forms>
 	</config>
-	
-	<!-- Intern kontroll -->
-	<config evaluator="node-type" condition="akdm:internalvalidation">
+
+	<!-- Skapa Ärendelista -->
+	<config evaluator="model-type" condition="akdm:issuelist">
 		<forms>
 			<form>
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
-					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
-
-					<show id="akdm:documentNumber" />
+					<show id="cm:title" />
+					
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:issuelistMeetingDate" />
+					<show id="akdm:basedOnTemplate" force="true" />
 				</field-visibility>
 				<appearance>
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -568,19 +1104,29 @@
 						</constraint-handlers>
 					</field>
 
-					<set id="internalvalidation" appearance="bordered-panel" label-id="set.akdm.internalvalidation" />
+					<set id="issuelist" appearance="bordered-panel" label-id="set.akdm.issuelist" />
+					<field id="akdm:issuelistMeetingDate" set="issuelist"
+						label-id="property.akdm_issuelistMeetingDate" />
+					<field id="akdm:basedOnTemplate" set="issuelist" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
 				</appearance>
 			</form>
 		</forms>
 	</config>
-	
-	<!-- Förteckning - PUL -->
-	<config evaluator="node-type" condition="akdm:listpul">
+
+	<!-- Intern kontroll -->
+	<config evaluator="node-type" condition="akdm:internalvalidation">
 		<forms>
 			<form>
 				<field-visibility>
 					<!-- Dokumentbeskrivning -->
 					<show id="cm:name" />
+					<show id="cm:title" />
 					<show id="cm:description" />
 					<show id="cm:creator" />
 					<show id="cm:created" />
@@ -596,6 +1142,130 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="internalvalidation" appearance="bordered-panel"
+						label-id="set.akdm.internalvalidation" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+	<!-- Skapa Intern kontroll -->
+	<config evaluator="model-type" condition="akdm:internalvalidation">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+					
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+					
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="internalvalidation" appearance="bordered-panel"
+						label-id="set.akdm.internalvalidation" />
+						<field id="akdm:basedOnTemplate" set="internalvalidation" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<!-- Förteckning - PUL -->
+	<config evaluator="node-type" condition="akdm:listpul">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+					<show id="cm:creator" />
+					<show id="cm:created" />
+					<show id="cm:modifier" />
+					<show id="cm:modified" />
+					<show id="cm:versionLabel" />
+
+					<show id="akdm:documentNumber" />
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -626,6 +1296,68 @@
 					</field>
 
 					<set id="listpul" appearance="bordered-panel" label-id="set.akdm.listpul" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+	<!-- Förteckning - PUL -->
+	<config evaluator="model-type" condition="akdm:listpul">
+		<forms>
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+					
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+					
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:description" set="documentdescription" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:created" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+
+					<set id="listpul" appearance="bordered-panel" label-id="set.akdm.listpul" />
+					<field id="akdm:basedOnTemplate" set="listpul" mandatory="true"
+						label-id="property.akdm_basedOnTemplate">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							</control-param>
+						</control>
+					</field>
 				</appearance>
 			</form>
 		</forms>
