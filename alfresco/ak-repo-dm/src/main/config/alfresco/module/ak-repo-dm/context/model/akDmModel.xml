@@ -360,6 +360,24 @@
 				</property>
 			</properties>
 		</aspect>
+		<aspect name="akdm:templatedAspect">
+			<title>Templated Aspect</title>
+			<parent>akdm:aspect</parent>
+			<associations>
+				<association name="akdm:basedOnTemplate">
+					<title>Based on template</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>false</many>
+					</source>
+					<target>
+						<class>akdm:document</class>
+						<mandatory>false</mandatory>
+						<many>false</many>
+					</target>
+				</association>
+			</associations>
+		</aspect>
 	</aspects>
 
 </model>

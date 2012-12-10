@@ -41,7 +41,15 @@
 		<property name="globalProperties">
 			<ref bean="global-properties" />
 		</property>
-		
+
 		<property name="sysAdminParams" ref="sysAdminParams" />
+	</bean>
+
+	<bean
+		id="se.alingsas.alfresco.repo.forms.processor.TemplatedContentFilter"
+		class="se.alingsas.alfresco.repo.forms.processor.TemplatedContentFilter"
+		parent="baseFormFilter">
+		<property name="filterRegistry" ref="typeFilterRegistry" />
+		<property name="serviceRegistry" ref="ServiceRegistry" />
 	</bean>
 </beans>

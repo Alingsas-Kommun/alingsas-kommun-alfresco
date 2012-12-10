@@ -196,6 +196,60 @@
          -->
          <adobe-flash-enabled>true</adobe-flash-enabled>
       </file-upload>
+      
+       <!--
+         Create Content menu items, can be of 3 types matching the usual doclib action config:
+
+         * "link" - accepts a "href" param that will be passed a nodeRef token for substitution, used for external links
+         * "pagelink" - accepts a "page" param that will be passed a nodeRef token for substitution, used for Share links
+         * "javascript" - accepts & "function" param of an action that will get the current folder item as first argument.
+
+         I.e.
+         <content id="plain-text" label="create-content.text" icon="text" type="pagelink">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=cm:content&amp;mimeType=text/plain</param>
+            <permissions>
+               <permission allow="true">SomeUserPermissions</permission>
+            </permissions>
+         </content>
+
+         Note that the "CreateChildren" permission is always required and will disable the entire menu if no granted for a folder.
+
+         Also note that the old/untyped simple config still is allowed, the config snippet below will automatically be
+         converted to a "pagelink" as in the example above.
+         <content id="plain-text" label="create-content.text" icon="text" itemid="cm:content" mimetype="text/plain" permission="SomeUserPermissions"/>
+      -->
+      <create-content>
+         <content id="instruction" label="type.akdm_instruction" type="pagelink" index="10" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:instruction</param>
+         </content>
+         <content id="ordinance" label="type.akdm_ordinance" type="pagelink" index="20" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:ordinance</param>
+         </content>
+         <content id="listpul" label="type.akdm_listpul" type="pagelink" index="30" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:listpul</param>
+         </content>
+         <content id="generaldocument" label="type.akdm_generaldocument" type="pagelink" index="40" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:generaldocument</param>
+         </content>         
+         <content id="manual" label="type.akdm_manual" type="pagelink" index="50" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:manual</param>
+         </content>
+         <content id="internalvalidation" label="type.akdm_internalvalidation" type="pagelink" index="60" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:internalvalidation</param>
+         </content>
+         <content id="protocol" label="type.akdm_protocol" type="pagelink" index="70" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:protocol</param>
+         </content>
+         
+         <content id="issuelist" label="type.akdm_issuelist" type="pagelink" index="80" icon="text">
+            <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:issuelist</param>
+         </content>
+         
+         
+      </create-content>
+
+      <create-content-by-template>false</create-content-by-template>
+      
    </config>
 
 
