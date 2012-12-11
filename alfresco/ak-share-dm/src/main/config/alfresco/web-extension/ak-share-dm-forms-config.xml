@@ -27,7 +27,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -91,7 +91,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -166,7 +166,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -230,7 +230,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -305,7 +305,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -367,7 +367,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -440,7 +440,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -497,7 +497,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -567,7 +567,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -629,7 +629,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -699,7 +699,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -752,7 +752,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -831,7 +831,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -924,7 +924,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -1017,7 +1017,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -1074,7 +1074,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -1142,7 +1142,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -1198,7 +1198,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -1265,7 +1265,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />
@@ -1320,7 +1320,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true" />
-					<field id="cm:title" set="documentdescription" mandatory="true" />
+					<field id="cm:title" set="documentdescription" />
 					<field id="cm:description" set="documentdescription" />
 					<field id="cm:creator" set="documentdescription" read-only="true"
 						mandatory="true" />

@@ -31,7 +31,7 @@
 		<property name="nodeService" ref="NodeService" />
 		<property name="versionService" ref="VersionService" />
 		<property name="contentService" ref="ContentService" />
-
+		<property name="checkOutCheckInService" ref="CheckOutCheckInService" />
 		<property name="sourceType" value="repository" />
 		<property name="siteName" value="byggreda" />
 		<property name="destinationPath" value="Plan- och Byggarkiv" />

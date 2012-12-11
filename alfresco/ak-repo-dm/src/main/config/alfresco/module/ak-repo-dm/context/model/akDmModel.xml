@@ -112,6 +112,7 @@
 			<mandatory-aspects>
 				<aspect>akdm:commonAspect</aspect>
 				<aspect>cm:versionable</aspect>
+				<aspect>cm:titled</aspect>				
 			</mandatory-aspects>
 		</type>
 		<type name="akdm:instruction">
