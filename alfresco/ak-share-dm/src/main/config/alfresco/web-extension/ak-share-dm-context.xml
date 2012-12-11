@@ -17,11 +17,12 @@
 
    <!-- I18N -->
 
-   <!-- Add RD messages -->
-   <bean id="acme.rd.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
+   <!-- Add AK messages -->
+   <bean id="ak.dm.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
       <property name="resourceBundles">
          <list>
             <value>alfresco.messages.ak-dm</value>
+            <value>alfresco.messages.content-model</value>
          </list>
       </property>
    </bean>
