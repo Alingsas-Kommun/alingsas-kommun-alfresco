@@ -22,6 +22,7 @@ import org.alfresco.model.ContentModel;
 import org.alfresco.repo.admin.SysAdminParams;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.version.VersionModel;
+import org.alfresco.service.cmr.coci.CheckOutCheckInService;
 import org.alfresco.service.cmr.model.FileExistsException;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.model.FileInfo;
@@ -49,6 +50,8 @@ public class ByggRedaUtil {
 	public static final String SOURCE_TYPE_REPO = "repository";
 	public static final String SOURCE_TYPE_FS = "filesystem";
 	public static final String LINE_BREAK = "\r\n";
+	private static final String EXTENSION_CHARACTER = ".";
+	private static final String MSG_WORKING_COPY_LABEL = "(Working Copy)";
 
 	private static String sourceType;
 	private static String siteName;
@@ -61,6 +64,7 @@ public class ByggRedaUtil {
 	private static VersionService versionService;
 	private static FileFolderService fileFolderService;
 	private static ContentService contentService;
+	private static CheckOutCheckInService checkOutCheckInService;
 	private final String DOC_STATUS_COMPLETE = "Färdigt dokument";
 	private final String DOC_SECRECY_PUBLIC = "Offentligt";
 
@@ -468,38 +472,62 @@ public class ByggRedaUtil {
 	private ByggRedaDocument importDocument(SiteInfo site, String sourcePath,
 			ByggRedaDocument document) {
 		final String currentDestinationPath = destinationPath + "/"
-				+ document.buildingDescription.substring(0, 1).toUpperCase()
-				+ "/" + document.buildingDescription.toUpperCase();
+				+ document.buildingDescription.substring(0, 1).toUpperCase().replace("/", "_").replace(':', '_')
+				+ "/" + document.buildingDescription.toUpperCase().replace("/", "_").replace(':', '_') + "/"+
+				document.recordNumber + " "+ document.issuePurpose.toUpperCase().replace("/", "_").replace(':', '_');
 
 		// Check if file exists already
-		if (getRepoFileFolder(site, currentDestinationPath.replace(':', '_')
-				+ "/" + document.fileName) != null) {
-			document.readSuccessfully = false;
-			document.errorMsg = "File already exists at path "
-					+ currentDestinationPath;
-			LOG.error(document.errorMsg);
-			return document;
-		}
+		FileInfo repoFileFolder = getRepoFileFolder(site,
+				currentDestinationPath + "/"
+						+ document.fileName);
+		if (repoFileFolder != null) {
+			LOG.debug("File "+ document.fileName +" already exists, creating a new version at "+currentDestinationPath);
+			final NodeRef workingCopy = checkOutCheckInService
+					.checkout(repoFileFolder.getNodeRef());
 
-		try {
-			NodeRef folderNodeRef = createFolder(currentDestinationPath, site);
-			final FileInfo fileInfo = fileFolderService.create(folderNodeRef,
-					document.fileName, AkDmModel.TYPE_AKDM_BYGGREDA_DOC);
-			document.nodeRef = fileInfo.getNodeRef();
-			addProperties(document.nodeRef, document);
-			createFile(document.nodeRef, site, sourcePath, document);
-			createVersionHistory(document.nodeRef);
-			document.readSuccessfully = true;
-			LOG.debug("Imported document " + document.recordNumber);
-		} catch (FileExistsException ex) {
-			document.readSuccessfully = false;
-			document.errorMsg = "File already exists at path "
-					+ currentDestinationPath;
-			LOG.error(document.errorMsg);
-		} catch (Exception e) {
-			document.readSuccessfully = false;
-			document.errorMsg = e.getMessage();
-			LOG.error("Error importing document " + document.recordNumber, e);
+			addProperties(workingCopy, document, true);
+			createFile(workingCopy, site, sourcePath, document);
+
+			final Map<String, Serializable> properties = new HashMap<String, Serializable>();
+			properties.put(VersionModel.PROP_VERSION_TYPE, VersionType.MAJOR);
+			NodeRef checkin = checkOutCheckInService.checkin(workingCopy,
+					properties);
+			document.nodeRef = checkin;
+			if (checkin != null && nodeService.exists(checkin)) {
+				document.readSuccessfully = true;
+			} else {
+				document.readSuccessfully = false;
+				document.errorMsg = "File already exists at path "
+						+ currentDestinationPath
+						+ " and could not create a new version.";
+				LOG.error(document.errorMsg);
+				return document;
+			}
+		} else {
+
+			try {
+				NodeRef folderNodeRef = createFolder(currentDestinationPath,
+						site);
+				final FileInfo fileInfo = fileFolderService.create(
+						folderNodeRef, document.fileName,
+						AkDmModel.TYPE_AKDM_BYGGREDA_DOC);
+				document.nodeRef = fileInfo.getNodeRef();
+				addProperties(document.nodeRef, document, false);
+				createFile(document.nodeRef, site, sourcePath, document);
+				createVersionHistory(document.nodeRef);
+				document.readSuccessfully = true;
+				LOG.debug("Imported document " + document.recordNumber);
+			} catch (FileExistsException ex) {
+				document.readSuccessfully = false;
+				document.errorMsg = "File already exists at path "
+						+ currentDestinationPath;
+				LOG.error(document.errorMsg);
+			} catch (Exception e) {
+				document.readSuccessfully = false;
+				document.errorMsg = e.getMessage();
+				LOG.error("Error importing document " + document.recordNumber,
+						e);
+			}
 		}
 		return document;
 
@@ -571,7 +599,7 @@ public class ByggRedaUtil {
 
 			while (folder == null) {
 				folder = fileFolderService.create(rootNodeRef,
-						part.replace(':', '_'), ContentModel.TYPE_FOLDER)
+						part, ContentModel.TYPE_FOLDER)
 						.getNodeRef();
 				nodeService.setProperty(folder, ContentModel.PROP_TITLE, part);
 			}
@@ -589,10 +617,22 @@ public class ByggRedaUtil {
 	 * @param document
 	 */
 	private void addProperties(final NodeRef nodeRef,
-			final ByggRedaDocument document) {
+			final ByggRedaDocument document, final Boolean workingCopy) {
 		final Map<QName, Serializable> properties = new HashMap<QName, Serializable>();
 
-		addProperty(properties, ContentModel.PROP_NAME, document.fileName);
+		if (workingCopy) {
+			final String name = nodeService.getProperty(nodeRef,
+					ContentModel.PROP_NAME).toString();
+
+			final String workingCopyName = createWorkingCopyName(document.fileName);
+
+			if (!name.equalsIgnoreCase(workingCopyName)) {
+				addProperty(properties, ContentModel.PROP_NAME,
+						document.fileName);
+			}
+		} else {
+			addProperty(properties, ContentModel.PROP_NAME, document.fileName);
+		}
 
 		// final String checksum = _serviceUtils.getChecksum(document.file);
 		// Alfresco general properties
@@ -671,6 +711,33 @@ public class ByggRedaUtil {
 		}
 
 		properties.put(key, value);
+	}
+
+	private String createWorkingCopyName(String name) {
+		if (this.getWorkingCopyLabel() != null
+				&& this.getWorkingCopyLabel().length() != 0) {
+			if (name != null && name.length() != 0) {
+				final int index = name.lastIndexOf(EXTENSION_CHARACTER);
+				if (index > 0) {
+					// Insert the working copy label before the file extension
+					name = name.substring(0, index) + " "
+							+ getWorkingCopyLabel() + name.substring(index);
+				} else {
+					// Simply append the working copy label onto the end of the
+					// existing
+					// name
+					name = name + " " + getWorkingCopyLabel();
+				}
+			} else {
+				name = getWorkingCopyLabel();
+			}
+		}
+
+		return name;
+	}
+
+	public String getWorkingCopyLabel() {
+		return MSG_WORKING_COPY_LABEL;
 	}
 
 	public String getSourceType() {
@@ -783,5 +850,14 @@ public class ByggRedaUtil {
 
 	public void setSysAdminParams(SysAdminParams sysAdminParams) {
 		ByggRedaUtil.sysAdminParams = sysAdminParams;
+	}
+
+	public CheckOutCheckInService getCheckOutCheckInService() {
+		return checkOutCheckInService;
+	}
+
+	public void setCheckOutCheckInService(
+			CheckOutCheckInService checkOutCheckInService) {
+		ByggRedaUtil.checkOutCheckInService = checkOutCheckInService;
 	}
 }
