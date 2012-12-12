@@ -141,7 +141,7 @@ public class ByggRedaUtilTest {
 			validFilePathList2.add(part);
 		}
 		
-		parts = StringUtils.delimitedListToStringArray(validDestinationPath+"/A/A/1.1 A/"
+		parts = StringUtils.delimitedListToStringArray(validDestinationPath+"/A/A/1-1 A/"
 				+ validFileName, "/");
 		for (String part : parts) {
 			validFilePathList3.add(part);

@@ -13,7 +13,7 @@
 	<packaging>amp</packaging>
 	<name>Alingsås Alfresco Repository Document Management</name>
 	<description>Alfresco Repository Customizations for Alingsås Document Management</description>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<properties>
 		<module.uid>ak-repo-dm</module.uid>
 		<webapp.name>alfresco</webapp.name>

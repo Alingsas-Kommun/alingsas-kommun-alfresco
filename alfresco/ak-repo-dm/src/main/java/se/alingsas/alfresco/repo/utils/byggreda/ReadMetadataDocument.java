@@ -16,6 +16,7 @@ public class ReadMetadataDocument {
 	private static final Logger LOG = Logger
 			.getLogger(ReadMetadataDocument.class);
 	private static final int EXPECTED_NUM_PARTS = 14;
+	private static final String RECORD_DISPLAY_SEPARATOR = "-";
 
 	/**
 	 * Takes an input stream which should point to a metadata document for
@@ -106,7 +107,9 @@ public class ReadMetadataDocument {
 			document.readSuccessfully = true;
 			document.film = parts[i++].substring(1); // Remove prefix "
 			document.serialNumber = parts[i++];
-			document.recordNumber = parts[i++] +"."+ parts[i++];
+			document.recordYear = Integer.parseInt(parts[i++]);
+			document.recordNumber =  parts[i++];
+			document.recordDisplay = document.recordYear +RECORD_DISPLAY_SEPARATOR+ document.recordNumber; 
 			document.buildingDescription = parts[i++];
 			document.lastBuildingDescription = parts[i++];
 			document.address = parts[i++];
@@ -119,6 +122,11 @@ public class ReadMetadataDocument {
 			// Remove postfix " from last part
 			document.fileName = parts[i].substring(0, parts[i++].length() - 1);
 			document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.fileName));
+			
+			document.path = document.buildingDescription.substring(0, 1).toUpperCase().replace("/", "_").replace(':', '_')
+			+ "/" + document.buildingDescription.toUpperCase().replace("/", "_").replace(':', '_') + "/"+
+			document.recordDisplay + " "+ document.issuePurpose.toUpperCase().replace("/", "_").replace(':', '_');
+			document.title = document.recordDisplay+ " " + document.issuePurpose.replace("/", "_").replace(':', '_');
 		}
 		return document;
 	}

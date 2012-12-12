@@ -827,7 +827,7 @@
 					<!-- ByggReda -->
 					<show id="akdm:byggRedaFilm" />
 					<show id="akdm:byggRedaSerialNumber" />
-					<show id="akdm:byggRedaRecordNumber" />
+					<show id="akdm:byggRedaRecordDisplay" />
 					<show id="akdm:byggRedaBuildingDescription" />
 					<show id="akdm:byggRedaLastBuildingDescription" />
 					<show id="akdm:byggRedaAddress" />
@@ -879,8 +879,8 @@
 						label-id="property.akdm_byggRedaFilm" />
 					<field id="akdm:byggRedaSerialNumber" set="byggRedaDocument"
 						label-id="property.akdm_byggRedaSerialNumber" />
-					<field id="akdm:byggRedaRecordNumber" set="byggRedaDocument"
-						label-id="property.akdm_byggRedaRecordNumber" />
+					<field id="akdm:byggRedaRecordDisplay" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecordDisplay" />
 					<field id="akdm:byggRedaBuildingDescription" set="byggRedaDocument"
 						label-id="property.akdm_byggRedaBuildingDescription" />
 					<field id="akdm:byggRedaLastBuildingDescription" set="byggRedaDocument"
@@ -919,7 +919,9 @@
 					<!-- ByggReda -->
 					<show id="akdm:byggRedaFilm" />
 					<show id="akdm:byggRedaSerialNumber" />
+					<show id="akdm:byggRedaRecordYear" />
 					<show id="akdm:byggRedaRecordNumber" />
+					<show id="akdm:byggRedaRecordDisplay" />
 					<show id="akdm:byggRedaBuildingDescription" />
 					<show id="akdm:byggRedaLastBuildingDescription" />
 					<show id="akdm:byggRedaAddress" />
@@ -973,6 +975,10 @@
 						label-id="property.akdm_byggRedaFilm" />
 					<field id="akdm:byggRedaSerialNumber" set="byggRedaDocument"
 						label-id="property.akdm_byggRedaSerialNumber" />
+					<field id="akdm:byggRedaRecordDisplay" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecordDisplay" />
+					<field id="akdm:byggRedaRecordYear" set="byggRedaDocument"
+						label-id="property.akdm_byggRedaRecordYear" />
 					<field id="akdm:byggRedaRecordNumber" set="byggRedaDocument"
 						label-id="property.akdm_byggRedaRecordNumber" />
 					<field id="akdm:byggRedaBuildingDescription" set="byggRedaDocument"

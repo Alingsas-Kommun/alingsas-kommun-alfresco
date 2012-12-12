@@ -298,6 +298,16 @@
 					<type>d:text</type>
 					<mandatory>false</mandatory>
 				</property>
+				<property name="akdm:byggRedaRecordDisplay">
+					<title>Record display field</title>
+					<type>d:text</type>
+					<mandatory>false</mandatory>
+				</property>
+				<property name="akdm:byggRedaRecordYear">
+					<title>Record year</title>
+					<type>d:int</type>
+					<mandatory>false</mandatory>
+				</property>
 				<property name="akdm:byggRedaRecordNumber">
 					<title>Record number</title>
 					<type>d:text</type>

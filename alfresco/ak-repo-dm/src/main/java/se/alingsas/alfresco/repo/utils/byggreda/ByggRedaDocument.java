@@ -11,7 +11,9 @@ public class ByggRedaDocument {
 	
 	public String film = "";
 	public String serialNumber = "";
+	public Integer recordYear = 0;
 	public String recordNumber = "";
+	public String recordDisplay = "";	
 	public String buildingDescription = "";
 	public String lastBuildingDescription = "";
 	public String address = "";
@@ -22,5 +24,8 @@ public class ByggRedaDocument {
 	public String note = "";
 	public String records = "";
 	public String fileName = "";
+	
+	public String path = "";
+	public String title = "";
 	
 }

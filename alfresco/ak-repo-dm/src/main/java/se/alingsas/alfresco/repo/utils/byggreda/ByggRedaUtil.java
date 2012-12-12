@@ -294,7 +294,7 @@ public class ByggRedaUtil {
 			if (next.readSuccessfully) {
 				common.append(next.recordNumber.replace(".", ";") + ";");
 				common.append(next.buildingDescription + ";");
-
+				//TODO perhaps modify to point to SSO URL
 				String url = UrlUtil.getShareUrl(sysAdminParams) + "/"
 						+ "proxy/alfresco/api/node/content/"
 						+ next.nodeRef.getStoreRef().getProtocol() + "/"
@@ -472,9 +472,7 @@ public class ByggRedaUtil {
 	private ByggRedaDocument importDocument(SiteInfo site, String sourcePath,
 			ByggRedaDocument document) {
 		final String currentDestinationPath = destinationPath + "/"
-				+ document.buildingDescription.substring(0, 1).toUpperCase().replace("/", "_").replace(':', '_')
-				+ "/" + document.buildingDescription.toUpperCase().replace("/", "_").replace(':', '_') + "/"+
-				document.recordNumber + " "+ document.issuePurpose.toUpperCase().replace("/", "_").replace(':', '_');
+				+ document.path;
 
 		// Check if file exists already
 		FileInfo repoFileFolder = getRepoFileFolder(site,
@@ -516,7 +514,7 @@ public class ByggRedaUtil {
 				createFile(document.nodeRef, site, sourcePath, document);
 				createVersionHistory(document.nodeRef);
 				document.readSuccessfully = true;
-				LOG.debug("Imported document " + document.recordNumber);
+				LOG.debug("Imported document " + document.recordDisplay);
 			} catch (FileExistsException ex) {
 				document.readSuccessfully = false;
 				document.errorMsg = "File already exists at path "
@@ -638,8 +636,7 @@ public class ByggRedaUtil {
 		// Alfresco general properties
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION_PROPS, true);
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION, true);
-		addProperty(properties, ContentModel.PROP_TITLE, document.recordNumber
-				+ " " + document.issuePurpose);
+		addProperty(properties, ContentModel.PROP_TITLE, document.title);
 		addProperty(properties, ContentModel.PROP_CREATOR,
 				AuthenticationUtil.SYSTEM_USER_NAME);
 		addProperty(properties, ContentModel.PROP_MODIFIER,
@@ -664,6 +661,10 @@ public class ByggRedaUtil {
 				document.serialNumber);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_NUMBER,
 				document.recordNumber);
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_YEAR,
+				document.recordYear);
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_DISPLAY,
+				document.recordDisplay);
 		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_BUILDING_DESCR,
 				document.buildingDescription);
 		addProperty(properties,

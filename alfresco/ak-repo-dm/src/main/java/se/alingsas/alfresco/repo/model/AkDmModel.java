@@ -91,6 +91,10 @@ public interface AkDmModel {
 			.createQName(AKDM_URI, "byggRedaSerialNumber");
 	public static final QName PROP_AKDM_BYGGREDA_RECORD_NUMBER = QName
 			.createQName(AKDM_URI, "byggRedaRecordNumber");
+	public static final QName PROP_AKDM_BYGGREDA_RECORD_YEAR = QName
+			.createQName(AKDM_URI, "byggRedaRecordYear");
+	public static final QName PROP_AKDM_BYGGREDA_RECORD_DISPLAY = QName
+			.createQName(AKDM_URI, "byggRedaRecordDisplay");
 	public static final QName PROP_AKDM_BYGGREDA_BUILDING_DESCR = QName
 			.createQName(AKDM_URI, "byggRedaBuildingDescription");
 	public static final QName PROP_AKDM_BYGGREDA_LAST_BUILDING_DESCR = QName
