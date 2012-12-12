@@ -943,7 +943,25 @@ public class MigrationUtil {
 		filepath = filepath.endsWith("/") ? filepath.substring(0,
 				filepath.length() - 1) : filepath;
 
-		filepath = filepath.replace(":", "-");
+		filepath = filepath.startsWith("#/#") ? filepath.substring(3) : filepath;
+		filepath = filepath.endsWith("#/#") ? filepath.substring(0,
+				filepath.length() - 3) : filepath;
+
+		//Extract path elements and fix non-allowed characters
+		final String[] parts = StringUtils.delimitedListToStringArray(filepath,
+				"#/#");
+		filepath = "";
+		for (String part : parts) {
+			part = StringUtils.trimWhitespace(part);
+			part = StringUtils.trimTrailingCharacter(part, '.');
+			part = part.replace(":", "-");
+			part = part.replace("/", "-");
+			if (StringUtils.hasText(filepath)) {
+				filepath = filepath + "/";
+			}
+			filepath = filepath + part;
+		}
+		
 		// filepath = filepath.replace("/", "-");
 
 		return filepath;
