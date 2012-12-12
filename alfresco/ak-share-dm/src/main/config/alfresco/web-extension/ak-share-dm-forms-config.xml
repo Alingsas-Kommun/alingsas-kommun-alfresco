@@ -9,13 +9,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -99,6 +99,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -147,13 +149,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -172,6 +174,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -236,6 +240,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -285,13 +291,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -309,6 +315,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -371,6 +379,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -419,13 +429,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -442,6 +452,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -499,6 +511,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -543,13 +557,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -567,6 +581,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -629,6 +645,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -676,13 +694,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 				</field-visibility>
@@ -697,6 +715,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -750,6 +770,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -792,13 +814,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -827,6 +849,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -920,6 +944,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -988,13 +1014,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 
@@ -1011,6 +1037,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -1068,6 +1096,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -1113,13 +1143,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 				</field-visibility>
@@ -1134,6 +1164,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -1190,6 +1222,8 @@
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
 						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
 						read-only="true" mandatory="true" label-id="cm_contentmodel.property.cm_versionLabel.title" />
@@ -1234,13 +1268,13 @@
 					<show id="cm:name" />
 					<show id="cm:title" />
 					<show id="cm:description" />
-					<show id="cm:creator" />
-					<show id="cm:created" />
-					<show id="cm:modifier" />
-					<show id="cm:modified" />
-					<show id="cm:versionLabel" />
+					<show id="cm:creator" for-mode="view" />
+					<show id="cm:created" for-mode="view" />
+					<show id="cm:modifier" for-mode="view" />
+					<show id="cm:modified" for-mode="view" />
+					<show id="cm:versionLabel" for-mode="view" />
 
-					<show id="akdm:documentNumber" />
+					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" />
 					<show id="akdm:documentSecrecy" />
 				</field-visibility>
@@ -1255,6 +1289,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
@@ -1309,6 +1345,8 @@
 					<field id="cm:created" set="documentdescription" label-id="cm_contentmodel.property.cm_created.title" read-only="true"
 						mandatory="true" />
 					<field id="cm:modifier" set="documentdescription" label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription" label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
 						mandatory="true" />
 					
 					<field id="cm:versionLabel" set="documentdescription"
