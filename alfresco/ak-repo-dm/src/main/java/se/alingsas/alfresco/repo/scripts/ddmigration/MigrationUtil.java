@@ -317,9 +317,6 @@ public class MigrationUtil {
 
 					tmpFileName = getRenamedDocumentFileName(lastVersion);
 
-					if (version.title.equals("Attestlista 2")) {
-						LOG.debug("Attestlista 2");
-					}
 					lastVersionNodeRef = nodeService.getChildByName(
 							sourceFolderRef, ContentModel.ASSOC_CONTAINS,
 							tmpFileName);
@@ -792,7 +789,7 @@ public class MigrationUtil {
 		document.meetingDate = parseDate(parts[++position]);
 		document.filePath = parseFilePath(parts[++position]);
 		document.ddUUID = parts[++position];
-		document.description = document.description + " " + parts[++position];
+		document.description = parts[++position];
 		document.fileExtension = FilenameUtils.getExtension(document.fileName);
 		if (!StringUtils.hasText(document.fileExtension)) {
 			document.file = new File(document.tmpStorageFolder + "/"

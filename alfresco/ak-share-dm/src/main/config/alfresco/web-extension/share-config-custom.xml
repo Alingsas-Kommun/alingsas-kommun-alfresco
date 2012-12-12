@@ -250,6 +250,80 @@
 
       <create-content-by-template>false</create-content-by-template>
       
+      <!--
+         Custom Metadata Templates for the Document Library Browse View
+
+         Use view="simple" or view="detailed" to limit the display to one particular view.
+      -->
+      <metadata-templates>
+         <!-- Default (fallback) -->
+         <template id="default">
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}{size}</line>
+            <line index="20" id="description">{description}</line>
+            <line index="30" id="tags">{tags}</line>
+            <line index="40" id="categories" evaluator="evaluator.doclib.metadata.hasCategories">{categories}</line>
+            <line index="50" id="social">{social}</line>
+         </template>
+
+         <!-- Working Copies -->
+         <template id="isWorkingCopy">
+            <evaluator>evaluator.doclib.metadata.isWorkingCopy</evaluator>
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}{size}</line>
+            <line index="20" id="description">{description}</line>
+         </template>
+
+         <!-- Dictionary Models -->
+         <template id="dictionaryModel">
+            <evaluator>evaluator.doclib.metadata.isDictionaryModel</evaluator>
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}</line>
+            <line index="20" id="description">{description}</line>
+            <line index="30" id="dictionaryModel" simpleView="true">{modelActive label.modelActive}{modelName label.modelName}{modelDescription label.modelDescription}</line>
+         </template>
+
+         <!-- Replication Transfer Targets -->
+         <template id="transferTarget">
+            <evaluator>evaluator.doclib.metadata.isTransferTarget</evaluator>
+            <banner index="10" id="lockBanner" evaluator="evaluator.doclib.metadata.hasLockBanner">{lockBanner}</banner>
+            <banner index="20" id="syncTransientError" evaluator="evaluator.doclib.metadata.hasSyncTransientErrorBanner">{syncTransientError}</banner>
+            <banner index="30" id="syncFailed" evaluator="evaluator.doclib.metadata.hasSyncFailedBanner">{syncFailed}</banner>
+            <line index="10" id="date">{date}</line>
+            <line index="20" id="description">{description}</line>
+            <line index="30" id="transferTarget" simpleView="true">{trx_enabled label.trx_enabled}{trx_endpointhost label.trx_endpointhost}{trx_endpointport label.trx_endpointport}</line>
+         </template>
+      </metadata-templates>
+      
+      <!--
+         Sorting Options
+
+         The 'sort' config element contains the name of the content model field to sort against and can be of the form:
+         - short QName string e.g. "cm:name"
+         - any other valid sortable fts-alfresco special field e.g. "TYPE"
+         
+         The field can be optionally followed by |true or |false to indicate sort direction,
+         where true = ascending, false = descending
+      -->
+      <sorting>
+         <sort label="label.title">cm:title|true</sort>
+         <sort label="label.name">cm:name|true</sort>
+         <sort label="label.popularity">cm:likesRatingSchemeCount|false</sort>         
+         <sort label="label.description">cm:description</sort>
+         <sort label="label.created">cm:created</sort>
+         <sort label="label.creator">cm:creator</sort>
+         <sort label="label.modified">cm:modified</sort>
+         <sort label="label.modifier">cm:modifier</sort>
+         <sort label="label.size">cm:content.size</sort>
+         <sort label="label.mimetype">cm:content.mimetype</sort>
+         <sort label="label.type">TYPE</sort>
+      </sorting>
    </config>
 
 

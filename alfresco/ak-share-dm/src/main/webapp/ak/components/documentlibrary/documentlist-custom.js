@@ -54,8 +54,8 @@
    {
       Alfresco.DocumentListNewDetailedViewRenderer.superclass.constructor.call(this, name);
       // Defaults to large but we'll copy the metadata from detailed view
-      // this.metadataBannerViewName = "detailed";
-      // this.metadataLineViewName = "detailed";
+      this.metadataBannerViewName = "newdetailed";
+      this.metadataLineViewName = "newdetailed";
       // this.thumbnailColumnWidth = 200;
       return this;
    };

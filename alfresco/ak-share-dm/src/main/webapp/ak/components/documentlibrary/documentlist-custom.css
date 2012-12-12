@@ -6,3 +6,8 @@
 {
     background-image: url(images/newdetailed-view-on-16.png);
 }
+
+.doclist .simple-detailed .simple-view span.first-child 
+{
+	display: none;
+}
