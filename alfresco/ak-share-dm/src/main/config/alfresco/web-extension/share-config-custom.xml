@@ -348,6 +348,9 @@
 				<form labelId="search.form.akdm_issuelist.title" descriptionId="search.form.akdm_issuelist.desc">
 					akdm:issuelist
 				</form>
+				<form labelId="search.form.akdm_document.title" descriptionId="search.form.akdm_document.desc">
+					akdm:document
+				</form>
 				<form labelId="search.form.label.cm_folder" descriptionId="search.form.desc.cm_folder">cm:folder
 				</form>
 			</forms>

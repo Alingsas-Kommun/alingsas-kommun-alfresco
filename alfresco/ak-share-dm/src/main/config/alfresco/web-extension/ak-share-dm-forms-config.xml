@@ -27,7 +27,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -101,7 +101,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -165,7 +165,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -250,7 +250,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -326,7 +326,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -390,7 +390,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -475,7 +475,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -548,7 +548,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -611,7 +611,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -694,7 +694,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -763,7 +763,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -821,7 +821,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -901,7 +901,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -974,7 +974,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1037,7 +1037,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1117,7 +1117,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1180,7 +1180,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1269,7 +1269,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1373,7 +1373,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1471,7 +1471,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1578,7 +1578,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1648,7 +1648,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1706,7 +1706,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1784,7 +1784,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1852,7 +1852,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1908,7 +1908,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -1985,7 +1985,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -2053,7 +2053,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -2109,7 +2109,7 @@
 					<set id="documentdescription" appearance="bordered-panel"
 						label-id="set.akdm.documentdescription" />
 					<field id="cm:name" set="documentdescription" mandatory="true"
-						label-id="cm_contentmodel.property.cm_name.title" />
+						label-id="custom.property.cm_name.title" />
 					<field id="cm:title" set="documentdescription"
 						label-id="cm_contentmodel.property.cm_title.title">
 						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
@@ -2156,6 +2156,124 @@
 							</control-param>
 						</control>
 					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+	<!-- Dokument -->
+	<config evaluator="model-type" condition="akdm:document">
+		<forms>
+		<!-- Search form -->
+			<form id="search">
+				<field-visibility>
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+					<show id="cm:creator" />
+					<hide id="cm:created" />
+					<show id="cm:modifier" />
+					<hide id="cm:modified" />
+					<show id="akdm:documentNumber" />
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription"
+						label-id="custom.property.cm_name.title" />
+					<field id="cm:title" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_title.title">
+						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
+					</field>
+					<field id="cm:description" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_description.title" />
+					<field id="cm:creator" set="documentdescription" read-only="false"
+						label-id="cm_contentmodel.property.cm_creator.title">
+						<control>
+							<control-param name="forceEditable">true</control-param>
+						</control>
+					</field>
+					<field id="cm:created" set="documentdescription" read-only="false"
+						label-id="cm_contentmodel.property.cm_created.title">
+						<control template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="cm:modifier" set="documentdescription" read-only="false"
+						label-id="cm_contentmodel.property.cm_modifier.title">
+						<control>
+							<control-param name="forceEditable">true</control-param>
+						</control>
+					</field>
+					<field id="cm:modified" set="documentdescription" read-only="false"
+						label-id="cm_contentmodel.property.cm_modified.title">
+						<control template="/org/alfresco/components/form/controls/daterange.ftl" />
+					</field>
+					<field id="akdm:documentNumber" set="documentdescription"
+						label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						label-id="property.akdm_documentStatus" mandatory="true" />
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy" />
+
+				</appearance>
+			</form>
+
+			<!-- Create form -->
+			<form>
+				<field-visibility>
+					<!-- Dokumentbeskrivning -->
+					<show id="cm:name" />
+					<show id="cm:title" />
+					<show id="cm:description" />
+
+					<show id="akdm:documentStatus" />
+					<show id="akdm:documentSecrecy" />
+
+					<show id="akdm:basedOnTemplate" force="true" />
+				</field-visibility>
+				<appearance>
+					<set id="documentdescription" appearance="bordered-panel"
+						label-id="set.akdm.documentdescription" />
+					<field id="cm:name" set="documentdescription" mandatory="true"
+						label-id="custom.property.cm_name.title" />
+					<field id="cm:title" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_title.title">
+						<control template="/org/alfresco/components/form/controls/textfield.ftl" />
+					</field>
+					<field id="cm:description" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_description.title" />
+					<field id="cm:creator" set="documentdescription" read-only="true"
+						mandatory="true" label-id="cm_contentmodel.property.cm_creator.title" />
+					<field id="cm:created" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_created.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modifier" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_modifier.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:modified" set="documentdescription"
+						label-id="cm_contentmodel.property.cm_modified.title" read-only="true"
+						mandatory="true" />
+					<field id="cm:versionLabel" set="documentdescription"
+						read-only="true" mandatory="true"
+						label-id="cm_contentmodel.property.cm_versionLabel.title" />
+
+					<field id="akdm:documentNumber" set="documentdescription"
+						read-only="true" label-id="property.akdm_documentNumber" />
+					<field id="akdm:documentStatus" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentStatus">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>
+					<field id="akdm:documentSecrecy" set="documentdescription"
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<constraint-handlers>
+							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
+								event="change" />
+						</constraint-handlers>
+					</field>					
 				</appearance>
 			</form>
 		</forms>
