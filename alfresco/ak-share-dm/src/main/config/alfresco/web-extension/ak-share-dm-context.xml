@@ -20,9 +20,9 @@
    <!-- Add AK messages -->
    <bean id="ak.dm.resources" class="org.springframework.extensions.surf.util.ResourceBundleBootstrapComponent">
       <property name="resourceBundles">
-         <list>
-            <value>alfresco.messages.ak-dm</value>
+         <list>            
             <value>alfresco.messages.content-model</value>
+            <value>alfresco.messages.ak-dm</value>
          </list>
       </property>
    </bean>
