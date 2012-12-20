@@ -1,0 +1,9 @@
+.classpath
+.project
+.settings
+target
+tomcat-home
+${tomcat.repo.home}
+${tomcat.share.home}
+*~
+*.log

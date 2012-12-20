@@ -1,0 +1,13 @@
+.doclist .simple-detailed .newdetailed-view span.first-child
+{
+    background-image: url(images/newdetailed-view-off-16.png);
+}
+.doclist .simple-detailed .newdetailed-view.yui-button-checked span.first-child
+{
+    background-image: url(images/newdetailed-view-on-16.png);
+}
+
+.doclist .simple-detailed .simple-view span.first-child 
+{
+	display: none;
+}

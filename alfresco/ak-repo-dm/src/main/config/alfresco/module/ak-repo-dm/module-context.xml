@@ -6,7 +6,7 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-  <import resource="classpath*:alfresco/module/sales-demo-repo/context/*-context.xml" />
+  <import resource="classpath*:alfresco/module/ak-repo-dm/context/*-context.xml" />
 
   <bean id="ak.configBootstrap" class="org.alfresco.web.config.WebClientConfigBootstrap" init-method="init">
     <property name="configs">
