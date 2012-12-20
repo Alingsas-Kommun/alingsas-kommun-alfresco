@@ -5,22 +5,22 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-	  <groupId>com.redpill-linpro.alfresco</groupId>
-	  <artifactId>alfresco-base</artifactId>
-	  <version>4.1.1.3-enterprise</version>
+		<groupId>com.redpill-linpro.alfresco</groupId>
+		<artifactId>alfresco-base</artifactId>
+		<version>4.1.1.3-enterprise</version>
 	</parent>
 
 	<groupId>se.alingsas.alfresco</groupId>
 	<artifactId>ak-base</artifactId>
-	<version>0.0.7</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>Alfresco Base Project for Alingsås Document Management</name>
 
 	<modules>
-	    <module>ak-repo-dm</module>
-	    <module>ak-share-dm</module>
-	    <module>ak-ldapmapper</module>
-	    <module>alfresco-spp</module>
+		<module>ak-repo-dm</module>
+		<module>ak-share-dm</module>
+		<module>ak-ldapmapper</module>
+		<module>alfresco-spp</module>
 	</modules>
 
 	<build>
@@ -171,4 +171,38 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+
+	<profiles>
+		<profile>
+			<id>upload</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.redpill-linpro.alfresco</groupId>
+						<artifactId>artifact-upload-plugin</artifactId>
+						<version>1.0.0</version>
+						<executions>
+							<execution>
+								<id>artifact-upload</id>
+								<phase>install</phase>
+								<goals>
+									<goal>upload</goal>
+								</goals>
+								<inherited>true</inherited>
+							</execution>
+						</executions>
+						<configuration>
+							<username>${artifact-upload.username}</username>
+							<password>${artifact-upload.password}</password>
+							<site>${artifact-upload.site}</site>
+							<url>${artifact-upload.cmis.url}</url>
+							<path>${artifact-upload.client.upload.path}</path>
+							<overwrite>true</overwrite>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
