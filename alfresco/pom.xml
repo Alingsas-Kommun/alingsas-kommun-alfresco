@@ -12,7 +12,7 @@
 
 	<groupId>se.alingsas.alfresco</groupId>
 	<artifactId>ak-base</artifactId>
-	<version>0.0.7</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>Alfresco Base Project for Alingsås Document Management</name>
 
