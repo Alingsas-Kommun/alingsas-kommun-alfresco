@@ -54,7 +54,7 @@ public class ImportDocumentsTest {
 		for (int i = 0; i < NUM_FAILED_DOCS; i++) {
 			ByggRedaDocument document = new ByggRedaDocument();
 			document.readSuccessfully = false;
-			document.errorMsg = "Error";
+			document.statusMsg = "Error";
 			document.film = Integer.toString(i);
 			document.serialNumber = Integer.toString(i);
 			document.recordNumber = Integer.toString(i) + "."

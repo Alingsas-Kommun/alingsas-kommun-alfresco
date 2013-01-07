@@ -32,6 +32,7 @@
 		<property name="versionService" ref="VersionService" />
 		<property name="contentService" ref="ContentService" />
 		<property name="checkOutCheckInService" ref="CheckOutCheckInService" />
+		<property name="transactionService" ref="TransactionService" />
 		<!-- SourceType can either be filesystem or repository, where repository is within the ByggReda site -->
 		<property name="sourceType" value="filesystem" />
 		<property name="siteName" value="byggreda" />

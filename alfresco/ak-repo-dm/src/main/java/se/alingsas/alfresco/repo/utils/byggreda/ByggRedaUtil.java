@@ -18,6 +18,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.transaction.Status;
+import javax.transaction.UserTransaction;
+
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.admin.SysAdminParams;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
@@ -38,6 +41,7 @@ import org.alfresco.service.cmr.version.VersionHistory;
 import org.alfresco.service.cmr.version.VersionService;
 import org.alfresco.service.cmr.version.VersionType;
 import org.alfresco.service.namespace.QName;
+import org.alfresco.service.transaction.TransactionService;
 import org.alfresco.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -70,6 +74,7 @@ public class ByggRedaUtil {
 
 	private Set<ByggRedaDocument> documents = null;
 	private String logMessage;
+	private static TransactionService transactionService;
 
 	private static Properties globalProperties;
 
@@ -224,15 +229,17 @@ public class ByggRedaUtil {
 		String fileName = formatter.format(new Date()) + " Import.log";
 
 		StringBuilder common = new StringBuilder();
-		StringBuilder failed = new StringBuilder();
+		StringBuilder logged = new StringBuilder();
 		Iterator<ByggRedaDocument> it = documents.iterator();
 		int failedCount = 0;
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
 			if (!next.readSuccessfully) {
-				failed.append("#" + next.lineNumber + ": " + next.errorMsg
-						+ LINE_BREAK);
 				failedCount++;
+			}
+			if (!next.readSuccessfully || StringUtils.hasText(next.statusMsg)) {
+				logged.append("#" + next.lineNumber + " - "+ next.recordDisplay + " - " + next.buildingDescription + ": " + next.statusMsg
+						+ LINE_BREAK);				
 			}
 
 		}
@@ -245,10 +252,10 @@ public class ByggRedaUtil {
 				+ LINE_BREAK);
 		common.append("Failed imports: " + failedCount + LINE_BREAK);
 		common.append("--------------------------" + LINE_BREAK + LINE_BREAK);
-		if (failedCount > 0) {
-			common.append("Error log:" + LINE_BREAK);
+		if (logged.length() > 0) {
+			common.append("Logged messages:" + LINE_BREAK);
 			common.append("--------------------------" + LINE_BREAK);
-			common.append(failed);
+			common.append(logged);
 			common.append("--------------------------" + LINE_BREAK);
 		}
 		FileInfo fileInfo = fileFolderService.create(folderNodeRef, fileName,
@@ -294,7 +301,7 @@ public class ByggRedaUtil {
 			if (next.readSuccessfully) {
 				common.append(next.recordNumber.replace(".", ";") + ";");
 				common.append(next.buildingDescription + ";");
-				//TODO perhaps modify to point to SSO URL
+				// TODO perhaps modify to point to SSO URL
 				String url = UrlUtil.getShareUrl(sysAdminParams) + "/"
 						+ "proxy/alfresco/api/node/content/"
 						+ next.nodeRef.getStoreRef().getProtocol() + "/"
@@ -473,59 +480,121 @@ public class ByggRedaUtil {
 			ByggRedaDocument document) {
 		final String currentDestinationPath = destinationPath + "/"
 				+ document.path;
+		UserTransaction trx = getTransactionService()
+				.getNonPropagatingUserTransaction();
+		try {
+			trx.begin();
+			// Check if file exists already
+			FileInfo repoFileFolder = getRepoFileFolder(site,
+					currentDestinationPath + "/" + document.fileName);
+			if (repoFileFolder != null) {
+				try {
+					File f = new File(sourcePath + "/" + document.fileName);
+					if (!f.exists()) {
+						throw new java.io.FileNotFoundException();
+					}
+					LOG.debug("File "
+							+ document.fileName
+							+ " already exists, attempting to creating a new version at "
+							+ currentDestinationPath);
+					final NodeRef workingCopy = checkOutCheckInService
+							.checkout(repoFileFolder.getNodeRef());
 
-		// Check if file exists already
-		FileInfo repoFileFolder = getRepoFileFolder(site,
-				currentDestinationPath + "/"
-						+ document.fileName);
-		if (repoFileFolder != null) {
-			LOG.debug("File "+ document.fileName +" already exists, creating a new version at "+currentDestinationPath);
-			final NodeRef workingCopy = checkOutCheckInService
-					.checkout(repoFileFolder.getNodeRef());
+					addProperties(workingCopy, document, true);
 
-			addProperties(workingCopy, document, true);
-			createFile(workingCopy, site, sourcePath, document);
+					createFile(workingCopy, site, sourcePath, document);
 
-			final Map<String, Serializable> properties = new HashMap<String, Serializable>();
-			properties.put(VersionModel.PROP_VERSION_TYPE, VersionType.MAJOR);
-			NodeRef checkin = checkOutCheckInService.checkin(workingCopy,
-					properties);
-			document.nodeRef = checkin;
-			if (checkin != null && nodeService.exists(checkin)) {
-				document.readSuccessfully = true;
+					final Map<String, Serializable> properties = new HashMap<String, Serializable>();
+					properties.put(VersionModel.PROP_VERSION_TYPE,
+							VersionType.MAJOR);
+					NodeRef checkin = checkOutCheckInService.checkin(
+							workingCopy, properties);
+					document.nodeRef = checkin;
+					if (checkin != null && nodeService.exists(checkin)) {
+						document.readSuccessfully = true;
+						document.statusMsg = "File "+ sourcePath + "/" + document.fileName +" was updated";
+						trx.commit();
+					} else {
+						document.readSuccessfully = false;
+						document.statusMsg = "File already exists at path "
+								+ currentDestinationPath
+								+ " and could not create a new version.";
+						LOG.error(document.statusMsg);
+						throw new Exception(document.statusMsg);
+					}
+				} catch (java.io.FileNotFoundException e) {
+					document.readSuccessfully = false;
+					document.statusMsg = "Input file could not be read. "
+							+ sourcePath + "/" + document.fileName;
+					LOG.error(document.statusMsg);
+					throw new Exception(document.statusMsg, e);
+				} catch (FileExistsException e) {
+					document.readSuccessfully = false;
+					document.statusMsg = "File already exists at path "
+							+ currentDestinationPath;
+					LOG.error(document.statusMsg);
+					throw new Exception(document.statusMsg, e);
+				} catch (Exception e) {
+					document.readSuccessfully = false;
+					document.statusMsg = "Error importing document "
+							+ document.recordNumber + " " + e.getMessage();
+					LOG.error("Error importing document "
+							+ document.recordNumber, e);
+					throw new Exception(document.statusMsg, e);
+				}
 			} else {
-				document.readSuccessfully = false;
-				document.errorMsg = "File already exists at path "
-						+ currentDestinationPath
-						+ " and could not create a new version.";
-				LOG.error(document.errorMsg);
-				return document;
+				try {
+					File f = new File(sourcePath + "/" + document.fileName);
+					if (!f.exists()) {
+						throw new java.io.FileNotFoundException();
+					}
+					NodeRef folderNodeRef = createFolder(
+							currentDestinationPath, site);
+					final FileInfo fileInfo = fileFolderService.create(
+							folderNodeRef, document.fileName,
+							AkDmModel.TYPE_AKDM_BYGGREDA_DOC);
+					document.nodeRef = fileInfo.getNodeRef();
+					addProperties(document.nodeRef, document, false);
+					createFile(document.nodeRef, site, sourcePath, document);
+					createVersionHistory(document.nodeRef);
+					document.readSuccessfully = true;
+					LOG.debug("Imported document " + document.recordDisplay);
+					trx.commit();
+				} catch (java.io.FileNotFoundException e) {
+					document.readSuccessfully = false;
+					document.statusMsg = "Input file could not be read. "
+							+ sourcePath + "/" + document.fileName;
+					LOG.error(document.statusMsg);
+					throw new Exception(document.statusMsg, e);
+				} catch (FileExistsException e) {
+					document.readSuccessfully = false;
+					document.statusMsg = "File already exists at path "
+							+ currentDestinationPath;
+					LOG.error(document.statusMsg);
+					throw new Exception(document.statusMsg, e);
+				} catch (Exception e) {
+					document.readSuccessfully = false;
+					document.statusMsg = "Error importing document "
+							+ document.recordNumber + " " + e.getMessage();
+					LOG.error("Error importing document "
+							+ document.recordNumber, e);
+					throw new Exception(document.statusMsg, e);
+				}
 			}
-		} else {
-
+		} catch (Exception e) {
 			try {
-				NodeRef folderNodeRef = createFolder(currentDestinationPath,
-						site);
-				final FileInfo fileInfo = fileFolderService.create(
-						folderNodeRef, document.fileName,
-						AkDmModel.TYPE_AKDM_BYGGREDA_DOC);
-				document.nodeRef = fileInfo.getNodeRef();
-				addProperties(document.nodeRef, document, false);
-				createFile(document.nodeRef, site, sourcePath, document);
-				createVersionHistory(document.nodeRef);
-				document.readSuccessfully = true;
-				LOG.debug("Imported document " + document.recordDisplay);
-			} catch (FileExistsException ex) {
-				document.readSuccessfully = false;
-				document.errorMsg = "File already exists at path "
-						+ currentDestinationPath;
-				LOG.error(document.errorMsg);
-			} catch (Exception e) {
-				document.readSuccessfully = false;
-				document.errorMsg = e.getMessage();
-				LOG.error("Error importing document " + document.recordNumber,
-						e);
+				if (trx.getStatus() == Status.STATUS_ACTIVE) {
+					trx.rollback();
+				} else {
+					LOG.error("The transaction was not active");
+				}
+				return document;
+			} catch (Exception e2) {
+				LOG.error("Exception: ", e);
+				LOG.error("Exception while rolling back transaction", e2);
+				throw new RuntimeException(e2);
 			}
+
 		}
 		return document;
 
@@ -555,9 +624,10 @@ public class ByggRedaUtil {
 	 * @param site
 	 * @param sourcePath
 	 * @param document
+	 * @throws java.io.FileNotFoundException
 	 */
 	private void createFile(NodeRef nodeRef, SiteInfo site, String sourcePath,
-			ByggRedaDocument document) {
+			ByggRedaDocument document) throws java.io.FileNotFoundException {
 		InputStream inputStream = readFile(site, sourcePath, document.fileName);
 		if (inputStream != null) {
 			try {
@@ -571,8 +641,9 @@ public class ByggRedaUtil {
 				IOUtils.closeQuietly(inputStream);
 			}
 		} else {
-			LOG.error("Input file could not be read. " + sourcePath + "/"
-					+ document.fileName);
+			throw new java.io.FileNotFoundException(
+					"Input file could not be read. " + sourcePath + "/"
+							+ document.fileName);
 		}
 	}
 
@@ -596,9 +667,8 @@ public class ByggRedaUtil {
 			NodeRef folder = fileFolderService.searchSimple(rootNodeRef, part);
 
 			while (folder == null) {
-				folder = fileFolderService.create(rootNodeRef,
-						part, ContentModel.TYPE_FOLDER)
-						.getNodeRef();
+				folder = fileFolderService.create(rootNodeRef, part,
+						ContentModel.TYPE_FOLDER).getNodeRef();
 				nodeService.setProperty(folder, ContentModel.PROP_TITLE, part);
 			}
 
@@ -860,5 +930,13 @@ public class ByggRedaUtil {
 	public void setCheckOutCheckInService(
 			CheckOutCheckInService checkOutCheckInService) {
 		ByggRedaUtil.checkOutCheckInService = checkOutCheckInService;
+	}
+
+	public TransactionService getTransactionService() {
+		return transactionService;
+	}
+
+	public void setTransactionService(TransactionService transactionService) {
+		this.transactionService = transactionService;
 	}
 }

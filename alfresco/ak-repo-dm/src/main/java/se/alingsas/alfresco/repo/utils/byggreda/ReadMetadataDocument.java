@@ -34,7 +34,7 @@ public class ReadMetadataDocument {
 		LineIterator lineIterator = null;
 		int lineNumber = 1;
 		try {
-			lineIterator = IOUtils.lineIterator(inputStream, "UTF-8");
+			lineIterator = IOUtils.lineIterator(inputStream, "ISO-8859-1");
 			// Skip first line which is a header line
 			if (lineIterator.hasNext()) {
 
@@ -60,7 +60,7 @@ public class ReadMetadataDocument {
 				document.lineNumber = lineNumber;
 				if (!document.readSuccessfully) {
 					// An error occured, we need to log this
-					LOG.error("Line #"+document.lineNumber+": "+document.errorMsg);
+					LOG.error("Line #"+document.lineNumber+": "+document.statusMsg);
 				} else {
 					// Document successfully read
 					LOG.info("Line #"+document.lineNumber+": "+"Successfully read record. Serial number: "
@@ -91,15 +91,15 @@ public class ReadMetadataDocument {
 		document.readSuccessfully = false;
 		// Verify that all parts were extracted
 		if (parts.length != 14) {
-			document.errorMsg = "Extracting data from line returned "
+			document.statusMsg = "Extracting data from line returned "
 					+ parts.length + " parts, expected " + EXPECTED_NUM_PARTS
 					+ ". Line contents: " + line;
 		} else if (parts[0].indexOf("\"") != 0) {
-			document.errorMsg = "Expected \" as first character of the line. Line contents: "
+			document.statusMsg = "Expected \" as first character of the line. Line contents: "
 					+ line;
 		} else if (parts[parts.length - 1].indexOf("\"") != parts[parts.length - 1]
 				.length() - 1) {
-			document.errorMsg = "Expected \" as last character of the line. Line contents: "
+			document.statusMsg = "Expected \" as last character of the line. Line contents: "
 					+ line;
 		} else {
 			// All parts were extracted successfully

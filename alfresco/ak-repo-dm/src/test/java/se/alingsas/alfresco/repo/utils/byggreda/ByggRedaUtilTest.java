@@ -15,6 +15,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.admin.SysAdminParams;
 import org.alfresco.repo.admin.SysAdminParamsImpl;
@@ -32,6 +39,7 @@ import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
 import org.alfresco.service.cmr.version.VersionService;
 import org.alfresco.service.namespace.QName;
+import org.alfresco.service.transaction.TransactionService;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
@@ -52,7 +60,8 @@ public class ByggRedaUtilTest {
 	final NodeService nodeService = context.mock(NodeService.class);
 	final ContentWriter contentWriter = context.mock(ContentWriter.class);
 	final VersionService versionService = context.mock(VersionService.class);
-	
+	final TransactionService transactionService = context.mock(TransactionService.class);
+	final UserTransaction userTransaction = context.mock(UserTransaction.class);
 	final StoreRef storeRef = new StoreRef("workspace://SpacesStore");
 	final String dummyNodeId = "cafebabe-cafe-babe-cafe-babecafebabe";
 	final NodeRef dummyNodeRef = new NodeRef(storeRef, dummyNodeId);
@@ -85,7 +94,7 @@ public class ByggRedaUtilTest {
 
 	@Before
 	public void setUp() throws FileNotFoundException,
-			java.io.FileNotFoundException {
+			java.io.FileNotFoundException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 		
 		
 		// Source
@@ -257,6 +266,14 @@ public class ByggRedaUtilTest {
 				allowing(sysAdminParams).getShareProtocol();
 				will(returnValue("http"));
 				
+				allowing(transactionService).getNonPropagatingUserTransaction();
+				will(returnValue(userTransaction));
+				
+				allowing(userTransaction).begin();
+				allowing(userTransaction).commit();
+				allowing(userTransaction).rollback();
+				
+				
 			}
 		});
 	}
@@ -302,7 +319,7 @@ public class ByggRedaUtilTest {
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_FS);
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
-		
+		bru.setTransactionService(transactionService);
 		// All valid
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
@@ -324,7 +341,7 @@ public class ByggRedaUtilTest {
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_FS);
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
-		
+		bru.setTransactionService(transactionService);
 		// Invalid Destinationpath
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
@@ -388,7 +405,7 @@ public class ByggRedaUtilTest {
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
-		
+		bru.setTransactionService(transactionService);
 		// All valid
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
@@ -416,7 +433,7 @@ public class ByggRedaUtilTest {
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
-		
+		bru.setTransactionService(transactionService);
 		// Invalid Destinationpath
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
