@@ -2,6 +2,7 @@ package se.alingsas.alfresco.repo.utils.byggreda;
 
 import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.io.FilenameUtils;
@@ -17,7 +18,6 @@ public class ReadMetadataDocument {
 			.getLogger(ReadMetadataDocument.class);
 	private static final int EXPECTED_NUM_PARTS = 14;
 	private static final String RECORD_DISPLAY_SEPARATOR = "-";
-
 	/**
 	 * Takes an input stream which should point to a metadata document for
 	 * byggreda. Validates and parses the data and returns a set of
@@ -26,20 +26,22 @@ public class ReadMetadataDocument {
 	 * @param inputStream
 	 * @return
 	 */
-	public static Set<ByggRedaDocument> read(final InputStream inputStream) {
+	public static Set<ByggRedaDocument> read(final InputStream inputStream, List<String> globalMessages) {
 		if (inputStream == null) {
 			return null;
 		}
 		Set<ByggRedaDocument> result = new HashSet<ByggRedaDocument>();
 		LineIterator lineIterator = null;
+		String line = "";
 		int lineNumber = 1;
 		try {
 			lineIterator = IOUtils.lineIterator(inputStream, "ISO-8859-1");
 			// Skip first line which is a header line
 			if (lineIterator.hasNext()) {
 
-				final String line = lineIterator.nextLine();
-				if (!line.startsWith("\"Film\";\"")) {
+				line = lineIterator.nextLine();
+				if (!line.startsWith("\"Film\";\"") && !line.startsWith("Film;")) {
+					globalMessages.add("#1: Sidhuvud ej funnet på första raden i styrfilen. Första raden var: "+line);
 					LOG.error("No header found on the first line in the document. First line was: "
 							+ line +". Aborting...");
 					return result;
@@ -49,9 +51,10 @@ public class ReadMetadataDocument {
 			}
 			while (lineIterator.hasNext()) {
 				lineNumber++;
-				final String line = lineIterator.nextLine();
+				line = lineIterator.nextLine();
 				// if it's an empty line or a comment, skip
 				if (!StringUtils.hasText(line) || line.startsWith("#")) {
+					globalMessages.add("#"+lineNumber+": Tom rad, eller bortkommenterad rad funnel, skippas");
 					LOG.info("Line #"+lineNumber+": Skipping comment or empty line");
 					continue;
 				}
@@ -63,14 +66,14 @@ public class ReadMetadataDocument {
 					LOG.error("Line #"+document.lineNumber+": "+document.statusMsg);
 				} else {
 					// Document successfully read
-					LOG.info("Line #"+document.lineNumber+": "+"Successfully read record. Serial number: "
-							+ document.serialNumber + ", Record number: "
-							+ document.recordNumber);
+					LOG.debug("Line #"+document.lineNumber+": "+"Successfully read record. , Record number: "
+							+ document.recordDisplay);
 				}
 				result.add(document);
 			}
 		} catch (final Exception ex) {
-			throw new RuntimeException("Error on line '" + lineNumber + "'", ex);
+			globalMessages.add("#"+lineNumber+ ": Fel vid inläsning av rad "+lineNumber+" från styrfil. Radens innehåll: "+line+" Systemmeddelande: "+ex.getMessage());
+			LOG.error("Error on line '" + lineNumber + "'. Line contents: "+line, ex);
 		}  finally {
 			IOUtils.closeQuietly(inputStream);
 			LineIterator.closeQuietly(lineIterator);
@@ -86,31 +89,56 @@ public class ReadMetadataDocument {
 	 */
 	private static ByggRedaDocument parseAndValidate(String line) {
 		ByggRedaDocument document = new ByggRedaDocument();
-		final String[] parts = StringUtils.delimitedListToStringArray(line,
+		String[] parts = StringUtils.delimitedListToStringArray(line,
 				"\";\"");
+		if (parts.length <= 1) {
+			//If parts were not found, try without quotes
+			parts = StringUtils.delimitedListToStringArray(line, ";");
+		}
 		document.readSuccessfully = false;
+		
+		for (String part : parts) {
+			if (part.indexOf(";")!=-1) {
+				document.statusMsg = "Semikolon påträffades i något av fälten på raden";
+				return document;
+			}
+		}
+		
 		// Verify that all parts were extracted
 		if (parts.length != 14) {
-			document.statusMsg = "Extracting data from line returned "
-					+ parts.length + " parts, expected " + EXPECTED_NUM_PARTS
-					+ ". Line contents: " + line;
-		} else if (parts[0].indexOf("\"") != 0) {
-			document.statusMsg = "Expected \" as first character of the line. Line contents: "
-					+ line;
-		} else if (parts[parts.length - 1].indexOf("\"") != parts[parts.length - 1]
-				.length() - 1) {
-			document.statusMsg = "Expected \" as last character of the line. Line contents: "
-					+ line;
+			document.statusMsg = "Fel antal delar i rad. Antal delar funna:"
+					+ parts.length + " Förväntat antal delar: " + EXPECTED_NUM_PARTS
+					+ " Rad: " + line;
 		} else {
 			// All parts were extracted successfully
 			int i = 0;
 			document.readSuccessfully = true;
-			document.film = parts[i++].substring(1); // Remove prefix "
+			document.film = parts[i++]; 
+			if (document.film.indexOf("\"")==0) {
+				// Remove prefix "
+				document.film = document.film.substring(1);
+			}				
 			document.serialNumber = parts[i++];
-			document.recordYear = Integer.parseInt(parts[i++]);
+			try {
+				document.recordYear = Integer.parseInt(parts[i++]);
+			} catch (NumberFormatException e) {
+				document.readSuccessfully = false;
+				document.statusMsg = "Ogiltigt diarieår";
+				return document;
+			}
 			document.recordNumber =  parts[i++];
+			if (!StringUtils.hasText(document.recordNumber)) {
+				document.readSuccessfully = false;
+				document.statusMsg = "Diarienummer saknas";
+				return document;
+			}
 			document.recordDisplay = document.recordYear +RECORD_DISPLAY_SEPARATOR+ document.recordNumber; 
 			document.buildingDescription = parts[i++];
+			if (!StringUtils.hasText(document.buildingDescription)) {
+				document.readSuccessfully = false;
+				document.statusMsg = "Fastighetsbeteckning saknas";
+				return document;
+			}
 			document.lastBuildingDescription = parts[i++];
 			document.address = parts[i++];
 			document.lastAddress = parts[i++];
@@ -119,10 +147,17 @@ public class ReadMetadataDocument {
 			document.issuePurpose = parts[i++];
 			document.note = parts[i++];
 			document.records = parts[i++];
-			// Remove postfix " from last part
-			document.fileName = parts[i].substring(0, parts[i++].length() - 1);
+			document.fileName = parts[i];
+			if (!StringUtils.hasText(document.fileName)) {
+				document.readSuccessfully = false;
+				document.statusMsg = "Filnamn saknas";
+				return document;
+			}
+			if (document.fileName.indexOf("\"") ==(document.fileName.length()-1)) {
+				// Remove postfix " from last part
+				document.fileName = document.fileName.substring(0, document.fileName.length() - 1);
+			}
 			document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.fileName));
-			
 			document.path = document.buildingDescription.substring(0, 1).toUpperCase().replace("/", "_").replace(':', '_')
 			+ "/" + document.buildingDescription.toUpperCase().replace("/", "_").replace(':', '_') + "/"+
 			document.recordDisplay + " "+ document.issuePurpose.toUpperCase().replace("/", "_").replace(':', '_');
