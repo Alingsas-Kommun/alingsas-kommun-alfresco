@@ -157,10 +157,21 @@ public class ReadMetadataDocument {
 				// Remove postfix " from last part
 				document.fileName = document.fileName.substring(0, document.fileName.length() - 1);
 			}
+			
 			document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.fileName));
-			document.path = document.buildingDescription.substring(0, 1).toUpperCase().replace("/", "_").replace(':', '_')
-			+ "/" + document.buildingDescription.toUpperCase().replace("/", "_").replace(':', '_') + "/"+
-			document.recordDisplay + " "+ document.issuePurpose.toUpperCase().replace("/", "_").replace(':', '_');
+			String part1 = document.buildingDescription.substring(0, 1).toUpperCase().replace("/", "_").replace(':', '_');
+			if (part1.endsWith(".")) {
+				part1 = part1.substring(0, part1.length()-1);
+			}
+			String part2 = document.buildingDescription.toUpperCase().replace("/", "_").replace(':', '_');
+			if (part2.endsWith(".")) {
+				part2 = part2.substring(0, part2.length()-1);
+			}
+			String part3 = document.recordDisplay + " "+ document.issuePurpose.toUpperCase().replace("/", "_").replace(':', '_');
+			if (part3.endsWith(".")) {
+				part3 = part3.substring(0, part3.length()-1);
+			}
+			document.path = part1 + "/" + part2 + "/"+ part3;
 			document.title = document.recordDisplay+ " " + document.issuePurpose.replace("/", "_").replace(':', '_');
 		}
 		return document;

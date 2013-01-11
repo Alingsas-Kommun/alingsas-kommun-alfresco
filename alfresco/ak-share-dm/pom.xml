@@ -26,8 +26,30 @@
 				<executions>
 					<execution>
 						<id>minimize-javascript</id>
+						<configuration>
+							<preProcessAggregates>true</preProcessAggregates>
+						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<preProcessAggregates>true</preProcessAggregates>
+					<aggregations>
+						<aggregation>
+							<insertNewLine>true</insertNewLine>
+							<output>${project.basedir}/src/main/webapp/js/documentlibrary-actions.js</output>
+							<includes>
+								<include>${project.basedir}/src/main/webapp/components/documentlibrary/actions.js</include>
+								<include>${project.basedir}/src/main/webapp/modules/simple-dialog.js</include>
+								<include>${project.basedir}/src/main/webapp/modules/documentlibrary/global-folder.js</include>
+								<include>${project.basedir}/src/main/webapp/modules/documentlibrary/copy-move-to.js</include>
+								<include>${project.basedir}/src/main/webapp/components/people-finder/people-finder.js</include>
+								<include>${project.basedir}/src/main/webapp/modules/documentlibrary/permissions.js</include>
+								<include>${project.basedir}/src/main/webapp/modules/documentlibrary/aspects.js</include>
+							</includes>
+						</aggregation>
+					</aggregations>
+					<force>true</force>
+				</configuration>
 			</plugin>
 		</plugins>
 		<pluginManagement>
