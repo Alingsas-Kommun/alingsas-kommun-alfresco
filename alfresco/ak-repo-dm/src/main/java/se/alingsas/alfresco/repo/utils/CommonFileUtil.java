@@ -93,4 +93,29 @@ public class CommonFileUtil {
 
 		return mimetype;
 	}
+
+	public static String parseValidFileName(String fileName) {
+		while (fileName.endsWith(".")) {
+			fileName = fileName.substring(0, fileName.length()-1);
+			fileName = fileName.trim();
+		}
+		fileName = fileName.replace("/", " ");
+		fileName = fileName.replace("\\", " ");
+		fileName = fileName.replace(":", "");
+		fileName = fileName.replace("\"", "\'");
+		fileName = fileName.replace("?", "");
+		fileName = fileName.replace("*", "");
+		fileName = fileName.replace("|", " ");
+		fileName = fileName.replace("<", " ");
+		fileName = fileName.replace(">", " ");
+		while (fileName.indexOf("  ")!=-1) {
+			fileName = fileName.replace("  ", " ");
+		}
+		fileName = fileName.trim();
+		while (fileName.endsWith(".")) {
+			fileName = fileName.substring(0, fileName.length()-1);
+			fileName = fileName.trim();
+		}
+		return fileName;
+	}
 }
