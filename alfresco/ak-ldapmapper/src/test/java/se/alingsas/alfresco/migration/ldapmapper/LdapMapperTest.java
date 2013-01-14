@@ -9,8 +9,9 @@ import org.springframework.ldap.core.LdapTemplate;
 
 public class LdapMapperTest {
 
-	@Test
-	public void testGetUser() {
+	/*@Test
+	Disabled test due to dependecy to local ldap server 
+	  public void testGetUser() {
 		ApplicationContext context = new ClassPathXmlApplicationContext("ldap-context.xml");
 		LdapMapper ldapMapper = new LdapMapper("", "");
 		ldapMapper.setLdapTemplate(context.getBean("ldapTemplate", LdapTemplate.class));
@@ -20,6 +21,6 @@ public class LdapMapperTest {
 		user = ldapMapper
 				.getUser("Malin Wallin", "OU=KLK,O=Alingsas,DC=nodomain");
 		assertNotNull(user);
-	}
+	}*/
 
 }

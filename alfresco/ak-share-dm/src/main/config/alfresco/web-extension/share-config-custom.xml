@@ -81,15 +81,6 @@
 		</web-framework>
 	</config>
 
-	<config evaluator="string-compare" condition="Replication">
-		<share-urls>
-			<!-- To discover a Repository Id, browse to the remote server's CMIS landing 
-				page at: http://{server}:{port}/alfresco/service/cmis/index.html The Repository 
-				Id field is found under the "CMIS Repository Information" expandable panel. 
-				Example config entry: <share-url repositoryId="622f9533-2a1e-48fe-af4e-ee9e41667ea4">http://new-york-office:8080/share/</share-url> -->
-		</share-urls>
-	</config>
-
 	<!-- Document Library config section -->
 	<config evaluator="string-compare" condition="DocumentLibrary"
 		replace="true">
@@ -410,69 +401,53 @@
 		</tree>
 	</config>
 
-	<!-- Kerberos settings -->
-	<!-- To enable kerberos rename this condition to "Kerberos" -->
-	<config evaluator="string-compare" condition="KerberosDisabled"
-		replace="true">
-		<kerberos>
-			<!-- Password for HTTP service account. The account name *must* be built 
-				from the HTTP server name, in the format : HTTP/<server_name>@<realm> (NB 
-				this is because the web browser requests an ST for the HTTP/<server_name> 
-				principal in the current realm, so if we're to decode that ST, it has to 
-				match.) -->
-			<password>secret</password>
-			<!-- Kerberos realm and KDC address. -->
-			<realm>ALFRESCO.ORG</realm>
-			<!-- Service Principal Name to use on the repository tier. This must be 
-				like: HTTP/host.name@REALM -->
-			<endpoint-spn>HTTP/repository.server.com@ALFRESCO.ORG</endpoint-spn>
-			<!-- JAAS login configuration entry name. -->
-			<config-entry>ShareHTTP</config-entry>
-		</kerberos>
-	</config>
-
 	<!-- example port config used to access remote Alfresco server (default 
 		is 8080) -->
-	<!-- <config evaluator="string-compare" condition="Remote"> <remote> <endpoint> 
-		<id>alfresco-noauth</id> <name>Alfresco - unauthenticated access</name> <description>Access 
-		to Alfresco Repository WebScripts that do not require authentication</description> 
-		<connector-id>alfresco</connector-id> <endpoint-url>http://localhost:8080/alfresco/s</endpoint-url> 
-		<identity>none</identity> </endpoint> <endpoint> <id>alfresco</id> <name>Alfresco 
-		- user access</name> <description>Access to Alfresco Repository WebScripts 
-		that require user authentication</description> <connector-id>alfresco</connector-id> 
-		<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url> <identity>user</identity> 
-		</endpoint> <endpoint> <id>alfresco-feed</id> <name>Alfresco Feed</name> 
-		<description>Alfresco Feed - supports basic HTTP authentication via the EndPointProxyServlet</description> 
-		<connector-id>http</connector-id> <endpoint-url>http://localhost:8080/alfresco/s</endpoint-url> 
-		<basic-auth>true</basic-auth> <identity>user</identity> </endpoint> <endpoint> 
-		<id>activiti-admin</id> <name>Activiti Admin UI - user access</name> <description>Access 
-		to Activiti Admin UI, that requires user authentication</description> <connector-id>activiti-admin-connector</connector-id> 
-		<endpoint-url>http://localhost:8080/alfresco/activiti-admin</endpoint-url> 
-		<identity>user</identity> </endpoint> </remote> </config> -->
-
-	<!-- Overriding endpoints to reference an Alfresco server with external 
-		SSO enabled NOTE: If utilising a load balancer between web-tier and repository 
-		cluster, the "sticky sessions" feature of your load balancer must be used. 
-		NOTE: If alfresco server location is not localhost:8080 then also combine 
-		changes from the "example port config" section below. *Optional* keystore 
-		contains SSL client certificate + trusted CAs. Used to authenticate share 
-		to an external SSO system such as CAS Remove the keystore section if not 
-		required i.e. for NTLM. NOTE: For Kerberos SSO rename the "KerberosDisabled" 
-		condition above to "Kerberos" NOTE: For external SSO, switch the endpoint 
-		connector to "AlfrescoHeader" and set the userHeader to the name of the HTTP 
-		header that the external SSO uses to provide the authenticated user name. -->
-	<!-- <config evaluator="string-compare" condition="Remote"> <remote> <keystore> 
-		<path>alfresco/web-extension/alfresco-system.p12</path> <type>pkcs12</type> 
-		<password>alfresco-system</password> </keystore> <connector> <id>alfrescoCookie</id> 
-		<name>Alfresco Connector</name> <description>Connects to an Alfresco instance 
-		using cookie-based authentication</description> <class>org.alfresco.web.site.servlet.SlingshotAlfrescoConnector</class> 
-		</connector> <connector> <id>alfrescoHeader</id> <name>Alfresco Connector</name> 
-		<description>Connects to an Alfresco instance using header and cookie-based 
-		authentication</description> <class>org.alfresco.web.site.servlet.SlingshotAlfrescoConnector</class> 
-		<userHeader>SsoUserHeader</userHeader> </connector> <endpoint> <id>alfresco</id> 
-		<name>Alfresco - user access</name> <description>Access to Alfresco Repository 
-		WebScripts that require user authentication</description> <connector-id>alfrescoCookie</connector-id> 
-		<endpoint-url>http://localhost:8080/alfresco/wcs</endpoint-url> <identity>user</identity> 
-		<external-auth>true</external-auth> </endpoint> </remote> </config> -->
-
+	<config evaluator="string-compare" condition="Remote">
+		<remote>
+			<endpoint>
+				<id>alfresco-noauth</id>
+				<name>Alfresco - unauthenticated access</name>
+				<description>Access
+					to Alfresco Repository WebScripts that do not require authentication
+				</description>
+				<connector-id>alfresco</connector-id>
+				<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
+				<identity>none</identity>
+			</endpoint>
+			<endpoint>
+				<id>alfresco</id>
+				<name>Alfresco
+					- user access
+				</name>
+				<description>Access to Alfresco Repository WebScripts
+					that require user authentication
+				</description>
+				<connector-id>alfresco</connector-id>
+				<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
+				<identity>user</identity>
+			</endpoint>
+			<endpoint>
+				<id>alfresco-feed</id>
+				<name>Alfresco Feed</name>
+				<description>Alfresco Feed - supports basic HTTP authentication via
+					the EndPointProxyServlet</description>
+				<connector-id>http</connector-id>
+				<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
+				<basic-auth>true</basic-auth>
+				<identity>user</identity>
+			</endpoint>
+			<endpoint>
+				<id>activiti-admin</id>
+				<name>Activiti Admin UI - user access</name>
+				<description>Access
+					to Activiti Admin UI, that requires user authentication
+				</description>
+				<connector-id>activiti-admin-connector</connector-id>
+				<endpoint-url>http://localhost:8080/alfresco/activiti-admin
+				</endpoint-url>
+				<identity>user</identity>
+			</endpoint>
+		</remote>
+	</config>
 </alfresco-config>
