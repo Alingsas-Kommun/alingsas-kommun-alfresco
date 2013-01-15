@@ -69,7 +69,7 @@
 				FreeMarker template caching and Rhino JavaScript compilation. -->
 			<autowire>
 				<!-- Pick the mode: "production" or "development" -->
-				<mode>development</mode>
+				<mode>production</mode>
 			</autowire>
 
 			<!-- Allows extension modules with <auto-deploy> set to true to be automatically 

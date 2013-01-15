@@ -15,10 +15,9 @@ function checkAllowCreateSite(person) {
   var groups = getUserGroups(person);
   for (var i=0;i<groups.length;i++) {
       if (groups[i] == "GROUP_ALFRESCO_ADMINISTRATORS" || 
-          groups[i] == "GROUP_PLATSINITIATORER") {
+          groups[i] == "GROUP_AK-MAN-Siteinitiators") {
           return true
       }
-      //logger.log(groups[i]); 
   }
   return false;
 }
