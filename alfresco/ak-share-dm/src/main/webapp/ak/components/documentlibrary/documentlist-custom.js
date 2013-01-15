@@ -86,38 +86,4 @@
    	   }
 	   Alfresco.DocumentListViewRenderer.prototype.renderCellDescription(scope, elCell, oRecord, oColumn, oData);
    }
-   
-   /*
-	 * Alfresco.DocumentListNewDetailedViewRenderer.prototype.renderCellThumbnail =
-	 * function Example_renderCellThumbnail(scope, elCell, oRecord, oColumn,
-	 * oData, imgIdSuffix) { var record = oRecord.getData(), node =
-	 * record.jsNode, properties = node.properties, name = record.displayName,
-	 * isContainer = node.isContainer, isLink = node.isLink, extn =
-	 * name.substring(name.lastIndexOf(".")), imgId = node.nodeRef.nodeRef; //
-	 * DD added
-	 * 
-	 * var containerTarget; // This will only get set if thumbnail represents a
-	 * container
-	 * 
-	 * oColumn.width = this.thumbnailColumnWidth; Dom.setStyle(elCell, "width",
-	 * oColumn.width + "px"); Dom.setStyle(elCell.parentNode, "width",
-	 * oColumn.width + "px");
-	 * 
-	 * if (isContainer || (isLink && node.linkedNode.isContainer)) {
-	 * elCell.innerHTML = '<span class="folder documents-large">' + (isLink ? '<span
-	 * class="link"></span>' : '') + (scope.dragAndDropEnabled ? '<span
-	 * class="droppable"></span>' : '') +
-	 * Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img
-	 * id="' + imgId + '" src="' + Alfresco.constants.URL_RESCONTEXT +
-	 * 'components/documentlibrary/images/folder-64.png" /></a>';
-	 * containerTarget = new YAHOO.util.DDTarget(imgId); // Make the folder a
-	 * target } else { elCell.innerHTML = '<span class="thumbnail
-	 * documents-large">' + (isLink ? '<span class="link"></span>' : '') +
-	 * Alfresco.DocumentList.generateFileFolderLinkMarkup(scope, record) + '<img
-	 * id="' + imgId + '" src="' +
-	 * Alfresco.DocumentList.generateThumbnailUrl(record, 'imgpreview') + '"
-	 * alt="' + extn + '" title="' + $html(name) + '" /></a></span>'; } var
-	 * dnd = new Alfresco.DnD(imgId, scope); };
-	 */
-
 })();
