@@ -69,7 +69,7 @@
 				FreeMarker template caching and Rhino JavaScript compilation. -->
 			<autowire>
 				<!-- Pick the mode: "production" or "development" -->
-				<mode>production</mode>
+				<mode>development</mode>
 			</autowire>
 
 			<!-- Allows extension modules with <auto-deploy> set to true to be automatically 
@@ -402,7 +402,7 @@
 	</config>
 
 	<!-- example port config used to access remote Alfresco server (default 
-		is 8080) -->
+		is 8080) 
 	<config evaluator="string-compare" condition="Remote">
 		<remote>
 			<endpoint>
@@ -449,5 +449,5 @@
 				<identity>user</identity>
 			</endpoint>
 		</remote>
-	</config>
+	</config>-->
 </alfresco-config>
