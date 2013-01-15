@@ -214,7 +214,7 @@
 					<field id="akdm:basedOnTemplate" set="instruction" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -440,7 +440,7 @@
 					<field id="akdm:basedOnTemplate" set="ordinance" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -660,7 +660,7 @@
 					<field id="akdm:basedOnTemplate" set="manual" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -866,7 +866,7 @@
 					<field id="akdm:basedOnTemplate" set="protocol" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -1085,7 +1085,7 @@
 					<field id="akdm:basedOnTemplate" set="generalDocument"
 						mandatory="true" label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -1223,7 +1223,7 @@
 					<field id="akdm:basedOnTemplate" set="documentdescription"
 						mandatory="true" label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -1544,7 +1544,7 @@
 					<field id="akdm:basedOnTemplate" set="byggRedaDocument"
 						mandatory="true" label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -1752,7 +1752,7 @@
 					<field id="akdm:basedOnTemplate" set="issuelist" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -1953,7 +1953,7 @@
 					<field id="akdm:basedOnTemplate" set="internalvalidation"
 						mandatory="true" label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
@@ -2152,7 +2152,7 @@
 					<field id="akdm:basedOnTemplate" set="listpul" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
 						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Documents
+							<control-param name="startLocation">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument
 							</control-param>
 						</control>
 					</field>
