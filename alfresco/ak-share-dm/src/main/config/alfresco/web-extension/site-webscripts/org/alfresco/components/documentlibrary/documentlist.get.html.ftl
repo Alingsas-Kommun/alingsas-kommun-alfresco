@@ -23,6 +23,6 @@
    }).setMessages(
       ${messages}
    );
-   documentList.dragAndDropAllowed = false;
+   documentList.dragAndDropAllowed = false; //Alingsås customization, disable dragndrop
 //]]></script>
 </@>

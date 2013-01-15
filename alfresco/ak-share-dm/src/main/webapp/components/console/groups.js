@@ -735,6 +735,9 @@
                {
                   label += " (" + o.shortName + ")";
                }
+               /*
+                * Alingsås customization begin, filter results to only contain groups 
+                */
                var item = {
                   shortName: o.shortName,
                   fullName: o.fullName,
@@ -745,6 +748,9 @@
                   cssClass: o.authorityType == 'GROUP' ? "groups-item-group" : "groups-item-user",
                   buttons: o.authorityType == 'GROUP' ? groupButtons : usersButtons
                };
+               /*
+                * Alingsås customization end
+                */
                column.body.items.push(item);
             }
 
