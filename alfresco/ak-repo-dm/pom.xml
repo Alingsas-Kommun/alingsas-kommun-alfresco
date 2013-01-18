@@ -94,9 +94,19 @@
 					<plugin>
 						<groupId>com.redpill-linpro.alfresco</groupId>
 						<artifactId>maven-refresh-webscripts-plugin</artifactId>
-						<configuration>
-							<url>http://localhost:8080/alfresco/page/index</url>
-						</configuration>
+						<executions>
+							<execution>
+								<id>webscripts</id>
+								<phase>package</phase>
+								<goals>
+									<goal>refresh</goal>
+								</goals>
+								<configuration>
+									<url>http://localhost:8080/alfresco/service/</url>
+									<password>admin</password>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 
