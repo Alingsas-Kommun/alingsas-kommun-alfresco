@@ -20,7 +20,16 @@
 		<namespace uri="http://www.alingsas.se/alfresco/model/wf/1.0"
 			prefix="akwf" />
 	</namespaces>
-
+	<constraints>
+		<constraint name="akwf:reviewOutcomeOptions" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>Approve</value>
+					<value>Reject</value>
+				</list>
+			</parameter>
+		</constraint>
+	</constraints>
 	<types>
 
 		<type name="akwf:completeDocument">
@@ -37,14 +46,7 @@
 					<type>d:text</type>
 					<default>Reject</default>
 					<constraints>
-						<constraint name="akwf:reviewOutcomeOptions" type="LIST">
-							<parameter name="allowedValues">
-								<list>
-									<value>Approve</value>
-									<value>Reject</value>
-								</list>
-							</parameter>
-						</constraint>
+						<constraint ref="akwf:reviewOutcomeOptions" />
 					</constraints>
 				</property>
 			</properties>

@@ -37,6 +37,13 @@ if (bpm_package != null &amp;&amp; bpm_package.children != null) {
           				
 var node = akwf_targetFolder;
 var site = node.getSiteShortName();
+if (site!=akwf_targetSite.properties["cm:name"]) {
+	logger.log("Site does not match target folder site");
+	logger.log("Setting WF handling to Error");
+	execution.setVariable('akwf_handling', 'Error');
+	execution.setVariable('bpm_comment', 'Fel: Vald mapp ligger inte under vald sammarbetsyta');
+}
+
 logger.log("Target folder belongs to site "+site);
 //Find collaborator group
 var group = groups.getGroup('site_'+site+'_SiteCollaborator');
