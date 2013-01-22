@@ -163,7 +163,7 @@
 			<sub-components>
 				<sub-component id="default">
 					<evaluations>
-						<!-- if in site: Site tags -->
+						<!-- if in site: Site tags
 						<evaluation id="site">
 							<evaluators>
 								<evaluator type="site.component.evaluator" />
@@ -172,7 +172,7 @@
 							<properties>
 								<nodeRef>{nodeRef}</nodeRef>
 							</properties>
-						</evaluation>
+						</evaluation> -->
 						<evaluation id="guaranteedToHide">
 							<render>false</render>
 						</evaluation>
