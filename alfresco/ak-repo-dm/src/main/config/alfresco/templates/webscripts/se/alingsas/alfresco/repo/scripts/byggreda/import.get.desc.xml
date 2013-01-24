@@ -1,7 +1,7 @@
 <webscript>
-  <shortname>ByggReda Import Script</shortname>
-  <description>ByggReda Import Script</description>
-  <url>/alingsas/byggredaimport?sourcePath={sourcePath}&amp;metaFileName={metaFileName}</url>
+  <shortname>ByggReda Import Tool</shortname>
+  <description>ByggReda Import Tool</description>
+  <url>/alingsas/byggredaimport</url>
   <authentication>user</authentication>
   <format default="html">argument</format>
   <family>Alingsås</family>

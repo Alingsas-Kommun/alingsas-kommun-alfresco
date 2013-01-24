@@ -506,8 +506,9 @@ public class MigrationUtil {
 			final String workingCopyName = createWorkingCopyName(document.fileName);
 
 			if (!name.equalsIgnoreCase(workingCopyName)) {
-				addProperty(properties, ContentModel.PROP_NAME,
-						document.fileName);
+				/*Keep generated working copy name or else we will get an error
+				 * addProperty(properties, ContentModel.PROP_NAME,
+						document.fileName);*/
 			}
 		} else {
 			addProperty(properties, ContentModel.PROP_NAME, document.fileName);

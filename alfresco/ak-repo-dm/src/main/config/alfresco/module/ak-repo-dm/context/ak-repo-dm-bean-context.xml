@@ -34,11 +34,11 @@
 		<property name="checkOutCheckInService" ref="CheckOutCheckInService" />
 		<property name="transactionService" ref="TransactionService" />
 		<!-- SourceType can either be filesystem or repository, where repository is within the ByggReda site -->
-		<property name="sourceType" value="filesystem" />
-		<property name="siteName" value="byggreda" />
-		<property name="destinationPath" value="Plan- och Byggarkiv" />
-		<property name="logPath" value="Loggar" />
-		<property name="outputPath" value="Output" />
+		<property name="sourceType" value="${byggreda.sourceType}" />
+		<property name="siteName" value="${byggreda.siteName}" />
+		<property name="destinationPath" value="${byggreda.destinationFolder}" />
+		<property name="logPath" value="${byggreda.logPath}" />
+		<property name="outputPath" value="${byggreda.outputPath}" />
 
 		<property name="globalProperties">
 			<ref bean="global-properties" />

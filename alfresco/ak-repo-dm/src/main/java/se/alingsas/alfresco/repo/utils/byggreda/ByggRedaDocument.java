@@ -27,5 +27,6 @@ public class ByggRedaDocument {
 	
 	public String path = "";
 	public String title = "";
+	public String originalPath = "";
 	
 }

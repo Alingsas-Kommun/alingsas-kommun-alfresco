@@ -101,7 +101,7 @@ public class CommonFileUtil {
 		}
 		fileName = fileName.replace("/", " ");
 		fileName = fileName.replace("\\", " ");
-		fileName = fileName.replace(":", "");
+		fileName = fileName.replace(":", " ");
 		fileName = fileName.replace("\"", "\'");
 		fileName = fileName.replace("?", "");
 		fileName = fileName.replace("*", "");

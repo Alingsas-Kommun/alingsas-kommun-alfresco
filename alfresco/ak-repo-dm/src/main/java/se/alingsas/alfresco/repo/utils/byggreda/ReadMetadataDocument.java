@@ -159,10 +159,14 @@ public class ReadMetadataDocument {
 			}
 			document.fileName = CommonFileUtil.parseValidFileName(document.fileName);
 			document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.fileName));
-			String part1 = CommonFileUtil.parseValidFileName(document.buildingDescription.substring(0, 1).toUpperCase());
-			String part2 = CommonFileUtil.parseValidFileName(document.buildingDescription.toUpperCase());
-			String part3 = CommonFileUtil.parseValidFileName(document.recordDisplay + " "+ document.issuePurpose.toUpperCase());
+			String originalPart1 = document.buildingDescription.substring(0, 1).toUpperCase();
+			String part1 = CommonFileUtil.parseValidFileName(originalPart1);
+			String originalPart2 = document.buildingDescription.toUpperCase();
+			String part2 = CommonFileUtil.parseValidFileName(originalPart2);
+			String originalPart3 = document.recordDisplay + " "+ document.issuePurpose.toUpperCase();
+			String part3 = CommonFileUtil.parseValidFileName(originalPart3);
 			document.path = part1 + "/" + part2 + "/"+ part3;
+			document.originalPath = originalPart1 +"#/#"+originalPart2+"#/#"+originalPart3;
 			document.title = document.recordDisplay+ " " + document.issuePurpose;
 		}
 		return document;
