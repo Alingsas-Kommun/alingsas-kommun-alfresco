@@ -1,7 +1,8 @@
 <alfresco-config>
-
 	<!-- Global config section -->
 	<config replace="true">
+		<element-reader element-name="header"
+			class="org.alfresco.web.config.header.HeaderElementReader" />
 		<flags>
 			<!-- Developer debugging setting to turn on DEBUG mode for client scripts 
 				in the browser -->
@@ -40,6 +41,7 @@
 						<item type="link" id="more">/console/admin-console/</item>
 					</container-group>
 				</item>
+				<item type="external-link" id="help">{share-help}</item>
 			</app-items>
 			<user-items>
 				<item type="container" id="user" icon="" description="">
@@ -48,7 +50,6 @@
 						<item type="link" id="my-profile">{userprofilepage}</item>
 						<item type="link" id="change-password" condition="user.capabilities.isMutable">/user/change-password
 						</item>
-						<item type="external-link" id="help">{share-help}</item>
 						<item type="link" id="logout" condition="!context.externalAuthentication">/dologout</item>
 					</container-group>
 				</item>
@@ -346,531 +347,603 @@
 			</forms>
 		</advanced-search>
 	</config>
-	
-	
+
+
 	<!-- Document Library Actions config section -->
-   <config evaluator="string-compare" condition="DocLibActions" replace="true">
+	<config evaluator="string-compare" condition="DocLibActions"
+		replace="true">
 
-      <!--
-         Action definitions
-      -->
-      <actions>
-      	<!-- Alingsås definitions -->
-         <!-- Complete document workflow -->
-         <action id="document-wf-completeDocument" type="pagelink" label="actions.document.complete-document" icon="document-approve">
-            <param name="page">start-workflow?selectedItems={node.nodeRef}&amp;startWorkflow=activiti$completeDocument</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-            <evaluator negate="true">se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete</evaluator>
-            <evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument</evaluator>
-         </action>
-         
-         <!-- Revert document workflow -->
-         <action id="document-wf-revertDocument" type="pagelink" label="actions.document.revert-document" icon="document-reject">
-            <param name="page">start-workflow?selectedItems={node.nodeRef}&amp;startWorkflow=activiti$revertDocument</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-            <evaluator>se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete</evaluator>
-            <evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument</evaluator>
-         </action>
+		<!-- Action definitions -->
+		<actions>
+			<!-- Alingsås definitions -->
+			<!-- Complete document workflow -->
+			<action id="document-wf-completeDocument" type="pagelink"
+				label="actions.document.complete-document" icon="document-approve">
+				<param name="page">start-workflow?selectedItems={node.nodeRef}&amp;startWorkflow=activiti$completeDocument
+				</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+				<evaluator negate="true">se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete
+				</evaluator>
+				<evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument
+				</evaluator>
+			</action>
 
-		<!-- Alfresco default definitions -->
-		<!--
-         Action definitions
-      -->
-         <!-- Download document -->
-         <action id="document-download" type="link" label="actions.document.download">
-            <param name="href">{downloadUrl}</param>
-         </action>
+			<!-- Revert document workflow -->
+			<action id="document-wf-revertDocument" type="pagelink"
+				label="actions.document.revert-document" icon="document-reject">
+				<param name="page">start-workflow?selectedItems={node.nodeRef}&amp;startWorkflow=activiti$revertDocument
+				</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+				<evaluator>se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete
+				</evaluator>
+				<evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument
+				</evaluator>
+			</action>
 
-         <!-- View document in browser -->
-         <action id="document-view-content" type="link" label="actions.document.view">
-            <param name="href">{viewUrl}</param>
-         </action>
+			<!-- Alfresco default definitions -->
+			<!-- Action definitions -->
+			<!-- Download document -->
+			<action id="document-download" type="link"
+				label="actions.document.download">
+				<param name="href">{downloadUrl}</param>
+			</action>
 
-         <!-- View document details -->
-         <action id="document-view-details" type="pagelink" label="actions.document.view-details">
-            <param name="page">document-details?nodeRef={node.nodeRef}</param>
-         </action>
+			<!-- View document in browser -->
+			<action id="document-view-content" type="link"
+				label="actions.document.view">
+				<param name="href">{viewUrl}</param>
+			</action>
 
-         <!-- View folder details -->
-         <action id="folder-view-details" type="pagelink" label="actions.folder.view-details">
-            <param name="page">folder-details?nodeRef={node.nodeRef}</param>
-         </action>
+			<!-- View document details -->
+			<action id="document-view-details" type="pagelink"
+				label="actions.document.view-details">
+				<param name="page">document-details?nodeRef={node.nodeRef}</param>
+			</action>
 
-         <!-- Edit properties pop-up -->
-         <action id="document-edit-properties" type="javascript" label="actions.document.edit-metadata">
-            <param name="function">onActionDetails</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- View folder details -->
+			<action id="folder-view-details" type="pagelink"
+				label="actions.folder.view-details">
+				<param name="page">folder-details?nodeRef={node.nodeRef}</param>
+			</action>
 
-         <!-- Edit properties page -->
-         <action id="document-edit-metadata" type="pagelink" label="actions.document.edit-metadata">
-            <param name="page">edit-metadata?nodeRef={node.nodeRef}</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- Edit properties pop-up -->
+			<action id="document-edit-properties" type="javascript"
+				label="actions.document.edit-metadata">
+				<param name="function">onActionDetails</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- Approve simple workflow -->
-         <action id="document-approve" type="javascript" label="{jsNode.properties.app_approveStep}">
-            <param name="function">onActionSimpleRepoAction</param>
-            <!-- Additional parameters for onRepoAction function  -->
-            <param name="action">accept-simpleworkflow</param>
-            <param name="successMessage">message.simple-workflow.approved</param>
-            <param name="failureMessage">message.simple-workflow.failure</param>
-            <!-- aspect check, property != null check, action name = property value -->
-            <evaluator>evaluator.doclib.action.simpleApprove</evaluator>
-         </action>
+			<!-- Edit properties page -->
+			<action id="document-edit-metadata" type="pagelink"
+				label="actions.document.edit-metadata">
+				<param name="page">edit-metadata?nodeRef={node.nodeRef}</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- Reject simple workflow -->
-         <action id="document-reject" type="javascript" label="{jsNode.properties.app_rejectStep}">
-            <param name="function">onActionSimpleRepoAction</param>
-            <!-- Additional parameters for onRepoAction function  -->
-            <param name="action">reject-simpleworkflow</param>
-            <param name="successMessage">message.simple-workflow.rejected</param>
-            <param name="failureMessage">message.simple-workflow.failure</param>
-            <!-- aspect check, property != null check, action name = property value -->
-            <evaluator>evaluator.doclib.action.simpleReject</evaluator>
-         </action>
+			<!-- Approve simple workflow -->
+			<action id="document-approve" type="javascript"
+				label="{jsNode.properties.app_approveStep}">
+				<param name="function">onActionSimpleRepoAction</param>
+				<!-- Additional parameters for onRepoAction function -->
+				<param name="action">accept-simpleworkflow</param>
+				<param name="successMessage">message.simple-workflow.approved</param>
+				<param name="failureMessage">message.simple-workflow.failure</param>
+				<!-- aspect check, property != null check, action name = property value -->
+				<evaluator>evaluator.doclib.action.simpleApprove</evaluator>
+			</action>
 
-         <!-- Increment Counter -->
-         <action id="document-increment-counter" type="javascript" label="actions.document.increment-counter">
-            <param name="function">onActionSimpleRepoAction</param>
-            <!-- Additional parameters for onRepoAction function  -->
-            <param name="action">counter</param>
-            <param name="successMessage">message.increment-counter.success</param>
-            <param name="failureMessage">message.increment-counter.failure</param>
-         </action>
+			<!-- Reject simple workflow -->
+			<action id="document-reject" type="javascript"
+				label="{jsNode.properties.app_rejectStep}">
+				<param name="function">onActionSimpleRepoAction</param>
+				<!-- Additional parameters for onRepoAction function -->
+				<param name="action">reject-simpleworkflow</param>
+				<param name="successMessage">message.simple-workflow.rejected</param>
+				<param name="failureMessage">message.simple-workflow.failure</param>
+				<!-- aspect check, property != null check, action name = property value -->
+				<evaluator>evaluator.doclib.action.simpleReject</evaluator>
+			</action>
 
-         <!-- Extract Metadata -->
-         <action id="document-extract-metadata" type="javascript" label="actions.document.extract-metadata">
-            <param name="function">onActionSimpleRepoAction</param>
-            <!-- Additional parameters for onRepoAction function  -->
-            <param name="action">extract-metadata</param>
-            <param name="successMessage">message.extract-metadata.success</param>
-            <param name="failureMessage">message.extract-metadata.failure</param>
-         </action>
+			<!-- Increment Counter -->
+			<action id="document-increment-counter" type="javascript"
+				label="actions.document.increment-counter">
+				<param name="function">onActionSimpleRepoAction</param>
+				<!-- Additional parameters for onRepoAction function -->
+				<param name="action">counter</param>
+				<param name="successMessage">message.increment-counter.success</param>
+				<param name="failureMessage">message.increment-counter.failure</param>
+			</action>
 
-         <!-- Transform -->
-         <action id="document-transform" type="javascript" label="actions.document.transform">
-            <param name="function">onActionFormDialog</param>
-            <!-- Additional parameters for onFormDialog function  -->
-            <param name="itemKind">action</param>
-            <param name="itemId">transform</param>
-            <param name="mode">create</param>
-            <param name="destination">{node.nodeRef}</param>
-            <param name="successMessage">message.transform.success</param>
-            <param name="failureMessage">message.transform.failure</param>
-         </action>
+			<!-- Extract Metadata -->
+			<action id="document-extract-metadata" type="javascript"
+				label="actions.document.extract-metadata">
+				<param name="function">onActionSimpleRepoAction</param>
+				<!-- Additional parameters for onRepoAction function -->
+				<param name="action">extract-metadata</param>
+				<param name="successMessage">message.extract-metadata.success</param>
+				<param name="failureMessage">message.extract-metadata.failure</param>
+			</action>
 
-         <!-- Transform Image -->
-         <action id="document-transform-image" type="javascript" label="actions.document.transform-image">
-            <param name="function">onActionFormDialog</param>
-            <!-- Additional parameters for onFormDialog function  -->
-            <param name="itemKind">action</param>
-            <param name="itemId">transform-image</param>
-            <param name="mode">create</param>
-            <param name="destination">{node.nodeRef}</param>
-            <param name="successMessage">message.transform-image.success</param>
-            <param name="failureMessage">message.transform-image.failure</param>
-         </action>
+			<!-- Transform -->
+			<action id="document-transform" type="javascript"
+				label="actions.document.transform">
+				<param name="function">onActionFormDialog</param>
+				<!-- Additional parameters for onFormDialog function -->
+				<param name="itemKind">action</param>
+				<param name="itemId">transform</param>
+				<param name="mode">create</param>
+				<param name="destination">{node.nodeRef}</param>
+				<param name="successMessage">message.transform.success</param>
+				<param name="failureMessage">message.transform.failure</param>
+			</action>
 
-         <!-- Execute Script -->
-         <action id="document-execute-script" type="javascript" label="actions.document.execute-script">
-            <param name="function">onActionFormDialog</param>
-            <!-- Additional parameters for onFormDialog function  -->
-            <param name="itemKind">action</param>
-            <param name="itemId">script</param>
-            <param name="mode">create</param>
-            <param name="destination">{node.nodeRef}</param>
-            <param name="successMessage">message.execute-script.success</param>
-            <param name="failureMessage">message.execute-script.failure</param>
-         </action>
+			<!-- Transform Image -->
+			<action id="document-transform-image" type="javascript"
+				label="actions.document.transform-image">
+				<param name="function">onActionFormDialog</param>
+				<!-- Additional parameters for onFormDialog function -->
+				<param name="itemKind">action</param>
+				<param name="itemId">transform-image</param>
+				<param name="mode">create</param>
+				<param name="destination">{node.nodeRef}</param>
+				<param name="successMessage">message.transform-image.success</param>
+				<param name="failureMessage">message.transform-image.failure</param>
+			</action>
 
-         <!-- Locate with path view -->
-         <action id="document-locate" type="javascript" label="actions.document.locate">
-            <param name="function">onActionLocate</param>
-            <evaluator>evaluator.doclib.action.locateAction</evaluator>
-         </action>
+			<!-- Execute Script -->
+			<action id="document-execute-script" type="javascript"
+				label="actions.document.execute-script">
+				<param name="function">onActionFormDialog</param>
+				<!-- Additional parameters for onFormDialog function -->
+				<param name="itemKind">action</param>
+				<param name="itemId">script</param>
+				<param name="mode">create</param>
+				<param name="destination">{node.nodeRef}</param>
+				<param name="successMessage">message.execute-script.success</param>
+				<param name="failureMessage">message.execute-script.failure</param>
+			</action>
 
-         <!-- Upload new version -->
-         <action id="document-upload-new-version" type="javascript" label="actions.document.upload-new-version">
-            <param name="function">onActionUploadNewVersion</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.upload</evaluator>
-            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
-         </action>
+			<!-- Locate with path view -->
+			<action id="document-locate" type="javascript" label="actions.document.locate">
+				<param name="function">onActionLocate</param>
+				<evaluator>evaluator.doclib.action.locateAction</evaluator>
+			</action>
 
-         <!-- Inline edit -->
-         <action id="document-inline-edit" type="pagelink" label="actions.document.inline-edit">
-            <param name="page">inline-edit?nodeRef={node.nodeRef}</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <!-- aspect check (app:inlineeditable), mimetype check (text/plain, text/html, text/xml) -->
-            <evaluator>evaluator.doclib.action.inlineEdit</evaluator>
-            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator> 
-         </action>
+			<!-- Upload new version -->
+			<action id="document-upload-new-version" type="javascript"
+				label="actions.document.upload-new-version">
+				<param name="function">onActionUploadNewVersion</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator>evaluator.doclib.action.upload</evaluator>
+				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+			</action>
 
-         <!-- Edit online -->
-         <action id="document-edit-online" type="javascript" label="actions.document.edit-online">
-            <param name="function">onActionEditOnline</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <!-- vti module check, mimetype check, userAgent check -->
-            <evaluator>evaluator.doclib.action.onlineEdit</evaluator>
-            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
-         </action>
+			<!-- Inline edit -->
+			<action id="document-inline-edit" type="pagelink"
+				label="actions.document.inline-edit">
+				<param name="page">inline-edit?nodeRef={node.nodeRef}</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<!-- aspect check (app:inlineeditable), mimetype check (text/plain, text/html, 
+					text/xml) -->
+				<evaluator>evaluator.doclib.action.inlineEdit</evaluator>
+				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+			</action>
 
-         <!-- Edit offline -->
-         <action id="document-edit-offline" type="javascript" label="actions.document.edit-offline">
-            <param name="function">onActionEditOffline</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.offlineEdit</evaluator>
-            <evaluator negate="true">evaluator.doclib.action.notEditable</evaluator>
-         </action>
+			<!-- Edit online -->
+			<action id="document-edit-online" type="javascript"
+				label="actions.document.edit-online">
+				<param name="function">onActionEditOnline</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<!-- vti module check, mimetype check, userAgent check -->
+				<evaluator>evaluator.doclib.action.onlineEdit</evaluator>
+				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+			</action>
 
-         <!-- Copy to -->
-         <action id="document-copy-to" type="javascript" label="actions.document.copy-to">
-            <param name="function">onActionCopyTo</param>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- Edit offline -->
+			<action id="document-edit-offline" type="javascript"
+				label="actions.document.edit-offline">
+				<param name="function">onActionEditOffline</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator>evaluator.doclib.action.offlineEdit</evaluator>
+				<evaluator negate="true">evaluator.doclib.action.notEditable
+				</evaluator>
+			</action>
 
-         <!-- Move to -->
-         <action id="document-move-to" type="javascript" label="actions.document.move-to">
-            <param name="function">onActionMoveTo</param>
-            <permissions>
-               <permission allow="true">Delete</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- Copy to -->
+			<action id="document-copy-to" type="javascript" label="actions.document.copy-to">
+				<param name="function">onActionCopyTo</param>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- Delete -->
-         <action id="document-delete" type="javascript" label="actions.document.delete">
-            <param name="function">onActionDelete</param>
-            <permissions>
-               <permission allow="true">Delete</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- Move to -->
+			<action id="document-move-to" type="javascript" label="actions.document.move-to">
+				<param name="function">onActionMoveTo</param>
+				<permissions>
+					<permission allow="true">Delete</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- Assign workflow -->
-         <action id="document-assign-workflow" type="javascript" label="actions.document.assign-workflow">
-            <param name="function">onActionAssignWorkflow</param>
-         </action>
+			<!-- Delete -->
+			<action id="document-delete" type="javascript" label="actions.document.delete">
+				<param name="function">onActionDelete</param>
+				<permissions>
+					<permission allow="true">Delete</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- Manage permissions (site roles) -->
-         <action id="document-manage-site-permissions" type="javascript" icon="document-manage-permissions" label="actions.document.manage-permissions">
-            <param name="function">onActionManagePermissions</param>
-            <permissions>
-               <permission allow="true">ChangePermissions</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.siteBased</evaluator>
-         </action>
+			<!-- Assign workflow -->
+			<action id="document-assign-workflow" type="javascript"
+				label="actions.document.assign-workflow">
+				<param name="function">onActionAssignWorkflow</param>
+			</action>
 
-         <!-- Manage permissions (repository roles) -->
-         <action id="document-manage-repo-permissions" type="pagelink" icon="document-manage-permissions" label="actions.document.manage-permissions">
-            <param name="page">manage-permissions?nodeRef={node.nodeRef}</param>
-            <permissions>
-               <permission allow="true">ChangePermissions</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.siteBased</evaluator>
-         </action>
+			<!-- Manage permissions (site roles) -->
+			<action id="document-manage-site-permissions" type="javascript"
+				icon="document-manage-permissions" label="actions.document.manage-permissions">
+				<param name="function">onActionManagePermissions</param>
+				<permissions>
+					<permission allow="true">ChangePermissions</permission>
+				</permissions>
+				<evaluator>evaluator.doclib.action.siteBased</evaluator>
+			</action>
 
-         <!-- Manage aspects -->
-         <action id="document-manage-aspects" type="javascript" label="actions.document.manage-aspects">
-            <param name="function">onActionManageAspects</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- Manage permissions (repository roles) -->
+			<action id="document-manage-repo-permissions" type="pagelink"
+				icon="document-manage-permissions" label="actions.document.manage-permissions">
+				<param name="page">manage-permissions?nodeRef={node.nodeRef}</param>
+				<permissions>
+					<permission allow="true">ChangePermissions</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.siteBased
+				</evaluator>
+			</action>
 
-         <!-- Change type -->
-         <action id="document-change-type" type="javascript" label="actions.document.change-type">
-            <param name="function">onActionChangeType</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-            <evaluator negate="true">se.alingsas.evaluator.doclib.action.IsAlingsasDocument</evaluator>
-         </action>
+			<!-- Manage aspects -->
+			<action id="document-manage-aspects" type="javascript"
+				label="actions.document.manage-aspects">
+				<param name="function">onActionManageAspects</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- View original (of a Working Copy pair) -->
-         <action id="document-view-original" type="pagelink" label="actions.document.view-original">
-            <param name="page">document-details?nodeRef={workingCopy.sourceNodeRef}</param>
-            <!-- cm:workingcopy aspect -->
-            <evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
-         </action>
+			<!-- Change type -->
+			<action id="document-change-type" type="javascript"
+				label="actions.document.change-type">
+				<param name="function">onActionChangeType</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+				<evaluator negate="true">se.alingsas.evaluator.doclib.action.IsAlingsasDocument
+				</evaluator>
+			</action>
 
-         <!-- View working copy (of a Working Copy pair) -->
-         <action id="document-view-working-copy" type="pagelink" label="actions.document.view-working-copy">
-            <param name="page">document-details?nodeRef={workingCopy.workingCopyNodeRef}</param>
-            <!-- cm:workingcopy aspect -->
-            <evaluator>evaluator.doclib.action.hasWorkingCopy</evaluator>
-         </action>
+			<!-- View original (of a Working Copy pair) -->
+			<action id="document-view-original" type="pagelink"
+				label="actions.document.view-original">
+				<param name="page">document-details?nodeRef={workingCopy.sourceNodeRef}
+				</param>
+				<!-- cm:workingcopy aspect -->
+				<evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
+			</action>
 
-         <!-- Cancel editing (cancel checkout) -->
-         <action id="document-cancel-editing" type="javascript" label="actions.document.cancel-editing">
-            <param name="function">onActionCancelEditing</param>
-            <permissions>
-               <permission allow="true">CancelCheckOut</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
-            <evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator> 
-         </action>
+			<!-- View working copy (of a Working Copy pair) -->
+			<action id="document-view-working-copy" type="pagelink"
+				label="actions.document.view-working-copy">
+				<param name="page">document-details?nodeRef={workingCopy.workingCopyNodeRef}
+				</param>
+				<!-- cm:workingcopy aspect -->
+				<evaluator>evaluator.doclib.action.hasWorkingCopy</evaluator>
+			</action>
 
-         <!-- Manage folder rules -->
-         <action id="folder-manage-rules" type="pagelink" label="actions.folder.rules">
-            <param name="page">folder-rules?nodeRef={node.nodeRef}</param>
-            <permissions>
-               <permission allow="true">ChangePermissions</permission>
-            </permissions>
-         </action>
+			<!-- Cancel editing (cancel checkout) -->
+			<action id="document-cancel-editing" type="javascript"
+				label="actions.document.cancel-editing">
+				<param name="function">onActionCancelEditing</param>
+				<permissions>
+					<permission allow="true">CancelCheckOut</permission>
+				</permissions>
+				<evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
+				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+			</action>
 
-         <!-- View in Explorer client -->
-         <action id="view-in-explorer" type="link" label="actions.folder.explorer-view">
-            <param name="href">{explorerViewUrl}</param>
-            <param name="target">_blank</param>
-            <!-- repository-url config set, not in portlet mode -->
-            <evaluator>evaluator.doclib.action.viewInExplorer</evaluator>
-         </action>
+			<!-- Manage folder rules -->
+			<action id="folder-manage-rules" type="pagelink" label="actions.folder.rules">
+				<param name="page">folder-rules?nodeRef={node.nodeRef}</param>
+				<permissions>
+					<permission allow="true">ChangePermissions</permission>
+				</permissions>
+			</action>
 
-         <!-- Checkout to Google Docs -->
-         <action id="document-checkout-to-googledocs" type="javascript" label="actions.document.checkout-google">
-            <param name="function">onActionCheckoutToGoogleDocs</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <!-- gd:googleEditable -->
-            <evaluator>evaluator.doclib.action.googleDocsCheckOut</evaluator>
-         </action>
+			<!-- View in Explorer client -->
+			<action id="view-in-explorer" type="link"
+				label="actions.folder.explorer-view">
+				<param name="href">{explorerViewUrl}</param>
+				<param name="target">_blank</param>
+				<!-- repository-url config set, not in portlet mode -->
+				<evaluator>evaluator.doclib.action.viewInExplorer</evaluator>
+			</action>
 
-         <!-- Checkin from Google Docs -->
-         <action id="document-checkin-from-googledocs" type="javascript" label="actions.document.checkin-google">
-            <param name="function">onActionCheckinFromGoogleDocs</param>
-            <!-- gd:googleResource, cm:workingcopy & cm:workingCopyOwner = currentUser OR cm:checkedOut, cm:lockOwner = currentUser -->
-            <evaluator>evaluator.doclib.action.googleDocsCheckIn</evaluator>
-            <override>document-checkout-to-googledocs</override>
-         </action>
+			<!-- Checkout to Google Docs -->
+			<action id="document-checkout-to-googledocs" type="javascript"
+				label="actions.document.checkout-google">
+				<param name="function">onActionCheckoutToGoogleDocs</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<!-- gd:googleEditable -->
+				<evaluator>evaluator.doclib.action.googleDocsCheckOut</evaluator>
+			</action>
 
-         <!-- View in Google Docs -->
-         <action id="document-view-googledoc" type="link" icon="document-view-content" label="actions.document.view-google-doc">
-            <param name="href">{workingCopy.googleDocUrl}</param>
-            <param name="target">_blank</param>
-            <!-- gd:googleResource -->
-            <evaluator>evaluator.doclib.action.googleDocsView</evaluator>
-         </action>
+			<!-- Checkin from Google Docs -->
+			<action id="document-checkin-from-googledocs" type="javascript"
+				label="actions.document.checkin-google">
+				<param name="function">onActionCheckinFromGoogleDocs</param>
+				<!-- gd:googleResource, cm:workingcopy & cm:workingCopyOwner = currentUser 
+					OR cm:checkedOut, cm:lockOwner = currentUser -->
+				<evaluator>evaluator.doclib.action.googleDocsCheckIn</evaluator>
+				<override>document-checkout-to-googledocs</override>
+			</action>
 
-         <!-- View on Google Maps -->
-         <action id="document-view-googlemaps" type="pagelink" label="actions.document.view-google-map">
-            <param name="page">geographic-map?nodeRef={node.nodeRef}</param>
-            <!-- aspect cm:geographic -->
-            <evaluator>evaluator.doclib.action.googleMaps</evaluator>
-         </action>
+			<!-- View in Google Docs -->
+			<action id="document-view-googledoc" type="link"
+				icon="document-view-content" label="actions.document.view-google-doc">
+				<param name="href">{workingCopy.googleDocUrl}</param>
+				<param name="target">_blank</param>
+				<!-- gd:googleResource -->
+				<evaluator>evaluator.doclib.action.googleDocsView</evaluator>
+			</action>
 
-         <!-- Transferred node: View in source repository -->
-         <action id="document-view-in-source-repository" type="link" label="actions.document.view-source-repository">
-            <!-- calculated from siteId, item.location.repositoryId, replicationUrlMapping from share-config-custom.xml and node.type -->
-            <param name="href">{sourceRepositoryUrl}</param>
-            <param name="target">_blank</param>
-            <!-- aspect trx:transferred, not portlet mode -->
-            <evaluator>evaluator.doclib.action.transferred</evaluator>
-         </action>
-         
-         <!-- Publish document -->
-         <action id="document-publish" type="javascript" label="actions.document.publish">
-            <param name="function">onActionPublish</param>
-            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
-         </action>
+			<!-- View on Google Maps -->
+			<action id="document-view-googlemaps" type="pagelink"
+				label="actions.document.view-google-map">
+				<param name="page">geographic-map?nodeRef={node.nodeRef}</param>
+				<!-- aspect cm:geographic -->
+				<evaluator>evaluator.doclib.action.googleMaps</evaluator>
+			</action>
 
-         <!-- Cloud Sync: Create -->
-         <action id="document-cloud-sync" type="javascript" label="actions.document.cloud-sync">
-            <param name="function">onActionCloudSync</param>
-            <permissions>
-               <permission allow="true">Write</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.isSyncable</evaluator>
-         </action>
+			<!-- Transferred node: View in source repository -->
+			<action id="document-view-in-source-repository" type="link"
+				label="actions.document.view-source-repository">
+				<!-- calculated from siteId, item.location.repositoryId, replicationUrlMapping 
+					from share-config-custom.xml and node.type -->
+				<param name="href">{sourceRepositoryUrl}</param>
+				<param name="target">_blank</param>
+				<!-- aspect trx:transferred, not portlet mode -->
+				<evaluator>evaluator.doclib.action.transferred</evaluator>
+			</action>
 
-         <!-- Cloud Sync: Delete -->
-         <action id="document-cloud-unsync" type="javascript" label="actions.document.cloud-unsync">
-            <param name="function">onActionCloudUnsync</param>
-            <permissions>
-               <permission allow="true">Delete</permission>
-            </permissions>
-            <evaluator>evaluator.doclib.action.isUnsyncable</evaluator>
-            <override>document-cloud-sync</override>
-         </action>
+			<!-- Publish document -->
+			<action id="document-publish" type="javascript" label="actions.document.publish">
+				<param name="function">onActionPublish</param>
+				<evaluator negate="true">evaluator.doclib.action.isLocked
+				</evaluator>
+			</action>
 
-         <!-- Cloud Sync: View In Cloud -->
-         <action id="document-view-in-cloud" type="link" label="actions.document.view-in-cloud">
-            <param name="href">{cloudViewUrl}</param>
-            <param name="target">_blank</param>
-            <evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
-         </action>
-         
-         <!-- Cloud Sync: Request Sync -->
-         <action id="document-request-sync" type="javascript" label="actions.document.request-sync">
-            <param name="function">onActionCloudSyncRequest</param>
-            <evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
-         </action>
-      </actions>
+			<!-- Cloud Sync: Create -->
+			<action id="document-cloud-sync" type="javascript"
+				label="actions.document.cloud-sync">
+				<param name="function">onActionCloudSync</param>
+				<permissions>
+					<permission allow="true">Write</permission>
+				</permissions>
+				<evaluator>evaluator.doclib.action.isSyncable</evaluator>
+			</action>
+
+			<!-- Cloud Sync: Delete -->
+			<action id="document-cloud-unsync" type="javascript"
+				label="actions.document.cloud-unsync">
+				<param name="function">onActionCloudUnsync</param>
+				<permissions>
+					<permission allow="true">Delete</permission>
+				</permissions>
+				<evaluator>evaluator.doclib.action.isUnsyncable</evaluator>
+				<override>document-cloud-sync</override>
+			</action>
+
+			<!-- Cloud Sync: View In Cloud -->
+			<action id="document-view-in-cloud" type="link"
+				label="actions.document.view-in-cloud">
+				<param name="href">{cloudViewUrl}</param>
+				<param name="target">_blank</param>
+				<evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
+			</action>
+
+			<!-- Cloud Sync: Request Sync -->
+			<action id="document-request-sync" type="javascript"
+				label="actions.document.request-sync">
+				<param name="function">onActionCloudSyncRequest</param>
+				<evaluator>evaluator.doclib.action.isSyncedFromLocal</evaluator>
+			</action>
+		</actions>
 
 
-      <!--
-         Action Group resolver - decides which action group id to use for a node
-      -->
-      <actionGroupResolver>resolver.doclib.actionGroup</actionGroupResolver>
+		<!-- Action Group resolver - decides which action group id to use for a 
+			node -->
+		<actionGroupResolver>resolver.doclib.actionGroup</actionGroupResolver>
 
-      <!--
-         Action Group definitions
-      -->
-      <actionGroups>
-         <actionGroup id="empty"/>
+		<!-- Action Group definitions -->
+		<actionGroups>
+			<actionGroup id="empty" />
 
-         <actionGroup id="document-browse">
-         	<action index="100" id="document-change-type" />
-            <action index="110" id="document-view-content" />
-            <action index="120" id="document-locate" />
-            <action index="130" id="document-edit-properties" />
-            <action index="140" id="document-upload-new-version" />
-            <action index="150" id="document-view-original" />
-            <action index="160" id="document-view-working-copy" />
-            <!-- <action index="170" id="document-approve" />
-            <action index="180" id="document-reject" /> -->
-            <action index="190" id="document-inline-edit" />
-            <action index="200" id="document-edit-online" />
-            <action index="210" id="document-edit-offline" />
-            <action index="220" id="document-view-googledoc" />
-            <action index="230" id="document-checkout-to-googledocs" />
-            <action index="240" id="document-checkin-from-googledocs" />
-            <action index="250" id="document-copy-to" />
-            <action index="260" id="document-move-to" />
-            <action index="270" id="document-delete" />
-            <!-- <action index="280" id="document-assign-workflow" /> -->
-            <action index="290" id="document-cancel-editing" />
-            <action index="310" id="document-view-googlemaps" />
-            <action index="320" id="document-view-in-source-repository" />
-            <action index="330" id="document-cloud-sync" />
-            <action index="340" id="document-cloud-unsync" />
-            <action index="350" id="document-view-in-cloud" />
-            <action index="360" id="document-request-sync"/>
-            <action index="370" id="document-wf-completeDocument" />
-             <action index="405" id="document-wf-revertDocument" />
-         </actionGroup>
+			<actionGroup id="document-browse">
+				<action index="100" id="document-change-type" />
+				<action index="110" id="document-view-content" />
+				<action index="120" id="document-locate" />
+				<action index="130" id="document-edit-properties" />
+				<action index="140" id="document-upload-new-version" />
+				<action index="150" id="document-view-original" />
+				<action index="160" id="document-view-working-copy" />
+				<!-- <action index="170" id="document-approve" /> <action index="180" 
+					id="document-reject" /> -->
+				<action index="190" id="document-inline-edit" />
+				<action index="200" id="document-edit-online" />
+				<action index="210" id="document-edit-offline" />
+				<action index="220" id="document-view-googledoc" />
+				<action index="230" id="document-checkout-to-googledocs" />
+				<action index="240" id="document-checkin-from-googledocs" />
+				<action index="250" id="document-copy-to" />
+				<action index="260" id="document-move-to" />
+				<action index="270" id="document-delete" />
+				<!-- <action index="280" id="document-assign-workflow" /> -->
+				<action index="290" id="document-cancel-editing" />
+				<action index="310" id="document-view-googlemaps" />
+				<action index="320" id="document-view-in-source-repository" />
+				<action index="330" id="document-cloud-sync" />
+				<action index="340" id="document-cloud-unsync" />
+				<action index="350" id="document-view-in-cloud" />
+				<action index="360" id="document-request-sync" />
+				<action index="370" id="document-wf-completeDocument" />
+				<action index="405" id="document-wf-revertDocument" />
+			</actionGroup>
 
-         <actionGroup id="document-details">    	
-            <action index="100" id="document-change-type" />
-            <action index="110" id="document-view-content" />
-            <action index="120" id="document-edit-metadata" />
-            <action index="130" id="document-upload-new-version" />
-            <action index="140" id="document-view-original" />
-            <action index="150" id="document-view-working-copy" />
-            <!-- <action index="160" id="document-approve" />
-            <action index="170" id="document-reject" /> -->
-            <action index="180" id="document-inline-edit" />
-            <action index="190" id="document-edit-online" />
-            <action index="200" id="document-edit-offline" />
-            <action index="210" id="document-view-googledoc" />
-            <action index="220" id="document-checkout-to-googledocs" />
-            <action index="230" id="document-checkin-from-googledocs" />
-            <action index="240" id="document-copy-to" />
-            <action index="250" id="document-move-to" />
-            <action index="260" id="document-delete" />
-            
-            <action index="280" id="document-cancel-editing" />
-            <action index="290" id="document-manage-site-permissions" />
-            <action index="300" id="document-manage-repo-permissions" />
-            <action index="350" id="document-view-googlemaps" />
-            <action index="360" id="document-cloud-sync" />
-            <action index="370" id="document-cloud-unsync" />
-            <action index="380" id="document-view-in-cloud" />
-            <action index="390" id="document-request-sync"/>
-            <!-- <action index="395" id="document-assign-workflow" /> -->
-            <action index="400" id="document-wf-completeDocument" />
-            <action index="405" id="document-wf-revertDocument" />
-         </actionGroup>
+			<actionGroup id="document-details">
+				<action index="100" id="document-change-type" />
+				<action index="110" id="document-view-content" />
+				<action index="120" id="document-edit-metadata" />
+				<action index="130" id="document-upload-new-version" />
+				<action index="140" id="document-view-original" />
+				<action index="150" id="document-view-working-copy" />
+				<!-- <action index="160" id="document-approve" /> <action index="170" 
+					id="document-reject" /> -->
+				<action index="180" id="document-inline-edit" />
+				<action index="190" id="document-edit-online" />
+				<action index="200" id="document-edit-offline" />
+				<action index="210" id="document-view-googledoc" />
+				<action index="220" id="document-checkout-to-googledocs" />
+				<action index="230" id="document-checkin-from-googledocs" />
+				<action index="240" id="document-copy-to" />
+				<action index="250" id="document-move-to" />
+				<action index="260" id="document-delete" />
 
-         <actionGroup id="folder-browse">
-            <action index="100" id="folder-view-details" />
-            <action index="110" id="document-edit-properties" icon="folder-edit-properties" label="actions.folder.edit-metadata" />
-            <action index="120" id="document-approve" icon="folder-approve" />
-            <action index="130" id="document-reject" icon="folder-reject" />
-            <action index="140" id="document-locate" icon="document-locate" label="actions.folder.locate" />
-            <action index="150" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
-            <action index="160" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
-            <action index="170" id="folder-manage-rules" />
-            <action index="180" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
-            <action index="190" id="document-manage-site-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="200" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="210" id="document-manage-aspects" label="actions.folder.manage-aspects" />
-            <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
-            <action index="360" id="document-cloud-sync" />
-            <action index="370" id="document-cloud-unsync" />
-            <action index="380" id="document-view-in-cloud" />
-            <action index="390" id="document-request-sync"/>
-         </actionGroup>
+				<action index="280" id="document-cancel-editing" />
+				<action index="290" id="document-manage-site-permissions" />
+				<action index="300" id="document-manage-repo-permissions" />
+				<action index="350" id="document-view-googlemaps" />
+				<action index="360" id="document-cloud-sync" />
+				<action index="370" id="document-cloud-unsync" />
+				<action index="380" id="document-view-in-cloud" />
+				<action index="390" id="document-request-sync" />
+				<!-- <action index="395" id="document-assign-workflow" /> -->
+				<action index="400" id="document-wf-completeDocument" />
+				<action index="405" id="document-wf-revertDocument" />
+			</actionGroup>
 
-         <actionGroup id="folder-details">
-            <action index="100" id="document-edit-metadata" icon="folder-edit-metadata" label="actions.folder.edit-metadata" />
-            <action index="110" id="document-approve" icon="folder-approve" />
-            <action index="120" id="document-reject" icon="folder-reject" />
-            <action index="130" id="document-copy-to" icon="folder-copy-to" label="actions.folder.copy-to" />
-            <action index="140" id="document-move-to" icon="folder-move-to" label="actions.folder.move-to" />
-            <action index="150" id="folder-manage-rules" />
-            <action index="160" id="document-delete" icon="folder-delete" label="actions.folder.delete" />
-            <action index="170" id="document-manage-site-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="180" id="document-manage-repo-permissions" icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
-            <action index="190" id="document-manage-aspects" label="actions.folder.manage-aspects" />
-            <action index="200" id="document-change-type" label="actions.folder.change-type" />
-            <action index="210" id="view-in-explorer" />
-            <action index="220" id="document-view-in-source-repository" label="actions.folder.view-source-repository" />
-            <action index="360" id="document-cloud-sync" />
-            <action index="370" id="document-cloud-unsync" />
-            <action index="380" id="document-view-in-cloud" />
-            <action index="390" id="document-request-sync"/>
-         </actionGroup>
+			<actionGroup id="folder-browse">
+				<action index="100" id="folder-view-details" />
+				<action index="110" id="document-edit-properties" icon="folder-edit-properties"
+					label="actions.folder.edit-metadata" />
+				<action index="120" id="document-approve" icon="folder-approve" />
+				<action index="130" id="document-reject" icon="folder-reject" />
+				<action index="140" id="document-locate" icon="document-locate"
+					label="actions.folder.locate" />
+				<action index="150" id="document-copy-to" icon="folder-copy-to"
+					label="actions.folder.copy-to" />
+				<action index="160" id="document-move-to" icon="folder-move-to"
+					label="actions.folder.move-to" />
+				<action index="170" id="folder-manage-rules" />
+				<action index="180" id="document-delete" icon="folder-delete"
+					label="actions.folder.delete" />
+				<action index="190" id="document-manage-site-permissions"
+					icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+				<action index="200" id="document-manage-repo-permissions"
+					icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+				<action index="210" id="document-manage-aspects" label="actions.folder.manage-aspects" />
+				<action index="220" id="document-view-in-source-repository"
+					label="actions.folder.view-source-repository" />
+				<action index="360" id="document-cloud-sync" />
+				<action index="370" id="document-cloud-unsync" />
+				<action index="380" id="document-view-in-cloud" />
+				<action index="390" id="document-request-sync" />
+			</actionGroup>
 
-         <actionGroup id="document-link-browse">
-            <action index="100" id="document-locate" label="actions.link.locate">
-               <evaluator />
-            </action>
-            <action index="110" id="document-delete" label="actions.link.delete" />
-         </actionGroup>
+			<actionGroup id="folder-details">
+				<action index="100" id="document-edit-metadata" icon="folder-edit-metadata"
+					label="actions.folder.edit-metadata" />
+				<action index="110" id="document-approve" icon="folder-approve" />
+				<action index="120" id="document-reject" icon="folder-reject" />
+				<action index="130" id="document-copy-to" icon="folder-copy-to"
+					label="actions.folder.copy-to" />
+				<action index="140" id="document-move-to" icon="folder-move-to"
+					label="actions.folder.move-to" />
+				<action index="150" id="folder-manage-rules" />
+				<action index="160" id="document-delete" icon="folder-delete"
+					label="actions.folder.delete" />
+				<action index="170" id="document-manage-site-permissions"
+					icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+				<action index="180" id="document-manage-repo-permissions"
+					icon="folder-manage-permissions" label="actions.folder.manage-permissions" />
+				<action index="190" id="document-manage-aspects" label="actions.folder.manage-aspects" />
+				<action index="200" id="document-change-type" label="actions.folder.change-type" />
+				<action index="210" id="view-in-explorer" />
+				<action index="220" id="document-view-in-source-repository"
+					label="actions.folder.view-source-repository" />
+				<action index="360" id="document-cloud-sync" />
+				<action index="370" id="document-cloud-unsync" />
+				<action index="380" id="document-view-in-cloud" />
+				<action index="390" id="document-request-sync" />
+			</actionGroup>
 
-         <actionGroup id="document-link-details">
-            <action index="100" id="document-delete" label="actions.link.delete" />
-         </actionGroup>
+			<actionGroup id="document-link-browse">
+				<action index="100" id="document-locate" label="actions.link.locate">
+					<evaluator />
+				</action>
+				<action index="110" id="document-delete" label="actions.link.delete" />
+			</actionGroup>
 
-         <actionGroup id="folder-link-browse">
-            <action index="100" id="folder-view-details" />
-            <action index="110" id="document-locate" label="actions.link.locate">
-               <evaluator />
-            </action>
-            <action index="120" id="document-delete" icon="folder-delete" label="actions.link.delete" />
-         </actionGroup>
+			<actionGroup id="document-link-details">
+				<action index="100" id="document-delete" label="actions.link.delete" />
+			</actionGroup>
 
-         <actionGroup id="folder-link-details">
-            <action index="100" id="document-delete" icon="folder-delete" label="actions.link.delete" />
-         </actionGroup>
+			<actionGroup id="folder-link-browse">
+				<action index="100" id="folder-view-details" />
+				<action index="110" id="document-locate" label="actions.link.locate">
+					<evaluator />
+				</action>
+				<action index="120" id="document-delete" icon="folder-delete"
+					label="actions.link.delete" />
+			</actionGroup>
 
-      </actionGroups>
-   </config>
+			<actionGroup id="folder-link-details">
+				<action index="100" id="document-delete" icon="folder-delete"
+					label="actions.link.delete" />
+			</actionGroup>
+
+		</actionGroups>
+	</config>
 
 	<!-- Global folder picker config section -->
 	<config evaluator="string-compare" condition="GlobalFolder">
@@ -906,53 +979,12 @@
 		</tree>
 	</config>
 
-	<!-- example port config used to access remote Alfresco server (default 
-		is 8080) 
-	<config evaluator="string-compare" condition="Remote">
-		<remote>
-			<endpoint>
-				<id>alfresco-noauth</id>
-				<name>Alfresco - unauthenticated access</name>
-				<description>Access
-					to Alfresco Repository WebScripts that do not require authentication
-				</description>
-				<connector-id>alfresco</connector-id>
-				<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
-				<identity>none</identity>
-			</endpoint>
-			<endpoint>
-				<id>alfresco</id>
-				<name>Alfresco
-					- user access
-				</name>
-				<description>Access to Alfresco Repository WebScripts
-					that require user authentication
-				</description>
-				<connector-id>alfresco</connector-id>
-				<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
-				<identity>user</identity>
-			</endpoint>
-			<endpoint>
-				<id>alfresco-feed</id>
-				<name>Alfresco Feed</name>
-				<description>Alfresco Feed - supports basic HTTP authentication via
-					the EndPointProxyServlet</description>
-				<connector-id>http</connector-id>
-				<endpoint-url>http://localhost:8080/alfresco/s</endpoint-url>
-				<basic-auth>true</basic-auth>
-				<identity>user</identity>
-			</endpoint>
-			<endpoint>
-				<id>activiti-admin</id>
-				<name>Activiti Admin UI - user access</name>
-				<description>Access
-					to Activiti Admin UI, that requires user authentication
-				</description>
-				<connector-id>activiti-admin-connector</connector-id>
-				<endpoint-url>http://localhost:8080/alfresco/activiti-admin
-				</endpoint-url>
-				<identity>user</identity>
-			</endpoint>
-		</remote>
-	</config>-->
+
+	<!-- Help links override -->
+	<config evaluator="string-compare" condition="HelpPages">
+		<help-pages>
+			<share-help>https://intranet3.alingsas.se</share-help>
+			<share-tutorial>https://intranet3.alingsas.se</share-tutorial>
+		</help-pages>
+	</config>
 </alfresco-config>
