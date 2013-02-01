@@ -117,7 +117,6 @@
 			Remember to also add the relevant i18n string(s): type.cm_mysubtype=My SubType -->
 		<types>
 			<type name="cm:content">
-				<subtype name="akdm:document" />
 				<subtype name="akdm:instruction" />
 				<subtype name="akdm:ordinance" />
 				<subtype name="akdm:manual" />
@@ -357,13 +356,26 @@
       -->
       <actions>
       	<!-- Alingsås definitions -->
-         <!-- Assign workflow -->
+         <!-- Complete document workflow -->
          <action id="document-wf-completeDocument" type="pagelink" label="actions.document.complete-document" icon="document-approve">
             <param name="page">start-workflow?selectedItems={node.nodeRef}&amp;startWorkflow=activiti$completeDocument</param>
             <permissions>
                <permission allow="true">Write</permission>
             </permissions>
             <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+            <evaluator negate="true">se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete</evaluator>
+            <evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument</evaluator>
+         </action>
+         
+         <!-- Revert document workflow -->
+         <action id="document-wf-revertDocument" type="pagelink" label="actions.document.revert-document" icon="document-reject">
+            <param name="page">start-workflow?selectedItems={node.nodeRef}&amp;startWorkflow=activiti$revertDocument</param>
+            <permissions>
+               <permission allow="true">Write</permission>
+            </permissions>
+            <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+            <evaluator>se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete</evaluator>
+            <evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument</evaluator>
          </action>
 
 		<!-- Alfresco default definitions -->
@@ -595,6 +607,7 @@
                <permission allow="true">Write</permission>
             </permissions>
             <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+            <evaluator negate="true">se.alingsas.evaluator.doclib.action.IsAlingsasDocument</evaluator>
          </action>
 
          <!-- View original (of a Working Copy pair) -->
@@ -731,6 +744,7 @@
          <actionGroup id="empty"/>
 
          <actionGroup id="document-browse">
+         	<action index="100" id="document-change-type" />
             <action index="110" id="document-view-content" />
             <action index="120" id="document-locate" />
             <action index="130" id="document-edit-properties" />
@@ -757,10 +771,11 @@
             <action index="350" id="document-view-in-cloud" />
             <action index="360" id="document-request-sync"/>
             <action index="370" id="document-wf-completeDocument" />
+             <action index="405" id="document-wf-revertDocument" />
          </actionGroup>
 
          <actionGroup id="document-details">    	
-            
+            <action index="100" id="document-change-type" />
             <action index="110" id="document-view-content" />
             <action index="120" id="document-edit-metadata" />
             <action index="130" id="document-upload-new-version" />
@@ -788,6 +803,7 @@
             <action index="390" id="document-request-sync"/>
             <!-- <action index="395" id="document-assign-workflow" /> -->
             <action index="400" id="document-wf-completeDocument" />
+            <action index="405" id="document-wf-revertDocument" />
          </actionGroup>
 
          <actionGroup id="folder-browse">

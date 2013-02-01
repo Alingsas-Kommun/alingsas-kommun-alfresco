@@ -10,8 +10,6 @@ import org.alfresco.repo.workflow.activiti.ActivitiScriptNode;
 import org.alfresco.service.ServiceRegistry;
 import org.alfresco.service.cmr.lock.LockService;
 import org.alfresco.service.cmr.lock.LockType;
-import org.alfresco.service.cmr.model.FileFolderService;
-import org.alfresco.service.cmr.model.FileInfo;
 import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
@@ -22,6 +20,10 @@ import org.alfresco.service.cmr.security.PermissionService;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
 import org.apache.log4j.Logger;
+
+import se.alingsas.alfresco.repo.model.AkDmModel;
+import se.alingsas.alfresco.repo.workflow.model.CommonWorkflowModel;
+import se.alingsas.alfresco.repo.workflow.model.CompleteDocumentWorkflowModel;
 
 public class CompleteDocumentExecutionStartListener implements
 		ExecutionListener {
@@ -49,24 +51,24 @@ public class CompleteDocumentExecutionStartListener implements
 		final SiteService siteService = serviceRegistry.getSiteService();
 		final AuthorityService authorityService = serviceRegistry
 				.getAuthorityService();
-		execution.setVariable(WorkflowUtil.INITIATOR, akwfInitiator);
+		execution.setVariable(CommonWorkflowModel.INITIATOR, akwfInitiator);
 		LOG.info("Starting complete document workflow for user "
 				+ AuthenticationUtil.getFullyAuthenticatedUser());
 		ActivitiScriptNode akwfTargetFolder = (ActivitiScriptNode) execution
-				.getVariable(WorkflowUtil.TARGET_FOLDER);
+				.getVariable(CommonWorkflowModel.TARGET_FOLDER);
 		ActivitiScriptNode akwfTargetSite = (ActivitiScriptNode) execution
-				.getVariable(WorkflowUtil.TARGET_SITE);
+				.getVariable(CommonWorkflowModel.TARGET_SITE);
 		NodeRef targetFolderNodeRef = akwfTargetFolder.getNodeRef();
 		NodeRef akwfTargetSiteNodeRef = akwfTargetSite.getNodeRef();
 		if (AccessStatus.ALLOWED.equals(permissionService.hasPermission(
 				akwfTargetFolder.getNodeRef(), PermissionService.WRITE))) {
-			execution.setVariable(WorkflowUtil.HANDLING, WorkflowUtil.AUTOMATIC_HANDLING);
+			execution.setVariable(CommonWorkflowModel.HANDLING, CompleteDocumentWorkflowModel.AUTOMATIC_HANDLING);
 			LOG.debug("User "
 					+ akwfInitiator
 					+ " have write permission on target folder, setting WF handling to Automatic");
-			execution.setVariable(WorkflowUtil.APPROVER, akwfInitiator);
+			execution.setVariable(CommonWorkflowModel.APPROVER, akwfInitiator);
 		} else {
-			execution.setVariable(WorkflowUtil.HANDLING, WorkflowUtil.MANUAL_HANDLING);
+			execution.setVariable(CommonWorkflowModel.HANDLING, CompleteDocumentWorkflowModel.MANUAL_HANDLING);
 			LOG.debug("User "
 					+ akwfInitiator
 					+ " have read permission on target folder, setting WF handling to Manual");
@@ -88,6 +90,13 @@ public class CompleteDocumentExecutionStartListener implements
 					throw new RuntimeException(
 							"Fel: Du har inte skrivrättigheter på filen som du försöker färdigställa.");
 				}
+				
+				if (!CommonWorkflowModel.DOC_STATUS_DONE.equals(nodeService.getProperty(fileNodeRef, AkDmModel.PROP_AKDM_DOC_STATUS))) {
+					LOG.debug("Document is in status "+CommonWorkflowModel.DOC_STATUS_WORKING+".");
+				} else {
+					throw new RuntimeException(
+							"Fel: Dokumentet har redan status "+CommonWorkflowModel.DOC_STATUS_DONE);
+				}
 			}
 		} else {
 			throw new RuntimeException(
@@ -106,13 +115,13 @@ public class CompleteDocumentExecutionStartListener implements
 		}
 
 		String siteRoleGroup = siteService.getSiteRoleGroup(
-				site.getShortName(), WorkflowUtil.SITE_COLLABORATOR);
+				site.getShortName(), CommonWorkflowModel.SITE_COLLABORATOR);
 		Set<String> containedAuthorities = authorityService
 				.getContainedAuthorities(AuthorityType.USER, siteRoleGroup,
 						false);
 		if (containedAuthorities.size() == 0) {
 			siteRoleGroup = siteService.getSiteRoleGroup(site.getShortName(),
-					WorkflowUtil.SITE_MANAGER);
+					CommonWorkflowModel.SITE_MANAGER);
 			containedAuthorities = authorityService.getContainedAuthorities(
 					AuthorityType.USER, siteRoleGroup, false);
 			if (containedAuthorities.size() == 0) {
@@ -121,13 +130,13 @@ public class CompleteDocumentExecutionStartListener implements
 			}
 		}
 		LOG.info(siteRoleGroup + " assigned for review task.");
-		execution.setVariable(WorkflowUtil.SITE, site.getShortName());
-		execution.setVariable(WorkflowUtil.SITE_GROUP, siteRoleGroup);
+		execution.setVariable(CommonWorkflowModel.SITE, site.getShortName());
+		execution.setVariable(CommonWorkflowModel.SITE_GROUP, siteRoleGroup);
 
 		/*
 		 * Lock files
 		 */
-		String akwfHandling = (String) execution.getVariable(WorkflowUtil.HANDLING);
+		String akwfHandling = (String) execution.getVariable(CommonWorkflowModel.HANDLING);
 		if (akwfHandling != "Error") {
 			if (childAssocs != null && childAssocs.size() > 0) {
 				for (ChildAssociationRef childAssoc : childAssocs) {

@@ -1,7 +1,8 @@
 <alfresco-config>
-   <!-- 
-      NOTE: The forms with 'workflow-details' are used in the Workflow Details page. 
-   --> 
+	<!-- NOTE: The forms with 'workflow-details' are used in the Workflow Details 
+		page. -->
+
+	<!-- Complete document workflow -->
 	<config evaluator="string-compare" condition="activiti$completeDocument">
 		<forms>
 			<form>
@@ -20,24 +21,22 @@
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
-					<field id="bpm:workflowDescription"
-						mandatory="true">
+					<field id="bpm:workflowDescription" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/textarea.ftl">
 							<control-param name="style">width: 95%</control-param>
 						</control>
 					</field>
 
-					<field id="akwf:targetSite" set="target" mandatory="true"
-						>
-						<control template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
+					<field id="akwf:targetSite" set="target" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
 							<control-param name="startLocation">{siteshome}</control-param>
 							<control-param name="rootNode">{siteshome}</control-param>
 							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-target-site
 							</control-param>
 						</control>
 					</field>
-					<field id="akwf:targetFolder" set="target" mandatory="true"
-						>
+					<field id="akwf:targetFolder" set="target" mandatory="true">
 						<control
 							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
 							<control-param name="basedOnField">assoc_akwf_targetSite
@@ -67,14 +66,15 @@
 							template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
 					</field>
 
-					<field id="bpm:comment"
-						set="response">
+					<field id="bpm:comment" set="response">
 						<control template="/org/alfresco/components/form/controls/textarea.ftl" />
 					</field>
 				</appearance>
 			</form>
 		</forms>
 	</config>
+
+
 
 	<config evaluator="task-type" condition="akwf:completeDocumentReviewDocumentTask">
 		<forms>
@@ -102,15 +102,14 @@
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
 
-					<field id="bpm:comment"
-						set="response">
+					<field id="bpm:comment" set="response">
 						<control template="/org/alfresco/components/form/controls/textarea.ftl" />
 					</field>
 
-					
-					<field id="akwf:targetSite" set="target" mandatory="true"
-						>
-						<control template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
+
+					<field id="akwf:targetSite" set="target" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
 							<control-param name="disabled">true</control-param>
 							<control-param name="startLocation">{siteshome}</control-param>
 							<control-param name="rootNode">{siteshome}</control-param>
@@ -118,8 +117,7 @@
 							</control-param>
 						</control>
 					</field>
-					<field id="akwf:targetFolder" set="target" mandatory="true"
-						>
+					<field id="akwf:targetFolder" set="target" mandatory="true">
 						<control
 							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
 							<control-param name="basedOnField">assoc_akwf_targetSite
@@ -175,10 +173,198 @@
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
 
-					<field id="akwf:targetSite" set="target" read-only="true"
-						/>
-					<field id="akwf:targetFolder" set="target" read-only="true"
-						/>
+					<field id="akwf:targetSite" set="target" read-only="true" />
+					<field id="akwf:targetFolder" set="target" read-only="true" />
+					<field id="packageItems" set="items" />
+
+
+					<field id="transitions" label-id="workflow.akwf.field.outcome"
+						set="response" />
+				</appearance>
+			</form>
+		</forms>
+	</config>
+
+	<!-- Revert document workflow -->
+	<config evaluator="string-compare" condition="activiti$revertDocument">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:workflowDescription" />
+					<show id="packageItems" />
+					<hide id="bpm:comment" />
+					<hide id="bpm:sendEMailNotifications" />
+					<show id="akwf:reviewDocumentTargetChoice" />
+					<show id="akwf:targetSite" />
+					<show id="akwf:targetFolder" />
+				</field-visibility>
+				<appearance>
+					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
+					<set id="target" appearance="title" label-id="workflow.akwf.set.target" />
+					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
+					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
+					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
+
+					<field id="bpm:workflowDescription" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/textarea.ftl">
+							<control-param name="style">width: 95%</control-param>
+						</control>
+					</field>
+
+					<field id="akwf:reviewDocumentTargetChoice" set="target"
+						mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/selectone-exclusive.ftl">
+						</control>
+					</field>
+					<field id="akwf:targetSite" set="target" mandatory="false">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
+							<control-param name="basedOnField">prop_akwf_reviewDocumentTargetChoice
+							</control-param>
+							<control-param name="basedOnFieldValue">site</control-param>
+							<control-param name="useBasedOnFieldValueAsRoot">false</control-param>
+							<control-param name="startLocation">{siteshome}</control-param>
+							<control-param name="rootNode">{siteshome}</control-param>
+							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-target-site
+							</control-param>
+							<control-param name="selectActionFailedBasedOnFieldLabelId">workflow.akwf.form.control.button.select-target-site-fail-targetType
+							</control-param>
+						</control>
+					</field>
+					<field id="akwf:targetFolder" set="target" mandatory="false">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
+							<control-param name="basedOnField">assoc_akwf_targetSite
+							</control-param>
+							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-target-folder
+							</control-param>
+							<control-param name="selectActionFailedBasedOnFieldLabelId">workflow.akwf.form.control.button.select-target-folder-fail-site
+							</control-param>
+						</control>
+					</field>
+
+					<field id="packageItems" set="items" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/association.ftl">
+							<control-param name="showTargetLink">true</control-param>
+							<control-param name="displayMode">list</control-param>
+							<control-param name="startLocation">{userhome}</control-param>
+							<control-param name="rootNode">{userhome}</control-param>
+							<control-param name="compactMode">true</control-param>
+							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-source-file
+							</control-param>
+						</control>
+					</field>
+
+					<field id="bpm:sendEMailNotifications" label-id="workflow.akwf.field.send-email-notifications"
+						set="other">
+						<control
+							template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+					</field>
+
+					<field id="bpm:comment" set="response">
+						<control template="/org/alfresco/components/form/controls/textarea.ftl" />
+					</field>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+	<config evaluator="task-type" condition="akwf:revertDocumentReviewTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:description" />
+					<show id="packageItems" />
+					<show id="bpm:comment" />
+					<hide id="bpm:sendEMailNotifications" />
+					<hide id="akwf:reviewDocumentTargetChoice" />
+					<show id="akwf:targetSite" />
+					<show id="akwf:targetFolder" />
+					<show id="transitions" />
+				</field-visibility>
+				<appearance>
+					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
+					<set id="target" appearance="title" label-id="workflow.akwf.set.target" />
+					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
+					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
+					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
+
+					<field id="bpm:description" read-only="true">
+						<control template="/org/alfresco/components/form/controls/info.ftl" />
+					</field>
+					
+					<field id="akwf:targetSite" set="target" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
+							<control-param name="disabled">true</control-param>
+							<control-param name="startLocation">{siteshome}</control-param>
+							<control-param name="rootNode">{siteshome}</control-param>
+							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-target-site
+							</control-param>
+						</control>
+					</field>
+					<field id="akwf:targetFolder" set="target" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
+							<control-param name="basedOnField">assoc_akwf_targetSite
+							</control-param>
+							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-target-folder
+							</control-param>
+							<control-param name="selectActionFailedBasedOnFieldLabelId">workflow.akwf.form.control.button.select-target-folder-fail-site
+							</control-param>
+						</control>
+					</field>
+
+					<field id="packageItems" set="items" />
+
+					<field id="bpm:sendEMailNotifications" label-id="workflow.akwf.field.send-email-notifications"
+						set="other">
+						<control
+							template="/org/alfresco/components/form/controls/workflow/email-notification.ftl" />
+					</field>
+
+					<field id="bpm:comment" set="response">
+						<control template="/org/alfresco/components/form/controls/textarea.ftl" />
+					</field>
+					
+					<field id="transitions" label-id="workflow.akwf.field.outcome"
+						set="response" />
+
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+	<config evaluator="task-type" condition="akwf:revertDocumentReviewReceiptTask">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="bpm:description" />
+					<show id="packageItems" />
+					<show id="bpm:comment" />
+					<hide id="bpm:sendEMailNotifications" />
+					<show id="akwf:targetSite" />
+					<show id="akwf:targetFolder" />
+					<show id="transitions" />
+				</field-visibility>
+				<appearance>
+					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
+					<set id="target" appearance="title" label-id="workflow.akwf.set.target" />
+					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
+					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
+					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
+
+					<field id="bpm:description" read-only="true">
+						<control template="/org/alfresco/components/form/controls/info.ftl" />
+					</field>
+					
+					<field id="bpm:comment" read-only="true">
+						<control template="/org/alfresco/components/form/controls/info.ftl" />
+					</field>
+
+					<field id="akwf:targetSite" set="target" read-only="true" />
+					<field id="akwf:targetFolder" set="target" read-only="true" />
 					<field id="packageItems" set="items" />
 
 

@@ -61,6 +61,10 @@
       </constructor-arg>
    </bean>
    
+   
+   <bean id="se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.DocumentStatusIsComplete" />
+   <bean id="se.alingsas.evaluator.doclib.action.IsAlingsasDocument" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAlingsasDocument" />
+   
    <!--
    
         Hazelcast distributed messaging configuration - Share web-tier cluster config (3.4.8 and 4.0.1)

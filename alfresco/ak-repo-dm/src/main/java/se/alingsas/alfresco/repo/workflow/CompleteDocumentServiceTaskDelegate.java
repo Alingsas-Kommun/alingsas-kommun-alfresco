@@ -25,11 +25,12 @@ import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
+import se.alingsas.alfresco.repo.workflow.model.CommonWorkflowModel;
 
 public class CompleteDocumentServiceTaskDelegate implements JavaDelegate {
 	private static final Logger LOG = Logger
 			.getLogger(CompleteDocumentServiceTaskDelegate.class);
-	private static final String DOC_STATUS_DONE = "Färdigt dokument";
+	
 	
 	/**
 	 * CompleteDocumentServiceTaskDelegate will handle completion of document in workflow
@@ -47,7 +48,7 @@ public class CompleteDocumentServiceTaskDelegate implements JavaDelegate {
 		final CheckOutCheckInService checkOutCheckInService = serviceRegistry.getCheckOutCheckInService();
 
 		ActivitiScriptNode akwfTargetFolder = (ActivitiScriptNode) execution
-				.getVariable(WorkflowUtil.TARGET_FOLDER);
+				.getVariable(CommonWorkflowModel.TARGET_FOLDER);
 		final NodeRef targetFolderNodeRef = akwfTargetFolder.getNodeRef();
 		final OwnableService ownableService = serviceRegistry.getOwnableService();
 		AuthenticationUtil.runAs(new AuthenticationUtil.RunAsWork<Object>() {
@@ -77,7 +78,7 @@ public class CompleteDocumentServiceTaskDelegate implements JavaDelegate {
 						ownableService.setOwner(fileNodeRef, akwfApprover);
 						LOG.debug("Checking in document");
 						NodeRef workingCopy = checkOutCheckInService.checkout(fileNodeRef);
-						nodeService.setProperty(workingCopy, AkDmModel.PROP_AKDM_DOC_STATUS, DOC_STATUS_DONE);
+						nodeService.setProperty(workingCopy, AkDmModel.PROP_AKDM_DOC_STATUS, CommonWorkflowModel.DOC_STATUS_DONE);
 						Map<String, Serializable> versionProperties = new HashMap<String, Serializable>();
 						versionProperties.put(VersionModel.PROP_VERSION_TYPE, VersionType.MAJOR);
 						

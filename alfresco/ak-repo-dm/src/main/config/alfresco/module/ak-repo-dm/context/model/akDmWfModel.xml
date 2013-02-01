@@ -29,9 +29,18 @@
 				</list>
 			</parameter>
 		</constraint>
+		
+		<constraint name="akwf:reviewDocumentTargetChoiceOptions" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>site</value>
+					<value>my_homefolder</value>
+				</list>
+			</parameter>
+		</constraint>
 	</constraints>
 	<types>
-
+		<!-- Complete document types -->
 		<type name="akwf:completeDocument">
 			<parent>bpm:startTask</parent>
 			<mandatory-aspects>
@@ -75,35 +84,88 @@
 				<aspect>akwf:workInfo</aspect>
 			</mandatory-aspects>
 		</type>
+		
+		
+		<!-- Revert document types -->
+		<type name="akwf:revertDocument">
+			<parent>bpm:startTask</parent>
+			<overrides>
+				<property name="bpm:packageItemActionGroup">
+					<default>edit_package_item_actions</default>
+				</property>
+			</overrides>
+			<mandatory-aspects>
+				<aspect>akwf:workInfo</aspect>
+				<aspect>akwf:revertDocumentInfo</aspect>
+			</mandatory-aspects>
+		</type>
+		
+		<type name="akwf:revertDocumentReviewTask">
+			<parent>bpm:workflowTask</parent>
+			<overrides>
+				<property name="bpm:packageItemActionGroup">
+					<default>edit_package_item_actions</default>
+				</property>
+			</overrides>
+			<mandatory-aspects>
+				<aspect>akwf:workInfo</aspect>
+				<aspect>akwf:revertDocumentInfo</aspect>
+			</mandatory-aspects>
+		</type>
+		
+		<type name="akwf:revertDocumentReviewReceiptTask">
+			<parent>bpm:workflowTask</parent>
+			<overrides>
+				<property name="bpm:packageItemActionGroup">
+					<default>edit_package_item_actions</default>
+				</property>
+			</overrides>
+			<mandatory-aspects>
+				<aspect>akwf:workInfo</aspect>
+				<aspect>akwf:revertDocumentInfo</aspect>
+			</mandatory-aspects>
+		</type>
+		
+		
 	</types>
 	<aspects>
 		<aspect name="akwf:workInfo">
 			<associations>
 				<association name="akwf:targetSite">
 					<source>
-						<mandatory>true</mandatory>
+						<mandatory>false</mandatory>
 						<many>false</many>
 					</source>
 					<target>
 						<class>st:site</class>
-						<mandatory>true</mandatory>
+						<mandatory>false</mandatory>
 						<many>false</many>
 					</target>
 				</association>
 				<association name="akwf:targetFolder">
 					<source>
-						<mandatory>true</mandatory>
+						<mandatory>false</mandatory>
 						<many>false</many>
 					</source>
 					<target>
 						<class>cm:folder</class>
-						<mandatory>true</mandatory>
+						<mandatory>false</mandatory>
 						<many>false</many>
 					</target>
 				</association>
 			</associations>
 		</aspect>
-
+		<aspect name="akwf:revertDocumentInfo">
+			<properties>
+				<property name="akwf:reviewDocumentTargetChoice">
+					<type>d:text</type>
+					<default>my_homefolder</default>
+					<constraints>
+						<constraint ref="akwf:reviewDocumentTargetChoiceOptions" />
+					</constraints>
+				</property>
+			</properties>
+		</aspect>
 	</aspects>
 
 </model>

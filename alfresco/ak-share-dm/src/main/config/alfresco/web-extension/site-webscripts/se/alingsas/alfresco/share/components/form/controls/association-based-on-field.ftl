@@ -14,6 +14,12 @@
    <#if field.control.params.basedOnField??>
    	  basedOnField: "${args.htmlid?js_string + "_" + field.control.params.basedOnField}",
    </#if>
+   	<#if field.control.params.basedOnFieldValue??>
+ 	  basedOnFieldValue: "${field.control.params.basedOnFieldValue}",
+ 	</#if>
+ 	 <#if field.control.params.useBasedOnFieldValueAsRoot??>
+ 	useBasedOnFieldValueAsRoot: "${field.control.params.useBasedOnFieldValueAsRoot}",
+	</#if>
    <#if field.control.params.selectActionFailedBasedOnFieldLabelId??>
    	  selectActionFailedBasedOnFieldLabelId: "${field.control.params.selectActionFailedBasedOnFieldLabelId}",
    </#if>   

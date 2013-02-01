@@ -398,6 +398,14 @@
           */
          basedOnField: null,
          /**
+          * If selection should be based on a specific field value
+          */
+         basedOnFieldValue: null,
+         /**
+          * Use basedOnFieldValue as root & start
+          */
+         useBasedOnFieldValueAsRoot: true,
+         /**
           * Label field for failed select action based on field
           */
          selectActionFailedBasedOnFieldLabelId: "form.control.object-picker.button.select-target-folder-fail"
@@ -448,16 +456,16 @@
        */
       handleBasedOnValue: function ObjectFinder_handleBasedOnValue()
       {
-    	  var basedOnFieldValue = null;
+    	  var currentBasedOnFieldValue = null;
     	  if (this.options.basedOnField!=null) {
-    		  basedOnFieldValue = Dom.get(this.options.basedOnField).value;
-    		  if (basedOnFieldValue!==null && basedOnFieldValue!=="") {
-    		  	this.options.rootNode = basedOnFieldValue;
-    		  	this.options.startLocation = basedOnFieldValue;
+    		  currentBasedOnFieldValue = Dom.get(this.options.basedOnField).value;
+    		  if (currentBasedOnFieldValue!==null && currentBasedOnFieldValue!=="" && this.options.useBasedOnFieldValueAsRoot===true) {
+    		  	this.options.rootNode = currentBasedOnFieldValue;
+    		  	this.options.startLocation = currentBasedOnFieldValue;
     		  }
     		  this.setOptions(this.options);
     	  }    	  
-    	  return (basedOnFieldValue!==null && basedOnFieldValue!=="");
+    	  return (currentBasedOnFieldValue!==null && currentBasedOnFieldValue!=="") && (this.options.basedOnFieldValue==null || (this.options.basedOnFieldValue!=null && this.options.basedOnFieldValue==currentBasedOnFieldValue));
       },
       /**
        * Alingsås customization end

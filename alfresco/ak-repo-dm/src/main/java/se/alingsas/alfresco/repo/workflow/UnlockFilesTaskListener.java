@@ -12,15 +12,15 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.apache.log4j.Logger;
 
-public class CompleteDocumentReviewTaskListener implements TaskListener {
+public class UnlockFilesTaskListener implements TaskListener {
 	private static final Logger LOG = Logger
-			.getLogger(CompleteDocumentReviewTaskListener.class);
+			.getLogger(UnlockFilesTaskListener.class);
 
 	@Override
 	public void notify(DelegateTask task) {
 		final String akwfInitiator = AuthenticationUtil
 				.getFullyAuthenticatedUser();
-		LOG.debug("Entering CompleteDocumentReviewTaskListener");
+		LOG.debug("Entering UnlockFilesTaskListener");
 
 		LOG.debug("Authenticated user is " + akwfInitiator);
 
@@ -43,8 +43,6 @@ public class CompleteDocumentReviewTaskListener implements TaskListener {
 				return "";
 			}
 		}, AuthenticationUtil.getSystemUserName());
-
-
 	}
 
 }

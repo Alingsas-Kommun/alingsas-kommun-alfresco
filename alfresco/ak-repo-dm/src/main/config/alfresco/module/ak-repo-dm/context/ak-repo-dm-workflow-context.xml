@@ -6,13 +6,18 @@
 
 <bean id="ak.workflowBootstrap" parent="workflowDeployer">
 	<property name="workflowDefinitions">
-		<list>
-			
+		<list>			
 			<props>
 				<prop key="engineId">activiti</prop>
 				<prop key="location">alfresco/workflow/ak-complete-document.bpmn</prop>
 				<prop key="mimetype">text/xml</prop>
-				<prop key="redeploy">false</prop>
+				<prop key="redeploy">true</prop>
+			</props>
+			<props>
+				<prop key="engineId">activiti</prop>
+				<prop key="location">alfresco/workflow/ak-revert-document.bpmn</prop>
+				<prop key="mimetype">text/xml</prop>
+				<prop key="redeploy">true</prop>
 			</props>
 		</list>
 	</property>
@@ -24,6 +29,7 @@
 	<property name="labels">
 		<list>
 			<value>alfresco/workflow/ak-complete-document-workflow-messages</value>
+			<value>alfresco/workflow/ak-revert-document-workflow-messages</value>
 		</list>
 	</property>
 </bean>

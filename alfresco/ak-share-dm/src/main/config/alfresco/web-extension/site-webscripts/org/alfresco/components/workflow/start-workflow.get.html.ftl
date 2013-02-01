@@ -11,11 +11,13 @@
       startWorkflow: "${(page.url.args.startWorkflow!"")?js_string}",
       workflowDefinitions:
       [<#list workflowDefinitions as workflowDefinition>
+      	<#if page.url.args.startWorkflow == workflowDefinition.name>
          {
             name: "${(workflowDefinition.name!"")?js_string}",
             title: "${(workflowDefinition.title!"")?js_string}",
             description: "${(workflowDefinition.description!"")?replace("\\n", "\\\\n")?js_string}"
          }<#if workflowDefinition_has_next>,</#if>
+         </#if>
       </#list>]
    }).setMessages(
       ${messages}
@@ -39,10 +41,12 @@
          <div class="bd">
             <ul>
                <#list workflowDefinitions as workflowDefinition>
+               <#if page.url.args.startWorkflow == workflowDefinition.name>
                <li>
                   <span class="title" tabindex="0">${workflowDefinition.title!workflowDefinition.id?html}</span>
                   <span class="description">${(workflowDefinition.description!"")?html}</span>
                </li>
+               </#if>
                </#list>
             </ul>
          </div>

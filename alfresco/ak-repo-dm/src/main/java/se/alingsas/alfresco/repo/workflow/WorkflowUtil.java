@@ -12,23 +12,14 @@ import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 
+import se.alingsas.alfresco.repo.workflow.model.CommonWorkflowModel;
+
 public class WorkflowUtil {
-	public static final String BPM_PACKAGE = "bpm_package";
-	public static final String BPM_COMMENT = "bpm_comment";
-	public static final String AUTOMATIC_HANDLING = "Automatic";
-	public static final String MANUAL_HANDLING = "Manual";
-	public static final String HANDLING = "akwf_handling";
-	public static final String INITIATOR = "akwf_initiator";
-	public static final String APPROVER = "akwf_approver";
-	public static final String TARGET_SITE = "akwf_targetSite";
-	public static final String TARGET_FOLDER = "akwf_targetFolder";
-	
-	
-	public static final String SITE_GROUP = "akwf_siteGroup";
-	public static final String SITE = "akwf_site";
-	public static final String SITE_MANAGER = "SiteManager";
-	public static final String SITE_COLLABORATOR = "SiteCollaborator";
-	
+
+	/**
+	 * Get the service registry bean from the activiti context
+	 * @return
+	 */
 	public static ServiceRegistry getServiceRegistry() {
 		ProcessEngineConfigurationImpl config = Context
 				.getProcessEngineConfiguration();
@@ -47,11 +38,17 @@ public class WorkflowUtil {
 		throw new IllegalStateException(
 				"No ProcessEngineCOnfiguration found in active context");
 	}
-	
+
+	/**
+	 * Get the workflow files from the bpm:package model variable as a list
+	 * @param execution
+	 * @param nodeService
+	 * @return
+	 */
 	public static List<ChildAssociationRef> getBpmPackageFiles(
 			DelegateExecution execution, NodeService nodeService) {
 		ActivitiScriptNode bpm_package = (ActivitiScriptNode) execution
-				.getVariable(BPM_PACKAGE);
+				.getVariable(CommonWorkflowModel.BPM_PACKAGE);
 		if (bpm_package == null) {
 			return null;
 		} else {
