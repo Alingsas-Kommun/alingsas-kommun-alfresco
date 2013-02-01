@@ -20,6 +20,7 @@
       repositoryBrowsing: ${(rootNode??)?string},
       useTitle: ${(useTitle!true)?string},
       userIsSiteManager: ${(userIsSiteManager!false)?string},
+      actionsSplitAt: 2,
    }).setMessages(
       ${messages}
    );

@@ -24,8 +24,7 @@
 						<evaluation id="repo">
 							<url>/components/title/simple-title</url>
 							<properties>
-								<title>title.repository</title>
-								<subtitle>title.browser</subtitle>
+								<title>mydocuments.title</title>
 							</properties>
 						</evaluation>
 					</evaluations>
@@ -67,6 +66,10 @@
 								<nodeRef>{nodeRef}</nodeRef>
 								<rootPage>documentlibrary</rootPage>
 								<rootLabelId>path.documents</rootLabelId>
+								<showComments>false</showComments>
+								<showFavourite>false</showFavourite>
+								<showLikes>false</showLikes>
+								<showDownload>false</showDownload>
 							</properties>
 						</evaluation>
 						<!-- otherwise: Repo header -->
@@ -76,6 +79,10 @@
 								<nodeRef>{nodeRef}</nodeRef>
 								<rootPage>repository</rootPage>
 								<rootLabelId>path.repository</rootLabelId>
+								<showComments>false</showComments>
+								<showFavourite>false</showFavourite>
+								<showLikes>false</showLikes>
+								<showDownload>false</showDownload>
 							</properties>
 						</evaluation>
 					</evaluations>
