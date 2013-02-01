@@ -30,11 +30,12 @@
 					<applyForNonSites>false</applyForNonSites>
 				</params>
 			</evaluator>
-
+			
 			<customizations>
 				<customization>
 					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.public</sourcePackageRoot>
+					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.public
+					</sourcePackageRoot>
 				</customization>
 			</customizations>
 		</module>
@@ -51,11 +52,12 @@
 					<applyForNonSites>false</applyForNonSites>
 				</params>
 			</evaluator>
-
+			
 			<customizations>
 				<customization>
 					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.secrecy</sourcePackageRoot>
+					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.secrecy
+					</sourcePackageRoot>
 				</customization>
 			</customizations>
 		</module>
@@ -72,11 +74,12 @@
 					<applyForNonSites>false</applyForNonSites>
 				</params>
 			</evaluator>
-
+			
 			<customizations>
 				<customization>
 					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.templates</sourcePackageRoot>
+					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.templates
+					</sourcePackageRoot>
 				</customization>
 			</customizations>
 		</module>

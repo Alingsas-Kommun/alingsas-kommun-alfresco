@@ -1,4 +1,5 @@
 <alfresco-config>
+
 	<!-- Global config section -->
 	<config replace="true">
 		<element-reader element-name="header"
@@ -79,6 +80,12 @@
 				<mode>manual</mode>
 				<enable-auto-deploy-modules>true</enable-auto-deploy-modules>
 			</module-deployment>
+			
+			<web-framework>
+						<application-defaults>
+							<theme>ak-yellowTheme</theme>
+						</application-defaults>
+					</web-framework>
 		</web-framework>
 	</config>
 
