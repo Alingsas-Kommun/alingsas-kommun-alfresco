@@ -80,12 +80,12 @@
 				<mode>manual</mode>
 				<enable-auto-deploy-modules>true</enable-auto-deploy-modules>
 			</module-deployment>
-			
+
 			<web-framework>
-						<application-defaults>
-							<theme>ak-yellowTheme</theme>
-						</application-defaults>
-					</web-framework>
+				<application-defaults>
+					<theme>ak-yellowTheme</theme>
+				</application-defaults>
+			</web-framework>
 		</web-framework>
 	</config>
 
@@ -538,6 +538,7 @@
 				</permissions>
 				<evaluator>evaluator.doclib.action.upload</evaluator>
 				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+				<evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
 			</action>
 
 			<!-- Inline edit -->
@@ -618,6 +619,8 @@
 					<permission allow="true">ChangePermissions</permission>
 				</permissions>
 				<evaluator>evaluator.doclib.action.siteBased</evaluator>
+				<evaluator>se.alingsas.evaluator.doclib.action.IsAdmin
+				</evaluator>
 			</action>
 
 			<!-- Manage permissions (repository roles) -->
@@ -628,6 +631,8 @@
 					<permission allow="true">ChangePermissions</permission>
 				</permissions>
 				<evaluator negate="true">evaluator.doclib.action.siteBased
+				</evaluator>
+				<evaluator>se.alingsas.evaluator.doclib.action.IsAdmin
 				</evaluator>
 			</action>
 
@@ -690,6 +695,8 @@
 				<permissions>
 					<permission allow="true">ChangePermissions</permission>
 				</permissions>
+				<evaluator>se.alingsas.evaluator.doclib.action.IsAdmin
+				</evaluator>
 			</action>
 
 			<!-- View in Explorer client -->
@@ -699,6 +706,8 @@
 				<param name="target">_blank</param>
 				<!-- repository-url config set, not in portlet mode -->
 				<evaluator>evaluator.doclib.action.viewInExplorer</evaluator>
+				<evaluator>se.alingsas.evaluator.doclib.action.IsAdmin
+				</evaluator>
 			</action>
 
 			<!-- Checkout to Google Docs -->
