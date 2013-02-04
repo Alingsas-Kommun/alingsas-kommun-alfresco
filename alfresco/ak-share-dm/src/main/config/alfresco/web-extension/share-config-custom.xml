@@ -351,7 +351,16 @@
 			</forms>
 		</advanced-search>
 	</config>
-
+	
+	<config evaluator="string-compare" condition="Workflow">
+	   	<hidden-workflows>
+	         <workflow name="activiti$activitiAdhoc"/>
+	         <workflow name="activiti$activitiReview"/>
+	         <workflow name="activiti$activitiReviewPooled"/>
+	         <workflow name="activiti$activitiParallelReview"/>
+	         <workflow name="activiti$activitiParallelGroupReview"/>
+		</hidden-workflows>
+	</config>
 
 	<!-- Document Library Actions config section -->
 	<config evaluator="string-compare" condition="DocLibActions"
