@@ -25,4 +25,14 @@
 		<property name="siteName" value="${byggreda.siteName}" />
 		<property name="basePath" value="${byggreda.basePath}" />
 	</bean>
+	
+	<!-- Bean configurations for Document nubering script -->
+	<bean
+		id="webscript.se.alingsas.alfresco.repo.scripts.documentnumbering.handlemissing.get"
+		class="se.alingsas.alfresco.repo.scripts.HandleMissingDocumentNumbers" parent="webscript">
+		<property name="serviceRegistry" ref="ServiceRegistry" />
+		<property name="behaviourFilter" ref="policyBehaviourFilter" />
+		<property name="documentNumberUtil" ref="documentNumberUtil" />
+		<property name="repositoryHelper" ref="repositoryHelper" />
+	</bean>
 </beans>

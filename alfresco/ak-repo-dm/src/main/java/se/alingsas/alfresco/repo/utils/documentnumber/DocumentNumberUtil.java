@@ -30,13 +30,13 @@ public class DocumentNumberUtil {
 	private static final Logger LOG = Logger
 			.getLogger(DocumentNumberUtil.class);
 
-	private static ServiceRegistry serviceRegistry;
-	private static Repository repositoryHelper;
+	private ServiceRegistry serviceRegistry;
+	private Repository repositoryHelper;
 
 	private static NodeRef cachedFileRef;
 
-	private static final String SETTINGS = "Settings";
-	private static final String DOCUMENT_NUMBER_SETTINGS = "DocumentNumber.settings";
+	public static final String SETTINGS = "Settings";
+	public static final String DOCUMENT_NUMBER_SETTINGS = "DocumentNumber.settings";
 
 	/**
 	 * Sets the document number on a node if it doesn't already exist
@@ -172,10 +172,10 @@ public class DocumentNumberUtil {
 	}
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		DocumentNumberUtil.serviceRegistry = serviceRegistry;
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	public void setRepositoryHelper(Repository repositoryHelper) {
-		DocumentNumberUtil.repositoryHelper = repositoryHelper;
+		this.repositoryHelper = repositoryHelper;
 	}
 }
