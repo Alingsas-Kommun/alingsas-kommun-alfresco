@@ -113,5 +113,15 @@ public interface AkDmModel {
 			AKDM_URI, "byggRedaNote");
 	public static final QName PROP_AKDM_BYGGREDA_RECORDS = QName.createQName(
 			AKDM_URI, "byggRedaRecords");
-
+	
+	public static final QName ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS = QName.createQName(
+			AKDM_URI, "documentNumberSettingsAspect");
+	public static final QName PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_DATE_PATTERN = QName.createQName(
+			AKDM_URI, "docNumSettingDatePattern");
+	public static final QName PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1 = QName.createQName(
+			AKDM_URI, "docNumSettingPart1");
+	public static final QName PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2 = QName.createQName(
+			AKDM_URI, "docNumSettingPart2");
+	public static final QName PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_3 = QName.createQName(
+			AKDM_URI, "docNumSettingPart3");
 }
