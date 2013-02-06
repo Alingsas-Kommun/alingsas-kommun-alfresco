@@ -16,7 +16,7 @@ import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.namespace.QName;
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 import org.apache.log4j.Logger;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
@@ -54,19 +54,22 @@ public class DocumentNumberUtil {
 				&& nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
 			String docNumber = (String) nodeService.getProperty(nodeRef,
 					AkDmModel.PROP_AKDM_DOC_NUMBER);
-			if (StringUtils.isEmpty(docNumber) || replace == true) {
+			if (StringUtils.hasText(docNumber) || replace == true) {
 				String documentNumber = AuthenticationUtil.runAs(
 						new AuthenticationUtil.RunAsWork<String>() {
 							public String doWork() throws Exception {
 								return getNextDocumentNumber();
 							}
 						}, AuthenticationUtil.getSystemUserName());
-				nodeService.setProperty(nodeRef,
-						AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
-
-				if (LOG.isDebugEnabled())
-					LOG.debug("Setting document number for " + documentNumber
-							+ " for node " + nodeRef.toString());
+				
+				if (documentNumber!=null && StringUtils.hasText(documentNumber)) {
+					nodeService.setProperty(nodeRef,
+							AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
+	
+					if (LOG.isDebugEnabled())
+						LOG.debug("Setting document number for " + documentNumber
+								+ " for node " + nodeRef.toString());
+				}
 			}
 		}
 	}
@@ -121,7 +124,7 @@ public class DocumentNumberUtil {
 						AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS, null);
 			}
 
-			String result = "";
+			String result;
 
 			// Now we should have a lock
 
@@ -158,7 +161,9 @@ public class DocumentNumberUtil {
 					counter);
 			nodeService.setProperties(cachedFileRef, properties);
 
-			String leftPad = StringUtils.leftPad(counter.toString(), 6, '0');
+			
+			
+			String leftPad = org.apache.commons.lang.StringUtils.leftPad(counter.toString(), 6, '0');
 			result = currentDate + "-" + leftPad.substring(0, 3) + "-"
 					+ leftPad.substring(3);
 			if (LOG.isDebugEnabled())

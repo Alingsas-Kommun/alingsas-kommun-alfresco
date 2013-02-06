@@ -22,6 +22,7 @@ import org.alfresco.service.cmr.security.PersonService;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
 import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
 import se.alingsas.alfresco.repo.workflow.model.CommonWorkflowModel;
@@ -179,6 +180,13 @@ public class RevertDocumentExecutionStartListener implements ExecutionListener {
 					throw new RuntimeException(
 							"Fel: Dokumentet har redan status "
 									+ CommonWorkflowModel.DOC_STATUS_WORKING);
+				}
+				
+				if (StringUtils.hasText((String)nodeService.getProperty(fileNodeRef, AkDmModel.PROP_AKDM_DOC_SECRECY))) {
+					LOG.debug("Document has secrecy set.");
+				} else {
+					throw new RuntimeException(
+							"Fel: Dokumentet har inte någon sekretess vald.");
 				}
 			}
 		} else {
