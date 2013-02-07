@@ -20,9 +20,9 @@ import se.alingsas.alfresco.repo.workflow.model.CommonWorkflowModel;
  * @author Marcus Svensson - Redpill Linpro AB
  * 
  */
-public class RevertDocumentReviewTaskListener implements TaskListener {
+public class CompleteDocumentReviewTaskListener implements TaskListener {
 	private static final Logger LOG = Logger
-			.getLogger(RevertDocumentReviewTaskListener.class);
+			.getLogger(CompleteDocumentReviewTaskListener.class);
 
 	@Override
 	public void notify(DelegateTask task) {
@@ -44,10 +44,16 @@ public class RevertDocumentReviewTaskListener implements TaskListener {
 				.getPermissionService();
 
 		if (AccessStatus.ALLOWED.equals(permissionService.hasPermission(
-				akwfTargetFolder.getNodeRef(), PermissionService.CREATE_CHILDREN))) {
-			LOG.debug("Access allowed, approver set to " + akwfApprover);
+				targetFolderNodeRef,
+				PermissionService.CREATE_CHILDREN))) {
+			LOG.debug("Access allowed, approver set to " + akwfApprover
+					+ ", review outcome is "
+					+ task.getVariable(CommonWorkflowModel.AKWF_REVIEWOUTCOME));
 			task.getExecution().setVariable(CommonWorkflowModel.BPM_COMMENT,
 					task.getVariable(CommonWorkflowModel.BPM_COMMENT));
+			task.getExecution().setVariable(
+					CommonWorkflowModel.AKWF_REVIEWOUTCOME,
+					task.getVariable(CommonWorkflowModel.AKWF_REVIEWOUTCOME));
 		} else {
 			LOG.error("User " + akwfApprover
 					+ " does not have write permission on folder "

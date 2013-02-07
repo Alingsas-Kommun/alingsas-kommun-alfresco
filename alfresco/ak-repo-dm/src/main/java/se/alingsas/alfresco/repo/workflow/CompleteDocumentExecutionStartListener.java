@@ -62,7 +62,7 @@ public class CompleteDocumentExecutionStartListener implements
 		NodeRef targetFolderNodeRef = akwfTargetFolder.getNodeRef();
 		NodeRef akwfTargetSiteNodeRef = akwfTargetSite.getNodeRef();
 		if (AccessStatus.ALLOWED.equals(permissionService.hasPermission(
-				akwfTargetFolder.getNodeRef(), PermissionService.WRITE))) {
+				akwfTargetFolder.getNodeRef(), PermissionService.CREATE_CHILDREN))) {
 			execution.setVariable(CommonWorkflowModel.HANDLING, CompleteDocumentWorkflowModel.AUTOMATIC_HANDLING);
 			LOG.debug("User "
 					+ akwfInitiator

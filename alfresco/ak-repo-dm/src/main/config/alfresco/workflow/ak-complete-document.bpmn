@@ -25,39 +25,8 @@
 			name="Dokumentansvarig på site skall godkänna färdigställande av dokument"
 			activiti:formKey="akwf:completeDocumentReviewDocumentTask">
 			<extensionElements>
-				<activiti:taskListener event="create"
-					class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
-					<activiti:field name="script">
-						<activiti:string>
-if (typeof bpm_workflowDueDate != 'undefined') task.dueDate = bpm_workflowDueDate;
-if (typeof bpm_workflowPriority != 'undefined') task.priority = bpm_workflowPriority;
-if (typeof bpm_comment != 'undefined') task.setVariable('bpm_comment', bpm_comment);
-</activiti:string>
-					</activiti:field>
-				</activiti:taskListener>
 				<activiti:taskListener event="complete"
-					class="org.alfresco.repo.workflow.activiti.tasklistener.ScriptTaskListener">
-					<activiti:field name="script">
-						<activiti:string>
-akwf_approver = person.properties["cm:userName"];
-execution.setVariable('akwf_approver', akwf_approver);
-akwf_targetFolder = task.getVariable('akwf_targetFolder');
-execution.setVariable('akwf_targetFolder', akwf_targetFolder);
-if (akwf_targetFolder.hasPermission("Write")) {
-	logger.log("ak-complete-document: ("+akwf_approver+") Reviewer has write permission to target folder. Review of document completion complete");	
-	execution.setVariable('bpm_comment', task.getVariable('bpm_comment'));
-	execution.setVariable('bpm_dueDate', task.dueDate);
-	execution.setVariable('bpm_priority', task.priority);
-	execution.setVariable('akwf_reviewOutcome', task.getVariable('akwf_reviewOutcome'));	
-	logger.log("ak-complete-document: ("+akwf_approver+") Outcome set to "+task.getVariable('akwf_reviewOutcome'));
-} else {
-	logger.warn("ak-complete-document: ("+akwf_approver+") Reviewer does not have write permission on target folder. Rejecting");
-	execution.setVariable('akwf_reviewOutcome', "Reject");
-	execution.setVariable('bpm_comment', "Fel: Användaren ("+akwf_approver+") som godkände flödet har inte skrivrättigheter i målmappen");	
-}
-</activiti:string>
-					</activiti:field>
-				</activiti:taskListener>
+					class="se.alingsas.alfresco.repo.workflow.CompleteDocumentReviewTaskListener"></activiti:taskListener>
 			</extensionElements>
 			<potentialOwner>
 				<resourceAssignmentExpression>
@@ -92,7 +61,8 @@ if (akwf_targetFolder.hasPermission("Write")) {
 			<conditionExpression xsi:type="tFormalExpression"><![CDATA[${akwf_handling== 'Error'}]]></conditionExpression>
 		</sequenceFlow>
 		<userTask id="userReviewResultReceiptTask" name="Kvittens på godkänd / nekad publicering"
-			activiti:formKey="akwf:completeDocumentUserReviewResultReceiptTask" activiti:assignee="${akwf_initiator}">
+			activiti:formKey="akwf:completeDocumentUserReviewResultReceiptTask"
+			activiti:assignee="${akwf_initiator}">
 			<extensionElements>
 				<activiti:taskListener event="create"
 					class="se.alingsas.alfresco.repo.workflow.UnlockFilesTaskListener">

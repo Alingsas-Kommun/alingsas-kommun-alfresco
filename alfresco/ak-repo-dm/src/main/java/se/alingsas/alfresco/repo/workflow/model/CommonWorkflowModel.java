@@ -5,6 +5,7 @@ public interface CommonWorkflowModel {
 	public static final String DOC_STATUS_WORKING = "Arbetsdokument";
 	public static final String BPM_PACKAGE = "bpm_package";
 	public static final String BPM_COMMENT = "bpm_comment";
+	public static final String AKWF_REVIEWOUTCOME = "akwf_reviewOutcome";
 	public static final String HANDLING = "akwf_handling";
 	public static final String INITIATOR = "akwf_initiator";
 	public static final String APPROVER = "akwf_approver";

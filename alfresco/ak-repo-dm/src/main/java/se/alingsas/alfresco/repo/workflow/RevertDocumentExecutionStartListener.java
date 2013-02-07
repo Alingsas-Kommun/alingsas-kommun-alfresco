@@ -163,7 +163,7 @@ public class RevertDocumentExecutionStartListener implements ExecutionListener {
 				NodeRef fileNodeRef = childAssoc.getChildRef();
 
 				if (AccessStatus.ALLOWED.equals(permissionService
-						.hasPermission(fileNodeRef, PermissionService.WRITE))) {
+						.hasPermission(fileNodeRef, PermissionService.CREATE_CHILDREN))) {
 					LOG.debug("User " + akwfInitiator
 							+ " has permission to complete file ");
 				} else {

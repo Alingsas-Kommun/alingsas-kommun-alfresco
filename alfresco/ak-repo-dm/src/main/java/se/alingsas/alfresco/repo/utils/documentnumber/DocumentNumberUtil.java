@@ -11,10 +11,14 @@ import java.util.Map;
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.model.Repository;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
+import org.alfresco.repo.webservice.accesscontrol.AccessStatus;
 import org.alfresco.service.ServiceRegistry;
+import org.alfresco.service.cmr.lock.LockService;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
+import org.alfresco.service.cmr.security.AccessPermission;
+import org.alfresco.service.cmr.security.PermissionService;
 import org.alfresco.service.namespace.QName;
 import org.springframework.util.StringUtils;
 import org.apache.log4j.Logger;
@@ -46,30 +50,34 @@ public class DocumentNumberUtil {
 	 * 
 	 * @param nodeRef
 	 */
-	public void setDocumentNumber(NodeRef nodeRef, boolean replace)
+	public void setDocumentNumber(final NodeRef nodeRef, boolean replace)
 			throws Exception {
-		NodeService nodeService = serviceRegistry.getNodeService();
-
+		final NodeService nodeService = serviceRegistry.getNodeService();
+		final LockService lockService = serviceRegistry.getLockService();
 		if (nodeService.exists(nodeRef)
 				&& nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
 			String docNumber = (String) nodeService.getProperty(nodeRef,
 					AkDmModel.PROP_AKDM_DOC_NUMBER);
-			if (StringUtils.hasText(docNumber) || replace == true) {
+			if (!StringUtils.hasText(docNumber) || replace == true) {
 				String documentNumber = AuthenticationUtil.runAs(
 						new AuthenticationUtil.RunAsWork<String>() {
 							public String doWork() throws Exception {
-								return getNextDocumentNumber();
+								String documentNumber = getNextDocumentNumber();
+								if (documentNumber!=null && StringUtils.hasText(documentNumber)) {
+									lockService.suspendLocks();
+									nodeService.setProperty(nodeRef,
+											AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
+									lockService.enableLocks();
+									if (LOG.isDebugEnabled())
+										LOG.debug("Setting document number for " + documentNumber
+												+ " for node " + nodeRef.toString());
+								}
+								return documentNumber;
+								
 							}
 						}, AuthenticationUtil.getSystemUserName());
 				
-				if (documentNumber!=null && StringUtils.hasText(documentNumber)) {
-					nodeService.setProperty(nodeRef,
-							AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
-	
-					if (LOG.isDebugEnabled())
-						LOG.debug("Setting document number for " + documentNumber
-								+ " for node " + nodeRef.toString());
-				}
+				
 			}
 		}
 	}
@@ -160,7 +168,6 @@ public class DocumentNumberUtil {
 			properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2,
 					counter);
 			nodeService.setProperties(cachedFileRef, properties);
-
 			
 			
 			String leftPad = org.apache.commons.lang.StringUtils.leftPad(counter.toString(), 6, '0');
