@@ -24,12 +24,17 @@
    );
 //]]></script>
 <div id="${el}-body" class="form-manager start-workflow">
-   <h1>${msg("header")}</h1>
-   <div>
-      <label for="${el}-workflowDefinitions" class="workflow-definition">${msg("label.workflow")}:</label>
+   <h1>${msg("header")}:  <#list workflowDefinitions as workflowDefinition>
+               <#if page.url.args.startWorkflow == workflowDefinition.name>
+               
+                  ${workflowDefinition.title!workflowDefinition.id?html}
 
+               </#if>
+               </#list> </h1>
+   <div>
+      
       <#-- Workflow type menu button  -->
-      <span class="selected-form-button">
+      <span class="selected-form-button" style="visibility:hidden">
          <span id="${el}-workflow-definition-button" class="yui-button yui-menu-button">
             <span class="first-child">
                <button type="button" tabindex="0"></button>
