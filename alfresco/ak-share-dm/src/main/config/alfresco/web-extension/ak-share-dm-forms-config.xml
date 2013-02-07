@@ -131,9 +131,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="instruction" appearance="bordered-panel" label-id="set.akdm.instruction" />
 					<field id="akdm:protocolId" set="instruction" label-id="property.akdm_protocolId" />
@@ -355,9 +364,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="ordinance" appearance="bordered-panel" label-id="set.akdm.ordinance" />
 					<field id="akdm:protocolId" set="ordinance" label-id="property.akdm_protocolId" />
@@ -576,9 +594,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="manual" appearance="bordered-panel" label-id="set.akdm.manual" />
 					<field id="akdm:manualFunction" set="manual"
@@ -790,9 +817,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="protocol" appearance="bordered-panel" label-id="set.akdm.protocol" />
 					<field id="akdm:protocolId" set="protocol" label-id="property.akdm_protocolId" />
@@ -1000,9 +1036,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="generalDocument" appearance="bordered-panel" label-id="set.akdm.generalDocument" />
 					<field id="akdm:generalDocumentDescription" set="generalDocument"
@@ -1398,9 +1443,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="byggRedaDocument" appearance="bordered-panel"
 						label-id="set.akdm.byggRedaDocument" />
@@ -1672,9 +1726,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="issuelist" appearance="bordered-panel" label-id="set.akdm.issuelist" />
 					<field id="akdm:issuelistMeetingDate" set="issuelist"
@@ -1875,9 +1938,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="internalvalidation" appearance="bordered-panel"
 						label-id="set.akdm.internalvalidation" />
@@ -2075,9 +2147,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 
 					<set id="listpul" appearance="bordered-panel" label-id="set.akdm.listpul" />
 					
@@ -2203,9 +2284,18 @@
 					<field id="akdm:documentNumber" set="documentdescription"
 						label-id="property.akdm_documentNumber" />
 					<field id="akdm:documentStatus" set="documentdescription"
-						label-id="property.akdm_documentStatus" mandatory="true" />
+						label-id="property.akdm_documentStatus" mandatory="true">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+						</control>
+					</field>
+					
 					<field id="akdm:documentSecrecy" set="documentdescription"
-						mandatory="true" label-id="property.akdm_documentSecrecy" />
+						mandatory="true" label-id="property.akdm_documentSecrecy">
+						<control template="/org/alfresco/components/form/controls/selectone.ftl">
+							<control-param name="options">|,Offentligt|{search.form.akdm_document.documentSecrecy.public.title},Sekretessbelagt|{search.form.akdm_document.documentSecrecy.secret.title}</control-param>
+						</control>
+					</field>
 						
 					<field id="akdm:basedOnTemplate" set="documentdescription" mandatory="true"
 						label-id="property.akdm_basedOnTemplate">
