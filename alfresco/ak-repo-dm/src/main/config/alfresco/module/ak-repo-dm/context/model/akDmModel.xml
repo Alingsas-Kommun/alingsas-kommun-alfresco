@@ -200,7 +200,7 @@
 				<property name="akdm:documentStatus">
 					<title>Document status</title>
 					<type>d:text</type>
-					<mandatory>true</mandatory>
+					<mandatory enforced="true">true</mandatory>
 					<default>Arbetsdokument</default>
 					<constraints>
 						<constraint ref="akdm:docStatusConstraint" />
