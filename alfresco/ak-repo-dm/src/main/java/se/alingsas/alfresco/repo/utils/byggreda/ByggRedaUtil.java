@@ -78,7 +78,6 @@ public class ByggRedaUtil {
 
 	private static Properties globalProperties;
 
-	private static SysAdminParams sysAdminParams;
 	private List<String> globalMessages = new ArrayList<String>();
 	private boolean updateExisting = false;
 
@@ -311,7 +310,21 @@ public class ByggRedaUtil {
 				common.append(next.recordNumber.replace(".", ";") + ";");
 				common.append(next.buildingDescription + ";");
 				// TODO perhaps modify to point to SSO URL
-				String url = UrlUtil.getShareUrl(sysAdminParams) + "/"
+				String shareURL = "";
+				String shareProtocol = (String)globalProperties.get("share.protocol");
+				String shareHostname = (String)globalProperties.get("share.host");
+				String sharePort = (String)globalProperties.get("share.port");
+				String shareContext = (String)globalProperties.get("share.context");
+				
+				shareURL = shareProtocol + "://" + shareHostname;
+				//If we are not using standard ports, then also append port numbers
+				if (("http".equals(shareProtocol) && !"80".equals(sharePort)) ||
+						("https".equals(shareProtocol) && !"443".equals(sharePort))) {
+					shareURL = shareURL + ":" + sharePort;
+				}
+				shareURL = shareURL + "/" + shareContext;
+				
+				String url = shareURL + "/"
 						+ "proxy/alfresco/api/node/content/"
 						+ next.nodeRef.getStoreRef().getProtocol() + "/"
 						+ next.nodeRef.getStoreRef().getIdentifier() + "/"
@@ -969,14 +982,6 @@ public class ByggRedaUtil {
 
 	public void setGlobalProperties(Properties globalProperties) {
 		ByggRedaUtil.globalProperties = globalProperties;
-	}
-
-	public SysAdminParams getSysAdminParams() {
-		return sysAdminParams;
-	}
-
-	public void setSysAdminParams(SysAdminParams sysAdminParams) {
-		ByggRedaUtil.sysAdminParams = sysAdminParams;
 	}
 
 	public CheckOutCheckInService getCheckOutCheckInService() {

@@ -1,22 +1,32 @@
 package se.alingsas.alfresco.repo.scripts;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.alfresco.repo.model.Repository;
+import org.alfresco.repo.nodelocator.NodeLocatorService;
 import org.alfresco.repo.policy.BehaviourFilter;
 import org.alfresco.service.ServiceRegistry;
+import org.alfresco.service.cmr.model.FileFolderService;
+import org.alfresco.service.cmr.model.FileInfo;
 import org.alfresco.service.cmr.repository.NodeRef;
+import org.alfresco.service.cmr.repository.NodeService;
+import org.alfresco.service.cmr.repository.NodeService.FindNodeParameters;
 import org.alfresco.service.cmr.search.ResultSet;
 import org.alfresco.service.cmr.search.ResultSetRow;
 import org.alfresco.service.cmr.search.SearchParameters;
 import org.alfresco.service.cmr.search.SearchService;
+import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.extensions.webscripts.Cache;
 import org.springframework.extensions.webscripts.DeclarativeWebScript;
 import org.springframework.extensions.webscripts.Status;
 import org.springframework.extensions.webscripts.WebScriptRequest;
+import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
 import se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil;
@@ -38,9 +48,12 @@ public class HandleMissingDocumentNumbers extends DeclarativeWebScript
 		final Map<String, Object> model = new HashMap<String, Object>();
 
 		SearchService searchService = serviceRegistry.getSearchService();
-		behaviourFilter.disableBehaviour();
+		NodeService nodeService = serviceRegistry.getNodeService();
+		NodeLocatorService nodeLocatorService = serviceRegistry.getNodeLocatorService();
+		FileFolderService fileFolderService = serviceRegistry.getFileFolderService();
 		
-		
+		int result = 0;
+		/*
 		SearchParameters sp = new SearchParameters();
 		sp.setLanguage(SearchService.LANGUAGE_LUCENE);
 		sp.addStore(repositoryHelper.getCompanyHome().getStoreRef());
@@ -49,10 +62,11 @@ public class HandleMissingDocumentNumbers extends DeclarativeWebScript
 		LOG.debug("Query: "+sp.getQuery());
 		
 		ResultSet results = null;
-		int result = 0;
+		
         try
         {
-        	 results = searchService.query(sp);
+        	
+        	results = searchService.query(sp);
         	 
         	 LOG.debug("Query returned "+results.length()+" results.");
         	 result = results.length();
@@ -73,7 +87,22 @@ public class HandleMissingDocumentNumbers extends DeclarativeWebScript
                  results.close();
              }
          } 
-
+		*/
+		List<FileInfo> search = fileFolderService.search(repositoryHelper.getCompanyHome(), "*",true, false, true);
+		for (FileInfo item : search) {
+			NodeRef nodeRef = item.getNodeRef();
+			if (nodeService.exists(nodeRef) && nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
+				String property = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
+				if (property==null || !StringUtils.hasText(property)) {
+					try {
+						documentNumberUtil.setDocumentNumber(nodeRef, false);
+					} catch (Exception e) {
+						throw new RuntimeException(e);
+					}
+					result++;
+				}
+			}
+		}
 		model.put("documents", result);
 		return model;
 	}

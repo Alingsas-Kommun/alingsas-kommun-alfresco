@@ -9,6 +9,7 @@
 		init-method="init" depends-on="ak.dictionaryBootstrap">
 		<property name="policyComponent" ref="policyComponent" />
 		<property name="documentNumberUtil" ref="documentNumberUtil" />
+		<property name="behaviourFilter" ref="policyBehaviourFilter" />
 	</bean>
 	
 	<bean id="documentStatusMissingWorkaround" class="se.alingsas.alfresco.repo.behaviour.DocumentStatusMissingWorkaroundPolicy"

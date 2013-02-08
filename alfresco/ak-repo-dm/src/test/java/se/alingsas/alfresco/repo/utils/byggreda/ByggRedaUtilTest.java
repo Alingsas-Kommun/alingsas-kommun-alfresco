@@ -312,7 +312,6 @@ public class ByggRedaUtilTest {
 	@Test
 	public void testFsSourceReadValid() throws IOException {
 		ByggRedaUtil bru = new ByggRedaUtil();
-		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setContentService(contentService);
@@ -335,7 +334,6 @@ public class ByggRedaUtilTest {
 	public void testFsSourceReadInvalid() throws IOException {
 
 		ByggRedaUtil bru = new ByggRedaUtil();
-		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_FS);
@@ -399,7 +397,6 @@ public class ByggRedaUtilTest {
 	public void testRepoSourceReadValid() throws IOException,
 			FileNotFoundException {
 		ByggRedaUtil bru = new ByggRedaUtil();
-		bru.setSysAdminParams(sysAdminParams);
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);
@@ -428,7 +425,7 @@ public class ByggRedaUtilTest {
 	public void testRepoSourceReadInvalid() throws IOException {
 
 		ByggRedaUtil bru = new ByggRedaUtil();
-		bru.setSysAdminParams(sysAdminParams);
+
 		bru.setSiteService(siteService);
 		bru.setFileFolderService(fileFolderService);
 		bru.setSourceType(ByggRedaUtil.SOURCE_TYPE_REPO);

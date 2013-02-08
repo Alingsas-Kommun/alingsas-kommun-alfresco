@@ -6,6 +6,7 @@ import org.alfresco.repo.copy.CopyServicePolicies;
 import org.alfresco.repo.node.NodeServicePolicies;
 import org.alfresco.repo.policy.Behaviour;
 import org.alfresco.repo.policy.Behaviour.NotificationFrequency;
+import org.alfresco.repo.policy.BehaviourFilter;
 import org.alfresco.repo.policy.JavaBehaviour;
 import org.alfresco.repo.policy.PolicyComponent;
 import org.alfresco.service.cmr.repository.NodeRef;
@@ -30,7 +31,7 @@ public class DocumentNumberingPolicy implements
 			.getLogger(DocumentNumberingPolicy.class);
 	private Behaviour onUpdateNode;
 	private Behaviour onCopyComplete;
-
+	private BehaviourFilter behaviourFilter;
 	private PolicyComponent policyComponent;
 	private DocumentNumberUtil documentNumberUtil;
 
@@ -60,7 +61,9 @@ public class DocumentNumberingPolicy implements
 	@Override
 	public void onUpdateNode(NodeRef nodeRef) {
 		try {
+			behaviourFilter.disableBehaviour(nodeRef);
 			documentNumberUtil.setDocumentNumber(nodeRef, false);
+			behaviourFilter.enableBehaviour(nodeRef);
 		} catch (Exception e) {
 			LOG.error("Failed to generate document number for node", e);
 		}
@@ -80,7 +83,9 @@ public class DocumentNumberingPolicy implements
 			NodeRef targetNodeRef, boolean copyToNewNode,
 			Map<NodeRef, NodeRef> copyMap) {
 		try {
+			behaviourFilter.disableBehaviour(targetNodeRef);
 			documentNumberUtil.setDocumentNumber(targetNodeRef, true);
+			behaviourFilter.enableBehaviour(targetNodeRef);
 		} catch (Exception e) {
 			LOG.error("Failed to generate document number for node", e);
 		}
@@ -92,6 +97,10 @@ public class DocumentNumberingPolicy implements
 	
 	public void setDocumentNumberUtil(DocumentNumberUtil documentNumberUtil) {
 		this.documentNumberUtil = documentNumberUtil;
+	}
+
+	public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
+		this.behaviourFilter = behaviourFilter;
 	}
 
 }

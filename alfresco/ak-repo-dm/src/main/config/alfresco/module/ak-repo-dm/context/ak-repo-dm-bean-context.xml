@@ -44,8 +44,6 @@
 		<property name="globalProperties">
 			<ref bean="global-properties" />
 		</property>
-
-		<property name="sysAdminParams" ref="sysAdminParams" />
 	</bean>
 
 	<bean
