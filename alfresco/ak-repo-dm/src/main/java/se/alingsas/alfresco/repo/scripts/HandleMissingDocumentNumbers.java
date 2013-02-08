@@ -45,6 +45,7 @@ public class HandleMissingDocumentNumbers extends DeclarativeWebScript
 		sp.setLanguage(SearchService.LANGUAGE_LUCENE);
 		sp.addStore(repositoryHelper.getCompanyHome().getStoreRef());
 		sp.setQuery("+TYPE:\""+AkDmModel.TYPE_AKDM_DOCUMENT.toString()+"\" +ISNULL:\"akdm:documentNumber\"");
+		sp.setLimit(5000);
 		LOG.debug("Query: "+sp.getQuery());
 		
 		ResultSet results = null;
@@ -72,7 +73,7 @@ public class HandleMissingDocumentNumbers extends DeclarativeWebScript
                  results.close();
              }
          } 
-		behaviourFilter.enableBehaviour();
+
 		model.put("documents", result);
 		return model;
 	}

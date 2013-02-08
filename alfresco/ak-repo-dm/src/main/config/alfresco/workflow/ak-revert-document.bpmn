@@ -7,7 +7,7 @@
     <startEvent id="start" name="Start" activiti:formKey="akwf:revertDocument"></startEvent>
     <sequenceFlow id="start_flow" name="Hantera dokument olika beroende på val av målmapp i formulär" sourceRef="start" targetRef="autoManDecision"></sequenceFlow>
     <exclusiveGateway id="autoManDecision" name="Decides if automatic or manual handling should be done for this process"></exclusiveGateway>
-    <sequenceFlow id="revert_to_site_flow" name="Sammarbetsyta, där initieraren inte har behörighet att skriva." sourceRef="autoManDecision" targetRef="reviewDocumentTask">
+    <sequenceFlow id="revert_to_site_flow" name="Sammarbetsyta, där initieraren inte har behörighet att skapa dokument." sourceRef="autoManDecision" targetRef="reviewDocumentTask">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${akwf_handling== 'Manual'}]]></conditionExpression>
     </sequenceFlow>
     <userTask id="reviewDocumentTask" name="Dokumentansvarig på sammarbetsyta: Hantering av dokument" activiti:candidateGroups="${akwf_siteGroup}" activiti:formKey="akwf:revertDocumentReviewTask">
@@ -16,7 +16,7 @@
       </extensionElements>
     </userTask>
     <sequenceFlow id="review_ok_flow" sourceRef="reviewDocumentTask" targetRef="completeDocumentScript"></sequenceFlow>
-    <sequenceFlow id="revert_automatic_flow" name="Sammarbetsyta / mina dokument där initiatören har behörighet att skriva" sourceRef="autoManDecision" targetRef="completeDocumentScript">
+    <sequenceFlow id="revert_automatic_flow" name="Sammarbetsyta / mina dokument där initiatören har behörighet att skapa filer" sourceRef="autoManDecision" targetRef="completeDocumentScript">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${akwf_handling== 'Automatic'}]]></conditionExpression>
     </sequenceFlow>
     <serviceTask id="completeDocumentScript" name="Ändra status på dokument till arbetsdokument och flytta dokumentet" activiti:class="se.alingsas.alfresco.repo.workflow.RevertDocumentServiceTaskDelegate"></serviceTask>

@@ -61,6 +61,7 @@
 		class="se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil">
 		<property name="serviceRegistry" ref="ServiceRegistry" />
 		<property name="repositoryHelper" ref="repositoryHelper" />
+		<property name="retryingTransactionHelper" ref="retryingTransactionHelper" />
 	</bean>
 
 	<!-- ============ -->

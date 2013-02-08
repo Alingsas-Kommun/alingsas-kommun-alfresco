@@ -11,6 +11,7 @@ import java.util.Map;
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.model.Repository;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
+import org.alfresco.repo.transaction.RetryingTransactionHelper;
 import org.alfresco.repo.webservice.accesscontrol.AccessStatus;
 import org.alfresco.service.ServiceRegistry;
 import org.alfresco.service.cmr.lock.LockService;
@@ -36,6 +37,7 @@ public class DocumentNumberUtil {
 
 	private ServiceRegistry serviceRegistry;
 	private Repository repositoryHelper;
+	private RetryingTransactionHelper retryingTransactionHelper;
 
 	private static NodeRef cachedFileRef;
 
@@ -59,25 +61,38 @@ public class DocumentNumberUtil {
 			String docNumber = (String) nodeService.getProperty(nodeRef,
 					AkDmModel.PROP_AKDM_DOC_NUMBER);
 			if (!StringUtils.hasText(docNumber) || replace == true) {
+				// TODO add transaction
 				String documentNumber = AuthenticationUtil.runAs(
 						new AuthenticationUtil.RunAsWork<String>() {
 							public String doWork() throws Exception {
-								String documentNumber = getNextDocumentNumber();
-								if (documentNumber!=null && StringUtils.hasText(documentNumber)) {
+
+								String documentNumber = retryingTransactionHelper
+										.doInTransaction(
+												new RetryingTransactionHelper.RetryingTransactionCallback<String>() {
+													public String execute()
+															throws Throwable {
+														return getNextDocumentNumber();
+													}
+												}, false, true);
+
+								if (documentNumber != null
+										&& StringUtils.hasText(documentNumber)) {
 									lockService.suspendLocks();
 									nodeService.setProperty(nodeRef,
-											AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
+											AkDmModel.PROP_AKDM_DOC_NUMBER,
+											documentNumber);
 									lockService.enableLocks();
 									if (LOG.isDebugEnabled())
-										LOG.debug("Setting document number for " + documentNumber
-												+ " for node " + nodeRef.toString());
+										LOG.debug("Setting document number for "
+												+ documentNumber
+												+ " for node "
+												+ nodeRef.toString());
 								}
 								return documentNumber;
-								
+
 							}
 						}, AuthenticationUtil.getSystemUserName());
-				
-				
+
 			}
 		}
 	}
@@ -131,56 +146,73 @@ public class DocumentNumberUtil {
 				nodeService.addAspect(cachedFileRef,
 						AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS, null);
 			}
-
-			String result;
-
-			// Now we should have a lock
-
-			Map<QName, Serializable> properties = nodeService
-					.getProperties(cachedFileRef);
-
-			SimpleDateFormat df = new SimpleDateFormat(
-					(String) properties
-							.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_DATE_PATTERN));
-			String currentDate = df.format(new Date());
-			Integer counter;
-			// TODO add handling for a clustered setup to handle synchronization
-			// between servers.
-			if (!currentDate.equals(properties
-					.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1))) {
-				/*
-				 * Do not reset counter if (LOG.isDebugEnabled()) LOG.debug(
-				 * "Current date does not match stored date, resetting counter"
-				 * ); counter = 1;
-				 */
-				counter = (Integer) properties
-						.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
-			} else {
-				counter = (Integer) properties
-						.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
-				if (LOG.isDebugEnabled())
-					LOG.debug("Current date matches stored date, increasing counter to  "
-							+ counter);
-
+			while (true) {
+				try {
+					return incrementDocumentNumber(cachedFileRef);
+				} catch (Exception e) {
+					LOG.info("Exception while trying to increment document number, retrying...");
+					LOG.debug(e);
+				}
 			}
-			properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1,
-					currentDate);
-			properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2,
-					counter);
-			nodeService.setProperties(cachedFileRef, properties);
-			
-			
-			String leftPad = org.apache.commons.lang.StringUtils.leftPad(counter.toString(), 6, '0');
-			result = currentDate + "-" + leftPad.substring(0, 3) + "-"
-					+ leftPad.substring(3);
-			if (LOG.isDebugEnabled())
-				LOG.debug("Generated document number: " + result);
 
-			return result;
 		} else {
 			throw new Exception(
 					"Document number settings does not exist and could not be created");
 		}
+	}
+
+	/**
+	 * Will increment the document number and return it. This methodhas no
+	 * checking if nodes exist but expects this to already have been done.
+	 * 
+	 * @param nodeRef
+	 * @return
+	 */
+	private String incrementDocumentNumber(NodeRef nodeRef) {
+		String result;
+
+		NodeService nodeService = serviceRegistry.getNodeService();
+
+		Map<QName, Serializable> properties = nodeService
+				.getProperties(cachedFileRef);
+
+		SimpleDateFormat df = new SimpleDateFormat(
+				(String) properties
+						.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_DATE_PATTERN));
+		String currentDate = df.format(new Date());
+		Integer counter;
+		// TODO add handling for a clustered setup to handle synchronization
+		// between servers.
+		if (!currentDate.equals(properties
+				.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1))) {
+			/*
+			 * Do not reset counter if (LOG.isDebugEnabled()) LOG.debug(
+			 * "Current date does not match stored date, resetting counter" );
+			 * counter = 1;
+			 */
+			counter = (Integer) properties
+					.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
+		} else {
+			counter = (Integer) properties
+					.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
+			if (LOG.isDebugEnabled())
+				LOG.debug("Current date matches stored date, increasing counter to  "
+						+ counter);
+
+		}
+		properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1,
+				currentDate);
+		properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2, counter);
+		nodeService.setProperties(cachedFileRef, properties);
+
+		String leftPad = org.apache.commons.lang.StringUtils.leftPad(
+				counter.toString(), 6, '0');
+		result = currentDate + "-" + leftPad.substring(0, 3) + "-"
+				+ leftPad.substring(3);
+		if (LOG.isDebugEnabled())
+			LOG.debug("Generated document number: " + result);
+
+		return result;
 	}
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
@@ -189,5 +221,9 @@ public class DocumentNumberUtil {
 
 	public void setRepositoryHelper(Repository repositoryHelper) {
 		this.repositoryHelper = repositoryHelper;
+	}
+
+	public void setRetryingTransactionHelper(RetryingTransactionHelper retryingTransactionHelper) {
+		this.retryingTransactionHelper = retryingTransactionHelper;
 	}
 }

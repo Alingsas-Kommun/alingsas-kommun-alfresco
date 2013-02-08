@@ -35,7 +35,7 @@ public class ByggRedaImport extends DeclarativeWebScript implements Initializing
 		
 
 		// get the site parameter
-		final String sourcePath = basePath + req.getParameter("sourcePath");
+		final String sourcePath = basePath +"/"+ req.getParameter("sourcePath");
 		final String metaFileName = req.getParameter("metaFileName");
 		final boolean updateExisting = "yes".equals(req.getParameter("updateIfExists"));
 		ByggRedaUtil bru = new ByggRedaUtil();
