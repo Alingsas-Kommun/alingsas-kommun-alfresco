@@ -91,6 +91,7 @@ public class ByggRedaUtilTest {
 	InputStream validInputStream2;
 	ContentData contentData;
 	SysAdminParams sysAdminParams = context.mock(SysAdminParams.class);
+	Properties globalProperties = new Properties();
 
 	@Before
 	public void setUp() throws FileNotFoundException,
@@ -319,6 +320,7 @@ public class ByggRedaUtilTest {
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
 		bru.setTransactionService(transactionService);
+		bru.setGlobalProperties(globalProperties);
 		// All valid
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
@@ -340,6 +342,7 @@ public class ByggRedaUtilTest {
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
 		bru.setTransactionService(transactionService);
+		bru.setGlobalProperties(globalProperties);
 		// Invalid Destinationpath
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
@@ -404,6 +407,7 @@ public class ByggRedaUtilTest {
 		bru.setVersionService(versionService);
 		bru.setTransactionService(transactionService);
 		bru.setContentService(contentService);
+		bru.setGlobalProperties(globalProperties);
 		// All valid
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
@@ -432,6 +436,7 @@ public class ByggRedaUtilTest {
 		bru.setNodeService(nodeService);
 		bru.setVersionService(versionService);
 		bru.setTransactionService(transactionService);
+		bru.setGlobalProperties(globalProperties);
 		// Invalid Destinationpath
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);

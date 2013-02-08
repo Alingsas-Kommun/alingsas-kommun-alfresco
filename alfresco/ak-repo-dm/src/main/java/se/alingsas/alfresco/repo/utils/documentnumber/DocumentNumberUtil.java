@@ -40,7 +40,7 @@ public class DocumentNumberUtil {
 	private ServiceRegistry serviceRegistry;
 	private Repository repositoryHelper;
 	private RetryingTransactionHelper retryingTransactionHelper;
-	
+
 	private static NodeRef cachedFileRef;
 
 	public static final String SETTINGS = "Settings";
@@ -183,17 +183,16 @@ public class DocumentNumberUtil {
 						.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_DATE_PATTERN));
 		String currentDate = df.format(new Date());
 		Integer counter;
-		// TODO add handling for a clustered setup to handle synchronization
-		// between servers.
+		// TODO investigate how this works in a clustered environment.
 		if (!currentDate.equals(properties
 				.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1))) {
-			/*
-			 * Do not reset counter if (LOG.isDebugEnabled()) LOG.debug(
-			 * "Current date does not match stored date, resetting counter" );
-			 * counter = 1;
-			 */
 			counter = (Integer) properties
 					.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
+			if (counter >= 999000) {
+				// If series run out of space, then reset the numbering. Since a
+				// new date is used anyway, the series will not collide.
+				counter = 1;
+			}
 		} else {
 			counter = (Integer) properties
 					.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
@@ -225,7 +224,8 @@ public class DocumentNumberUtil {
 		this.repositoryHelper = repositoryHelper;
 	}
 
-	public void setRetryingTransactionHelper(RetryingTransactionHelper retryingTransactionHelper) {
+	public void setRetryingTransactionHelper(
+			RetryingTransactionHelper retryingTransactionHelper) {
 		this.retryingTransactionHelper = retryingTransactionHelper;
 	}
 
