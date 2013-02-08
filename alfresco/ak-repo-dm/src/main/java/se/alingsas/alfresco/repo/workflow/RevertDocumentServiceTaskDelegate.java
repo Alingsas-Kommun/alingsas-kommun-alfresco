@@ -20,6 +20,7 @@ import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.security.OwnableService;
+import org.alfresco.service.cmr.security.PermissionService;
 import org.alfresco.service.cmr.version.VersionType;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
@@ -49,7 +50,7 @@ public class RevertDocumentServiceTaskDelegate implements JavaDelegate {
 		final NodeService nodeService = serviceRegistry.getNodeService();
 		final FileFolderService fileFolderService = serviceRegistry
 				.getFileFolderService();
-
+		final PermissionService permissionService = serviceRegistry.getPermissionService();
 		final CheckOutCheckInService checkOutCheckInService = serviceRegistry
 				.getCheckOutCheckInService();
 
@@ -71,7 +72,13 @@ public class RevertDocumentServiceTaskDelegate implements JavaDelegate {
 
 						LOG.debug("Unlocking document.");
 						lockService.unlock(fileNodeRef);
-
+						
+						String readPermSiteRoleGroup = (String) execution.getVariable(CommonWorkflowModel.SITE_GROUP);
+						if (readPermSiteRoleGroup != null) { 
+							LOG.debug("Removing temporary read permission on file for "+readPermSiteRoleGroup);
+							permissionService.deletePermission(fileNodeRef, readPermSiteRoleGroup, PermissionService.READ);
+							execution.setVariable(CommonWorkflowModel.REMOVE_PERMISSIONS_DONE, "true");
+						}
 						ChildAssociationRef primaryParent = nodeService
 								.getPrimaryParent(fileNodeRef);
 
@@ -82,7 +89,7 @@ public class RevertDocumentServiceTaskDelegate implements JavaDelegate {
 								fileFolderService.move(fileNodeRef,
 										targetFolderNodeRef, null);
 							} catch (FileExistsException e) {
-								LOG.warn("File exists, renaming...");
+								LOG.info("File exists, renaming...");
 								String name = (String) nodeService.getProperty(
 										fileNodeRef, ContentModel.PROP_NAME);
 								String strippedFileName = StringUtils

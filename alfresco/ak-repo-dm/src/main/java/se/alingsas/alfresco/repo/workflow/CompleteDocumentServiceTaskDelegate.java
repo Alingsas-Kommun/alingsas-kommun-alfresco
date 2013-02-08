@@ -20,6 +20,7 @@ import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.security.OwnableService;
+import org.alfresco.service.cmr.security.PermissionService;
 import org.alfresco.service.cmr.version.VersionType;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
@@ -46,7 +47,8 @@ public class CompleteDocumentServiceTaskDelegate implements JavaDelegate {
 		final FileFolderService fileFolderService = serviceRegistry.getFileFolderService();
 		
 		final CheckOutCheckInService checkOutCheckInService = serviceRegistry.getCheckOutCheckInService();
-
+		final PermissionService permissionService = serviceRegistry.getPermissionService();
+		
 		ActivitiScriptNode akwfTargetFolder = (ActivitiScriptNode) execution
 				.getVariable(CommonWorkflowModel.TARGET_FOLDER);
 		final NodeRef targetFolderNodeRef = akwfTargetFolder.getNodeRef();
@@ -64,11 +66,15 @@ public class CompleteDocumentServiceTaskDelegate implements JavaDelegate {
 						LOG.debug("Unlocking document");
 						lockService.unlock(fileNodeRef);
 						
+						String readPermSiteRoleGroup = (String) execution.getVariable(CommonWorkflowModel.SITE_GROUP);
+						LOG.debug("Removing temporary read permission on file for "+readPermSiteRoleGroup);
+						permissionService.deletePermission(fileNodeRef, readPermSiteRoleGroup, PermissionService.READ);
+						execution.setVariable(CommonWorkflowModel.REMOVE_PERMISSIONS_DONE, "true");
 						LOG.debug("Moving document");
 						try {
 							fileFolderService.move(fileNodeRef, targetFolderNodeRef, null);
 						} catch (FileExistsException e) {
-							LOG.warn("File exists, renaming...");
+							LOG.info("File exists, renaming...");
 							String name = (String) nodeService.getProperty(fileNodeRef, ContentModel.PROP_NAME);
 							String strippedFileName = StringUtils.stripFilenameExtension(name);
 							String filenameExtension = StringUtils.getFilenameExtension(name);

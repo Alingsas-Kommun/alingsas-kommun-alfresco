@@ -140,9 +140,9 @@ public class CompleteDocumentExecutionStartListener implements
 		LOG.info(siteRoleGroup + " assigned for review task.");
 		execution.setVariable(CommonWorkflowModel.SITE, site.getShortName());
 		execution.setVariable(CommonWorkflowModel.SITE_GROUP, siteRoleGroup);
-
+		final String readPermSiteRoleGroup = siteRoleGroup;
 		/*
-		 * Lock files
+		 * Lock files and set permissions
 		 */
 		String akwfHandling = (String) execution.getVariable(CommonWorkflowModel.HANDLING);
 		if (akwfHandling != "Error") {
@@ -158,6 +158,8 @@ public class CompleteDocumentExecutionStartListener implements
 													.getSystemUserName());
 									lockService.lock(fileNodeRef,
 											LockType.READ_ONLY_LOCK);
+									LOG.debug("Adding temporary read permission on file for "+readPermSiteRoleGroup);
+									permissionService.setPermission(fileNodeRef, readPermSiteRoleGroup, PermissionService.READ, true);
 									AuthenticationUtil
 											.setFullyAuthenticatedUser(akwfInitiator);
 									return "";

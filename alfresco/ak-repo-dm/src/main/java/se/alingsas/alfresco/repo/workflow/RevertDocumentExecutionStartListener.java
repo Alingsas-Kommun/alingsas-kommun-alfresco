@@ -69,7 +69,7 @@ public class RevertDocumentExecutionStartListener implements ExecutionListener {
 				.getVariable(CommonWorkflowModel.TARGET_CHOICE);
 
 		NodeRef targetFolderNodeRef = null;
-
+		String siteRoleGroup = null;
 		if (CommonWorkflowModel.TARGET_CHOICE_OPTION_SITE
 				.equals(akwfTargetChoice)) {
 			// Use site as target
@@ -111,7 +111,7 @@ public class RevertDocumentExecutionStartListener implements ExecutionListener {
 						"Fel: Vald mapp ligger inte under den valda siten.");
 			}
 
-			String siteRoleGroup = siteService.getSiteRoleGroup(
+			siteRoleGroup = siteService.getSiteRoleGroup(
 					site.getShortName(), CommonWorkflowModel.SITE_COLLABORATOR);
 			Set<String> containedAuthorities = authorityService
 					.getContainedAuthorities(AuthorityType.USER, siteRoleGroup,
@@ -193,9 +193,10 @@ public class RevertDocumentExecutionStartListener implements ExecutionListener {
 			throw new RuntimeException(
 					"Fel: Inga filer inkluderades i arbetsflödet");
 		}
-
+		
+		final String readPermSiteRoleGroup = siteRoleGroup;
 		/*
-		 * Lock files
+		 * Lock files and set permissions
 		 */
 		String akwfHandling = (String) execution
 				.getVariable(CommonWorkflowModel.HANDLING);
@@ -212,6 +213,10 @@ public class RevertDocumentExecutionStartListener implements ExecutionListener {
 													.getSystemUserName());
 									lockService.lock(fileNodeRef,
 											LockType.READ_ONLY_LOCK);
+									if (readPermSiteRoleGroup!=null) {
+										LOG.debug("Adding temporary read permission on file for "+readPermSiteRoleGroup);
+										permissionService.setPermission(fileNodeRef, readPermSiteRoleGroup, PermissionService.READ, true);
+									}
 									AuthenticationUtil
 											.setFullyAuthenticatedUser(akwfInitiator);
 									return "";

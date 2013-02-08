@@ -20,4 +20,5 @@ public interface CommonWorkflowModel {
 	public static final String SITE = "akwf_site";
 	public static final String SITE_MANAGER = "SiteManager";
 	public static final String SITE_COLLABORATOR = "SiteCollaborator";
+	public static final String REMOVE_PERMISSIONS_DONE = "akwf_premissionsRemoved";
 }

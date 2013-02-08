@@ -195,8 +195,8 @@
 					<hide id="bpm:comment" />
 					<hide id="bpm:sendEMailNotifications" />
 					<show id="akwf:reviewDocumentTargetChoice" />
-					<show id="akwf:targetSite" />
-					<show id="akwf:targetFolder" />
+					<hide id="akwf:targetSite" />
+					<hide id="akwf:targetFolder" />
 				</field-visibility>
 				<appearance>
 					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
@@ -212,7 +212,7 @@
 					</field>
 
 					<field id="akwf:reviewDocumentTargetChoice" set="target"
-						mandatory="true">
+						mandatory="true" read-only="true">
 						<control
 							template="/se/alingsas/alfresco/share/components/form/controls/selectone-exclusive.ftl">
 						</control>
@@ -279,8 +279,8 @@
 					<show id="bpm:comment" />
 					<hide id="bpm:sendEMailNotifications" />
 					<hide id="akwf:reviewDocumentTargetChoice" />
-					<show id="akwf:targetSite" />
-					<show id="akwf:targetFolder" />
+					<hide id="akwf:targetSite" />
+					<hide id="akwf:targetFolder" />
 					<show id="transitions" />
 				</field-visibility>
 				<appearance>
@@ -344,8 +344,8 @@
 					<show id="packageItems" />
 					<show id="bpm:comment" />
 					<hide id="bpm:sendEMailNotifications" />
-					<show id="akwf:targetSite" />
-					<show id="akwf:targetFolder" />
+					<hide id="akwf:targetSite" />
+					<hide id="akwf:targetFolder" />
 					<show id="transitions" />
 				</field-visibility>
 				<appearance>
