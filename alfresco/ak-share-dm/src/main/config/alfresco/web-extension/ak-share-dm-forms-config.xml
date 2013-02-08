@@ -133,7 +133,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -366,7 +366,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -596,7 +596,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -819,7 +819,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -1038,7 +1038,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -1445,7 +1445,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -1728,7 +1728,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -1940,7 +1940,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -2149,7 +2149,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
@@ -2286,7 +2286,7 @@
 					<field id="akdm:documentStatus" set="documentdescription"
 						label-id="property.akdm_documentStatus" mandatory="true">
 						<control template="/org/alfresco/components/form/controls/selectone.ftl">
-							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},Färdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
+							<control-param name="options">,Arbetsdokument|{search.form.akdm_document.documentStatus.working.title},F\u00e4rdigt dokument|{search.form.akdm_document.documentStatus.completed.title}</control-param>
 						</control>
 					</field>
 					
