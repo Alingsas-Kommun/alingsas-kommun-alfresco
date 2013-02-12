@@ -7,7 +7,7 @@
 		<flags>
 			<!-- Developer debugging setting to turn on DEBUG mode for client scripts 
 				in the browser -->
-			<client-debug>true</client-debug>
+			<client-debug>false</client-debug>
 
 			<!-- LOGGING can always be toggled at runtime when in DEBUG mode (Ctrl, 
 				Ctrl, Shift, Shift). This flag automatically activates logging on page load. -->
@@ -1015,11 +1015,5 @@
 	</config>
 
 
-	<!-- Help links override -->
-	<config evaluator="string-compare" condition="HelpPages">
-		<help-pages>
-			<share-help>https://intranet3.alingsas.se</share-help>
-			<share-tutorial>https://intranet3.alingsas.se</share-tutorial>
-		</help-pages>
-	</config>
+	
 </alfresco-config>

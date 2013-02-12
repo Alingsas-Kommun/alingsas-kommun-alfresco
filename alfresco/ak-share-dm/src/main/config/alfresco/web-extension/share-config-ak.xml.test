@@ -30,6 +30,14 @@
 			</module-deployment>
 		</web-framework>
 	</config>
+	
+	<!-- Help links override -->
+	<config evaluator="string-compare" condition="HelpPages">
+		<help-pages>
+			<share-help>http://localhost</share-help>
+			<share-tutorial>http://localhost</share-tutorial>
+		</help-pages>
+	</config>
 
 
 	<!-- example port config used to access remote Alfresco server (default 
