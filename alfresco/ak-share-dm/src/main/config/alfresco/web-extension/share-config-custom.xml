@@ -383,6 +383,7 @@
 				</evaluator>
 				<evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument
 				</evaluator>
+				<evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
 			</action>
 
 			<!-- Revert document workflow -->
@@ -399,6 +400,23 @@
 				</evaluator>
 				<evaluator>se.alingsas.evaluator.doclib.action.IsAlingsasDocument
 				</evaluator>
+				<evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
+			</action>
+			
+			<!-- Download document locked -->
+			<action id="document-download-locked" type="link" icon="document-download"
+				label="actions.document.download-locked">
+				<param name="href">{downloadUrl}</param>
+				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+				<evaluator>evaluator.doclib.action.isWorkingCopy</evaluator>
+			</action>
+			
+			<!-- Download document read-only -->
+			<action id="document-download" type="link" icon="document-download"
+				label="actions.document.download">
+				<param name="href">{downloadUrl}</param>
+				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
+				<evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
 			</action>
 
 			<!-- Alfresco default definitions -->
@@ -823,14 +841,13 @@
 
 			<actionGroup id="document-browse">
 				<action index="100" id="document-change-type" />
-				<action index="110" id="document-view-content" />
+				<action index="100" id="document-download-locked" />
+				<action index="100" id="document-download" />
 				<action index="120" id="document-locate" />
 				<action index="130" id="document-edit-properties" />
 				<action index="140" id="document-upload-new-version" />
 				<action index="150" id="document-view-original" />
 				<action index="160" id="document-view-working-copy" />
-				<!-- <action index="170" id="document-approve" /> <action index="180" 
-					id="document-reject" /> -->
 				<action index="190" id="document-inline-edit" />
 				<action index="200" id="document-edit-online" />
 				<action index="210" id="document-edit-offline" />
@@ -840,7 +857,6 @@
 				<action index="250" id="document-copy-to" />
 				<action index="260" id="document-move-to" />
 				<action index="270" id="document-delete" />
-				<!-- <action index="280" id="document-assign-workflow" /> -->
 				<action index="290" id="document-cancel-editing" />
 				<action index="310" id="document-view-googlemaps" />
 				<action index="320" id="document-view-in-source-repository" />
@@ -854,13 +870,12 @@
 
 			<actionGroup id="document-details">
 				<action index="100" id="document-change-type" />
-				<action index="110" id="document-view-content" />
+				<action index="100" id="document-download-locked" />
+				<action index="100" id="document-download" />
 				<action index="120" id="document-edit-metadata" />
 				<action index="130" id="document-upload-new-version" />
 				<action index="140" id="document-view-original" />
 				<action index="150" id="document-view-working-copy" />
-				<!-- <action index="160" id="document-approve" /> <action index="170" 
-					id="document-reject" /> -->
 				<action index="180" id="document-inline-edit" />
 				<action index="190" id="document-edit-online" />
 				<action index="200" id="document-edit-offline" />
@@ -870,7 +885,6 @@
 				<action index="240" id="document-copy-to" />
 				<action index="250" id="document-move-to" />
 				<action index="260" id="document-delete" />
-
 				<action index="280" id="document-cancel-editing" />
 				<action index="290" id="document-manage-site-permissions" />
 				<action index="300" id="document-manage-repo-permissions" />
@@ -879,7 +893,6 @@
 				<action index="370" id="document-cloud-unsync" />
 				<action index="380" id="document-view-in-cloud" />
 				<action index="390" id="document-request-sync" />
-				<!-- <action index="395" id="document-assign-workflow" /> -->
 				<action index="400" id="document-wf-completeDocument" />
 				<action index="405" id="document-wf-revertDocument" />
 			</actionGroup>
