@@ -21,7 +21,8 @@
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
-					<field id="bpm:workflowDescription" mandatory="true">
+					<field id="bpm:workflowDescription" label-id="workflow.akwf.workflow_description"
+						mandatory="true">
 						<control template="/org/alfresco/components/form/controls/textarea.ftl">
 							<control-param name="style">width: 95%</control-param>
 						</control>
@@ -49,15 +50,8 @@
 					</field>
 
 					<field id="packageItems" set="items" mandatory="true">
-						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="showTargetLink">true</control-param>
-							<control-param name="displayMode">list</control-param>
-							<control-param name="startLocation">{userhome}</control-param>
-							<control-param name="rootNode">{userhome}</control-param>
-							<control-param name="compactMode">true</control-param>
-							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-source-file
-							</control-param>
-						</control>
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
 					</field>
 
 					<field id="bpm:sendEMailNotifications" label-id="workflow.akwf.field.send-email-notifications"
@@ -98,7 +92,8 @@
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
 
-					<field id="message" read-only="true">
+					<field id="message" read-only="true"
+						label-id="workflow.akwf.workflow_description">
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
 
@@ -129,13 +124,19 @@
 						</control>
 					</field>
 
-					<field id="packageItems" set="items" />
+					<field id="packageItems" set="items" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
+					</field>
 
 
 					<field id="akwf:reviewOutcome" label-id="workflow.akwf.field.outcome"
 						set="response">
 						<control
-							template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl" />
+							template="/org/alfresco/components/form/controls/workflow/activiti-transitions.ftl">
+							<control-param name="options">Approve|Godkänn#alf#Reject|Neka
+							</control-param>
+						</control>
 					</field>
 				</appearance>
 			</form>
@@ -165,7 +166,8 @@
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
 
-					<field id="message" read-only="true">
+					<field id="message" read-only="true"
+						label-id="workflow.akwf.workflow_description">
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
 
@@ -175,7 +177,10 @@
 
 					<field id="akwf:targetSite" set="target" read-only="true" />
 					<field id="akwf:targetFolder" set="target" read-only="true" />
-					<field id="packageItems" set="items" />
+					<field id="packageItems" set="items" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
+					</field>
 
 
 					<field id="transitions" label-id="workflow.akwf.field.outcome"
@@ -205,7 +210,8 @@
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
-					<field id="bpm:workflowDescription" mandatory="true">
+					<field id="bpm:workflowDescription" label-id="workflow.akwf.workflow_description"
+						mandatory="true">
 						<control template="/org/alfresco/components/form/controls/textarea.ftl">
 							<control-param name="style">width: 95%</control-param>
 						</control>
@@ -245,15 +251,8 @@
 					</field>
 
 					<field id="packageItems" set="items" mandatory="true">
-						<control template="/org/alfresco/components/form/controls/association.ftl">
-							<control-param name="showTargetLink">true</control-param>
-							<control-param name="displayMode">list</control-param>
-							<control-param name="startLocation">{userhome}</control-param>
-							<control-param name="rootNode">{userhome}</control-param>
-							<control-param name="compactMode">true</control-param>
-							<control-param name="selectActionLabelId">workflow.akwf.form.control.button.select-source-file
-							</control-param>
-						</control>
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
 					</field>
 
 					<field id="bpm:sendEMailNotifications" label-id="workflow.akwf.field.send-email-notifications"
@@ -269,7 +268,7 @@
 			</form>
 		</forms>
 	</config>
-	
+
 	<config evaluator="task-type" condition="akwf:revertDocumentReviewTask">
 		<forms>
 			<form>
@@ -290,10 +289,11 @@
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
-					<field id="bpm:description" read-only="true">
+					<field id="bpm:description" read-only="true"
+						label-id="workflow.akwf.workflow_description">
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
-					
+
 					<field id="akwf:targetSite" set="target" mandatory="true">
 						<control
 							template="/se/alingsas/alfresco/share/components/form/controls/association-based-on-field.ftl">
@@ -316,7 +316,10 @@
 						</control>
 					</field>
 
-					<field id="packageItems" set="items" />
+					<field id="packageItems" set="items" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
+					</field>
 
 					<field id="bpm:sendEMailNotifications" label-id="workflow.akwf.field.send-email-notifications"
 						set="other">
@@ -327,7 +330,7 @@
 					<field id="bpm:comment" set="response">
 						<control template="/org/alfresco/components/form/controls/textarea.ftl" />
 					</field>
-					
+
 					<field id="transitions" label-id="workflow.akwf.field.outcome"
 						set="response" />
 
@@ -335,7 +338,7 @@
 			</form>
 		</forms>
 	</config>
-	
+
 	<config evaluator="task-type" condition="akwf:revertDocumentReviewReceiptTask">
 		<forms>
 			<form>
@@ -355,17 +358,22 @@
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
 
-					<field id="bpm:description" read-only="true">
+					<field id="bpm:description" read-only="true"
+						label-id="workflow.akwf.workflow_description">
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
-					
+
 					<field id="bpm:comment" read-only="true">
 						<control template="/org/alfresco/components/form/controls/info.ftl" />
 					</field>
 
 					<field id="akwf:targetSite" set="target" read-only="true" />
 					<field id="akwf:targetFolder" set="target" read-only="true" />
-					<field id="packageItems" set="items" />
+					
+					<field id="packageItems" set="items" mandatory="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
+					</field>
 
 
 					<field id="transitions" label-id="workflow.akwf.field.outcome"
