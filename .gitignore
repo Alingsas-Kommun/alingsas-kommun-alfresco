@@ -7,3 +7,4 @@ ${tomcat.repo.home}
 ${tomcat.share.home}
 *~
 *.log
+rebel.xml
