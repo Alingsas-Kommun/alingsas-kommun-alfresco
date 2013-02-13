@@ -325,7 +325,10 @@ public class ByggRedaUtilTest {
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertTrue(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertTrue(bru.validateParams());
+		bru.run();
 		Set<ByggRedaDocument> documents = bru.getDocuments();
 		assertTrue(documents!=null);
 		assertEquals(1, documents.size());
@@ -347,51 +350,78 @@ public class ByggRedaUtilTest {
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(null);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 
 		// Invalid Logs path
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(invalidLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(null);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
-
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		// Invalid site name
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("fail");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
-
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		// Invalid Source folder
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(invalidSourcePath, validMetaFileName));
+		bru.setSourcePath(invalidSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(null, validMetaFileName));
-
+		bru.setSourcePath(null);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		// Invalid Metadata filename
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, invalidMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(invalidMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, null));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(null);
+		assertFalse(bru.validateParams());
+		bru.run();
 
 		context.assertIsSatisfied();
 	}
@@ -412,11 +442,16 @@ public class ByggRedaUtilTest {
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertTrue(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertTrue(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath("/" + validDestinationPath + "/");
 		bru.setLogPath("/" + validLogsPath + "/");
 		try {
-			bru.run("/" + validSourcePath + "/", validMetaFileName);
+			bru.setSourcePath("/"+validSourcePath+"/");
+			bru.setMetaFileName(validMetaFileName);
+			assertTrue(bru.validateParams());
 			//assertTrue(false);
 		} catch (RuntimeException ex) {
 			// Expected since the file was already used and closed
@@ -441,51 +476,81 @@ public class ByggRedaUtilTest {
 		bru.setDestinationPath(invalidDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
+
 		bru.setDestinationPath(null);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
-
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
+		
 		// Invalid Logs path
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(invalidLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(null);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
-
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		// Invalid site name
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("fail");
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName(null);
-		assertFalse(bru.run(validSourcePath, validMetaFileName));
-
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
+		
 		// Invalid Source folder
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(invalidSourcePath, validMetaFileName));
+		bru.setSourcePath(invalidSourcePath);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(null, validMetaFileName));
+		bru.setSourcePath(null);
+		bru.setMetaFileName(validMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 
 		// Invalid Metadata filename
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, invalidMetaFileName));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(invalidMetaFileName);
+		assertFalse(bru.validateParams());
+		bru.run();
 		bru.setDestinationPath(validDestinationPath);
 		bru.setLogPath(validLogsPath);
 		bru.setSiteName("test");
-		assertFalse(bru.run(validSourcePath, null));
+		bru.setSourcePath(validSourcePath);
+		bru.setMetaFileName(null);
+		assertFalse(bru.validateParams());
+		bru.run();;
 
 		context.assertIsSatisfied();
 	}

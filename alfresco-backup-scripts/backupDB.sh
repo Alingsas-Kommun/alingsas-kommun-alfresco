@@ -31,8 +31,10 @@ mkdir $BACKUP_TARGET_SUBDIR
 
 echo "Starting database backup"
 export PGPASSWORD="$DB_PASSWORD"
-OUTPUT_FILENAME="$DB_NAME-$DATETIMESTAMP.sql"
-pg_dump --host=$DB_HOST --port=$DB_PORT --username=$DB_USER $DB_NAME > $BACKUP_TARGET_SUBDIR/$OUTPUT_FILENAME
+OUTPUT_FILENAME1="$DB_NAME-$DATETIMESTAMP.sql"
+OUTPUT_FILENAME2="globals-$DATETIMESTAMP.script"
+pg_dump -Fc --host=$DB_HOST --port=$DB_PORT --username=$DB_USER $DB_NAME > $BACKUP_TARGET_SUBDIR/$OUTPUT_FILENAME1
+pg_dumpall -g --host=$DB_HOST --port=$DB_PORT --username=$DB_USER > $BACKUP_TARGET_SUBDIR/$OUTPUT_FILENAME2
 export PGPASSWORD=""
 touch $BACKUP_TARGET_SUBDIR/$OUTPUT_FILENAME
 echo "Database backup completed"

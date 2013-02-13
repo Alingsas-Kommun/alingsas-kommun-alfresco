@@ -49,7 +49,7 @@ import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
 
-public class ByggRedaUtil {
+public class ByggRedaUtil implements Runnable {
 	private static final Logger LOG = Logger.getLogger(ByggRedaUtil.class);
 	public static final String SOURCE_TYPE_REPO = "repository";
 	public static final String SOURCE_TYPE_FS = "filesystem";
@@ -80,6 +80,11 @@ public class ByggRedaUtil {
 
 	private List<String> globalMessages = new ArrayList<String>();
 	private boolean updateExisting = false;
+	private String sourcePath;
+	private String metaFileName;
+	private SiteInfo site;
+	private InputStream metadataFile;
+	private boolean validatedParams = false;
 
 	/**
 	 * Main method which runs an import of material.
@@ -92,47 +97,57 @@ public class ByggRedaUtil {
 	 * @throws IOException
 	 * 
 	 */
-	public boolean run(String sourcePath, final String metaFileName) {
-		LOG.debug("sourcePath: " + sourcePath + ", metaFileName: "
-				+ metaFileName);
-		if (!SOURCE_TYPE_REPO.equals(sourceType)
-				&& !SOURCE_TYPE_FS.equals(sourceType)) {
-			LOG.error("Invalid sourceType, this must be set through bean configuration. Expected '"
-					+ SOURCE_TYPE_REPO
-					+ "' or '"
-					+ SOURCE_TYPE_FS
-					+ "', was "
-					+ sourceType);
-			return false;
+	public void run() {
+		LOG.debug("sourcePath: " + getSourcePath() + ", metaFileName: "
+				+ getMetaFileName());
+		if (validatedParams) {
+
+			try {
+				documents = ReadMetadataDocument.read(metadataFile,
+						globalMessages);
+
+			} finally {
+				IOUtils.closeQuietly(metadataFile);
+			}
+
+			documents = importDocuments(site, getSourcePath(), documents);
+			logDocuments(site, globalMessages);
+			createOutputDocument(site);
+
 		}
 
-		final SiteInfo site = findSite(siteName);
+	}
+
+	public boolean validateParams() {
+		validatedParams = false;
+		site = findSite(siteName);
 		if (site == null) {
 			LOG.error("Could not find site " + siteName);
 			return false;
 		}
 
-		if (!StringUtils.hasText(sourcePath)) {
-			LOG.error("Source path does not exist, was " + sourcePath);
+		if (!StringUtils.hasText(getSourcePath())) {
+			LOG.error("Source path does not exist, was " + getSourcePath());
 			return false;
 		}
 
 		if (SOURCE_TYPE_REPO.equals(sourceType)) {
-			if (sourcePath.startsWith("/")) {
-				sourcePath = sourcePath.substring(1);
+			if (getSourcePath().startsWith("/")) {
+				setSourcePath(getSourcePath().substring(1));
 				LOG.debug("Stripping prefix / from sourcePath. Path is: "
-						+ sourcePath);
+						+ getSourcePath());
 			}
-			if (sourcePath.endsWith("/")) {
-				sourcePath = sourcePath.substring(0, sourcePath.length() - 1);
+			if (getSourcePath().endsWith("/")) {
+				setSourcePath(getSourcePath().substring(0,
+						getSourcePath().length() - 1));
 				LOG.debug("Stripping postfix / from sourcePath. Path is: "
-						+ sourcePath);
+						+ getSourcePath());
 			}
 		}
 
-		if (!StringUtils.hasText(sourcePath)
-				|| !sourceFolderExists(site, sourcePath)) {
-			LOG.error("Source path does not exist, was " + sourcePath);
+		if (!StringUtils.hasText(getSourcePath())
+				|| !sourceFolderExists(site, getSourcePath())) {
+			LOG.error("Source path does not exist, was " + getSourcePath());
 			return false;
 		}
 
@@ -178,43 +193,21 @@ public class ByggRedaUtil {
 			return false;
 		}
 
-		if (!StringUtils.hasText(metaFileName)) {
+		if (!StringUtils.hasText(getMetaFileName())) {
 			LOG.error("No filename supplied");
 			return false;
 		}
-		final String finalSourcePath = sourcePath;
-		/*
-		 * return AuthenticationUtil.runAsSystem(new
-		 * AuthenticationUtil.RunAsWork<Boolean>() {
-		 * 
-		 * @Override public Boolean doWork() throws Exception {
-		 */
-		InputStream metadataFile = readFile(site, finalSourcePath, metaFileName);
+
+		metadataFile = readFile(site, getSourcePath(), getMetaFileName());
 
 		if (metadataFile == null) {
-			LOG.error("Could not find metadata file at " + finalSourcePath
-					+ "/" + metaFileName);
+			LOG.error("Could not find metadata file at " + getSourcePath()
+					+ "/" + getMetaFileName());
 			return false;
 		} else {
-
-			try {
-				documents = ReadMetadataDocument.read(metadataFile,
-						globalMessages);
-
-			} finally {
-				IOUtils.closeQuietly(metadataFile);
-			}
-			if (documents == null) {
-				return false;
-			}
-			documents = importDocuments(site, finalSourcePath, documents);
-			logDocuments(site, globalMessages);
-			createOutputDocument(site);
+			validatedParams = true;
 			return true;
 		}
-
-		// }});
-
 	}
 
 	/**
@@ -311,19 +304,24 @@ public class ByggRedaUtil {
 				common.append(next.buildingDescription + ";");
 				// TODO perhaps modify to point to SSO URL
 				String shareURL = "";
-				String shareProtocol = (String)globalProperties.get("share.protocol");
-				String shareHostname = (String)globalProperties.get("share.host");
-				String sharePort = (String)globalProperties.get("share.port");
-				String shareContext = (String)globalProperties.get("share.context");
-				
+				String shareProtocol = (String) globalProperties
+						.get("share.protocol");
+				String shareHostname = (String) globalProperties
+						.get("share.host");
+				String sharePort = (String) globalProperties.get("share.port");
+				String shareContext = (String) globalProperties
+						.get("share.context");
+
 				shareURL = shareProtocol + "://" + shareHostname;
-				//If we are not using standard ports, then also append port numbers
-				if (("http".equals(shareProtocol) && !"80".equals(sharePort)) ||
-						("https".equals(shareProtocol) && !"443".equals(sharePort))) {
+				// If we are not using standard ports, then also append port
+				// numbers
+				if (("http".equals(shareProtocol) && !"80".equals(sharePort))
+						|| ("https".equals(shareProtocol) && !"443"
+								.equals(sharePort))) {
 					shareURL = shareURL + ":" + sharePort;
 				}
 				shareURL = shareURL + "/" + shareContext;
-				
+
 				String url = shareURL + "/"
 						+ "proxy/alfresco/api/node/content/"
 						+ next.nodeRef.getStoreRef().getProtocol() + "/"
@@ -504,6 +502,7 @@ public class ByggRedaUtil {
 				+ document.path;
 		UserTransaction trx = getTransactionService()
 				.getNonPropagatingUserTransaction();
+		
 		try {
 			trx.begin();
 			// Check if file exists already
@@ -705,7 +704,7 @@ public class ByggRedaUtil {
 
 			while (folder == null) {
 				folder = fileFolderService.create(rootNodeRef, part,
-						ContentModel.TYPE_FOLDER).getNodeRef(); 
+						ContentModel.TYPE_FOLDER).getNodeRef();
 				nodeService.setProperty(folder, ContentModel.PROP_TITLE, part);
 			}
 
@@ -715,8 +714,8 @@ public class ByggRedaUtil {
 			parts = StringUtils.delimitedListToStringArray(folderPath, "/");
 			String[] titles;
 			if (folderTitles != null) {
-				titles = StringUtils.delimitedListToStringArray(
-					folderTitles, "#/#");
+				titles = StringUtils.delimitedListToStringArray(folderTitles,
+						"#/#");
 			} else {
 				titles = new String[0];
 			}
@@ -763,9 +762,11 @@ public class ByggRedaUtil {
 			final String workingCopyName = createWorkingCopyName(document.fileName);
 
 			if (!name.equalsIgnoreCase(workingCopyName)) {
-				/*Keep generated working copy name or else we will get an error
+				/*
+				 * Keep generated working copy name or else we will get an error
 				 * addProperty(properties, ContentModel.PROP_NAME,
-						document.fileName);*/
+				 * document.fileName);
+				 */
 			}
 		} else {
 			addProperty(properties, ContentModel.PROP_NAME, document.fileName);
@@ -1005,5 +1006,21 @@ public class ByggRedaUtil {
 		this.updateExisting = updateExisting;
 		// TODO Auto-generated method stub
 
+	}
+
+	public String getSourcePath() {
+		return sourcePath;
+	}
+
+	public void setSourcePath(String sourcePath) {
+		this.sourcePath = sourcePath;
+	}
+
+	public String getMetaFileName() {
+		return metaFileName;
+	}
+
+	public void setMetaFileName(String metaFileName) {
+		this.metaFileName = metaFileName;
 	}
 }
