@@ -2765,7 +2765,7 @@
             if (oFullResponse)
             {
                var items = oFullResponse.data.items;
-
+               
                // Crop item list to max length if required
                if (me.options.maxSearchResults > -1 && items.length > me.options.maxSearchResults)
                {
@@ -2780,6 +2780,26 @@
                
                // Special case for tags, which we want to render differently to categories
                var index, item;
+               var newItems = new Array();
+               /*
+                * Alingsås customization start
+                */
+               for (index in items)
+               {
+            	   if (items.hasOwnProperty(index))
+                   {
+                      item = items[index];
+                	  if (item.type == "st:site" && item.name=="user-homes") {
+                		  //Skip it
+                	  } else {
+                		  newItems.push(item);
+                	  }
+                   }
+               }
+               items = newItems;
+               /*
+                * Alingsås customization end
+                */
                for (index in items)
                {
                   if (items.hasOwnProperty(index))
