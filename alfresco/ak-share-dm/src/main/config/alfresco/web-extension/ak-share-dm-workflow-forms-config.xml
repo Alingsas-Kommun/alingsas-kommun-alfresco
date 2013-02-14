@@ -154,6 +154,7 @@
 					<show id="message" />
 					<show id="akwf:targetSite" />
 					<show id="akwf:targetFolder" />
+					<show id="akwf:resultVariable" />
 					<show id="transitions" />
 				</field-visibility>
 				<appearance>
@@ -164,7 +165,15 @@
 					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
-
+					
+					<field id="akwf:resultVariable" label-id="workflow.akwf.field.reviewOutcome"
+						set="info" read-only="true">
+						<control
+							template="/se/alingsas/alfresco/share/components/form/controls/property-custom-display.ftl">
+							<control-param name="nameValueMappings">Approve|{workflow.akwf.completedocument.approved.description},Reject|{workflow.akwf.completedocument.rejected.description}</control-param>
+							<control-param name="blankValueMapping">|{workflow.akwf.completedocument.blank.description}</control-param>
+						</control>
+					</field>
 
 					<field id="message" read-only="true"
 						label-id="workflow.akwf.workflow_description">

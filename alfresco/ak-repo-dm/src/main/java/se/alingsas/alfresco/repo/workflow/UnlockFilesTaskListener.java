@@ -12,6 +12,7 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.security.PermissionService;
 import org.apache.log4j.Logger;
+import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.workflow.model.CommonWorkflowModel;
 
@@ -23,32 +24,60 @@ public class UnlockFilesTaskListener implements TaskListener {
 	public void notify(final DelegateTask task) {
 		final String akwfInitiator = AuthenticationUtil
 				.getFullyAuthenticatedUser();
-		LOG.debug("Entering UnlockFilesTaskListener");
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Entering UnlockFilesTaskListener");
 
-		LOG.debug("Authenticated user is " + akwfInitiator);
-
+			LOG.debug("Authenticated user is " + akwfInitiator);
+		}
 		final ServiceRegistry serviceRegistry = WorkflowUtil
 				.getServiceRegistry();
 		final LockService lockService = serviceRegistry.getLockService();
 		final NodeService nodeService = serviceRegistry.getNodeService();
-		final PermissionService permissionService = serviceRegistry.getPermissionService();
+		final PermissionService permissionService = serviceRegistry
+				.getPermissionService();
+
+		// Setting result variable if review outcome is set.
+		String reviewOutcome = (String) task.getExecution().getVariable(
+				CommonWorkflowModel.AKWF_REVIEWOUTCOME);
+
+		if (reviewOutcome != null && StringUtils.hasText(reviewOutcome)) {
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Setting resultVariable to " + reviewOutcome);
+			}
+			task.setVariableLocal(CommonWorkflowModel.AKWF_RESULTVARIABLE,
+					reviewOutcome);
+		}
+
 		final List<ChildAssociationRef> childAssocs = WorkflowUtil
 				.getBpmPackageFiles(task.getExecution(), nodeService);
-		LOG.debug("Unlocking files");
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Unlocking files");
+		}
 		AuthenticationUtil.runAs(new AuthenticationUtil.RunAsWork<Object>() {
 			public Object doWork() throws Exception {
 				if (childAssocs != null && childAssocs.size() > 0) {
 					for (ChildAssociationRef childAssoc : childAssocs) {
 						final NodeRef fileNodeRef = childAssoc.getChildRef();
 						lockService.unlock(fileNodeRef);
-						String readPermSiteRoleGroup = (String) task.getExecution().getVariable(CommonWorkflowModel.SITE_GROUP);
-						if (readPermSiteRoleGroup!=null) {
-							String removePermissions = (String) task.getExecution().getVariable(CommonWorkflowModel.REMOVE_PERMISSIONS_DONE);
-							if (removePermissions==null || !"true".equals(removePermissions)) {
-								//If temporary permissions are not already cleared, clear them now
-								
-								LOG.debug("Removing temporary read permission on file for "+readPermSiteRoleGroup);
-								permissionService.deletePermission(fileNodeRef, readPermSiteRoleGroup, PermissionService.READ);
+						String readPermSiteRoleGroup = (String) task
+								.getExecution().getVariable(
+										CommonWorkflowModel.SITE_GROUP);
+						if (readPermSiteRoleGroup != null) {
+							String removePermissions = (String) task
+									.getExecution()
+									.getVariable(
+											CommonWorkflowModel.REMOVE_PERMISSIONS_DONE);
+							if (removePermissions == null
+									|| !"true".equals(removePermissions)) {
+								// If temporary permissions are not already
+								// cleared, clear them now
+								if (LOG.isDebugEnabled()) {
+									LOG.debug("Removing temporary read permission on file for "
+											+ readPermSiteRoleGroup);
+								}
+								permissionService.deletePermission(fileNodeRef,
+										readPermSiteRoleGroup,
+										PermissionService.READ);
 							}
 						}
 					}

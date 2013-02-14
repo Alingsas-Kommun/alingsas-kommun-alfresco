@@ -1152,6 +1152,8 @@
 					<show id="akdm:documentNumber" for-mode="view" />
 					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
+					
+					<show id="sys:node-uuid" />
 				</field-visibility>
 				<appearance>
 					<set id="documentdescription" appearance="bordered-panel"
@@ -1195,6 +1197,14 @@
 							<constraint type="MANDATORY" validation-handler="Alfresco.forms.validation.mandatory"
 								event="change" />
 						</constraint-handlers>
+					</field>
+					
+					<set id="economyDocument" appearance="bordered-panel"
+						label-id="type.akdm_economydocument" />
+					<field id="sys:node-uuid" set="economyDocument"
+						read-only="true" mandatory="true"
+						label-id="cm_contentmodel.property.cm_versionLabel.title">
+							<control template="/org/alfresco/components/form/controls/hidden.ftl" />
 					</field>
 				</appearance>
 			</form>

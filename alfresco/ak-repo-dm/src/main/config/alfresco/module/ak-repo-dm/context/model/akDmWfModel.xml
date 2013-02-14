@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+	<?xml version="1.0" encoding="UTF-8"?>
 
 <model name="akwf:workflow" xmlns="http://www.alfresco.org/model/dictionary/1.0">
 
@@ -130,6 +130,12 @@
 	</types>
 	<aspects>
 		<aspect name="akwf:workInfo">
+			<properties>
+				<property name="akwf:resultVariable">
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
 			<associations>
 				<association name="akwf:targetSite">
 					<source>

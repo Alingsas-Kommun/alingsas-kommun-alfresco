@@ -44,8 +44,7 @@ public class CompleteDocumentReviewTaskListener implements TaskListener {
 				.getPermissionService();
 
 		if (AccessStatus.ALLOWED.equals(permissionService.hasPermission(
-				targetFolderNodeRef,
-				PermissionService.CREATE_CHILDREN))) {
+				targetFolderNodeRef, PermissionService.CREATE_CHILDREN))) {
 			LOG.debug("Access allowed, approver set to " + akwfApprover
 					+ ", review outcome is "
 					+ task.getVariable(CommonWorkflowModel.AKWF_REVIEWOUTCOME));
