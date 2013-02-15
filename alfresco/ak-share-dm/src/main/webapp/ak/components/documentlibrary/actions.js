@@ -754,7 +754,22 @@
                }
                record.onlineEditUrl = onlineEditUrl;
             }
-
+            
+            /*
+             * Alingsås kommun customization start
+             */
+            //Disable edit online if access from outside of internal network
+            if ((YAHOO.util.Cookie.get("WASID") || "").length != 0) {
+            	Alfresco.util.PopupManager.displayPrompt(
+                        {
+                           text: this.msg("actions.editOnline.externalUserfailure", loc.file)
+                        });
+            	return false;
+            }
+            /*
+             * Alingsås kommun customization end
+             */
+            
             if (YAHOO.env.ua.ie > 0)
             {
                return this._launchOnlineEditorIE(controlProgID, record, appProgID);

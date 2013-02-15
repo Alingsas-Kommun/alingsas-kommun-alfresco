@@ -186,7 +186,7 @@
 
 					<field id="akwf:targetSite" set="target" read-only="true" />
 					<field id="akwf:targetFolder" set="target" read-only="true" />
-					<field id="packageItems" set="items" mandatory="true">
+					<field id="packageItems" set="items">
 						<control
 							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
 					</field>
@@ -379,7 +379,7 @@
 					<field id="akwf:targetSite" set="target" read-only="true" />
 					<field id="akwf:targetFolder" set="target" read-only="true" />
 					
-					<field id="packageItems" set="items" mandatory="true">
+					<field id="packageItems" set="items">
 						<control
 							template="/se/alingsas/alfresco/share/components/form/controls/workflow/packageitems-readonly.ftl" />
 					</field>

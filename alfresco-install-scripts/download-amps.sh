@@ -14,8 +14,8 @@ SHARE_AMP="$SHARE_NAME-$VERSION.amp"
 REPO_AMP_PATH=$ALFRESCO_REPO_AMPS
 SHARE_AMP_PATH=$ALFRESCO_SHARE_AMPS
 
-SERVER_URL="https://reda.redpill-linpro.com/alfresco/service/cmis"
-SERVER_PATH="Sites/alfresco/documentLibrary/Clients/Alingsas/Installation"
+SERVER_URL="https://<alfresco-instance>/alfresco/service/cmis"
+SERVER_PATH="Sites/alfresco/documentLibrary/Installation"
 
 REPO_DOWNLOAD_URL="$SERVER_URL/p/$SERVER_PATH/$REPO_AMP/content?a=true"
 SHARE_DOWNLOAD_URL="$SERVER_URL/p/$SERVER_PATH/$SHARE_AMP/content?a=true"
@@ -24,8 +24,6 @@ echo "Username:"
 read USERNAME
 echo "Password:"
 read -s PASSWORD
-#USERNAME=$1
-#PASSWORD=$2
 
 getHTTPCode () {
     echo $(curl --write-out %{http_code} --silent --user $USERNAME:$PASSWORD $1 -o "$2")

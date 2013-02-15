@@ -588,7 +588,7 @@
 				<permissions>
 					<permission allow="true">Write</permission>
 				</permissions>
-				<!-- vti module check, mimetype check, userAgent check -->
+				<!-- vti module check, mimetype check, userAgent check, internal user check -->
 				<evaluator>evaluator.doclib.action.onlineEdit</evaluator>
 				<evaluator>evaluator.doclib.action.editableByCurrentUser</evaluator>
 			</action>

@@ -1,7 +1,7 @@
 <#include "../component.head.inc">
 <#-- Document Library Actions: Supports concatenated JavaScript files via build scripts -->
 <#if DEBUG>
-   <script type="text/javascript" src="${page.url.context}/res/components/documentlibrary/actions.js"></script>
+   <script type="text/javascript" src="${page.url.context}/res/ak/components/documentlibrary/actions.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/components/documentlibrary/actions-util.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/modules/simple-dialog.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/modules/documentlibrary/global-folder.js"></script>
@@ -13,7 +13,7 @@
    <script type="text/javascript" src="${page.url.context}/res/modules/documentlibrary/cloud-folder.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/modules/cloud-auth.js"></script>
 <#else>
-   <script type="text/javascript" src="${page.url.context}/res/components/documentlibrary/actions-min.js"></script>
+   <script type="text/javascript" src="${page.url.context}/res/ak/components/documentlibrary/actions-min.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/components/documentlibrary/actions-util-min.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/modules/simple-dialog-min.js"></script>
    <script type="text/javascript" src="${page.url.context}/res/modules/documentlibrary/global-folder-min.js"></script>
