@@ -153,7 +153,10 @@ public abstract class AbstractEndpoint extends VtiUtilBase implements VtiEndpoin
      */ 
     public static String getHost(VtiSoapRequest request)
     {
-        return request.getScheme() + "://" + request.getHeader("Host");
+    	String host = request.getScheme() + "://" + request.getHeader("Host");
+    	if (logger.isDebugEnabled())
+    		logger.debug("Found host from request: "+host);
+    	return host;
     }
 
     /**

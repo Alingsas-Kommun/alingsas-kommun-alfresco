@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.service.ServiceRegistry;
 import org.alfresco.service.cmr.security.MutableAuthenticationService;
 import org.alfresco.service.cmr.site.SiteService;
@@ -49,29 +50,35 @@ public class ByggRedaImport extends DeclarativeWebScript implements
 			File f = new File(sourcePath);
 			if (!f.exists()) {
 				status.setCode(400);
-				status.setMessage("Kan inte läsa källmappen " + sourcePath
+				//status.setMessage("Kan inte läsa källmappen " + sourcePath
+				//		+ ". Kontrollera att du skrivit in korrekt sökväg.");
+				//status.setRedirect(true);
+				model.put("result", "Kan inte läsa källmappen " + sourcePath
 						+ ". Kontrollera att du skrivit in korrekt sökväg.");
-				status.setRedirect(true);
 				return null;
 			}
 			f = new File(sourcePath + "/" + metaFileName);
 			if (!f.exists()) {
 				status.setCode(400);
-				status.setMessage("Kan inte läsa styrfilen " + sourcePath + "/"
+				//status.setMessage("Kan inte läsa styrfilen " + sourcePath + "/"
+				//		+ metaFileName
+				//		+ ". Kontrollera att du skrivit in korrekt sökväg.");
+				//status.setRedirect(true);
+				model.put("result", "Kan inte läsa styrfilen " + sourcePath + "/"
 						+ metaFileName
 						+ ". Kontrollera att du skrivit in korrekt sökväg.");
-				status.setRedirect(true);
 				return null;
 			}
 			ByggRedaUtil bru = new ByggRedaUtil();
 			bru.setUpdateExisting(updateExisting);
 			bru.setSourcePath(sourcePath);
 			bru.setMetaFileName(metaFileName);
-
+			bru.setRunAs(AuthenticationUtil.getFullyAuthenticatedUser());
 			if (!bru.validateParams()) {
 				status.setCode(400);
-				status.setMessage("Kunde inte validera inparametrar. Kontrollera systemloggen för mer detaljer.");
-				status.setRedirect(true);
+				//status.setMessage("Kunde inte validera inparametrar. Kontrollera systemloggen för mer detaljer.");
+				model.put("result", "Kunde inte validera inparametrar. Kontrollera systemloggen för mer detaljer.");
+				//status.setRedirect(true);
 			} else {
 				Thread t = new Thread(bru);
 				t.start();
@@ -79,8 +86,9 @@ public class ByggRedaImport extends DeclarativeWebScript implements
 			}
 		} else {
 			status.setCode(403);
-			status.setMessage("Access denied, you must be site manager or site collaborator to run this tool");
-			status.setRedirect(true);
+			model.put("result", "Åtkomst nekad, du måste vara ansvarig eller dokumentansvarig för samarbetsytan för att använda detta verktyg.");
+			//status.setMessage("Access denied, you must be site manager or site collaborator to run this tool");
+			//status.setRedirect(true);
 			return null;
 		}
 

@@ -24,6 +24,7 @@ import javax.transaction.UserTransaction;
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.admin.SysAdminParams;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
+import org.alfresco.repo.transaction.RetryingTransactionHelper;
 import org.alfresco.repo.version.VersionModel;
 import org.alfresco.service.cmr.coci.CheckOutCheckInService;
 import org.alfresco.service.cmr.model.FileExistsException;
@@ -85,6 +86,7 @@ public class ByggRedaUtil implements Runnable {
 	private SiteInfo site;
 	private InputStream metadataFile;
 	private boolean validatedParams = false;
+	private String runAs = null;
 
 	/**
 	 * Main method which runs an import of material.
@@ -98,23 +100,46 @@ public class ByggRedaUtil implements Runnable {
 	 * 
 	 */
 	public void run() {
-		LOG.debug("sourcePath: " + getSourcePath() + ", metaFileName: "
-				+ getMetaFileName());
-		if (validatedParams) {
-
-			try {
-				documents = ReadMetadataDocument.read(metadataFile,
-						globalMessages);
-
-			} finally {
-				IOUtils.closeQuietly(metadataFile);
-			}
-
-			documents = importDocuments(site, getSourcePath(), documents);
-			logDocuments(site, globalMessages);
-			createOutputDocument(site);
-
+		final RetryingTransactionHelper retryingTransactionHelper = transactionService.getRetryingTransactionHelper();
+		if (runAs == null) {
+			runAs = AuthenticationUtil.getSystemUserName();
 		}
+		AuthenticationUtil.runAs(new AuthenticationUtil.RunAsWork<Void>() {
+			@Override
+			public Void doWork() throws Exception {					
+				retryingTransactionHelper
+					.doInTransaction(
+							new RetryingTransactionHelper.RetryingTransactionCallback<Object>() {
+								public Object execute()
+										throws Throwable {
+									LOG.info("Running Byggreda import as user "+runAs);
+									LOG.info("sourcePath: " + getSourcePath() + ", metaFileName: "
+											+ getMetaFileName());
+									if (validatedParams) {
+
+										try {
+											documents = ReadMetadataDocument.read(metadataFile,
+													globalMessages);
+
+										} finally {
+											IOUtils.closeQuietly(metadataFile);
+										}
+
+										documents = importDocuments(site, getSourcePath(), documents);
+										logDocuments(site, globalMessages);
+										createOutputDocument(site);
+									}
+									return null;
+								}
+							}, false, true);
+				return null;
+			}
+		}, runAs);
+		
+		
+		
+
+		
 
 	}
 
@@ -621,7 +646,7 @@ public class ByggRedaUtil implements Runnable {
 				if (trx.getStatus() == Status.STATUS_ACTIVE) {
 					trx.rollback();
 				} else {
-					LOG.error("The transaction was not active");
+					LOG.error("The transaction was not active", e);
 				}
 				return document;
 			} catch (Exception e2) {
@@ -1022,5 +1047,13 @@ public class ByggRedaUtil implements Runnable {
 
 	public void setMetaFileName(String metaFileName) {
 		this.metaFileName = metaFileName;
+	}
+
+	public String getRunAs() {
+		return runAs;
+	}
+
+	public void setRunAs(String runAs) {
+		this.runAs = runAs;
 	}
 }
