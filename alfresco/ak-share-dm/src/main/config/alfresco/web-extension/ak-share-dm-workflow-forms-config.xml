@@ -214,7 +214,7 @@
 				</field-visibility>
 				<appearance>
 					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
-					<set id="target" appearance="title" label-id="workflow.akwf.set.target" />
+					<set id="target" appearance="title" label-id="workflow.akwf.set.revert.target" />
 					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
@@ -293,7 +293,7 @@
 				</field-visibility>
 				<appearance>
 					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
-					<set id="target" appearance="title" label-id="workflow.akwf.set.target" />
+					<set id="target" appearance="title" label-id="workflow.akwf.set.revert.target" />
 					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
@@ -362,7 +362,7 @@
 				</field-visibility>
 				<appearance>
 					<set id="" appearance="title" label-id="workflow.akwf.set.general" />
-					<set id="target" appearance="title" label-id="workflow.akwf.set.target" />
+					<set id="target" appearance="title" label-id="workflow.akwf.set.revert.target" />
 					<set id="items" appearance="title" label-id="workflow.akwf.set.items" />
 					<set id="other" appearance="title" label-id="workflow.akwf.set.other" />
 					<set id="response" appearance="title" label-id="workflow.akwf.set.response" />
