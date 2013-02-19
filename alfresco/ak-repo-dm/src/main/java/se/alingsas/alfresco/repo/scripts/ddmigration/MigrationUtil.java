@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +29,7 @@ import org.alfresco.service.cmr.model.FileExistsException;
 import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.model.FileInfo;
 import org.alfresco.service.cmr.model.FileNotFoundException;
+import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.ContentService;
 import org.alfresco.service.cmr.repository.ContentWriter;
 import org.alfresco.service.cmr.repository.NodeRef;
@@ -195,7 +197,7 @@ public class MigrationUtil {
 								migratedDocuments.put(version.documentNumber,
 										version);
 								documentNumber = version.documentNumber;
-								LOG.debug("Migrated document "
+								LOG.info("Migrated document "
 										+ version.documentNumber + " v. "
 										+ version.version);
 							} else {
@@ -344,7 +346,27 @@ public class MigrationUtil {
 				lastVersionNodeRef = nodeService.getChildByName(
 						sourceFolderRef, ContentModel.ASSOC_CONTAINS,
 						tmpFileName);
+				
 				if (lastVersionNodeRef == null) {
+				
+					List<ChildAssociationRef> childAssocs = nodeService.getChildAssocs(sourceFolderRef);
+					
+					for (ChildAssociationRef childAssoc : childAssocs) {
+						if (nodeService.exists(childAssoc.getChildRef())) {
+							String property = (String) nodeService.getProperty(childAssoc.getChildRef(), AkDmModel.PROP_AKDM_DOC_NUMBER);
+							if (version.documentNumber.equalsIgnoreCase(property)) {
+								LOG.debug("Found last version by document number "+version.documentNumber);
+								String name = (String) nodeService.getProperty(childAssoc.getChildRef(), ContentModel.PROP_NAME);
+								LOG.debug("Lastversion.name="+lastVersion.fileName+" Actual name: "+name+" New name: "+version.fileName);
+								lastVersionNodeRef = childAssoc.getChildRef();
+								break;								
+							}
+						}
+					}
+				}
+				
+				if (lastVersionNodeRef == null) {
+
 					throw new RuntimeException(
 							"Not able to find previous version of document. Last Version: "
 									+ lastVersion.toString() + " New Version: "
@@ -402,7 +424,7 @@ public class MigrationUtil {
 
 		if (thisVersionNodeRef != null) {
 			try {
-				return createNewVersion(thisVersionNodeRef, version,
+				return createNewVersion(thisVersionNodeRef, version, lastVersion,
 						sourceFolderRef, destinationFolderRef);
 			} catch (FileExistsException e) {
 				LOG.error("File " + version.filePath + "/" + version.fileName
@@ -469,7 +491,7 @@ public class MigrationUtil {
 	 * @throws FileExistsException
 	 */
 	private NodeRef createNewVersion(NodeRef baseVersion,
-			AlingsasDocument version, NodeRef sourceFolderRef,
+			AlingsasDocument version, AlingsasDocument lastVersion, NodeRef sourceFolderRef,
 			NodeRef destinationFolderRef) throws FileExistsException,
 			FileNotFoundException {
 
@@ -490,6 +512,11 @@ public class MigrationUtil {
 			fileFolderService.move(checkinVersion, destinationFolderRef,
 					version.fileName);
 			LOG.debug("Moving document " + version.documentNumber);
+		}
+		
+		if (!version.fileName.equals(lastVersion.fileName)) {
+			LOG.info("Filename of this version does not match filename of last version. Renaming "+lastVersion.fileName+" to "+version.fileName);
+			fileFolderService.rename(checkinVersion, version.fileName);
 		}
 
 		return checkinVersion;
