@@ -32,6 +32,7 @@
             * ieActiveX="true|false"   Comma separated string of Windows ActiveX id:s. Used in Internet Explorer only to test for plugin presence. (default "AcroPDF.PDF,PDF.PdfCtrl,FOXITREADEROCX.FoxitReaderOCXCtrl.1")
             * testPluginAvailability="true|false" Test if a plugin is available. Use for mime types that need a plugin to display for example application/pdf (default "false")
       -->
+      
       <condition mimeType="application/pdf">
          <plugin>PdfJs</plugin>
          <plugin>Embed</plugin>

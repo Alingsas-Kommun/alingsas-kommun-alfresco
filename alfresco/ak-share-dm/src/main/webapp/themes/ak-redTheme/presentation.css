@@ -141,7 +141,7 @@ h4 .lighter
 
 .dashlet .title
 {
-   background-color: #92c15f;
+   background-color: #c86d6d;
    background-image: url(images/dashlet-title-bg.png);
    background-repeat: repeat-x;
    color: #fff;
@@ -173,7 +173,7 @@ h4 .lighter
 .dashlet .welcome-body a:visited,
 .dashlet .welcome-body a:hover
 {
-   color: #00AE42;
+   color: #f40000;
 }
 
 .dashlet .detail-list-item
@@ -268,7 +268,7 @@ h4 .lighter
 .yui-skin-ak-redTheme .yui-dt-data tr.yui-dt-highlighted td.yui-dt-asc,
 .yui-skin-ak-redTheme .yui-dt-data tr.yui-dt-highlighted td.yui-dt-desc
 {
-   background-color: #d4f8c4;
+   background-color: #e3d2d2;
    cursor: auto;
 }
 
@@ -347,7 +347,7 @@ h4 .lighter
 
 .site-navigation
 {
-   background-color: #5FAC34;
+   background-color: #b02020;
    background-image: url(../../components/images/navigation-bg.png);
    border-bottom: 1px solid #3a6c38;
    border-top: 1px dotted #bbd6e7;
@@ -371,7 +371,7 @@ span.navigation-item a.active-page,
 span.navigation-item a.active-page:visited,
 span.navigation-item a:hover
 {
-   color: #fff;
+   color: #EEE;
 }
 
 span.navigation-separator
@@ -546,7 +546,7 @@ span.mce_alfresco-linklibrary
 .yui-skin-ak-redTheme div.flat-button span.yui-radio-button-checked,
 .yui-skin-ak-redTheme div.flat-button span.yui-checkbox-button-checked
 {
-   background: #5FAC34 none;
+   background: #b02020 none;
 }
 
 /* Override checked styles for doclist */
@@ -606,7 +606,7 @@ span.mce_alfresco-linklibrary
 .yui-skin-ak-redTheme .yui-pg-container a.yui-pg-last
 {
    border-color: #CBCBCB;
-   color: #00AE42;
+   color: #f40000;
    text-decoration: none;
 }
 
@@ -632,7 +632,7 @@ span.mce_alfresco-linklibrary
 body.yui-skin-ak-redTheme .link-menu-button .yui-button.yui-button-hover
 {
    background-color: #FFFFFF;
-   border: 1px solid #008F22;
+   border: 1px solid #cb0202;
 }
 
 body.yui-skin-ak-redTheme .link-menu-button.link-menu-button-menu-active .yui-button.yui-button-hover
@@ -656,7 +656,7 @@ body.yui-skin-ak-redTheme .link-menu-button.link-menu-button-menu-active .yui-bu
 body.yui-skin-ak-redTheme .link-menu-button.link-menu-button-menu-active
 {
    background-color: #FFFFFF;
-   border: 1px solid #008F22;
+   border: 1px solid #cb0202;
 }
 
 .yui-skin-ak-redTheme .link-menu-button.link-menu-button-menu-active .yui-button.yui-menu-button-hover
@@ -690,7 +690,7 @@ body.yui-skin-ak-redTheme .nodeEdit .onDeleteBlogPost a:hover
 
 body.yui-skin-ak-redTheme .yuimenu .bd
 {
-   border: 1px solid #008f22;
+   border: 1px solid #cb0202;
 }
 
 /* YUI Menu roll over state */
@@ -702,7 +702,7 @@ body.yui-skin-ak-redTheme .yuimenuitemlabel
 
 body.yui-skin-ak-redTheme .yuimenu .bd ul li.yuimenuitem-selected
 {
-   background-color: #008f22;
+   background-color: #cb0202;
 }
 
 body.yui-skin-ak-redTheme .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel,
@@ -763,12 +763,12 @@ body.yui-skin-ak-redTheme .yuimenu .bd ul li.yuimenuitem .yuimenuitemlabel-disab
 body.yui-skin-ak-redTheme .doclist .more-actions a:active,
 body.yui-skin-ak-redTheme .doclist .more-actions a:hover
 {
-   background-color: #5FAC34;
+   background-color: #b02020;
 }
 
 body.yui-skin-ak-redTheme .doclist div.more-actions
 {
-   border: 1px solid #5FAC34;
+   border: 1px solid #b02020;
 }
 
 body.yui-skin-ak-redTheme .doclist .action-set a:active,
@@ -777,7 +777,7 @@ body.yui-skin-ak-redTheme .doclist .action-set .highlighted,
 #divCalendarContent .yui-dt-col-actions a:active,
 #divCalendarContent .yui-dt-col-actions a:hover
 {
-   border: 1px solid #5FAC34;
+   border: 1px solid #b02020;
 }
 
 body.yui-skin-ak-redTheme .yui-dt-data tr.yui-dt-highlighted,
@@ -798,7 +798,7 @@ body.yui-skin-ak-redTheme .over,
 body.yui-skin-ak-redTheme .doclist tr.yui-dt-odd.yui-dt-highlighted td.yui-dt-last,
 body.yui-skin-ak-redTheme .doclist tr.yui-dt-even.yui-dt-highlighted td.yui-dt-last
 {
-   border-left: 1px solid #C7ECBB;
+   border-left: 1px solid #e3d2d2;
 }
 
 body.yui-skin-ak-redTheme .categoryview .category .ygtvtn,
@@ -844,14 +844,14 @@ body.yui-skin-ak-redTheme .treeview .selected,
 body.yui-skin-ak-redTheme .categoryview .selected,
 body.yui-skin-ak-redTheme .yui-columnbrowser .yui-carousel-content li.yui-columnbrowser-column a.yui-columnbrowser-item-selected
 {
-   background-color: #D4F8C4;
+   background-color: #e3d2d2;
 }
 
 /* these rules need to be separate from the above for ie6 */
 .yui-skin-ak-redTheme .treeview .selected > table,
 .yui-skin-ak-redTheme .categoryview .selected > table
 {
-   background-color: #D4F8C4;
+   background-color: #e3d2d2;
 }
 
 .yui-skin-ak-redTheme .filter a.disabled,
@@ -897,7 +897,7 @@ body.yui-skin-ak-redTheme .yui-columnbrowser .yui-carousel-content li.yui-column
 .yui-skin-default div.channels a,
 .yui-skin-default .info-balloon a
 {
-   color: #00AE42;
+   color: #f40000;
 }
 
 .yui-skin-ak-redTheme .detail .tag a,
@@ -921,7 +921,7 @@ body.yui-skin-ak-redTheme .yui-columnbrowser .yui-carousel-content li.yui-column
 
 .cmis .body a
 {
-   color: #00AE42;
+   color: #f40000;
 }
 
 .yui-skin-ak-redTheme .rules-list a
@@ -936,8 +936,8 @@ body.yui-skin-ak-redTheme .yui-columnbrowser .yui-carousel-content li.yui-column
 /* Day/Week timed events */
 .fc-content .fc-event-skin
 {
-   background-color: #00AE42; /* Theme Colour 1 */
-   border-color: #5FAC34;
+   background-color: #f40000; /* Theme Colour 1 */
+   border-color: #b02020;
    color: #FFFFFF;
 }
 
@@ -946,7 +946,7 @@ body.yui-skin-ak-redTheme .yui-columnbrowser .yui-carousel-content li.yui-column
 {
    background-color: transparent;
    border-color: transparent;
-   color: #00AE42;
+   color: #f40000;
 }
 
 /* All day events */
@@ -955,8 +955,8 @@ body.yui-skin-ak-redTheme .yui-columnbrowser .yui-carousel-content li.yui-column
 .fc-view-month .fc-content .fc-event-multiday .fc-event-skin,
 .fc-view-month .fc-content a.fc-event.fc-event-multiday
 {
-   background-color: #00AE42;
-   border-color: #00AE42;
+   background-color: #f40000;
+   border-color: #f40000;
    color: #FFFFFF;
 }
 
@@ -1009,7 +1009,7 @@ a.theme-color-1,
 a.theme-color-1:visited,
 a.theme-color-1:hover
 {
-   color: #00AE42;
+   color: #f40000;
 }
 
 .theme-color-2,
@@ -1017,7 +1017,7 @@ a.theme-color-2,
 a.theme-color-2:visited,
 a.theme-color-2:hover
 {
-   color: #038603;
+   color: #c90505;
 }
 
 .theme-color-3,
@@ -1049,7 +1049,7 @@ a.theme-color-5:hover
 .theme-bg-color-1,
 div.theme-bg-color-1
 {
-   background-color: #5FAC34;
+   background-color: #b02020;
 }
 
 .theme-bg-color-2,
@@ -1114,7 +1114,7 @@ div.theme-bg-color-7
 
 .theme-bg-selected
 {
-   background-color: #5FAC34;
+   background-color: #b02020;
 }
 
 /* Theme border type/colors */

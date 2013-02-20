@@ -130,7 +130,7 @@ background-position: 0 -1300px;
 border-color: #7D98B8;
 }
 .yui-skin-ak-redTheme .yui-button-focus button,.yui-skin-ak-redTheme .yui-button-focus a {
-color: #000;
+color: #FFF;
 }
 .yui-skin-ak-redTheme .yui-split-button-focus button {
 background-image: url(split-button-arrow-focus.png);
@@ -143,7 +143,7 @@ background-position: 0 -1300px;
 border-color: #7D98B8;
 }
 .yui-skin-ak-redTheme .yui-button-hover button,.yui-skin-ak-redTheme .yui-button-hover a {
-color: #000;
+color: #FFF;
 }
 .yui-skin-ak-redTheme .yui-split-button-hover button {
 background-image: url(split-button-arrow-hover.png);
@@ -156,7 +156,7 @@ background-position: 0 -1700px;
 border-color: #7D98B8;
 }
 .yui-skin-ak-redTheme .yui-button-active button,.yui-skin-ak-redTheme .yui-button-active a {
-color: #000;
+color: #FFF;
 }
 .yui-skin-ak-redTheme .yui-split-button-activeoption {
 border-color: #808080;
