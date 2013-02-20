@@ -448,6 +448,45 @@ public class ByggRedaUtil implements Runnable {
 	private boolean repoFolderExists(SiteInfo site, String path) {
 		return getRepoFileFolder(site, path) != null;
 	}
+	
+	/**
+	 * Checks for file existance trying different cases on extension.
+	 * @param path
+	 * @return the correct path or null if file does not exist
+	 */
+	private String checkFileExistsIgnoreExtensionCase(String path) {
+		File f = new File(path);
+		if (!f.exists()) {
+			String ext = StringUtils.getFilenameExtension(path);
+			String fileWithNoExt = path.substring(0, path.indexOf(ext));
+			LOG.debug("Extracted filename without extension: "+fileWithNoExt+" Extension: "+ext);
+			//Try all lowercase
+			path = fileWithNoExt + ext.toLowerCase();
+			LOG.debug("Trying "+path);
+			f = new File(path);
+			if (!f.exists()) {
+				//Try with all uppercase
+				path = fileWithNoExt + ext.toUpperCase();
+				LOG.debug("Trying "+path);
+				f = new File(path);
+				if (!f.exists()) {
+					//Try with capitalized extension
+					String tmp = ext.substring(0, 1).toUpperCase() + ext.substring(1).toLowerCase();
+					path = fileWithNoExt + tmp;
+					LOG.debug("Trying "+path);
+					f = new File(path);
+					if (!f.exists()) {
+						path = null;
+					}
+				}
+			}
+			
+			if (path!=null) {
+				LOG.debug("Found actual filename to be: "+path);
+			}
+		}		
+		return path;
+	}
 
 	/**
 	 * Read a file either from filesystem or from repository, returns an
@@ -462,7 +501,12 @@ public class ByggRedaUtil implements Runnable {
 	private InputStream readFile(SiteInfo site, String path, String fileName) {
 		if (sourceType.equals(SOURCE_TYPE_FS)) {
 			try {
-				return new FileInputStream(path + "/" + fileName);
+				String fullFilenamePath = checkFileExistsIgnoreExtensionCase(path + "/" + fileName);
+				if (fullFilenamePath == null) {
+					return null;					
+				} else {
+					return new FileInputStream(fullFilenamePath);
+				}
 			} catch (java.io.FileNotFoundException e) {
 				return null;
 			}
@@ -536,7 +580,14 @@ public class ByggRedaUtil implements Runnable {
 			if (repoFileFolder != null) {
 				if (this.updateExisting) {
 					try {
-						File f = new File(sourcePath + "/" + document.fileName);
+						String fullFilenamePath = checkFileExistsIgnoreExtensionCase(sourcePath + "/" + document.fileName);
+						if (fullFilenamePath == null) {
+							throw new java.io.FileNotFoundException();					
+						}
+						File f = new File(fullFilenamePath);
+						if (!f.exists()) {
+							throw new java.io.FileNotFoundException();
+						}
 						if (!f.exists()) {
 							throw new java.io.FileNotFoundException();
 						}
@@ -601,7 +652,11 @@ public class ByggRedaUtil implements Runnable {
 				}
 			} else {
 				try {
-					File f = new File(sourcePath + "/" + document.fileName);
+					String fullFilenamePath = checkFileExistsIgnoreExtensionCase(sourcePath + "/" + document.fileName);
+					if (fullFilenamePath == null) {
+						throw new java.io.FileNotFoundException();					
+					}
+					File f = new File(fullFilenamePath);
 					if (!f.exists()) {
 						throw new java.io.FileNotFoundException();
 					}
