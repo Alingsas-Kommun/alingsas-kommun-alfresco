@@ -4,7 +4,7 @@ import org.alfresco.service.cmr.repository.NodeRef;
 
 public class ByggRedaDocument {
 	public boolean readSuccessfully = false;
-	public String errorMsg = "";
+	public String statusMsg = "";
 	public NodeRef nodeRef = null;
 	public int lineNumber;
 	public String mimetype = "";
@@ -27,5 +27,6 @@ public class ByggRedaDocument {
 	
 	public String path = "";
 	public String title = "";
+	public String originalPath = "";
 	
 }

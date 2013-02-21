@@ -48,6 +48,7 @@
 				<url>/components/dashlets/activityfeed</url>
 			</component>
 		</components>
+
 		<pages>
 			<page id="site/${siteid}/dashboard">
 				<title>Collaboration site for public documents</title>
@@ -59,6 +60,7 @@
 				<authentication>user</authentication>
 				<properties>
 					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>
+					<theme>ak-greenTheme</theme>
 				</properties>
 			</page>
 		</pages>
@@ -123,6 +125,7 @@
 				<authentication>user</authentication>
 				<properties>
 					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>
+					<theme>ak-redTheme</theme>
 				</properties>
 			</page>
 		</pages>
@@ -187,6 +190,7 @@
 				<authentication>user</authentication>
 				<properties>
 					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>
+					<theme>ak-yellowTheme</theme>
 				</properties>
 			</page>
 		</pages>

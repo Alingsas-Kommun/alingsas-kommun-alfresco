@@ -16,10 +16,10 @@ export ALFRESCO_BACKUP_DIR="/opt/alfresco/4.1.1.3/backup"
 # this is where the repo amp is copeid to
 export ALFRESCO_REPO_AMPS="amps"
 # this is where the share amp is copied to
-export ALFRESCO_SHARE_AMPS="amps-share"
+export ALFRESCO_SHARE_AMPS="amps_share"
 
 # this is the path to the amp module tool
-export ALFRESCO_MMT="alfresco-mmt.jar"
+export ALFRESCO_MMT="bin/alfresco-mmt.jar"
 
 # this is the user who will own the alfresco and tomcat files
 export ALFRESCO_TOMCAT_USER="alfresco"
@@ -27,5 +27,8 @@ export ALFRESCO_TOMCAT_USER="alfresco"
 export ALFRESCO_TOMCAT_GROUP="alfresco"
 
 # this is the script used to start tomcat
-export ALFRESCO_TOMCAT_START_SCRIPT="/etc/init.d/alfresco-repo start;/etc/init.d/alfresco-share start"
-export ALFRESCO_TOMCAT_STOP_SCRIPT="/etc/init.d/alfresco-share stop;/etc/init.d/alfresco-repo stop"
+export ALFRESCO_SHARE_START_SCRIPT="sudo /etc/init.d/alfresco-share start"
+export ALFRESCO_SHARE_STOP_SCRIPT="sudo /etc/init.d/alfresco-share stop"
+export ALFRESCO_REPO_START_SCRIPT="sudo /etc/init.d/alfresco-repo start"
+export ALFRESCO_REPO_STOP_SCRIPT="sudo /etc/init.d/alfresco-repo stop"
+

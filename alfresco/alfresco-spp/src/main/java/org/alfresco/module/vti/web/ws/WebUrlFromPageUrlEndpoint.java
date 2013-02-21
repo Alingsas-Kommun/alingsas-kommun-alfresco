@@ -79,9 +79,16 @@ public class WebUrlFromPageUrlEndpoint extends AbstractEndpoint
             logger.debug("pageUrl parameter for this request: " + pageUrl);
         String server = getHost(soapRequest);
         String context = soapRequest.getAlfrescoContextName();
-                
-        String[] uris = handler.decomposeURL(pageUrl.replaceAll(server, ""), context);
-
+        
+        //Bugfix start
+        //Server might not contain the correct url, cut everything before the alfresco context instead.
+        String parseStart = context+"/";
+        int indexOf = pageUrl.indexOf(parseStart);
+        pageUrl = pageUrl.substring(indexOf);        
+        String[] uris = handler.decomposeURL(pageUrl, context);
+        //String[] uris = handler.decomposeURL(pageUrl.replaceAll(server, ""), context);
+        //Bugfix end
+        
         // creating soap response
         Element responseElement = soapResponse.getDocument().addElement("WebUrlFromPageUrlResponse", namespace);
         Element result = responseElement.addElement("WebUrlFromPageUrlResult");       

@@ -1,0 +1,1 @@
+<import resource="classpath:alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/upload/flash-upload.get.js">
