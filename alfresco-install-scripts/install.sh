@@ -11,7 +11,8 @@ source "$PWD/config-env.sh"
 echo ""
 
 echo "Stopping Tomcat . . ."
-$ALFRESCO_TOMCAT_STOP_SCRIPT
+$ALFRESCO_SHARE_STOP_SCRIPT
+$ALFRESCO_REPO_STOP_SCRIPT
 echo ""
 
 echo "Move the alfresco and share directories and wars to the backup directory . . ."
@@ -29,7 +30,7 @@ cp $ALFRESCO_ORIGINALS_DIR/share.war $ALFRESCO_TOMCAT_HOME_SHARE/webapps
 echo ""
 
 read -p "Do you want to download the AMP files? (y/n)? "
-[ "$REPLY" != "y" ] || . download-amps.sh $1 $2
+[ "$REPLY" != "y" ] || . download-amps.sh
 echo ""
 
 echo "Applying amps to Alfresco . . ."
@@ -50,7 +51,8 @@ chown -R $ALFRESCO_TOMCAT_USER:$ALFRESCO_TOMCAT_GROUP $ALFRESCO_TOMCAT_HOME_SHAR
 echo ""
 
 echo "Starting Tomcat . . ."
-$ALFRESCO_TOMCAT_START_SCRIPT
+$ALFRESCO_REPO_START_SCRIPT
+$ALFRESCO_SHARE_START_SCRIPT
 echo ""
 
 echo "Tailing log, waiting for startup of Alfresco . . ."

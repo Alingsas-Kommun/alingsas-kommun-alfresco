@@ -200,7 +200,7 @@
 				<property name="akdm:documentStatus">
 					<title>Document status</title>
 					<type>d:text</type>
-					<mandatory>true</mandatory>
+					<mandatory enforced="true">true</mandatory>
 					<default>Arbetsdokument</default>
 					<constraints>
 						<constraint ref="akdm:docStatusConstraint" />
@@ -388,6 +388,29 @@
 					</target>
 				</association>
 			</associations>
+		</aspect>
+		<aspect name="akdm:documentNumberSettingsAspect">
+			<title>Document number settings aspect</title>
+			<properties>
+				<property name="akdm:docNumSettingDatePattern">
+					<title>Document number setting date pattern</title>
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<default>yyyy-MM-dd</default>
+				</property>
+				<property name="akdm:docNumSettingPart1">
+					<title>Document number setting part 1 (String date)</title>
+					<type>d:text</type>
+					<mandatory>true</mandatory>
+					<default>2012-01-01</default>
+				</property>
+				<property name="akdm:docNumSettingPart2">
+					<title>Document number setting part 2 (Integer)</title>
+					<type>d:int</type>
+					<mandatory>true</mandatory>
+					<default>1</default>
+				</property>
+			</properties>
 		</aspect>
 	</aspects>
 

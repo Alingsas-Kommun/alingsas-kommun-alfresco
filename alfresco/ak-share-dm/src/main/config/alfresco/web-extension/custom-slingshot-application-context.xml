@@ -6,8 +6,68 @@
                 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
                 http://www.hazelcast.com/schema/config
                 http://www.hazelcast.com/schema/config/hazelcast-spring.xsd">
+   <!-- 
+   TODO override webframework.configsource to include a custom share-config-ak.xml for each environment, check VGR project
+    -->
+    <!-- Override the config source to include Web Framework Commons and Share config -->
+   <bean id="webframework.configsource" class="org.springframework.extensions.config.source.UrlConfigSource">
+      <constructor-arg>
+         <list>
+            <!-- Spring Web Scripts -->
+            <value>classpath:org/springframework/extensions/webscripts/spring-webscripts-config.xml</value>
+            <value>classpath:META-INF/spring-webscripts-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-webscripts-config-custom.xml</value>
+            
+            <!-- Spring Surf -->
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config.xml</value>
+            <value>classpath:org/springframework/extensions/surf/spring-surf-config-remote.xml</value>
+            <value>classpath:META-INF/spring-surf-config-custom.xml</value>
+            <value>jar:*!/META-INF/spring-surf-config-custom.xml</value>
+            
+            <!-- Surf Autowire Support -->
+            <value>webapp:WEB-INF/surf.xml</value>
+
+            <!-- Common form config -->
+            <value>classpath:alfresco/form-config.xml</value>
+            
+            <!-- Share default config -->
+            <value>classpath:alfresco/share-config.xml</value>
+            
+            <!-- Share help url config -->
+            <value>classpath:alfresco/share-help-config.xml</value>
+            
+            <!-- Share form config -->
+            <value>classpath:alfresco/share-form-config.xml</value>
+            
+            <!-- Share Document Library config -->
+            <value>classpath:alfresco/share-documentlibrary-config.xml</value>
+
+            <!-- Share Data List form config -->
+            <value>classpath:alfresco/share-datalist-form-config.xml</value>
+
+            <!-- Share workflow form config -->
+            <value>classpath:alfresco/share-workflow-form-config.xml</value>
+            
+            <!-- Share CMIS config -->
+            <value>classpath:alfresco/share-cmis-config.xml</value>
+
+            <!-- Share custom config -->
+            <value>classpath:alfresco/web-extension/share-config-custom.xml</value>
+            <value>jar:*!/META-INF/share-config-custom.xml</value>
+            
+            <!-- Share config for Alingsås Kommun -->
+        	<value>classpath:alfresco/web-extension/share-config-ak.xml</value>
+         </list>
+      </constructor-arg>
+   </bean>
    
+   
+   <bean id="se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.DocumentStatusIsComplete" />
+   <bean id="se.alingsas.evaluator.doclib.action.IsAlingsasDocument" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAlingsasDocument" />
+   <bean id="se.alingsas.evaluator.doclib.action.IsAdmin" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAdmin" />
+      
    <!--
+   
         Hazelcast distributed messaging configuration - Share web-tier cluster config (3.4.8 and 4.0.1)
         - see http://www.hazelcast.com/docs.jsp
         - and specifically http://www.hazelcast.com/docs/1.9.4/manual/single_html/#SpringIntegration

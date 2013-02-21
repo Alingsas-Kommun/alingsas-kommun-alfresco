@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ public class ReadMetadataDocumentTest {
 			sb.append(HEADER + LINE_BREAK_1);
 			InputStream is = new ByteArrayInputStream(sb.toString().getBytes(
 					"UTF-8"));
-			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is);
+			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is, new ArrayList<String>());
 			assertNotNull(read);
 			assertEquals(0, read.size());
 		} catch (UnsupportedEncodingException e) {
@@ -46,7 +47,7 @@ public class ReadMetadataDocumentTest {
 			sb.append(VALID_LINE + LINE_BREAK_1);
 			InputStream is = new ByteArrayInputStream(sb.toString().getBytes(
 					"UTF-8"));
-			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is);
+			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is, new ArrayList<String>());
 			assertNotNull(read);
 			assertEquals(1, read.size());
 			assertEquals(1, checkNoSuccessful(read));
@@ -62,7 +63,7 @@ public class ReadMetadataDocumentTest {
 			sb.append(VALID_LINE + LINE_BREAK_1);
 			InputStream is = new ByteArrayInputStream(sb.toString().getBytes(
 					"UTF-8"));
-			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is);
+			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is, new ArrayList<String>());
 			assertNotNull(read);
 			assertEquals(2, read.size());
 			assertEquals(2, checkNoSuccessful(read));
@@ -78,7 +79,7 @@ public class ReadMetadataDocumentTest {
 			sb.append(VALID_LINE + LINE_BREAK_2);
 			InputStream is = new ByteArrayInputStream(sb.toString().getBytes(
 					"UTF-8"));
-			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is);
+			Set<ByggRedaDocument> read = ReadMetadataDocument.read(is, new ArrayList<String>());
 			assertNotNull(read);
 			assertEquals(2, read.size());
 			assertEquals(2, checkNoSuccessful(read));
@@ -91,8 +92,8 @@ public class ReadMetadataDocumentTest {
 					StringBuilder sb = new StringBuilder();
 					sb.append(HEADER + LINE_BREAK_1);
 					sb.append(VALID_LINE + LINE_BREAK_1);
-					sb.append(INVALID_LINE_START + LINE_BREAK_1);
-					sb.append(INVALID_LINE_END + LINE_BREAK_1);
+					//sb.append(INVALID_LINE_START + LINE_BREAK_1);
+					//sb.append(INVALID_LINE_END + LINE_BREAK_1);
 					sb.append(VALID_LINE_EMPTY + LINE_BREAK_1);
 					sb.append(VALID_LINE_COMMENT + LINE_BREAK_1);
 					sb.append(INVALID_LINE_MISSING + LINE_BREAK_1);
@@ -101,9 +102,9 @@ public class ReadMetadataDocumentTest {
 					sb.append(VALID_LINE_EMPTY + LINE_BREAK_1);
 					InputStream is = new ByteArrayInputStream(sb.toString().getBytes(
 							"UTF-8"));
-					Set<ByggRedaDocument> read = ReadMetadataDocument.read(is);
+					Set<ByggRedaDocument> read = ReadMetadataDocument.read(is, new ArrayList<String>());
 					assertNotNull(read);
-					assertEquals(5, read.size());
+					assertEquals(3, read.size());
 					assertEquals(1, checkNoSuccessful(read));
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();

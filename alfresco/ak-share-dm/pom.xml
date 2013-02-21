@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>se.alingsas.alfresco</groupId>
 		<artifactId>ak-base</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0.0</version>
 	</parent>
 	<artifactId>ak-share-dm</artifactId>
 	<packaging>amp</packaging>
@@ -116,9 +116,19 @@
 					<plugin>
 						<groupId>com.redpill-linpro.alfresco</groupId>
 						<artifactId>maven-refresh-webscripts-plugin</artifactId>
-						<configuration>
-							<url>http://localhost:8081/share/page/index</url>
-						</configuration>
+						<executions>
+							<execution>
+								<id>webscripts</id>
+								<phase>package</phase>
+								<goals>
+									<goal>refresh</goal>
+								</goals>
+								<configuration>
+									<url>http://localhost:8081/share/page/index</url>
+									<password>admin</password>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
