@@ -68,14 +68,36 @@ public class GetDocsMetaInfoMethod extends AbstractMethod
         {
             serviceName = "";
         }
-
+        if (logger.isDebugEnabled()) {
+        	logger.info("RPL test");
+        }
         for (int i = 0; i < urlList.size(); ++i)
         {
             String url = urlList.get(i);
+            //Bugfix start
+            //Server might not contain the correct url, cut everything before the alfresco context instead.
+            /*
             if (url.startsWith(request.getScheme() + "://" + request.getHeader("Host") + context + "/" + serviceName + "/"))
             {
                 urlList.set(i, url.split(request.getScheme() + "://" + request.getHeader("Host") + context + "/" + serviceName + "/")[1]);
             }
+            */
+            if (logger.isDebugEnabled()) {
+            	logger.debug("Url was: "+url);
+            }
+            
+            String startParse = context + "/" + serviceName + "/";
+
+            if (url.indexOf(startParse) >= 0) {
+                int start = url.indexOf(startParse) + startParse.length();
+
+                url = url.substring(start);
+                if (logger.isDebugEnabled()) {
+                	logger.debug("Url parsed to: "+url);
+                }
+                urlList.set(i, url);
+            }
+            //Bugfix end
         }
         DocsMetaInfo docsMetaInfoList;
         try
