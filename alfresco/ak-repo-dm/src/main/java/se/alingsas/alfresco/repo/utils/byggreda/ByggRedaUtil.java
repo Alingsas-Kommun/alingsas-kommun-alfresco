@@ -325,7 +325,8 @@ public class ByggRedaUtil implements Runnable {
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
 			if (next.readSuccessfully) {
-				common.append(next.recordNumber.replace(".", ";") + ";");
+				common.append(next.recordYear + ";");
+				common.append(next.recordNumber + ";");
 				common.append(next.buildingDescription + ";");
 				// TODO perhaps modify to point to SSO URL
 				String shareURL = "";
