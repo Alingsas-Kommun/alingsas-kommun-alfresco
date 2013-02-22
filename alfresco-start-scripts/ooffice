@@ -79,6 +79,8 @@ do_stop()
         else
                 #pgrep -f soffice.bin | xargs kill -9
                 pkill -9 soffice.bin
+		#Sleep 10 seconds to allow for shutdown and make sure that Alfresco can pickup that the service was restarted.		
+		sleep 10
            if [ "$?" -eq "0" ]; then
          return 0
            else
