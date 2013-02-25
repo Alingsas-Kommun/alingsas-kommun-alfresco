@@ -1,5 +1,8 @@
+// Checkout bug when behind a tomcat proxy
 org.alfresco.module.vti.web.ws.CheckInFileEndpoint 
 org.alfresco.module.vti.web.ws.CheckOutFileEndpoint
 org.alfresco.module.vti.web.ws.WebUrlFromPageUrlEndpoint 
 org.alfresco.module.vti.web.fp.GetDocsMetaInfoMethod
+
+// Url not encoded properly for ceratain folder
 org.alfresco.module.vti.handler.alfresco.DefaultAuthenticationHandler:87
