@@ -10,16 +10,26 @@
 		<version>1.1.0.1</version>
 	</parent>
 
-	<dependencies>
+	<properties>
+		<tomcat.home>.trash</tomcat.home>
+	</properties>
 
-		<dependency>
-			<groupId>com.ibm.icu</groupId>
-			<artifactId>icu4j</artifactId>
-			<version>3.6.1</version>
-		</dependency>
+	<dependencies>
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty</artifactId>
+			<version>6.1.26</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mortbay.jetty</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-util</artifactId>
 			<version>6.1.26</version>
 		</dependency>
 
@@ -28,6 +38,7 @@
 			<groupId>org.alfresco.enterprise</groupId>
 			<artifactId>junit-dep-4.10</artifactId>
 			<version>4.1.1.3</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -37,88 +48,39 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>default</id>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-dependencies</id>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-web-resources</id>
-								<phase>package</phase>
-							</execution>
-							<execution>
-								<id>copy-config-resources-repo</id>
-								<phase>package</phase>
-							</execution>
-							<execution>
-								<id>copy-jrebel-config</id>
-								<phase>package</phase>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.zeroturnaround</groupId>
-						<artifactId>jrebel-maven-plugin</artifactId>
-					</plugin>
-
-					<plugin>
-						<groupId>com.redpill-linpro.alfresco</groupId>
-						<artifactId>maven-refresh-webscripts-plugin</artifactId>
-						<configuration>
-							<url>http://localhost:8080/alfresco/page/index</url>
-						</configuration>
-					</plugin>
-				</plugins>
-
-				<resources>
-					<resource>
-						<filtering>true</filtering>
-						<directory>src/main/config/alfresco/extension</directory>
-						<targetPath>alfresco/extension</targetPath>
-						<excludes>
-							<exclude>**README-*</exclude>
-						</excludes>
-					</resource>
-				</resources>
-			</build>
-		</profile>
-	</profiles>
 
 	<build>
+		<finalName>alfresco-vti-4.1.1.3-patched</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default</id>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.alfresco.maven.plugin</groupId>
+				<artifactId>maven-amp-plugin</artifactId>
+				<version>3.0.3-SNAPSHOT</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- <mAmpConfigDirectory>config</mAmpConfigDirectory> -->
+					<mAmpJarExcludes>alfresco/**</mAmpJarExcludes>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+					<mModuleProperties>src/main/config/alfresco/module/org.alfresco.module.vti/module.properties</mModuleProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 

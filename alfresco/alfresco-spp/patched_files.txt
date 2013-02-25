@@ -1,0 +1,5 @@
+org.alfresco.module.vti.web.ws.CheckInFileEndpoint 
+org.alfresco.module.vti.web.ws.CheckOutFileEndpoint
+org.alfresco.module.vti.web.ws.WebUrlFromPageUrlEndpoint 
+org.alfresco.module.vti.web.fp.GetDocsMetaInfoMethod
+org.alfresco.module.vti.handler.alfresco.DefaultAuthenticationHandler:87
