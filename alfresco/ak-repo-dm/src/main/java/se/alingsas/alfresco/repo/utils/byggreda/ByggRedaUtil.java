@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
@@ -235,11 +238,33 @@ public class ByggRedaUtil implements Runnable {
 		}
 	}
 
+	
+	/**
+	 * Used for ordering ByggReda results by their linenumbers
+	 * @author mars
+	 *
+	 */
+	private class ByggRedaOrderComparator implements Comparator<ByggRedaDocument> {
+
+		@Override
+		public int compare(ByggRedaDocument o1, ByggRedaDocument o2) {
+			if (o1.lineNumber<o2.lineNumber) {
+				return -1;
+			} else if (o1.lineNumber>o2.lineNumber) {
+				return 1;
+			} else  {
+				return 0;
+			}
+		}
+		
+	}
+	
 	/**
 	 * Store a log in Alfresco of the result of the import
 	 * 
 	 * @param site
 	 */
+	
 	private void logDocuments(SiteInfo site, List<String> globalMessages) {
 		NodeRef folderNodeRef = createFolder(logPath, null, null, site);
 
@@ -250,13 +275,16 @@ public class ByggRedaUtil implements Runnable {
 
 		StringBuilder common = new StringBuilder();
 		StringBuilder logged = new StringBuilder();
-		Iterator<ByggRedaDocument> it = documents.iterator();
+		
 		Iterator<String> globalIt = globalMessages.iterator();
 		while (globalIt.hasNext()) {
 			String next = globalIt.next();
 			logged.append(next + LINE_BREAK);
 		}
 		int failedCount = 0;
+		SortedSet<ByggRedaDocument> sortedDocuments = new TreeSet<ByggRedaDocument>(new ByggRedaOrderComparator());
+		sortedDocuments.addAll(documents);
+		Iterator<ByggRedaDocument> it = sortedDocuments.iterator();
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
 			if (!next.readSuccessfully) {
@@ -267,7 +295,6 @@ public class ByggRedaUtil implements Runnable {
 						+ next.recordDisplay + " - " + next.buildingDescription
 						+ ": " + next.statusMsg + LINE_BREAK);
 			}
-
 		}
 		common.append("Sammaställning av importkörning " + LINE_BREAK);
 		common.append("--------------------------" + LINE_BREAK);
@@ -325,7 +352,8 @@ public class ByggRedaUtil implements Runnable {
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
 			if (next.readSuccessfully) {
-				common.append(next.recordNumber.replace(".", ";") + ";");
+				common.append(next.recordYear + ";");
+				common.append(next.recordNumber + ";");
 				common.append(next.buildingDescription + ";");
 				// TODO perhaps modify to point to SSO URL
 				String shareURL = "";

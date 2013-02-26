@@ -2,6 +2,7 @@ package se.alingsas.alfresco.repo.behaviour;
 
 import java.util.Map;
 
+import org.alfresco.model.ContentModel;
 import org.alfresco.repo.copy.CopyServicePolicies;
 import org.alfresco.repo.node.NodeServicePolicies;
 import org.alfresco.repo.policy.Behaviour;
@@ -10,6 +11,7 @@ import org.alfresco.repo.policy.BehaviourFilter;
 import org.alfresco.repo.policy.JavaBehaviour;
 import org.alfresco.repo.policy.PolicyComponent;
 import org.alfresco.service.cmr.repository.NodeRef;
+import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
@@ -34,6 +36,7 @@ public class DocumentNumberingPolicy implements
 	private BehaviourFilter behaviourFilter;
 	private PolicyComponent policyComponent;
 	private DocumentNumberUtil documentNumberUtil;
+	private NodeService nodeService;
 
 	public void init() {
 
@@ -61,9 +64,21 @@ public class DocumentNumberingPolicy implements
 	@Override
 	public void onUpdateNode(NodeRef nodeRef) {
 		try {
-			behaviourFilter.disableBehaviour(nodeRef);
-			documentNumberUtil.setDocumentNumber(nodeRef, false);
-			behaviourFilter.enableBehaviour(nodeRef);
+			if (nodeService.exists(nodeRef)) {
+				if (!nodeService.hasAspect(nodeRef,
+						ContentModel.ASPECT_WORKING_COPY)) {
+					behaviourFilter.disableBehaviour(nodeRef);
+					documentNumberUtil.setDocumentNumber(nodeRef, false);
+					behaviourFilter.enableBehaviour(nodeRef);
+				} else {
+					if (LOG.isTraceEnabled()) {
+						LOG.trace("Node is working copy, will not generate a new document number");
+					}
+				}
+			} else {
+				LOG.debug("Node does not exist " + nodeRef.toString());
+			}
+
 		} catch (Exception e) {
 			LOG.error("Failed to generate document number for node", e);
 		}
@@ -83,9 +98,20 @@ public class DocumentNumberingPolicy implements
 			NodeRef targetNodeRef, boolean copyToNewNode,
 			Map<NodeRef, NodeRef> copyMap) {
 		try {
-			behaviourFilter.disableBehaviour(targetNodeRef);
-			documentNumberUtil.setDocumentNumber(targetNodeRef, true);
-			behaviourFilter.enableBehaviour(targetNodeRef);
+			if (nodeService.exists(targetNodeRef)) {
+				if (!nodeService.hasAspect(targetNodeRef,
+						ContentModel.ASPECT_WORKING_COPY)) {
+					behaviourFilter.disableBehaviour(targetNodeRef);
+					documentNumberUtil.setDocumentNumber(targetNodeRef, false);
+					behaviourFilter.enableBehaviour(targetNodeRef);
+				} else {
+					if (LOG.isTraceEnabled()) {
+						LOG.trace("Node is working copy, will not generate a new document number");
+					}
+				}
+			} else {
+				LOG.debug("Node does not exist " + targetNodeRef.toString());
+			}
 		} catch (Exception e) {
 			LOG.error("Failed to generate document number for node", e);
 		}
@@ -94,13 +120,17 @@ public class DocumentNumberingPolicy implements
 	public void setPolicyComponent(PolicyComponent policyComponent) {
 		this.policyComponent = policyComponent;
 	}
-	
+
 	public void setDocumentNumberUtil(DocumentNumberUtil documentNumberUtil) {
 		this.documentNumberUtil = documentNumberUtil;
 	}
 
 	public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
 		this.behaviourFilter = behaviourFilter;
+	}
+
+	public void setNodeService(NodeService nodeService) {
+		this.nodeService = nodeService;
 	}
 
 }

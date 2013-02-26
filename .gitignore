@@ -1,6 +1,7 @@
 .classpath
 .project
 .settings
+.trash
 target
 tomcat-home
 ${tomcat.repo.home}

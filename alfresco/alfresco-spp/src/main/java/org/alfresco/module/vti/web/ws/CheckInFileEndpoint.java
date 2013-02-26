@@ -77,7 +77,8 @@ public class CheckInFileEndpoint extends AbstractEndpoint
 
         String host = getHost(soapRequest);
         String context = soapRequest.getAlfrescoContextName();
-
+        
+        
         // getting pageUrl parameter from request
         XPath xpath = new Dom4jXPath(buildXPath(prefix, "/CheckInFile/pageUrl"));
         xpath.setNamespaceContext(nc);
@@ -88,12 +89,20 @@ public class CheckInFileEndpoint extends AbstractEndpoint
         }
         
         String docPath = URLDecoder.decode(docE.getTextTrim(), "UTF-8");
-        if(docPath.indexOf(host) == -1 || docPath.indexOf(context) == -1)
+        //Bugfix start
+        //Server might not contain the correct url, cut everything before the alfresco context instead.
+        /*if(docPath.indexOf(host) == -1 || docPath.indexOf(context) == -1)
         {
            throw new VtiSoapException("Invalid URI: The format of the URI could not be determined", -1);
         }
-        docPath = docPath.substring(host.length() + context.length());
-
+        docPath = docPath.substring(host.length() + context.length());*/
+        
+        
+        String parseStart = context+"/";
+        int indexOf = docPath.indexOf(parseStart);
+        docPath = docPath.substring(indexOf);        
+        //Bugfix end
+        
         // Get the comment
         xpath = new Dom4jXPath(buildXPath(prefix, "/CheckInFile/comment"));
         xpath.setNamespaceContext(nc);

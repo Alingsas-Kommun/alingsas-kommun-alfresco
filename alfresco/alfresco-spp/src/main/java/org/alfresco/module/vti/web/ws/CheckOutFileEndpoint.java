@@ -88,7 +88,14 @@ public class CheckOutFileEndpoint extends AbstractEndpoint
            throw new VtiSoapException("pageUrl must be supplied", 0x82000001l);
         }
         String docPath = URLDecoder.decode(docE.getTextTrim(), "UTF-8");
-        docPath = docPath.substring(host.length() + context.length());
+        //Bugfix start
+        //Server might not contain the correct url, cut everything before the alfresco context instead.
+        //docPath = docPath.substring(host.length() + context.length());        
+        
+        String parseStart = context+"/";
+        int indexOf = docPath.indexOf(parseStart);
+        docPath = docPath.substring(indexOf);        
+        //Bugfix end
         
         // Did they want to work on it locally?
         xpath = new Dom4jXPath(buildXPath(prefix, "/CheckOutFile/checkoutToLocal"));
