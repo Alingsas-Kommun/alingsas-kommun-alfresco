@@ -20,7 +20,7 @@
 		<module>ak-repo-dm</module>
 		<module>ak-share-dm</module>
 		<module>ak-ldapmapper</module>
-		<module>alfresco-spp</module>
+		<module>sharepoint</module>
 	</modules>
 
 	<build>
