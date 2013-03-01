@@ -311,7 +311,8 @@ public class VtiFilter implements Filter
 
         String[] parts = VtiPathHelper.removeSlashes(uri).split("/");
 
-        if (parts[parts.length - 1].indexOf('.') == -1)
+        //Removed patched part, unsure what it does if (parts[parts.length - 1].indexOf('.') == -1)
+        if (parts[parts.length - 1].indexOf('.') != -1)
         {
             return false;
         }

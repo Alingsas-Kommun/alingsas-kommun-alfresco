@@ -149,10 +149,7 @@ public class AlfrescoMethodHandler extends AbstractAlfrescoMethodHandler
      */
     public String[] decomposeURL(final String url, final String alfrescoContext)
     {
-        if (logger.isDebugEnabled()) {
-        	logger.debug("Decomposing url: "+url +" Alfresco context: "+alfrescoContext);
-        }
-    	return getPathHelper().decomposeDocumentURL(alfrescoContext, url, SiteModel.TYPE_SITE);
+        return getPathHelper().decomposeDocumentURL(alfrescoContext, url, SiteModel.TYPE_SITE);
     }
 
     /**

@@ -9,3 +9,7 @@ ${tomcat.share.home}
 *~
 *.log
 rebel.xml
+
+/alfresco/sharepoint/build/
+/alfresco/sharepoint/lib/
+/alfresco/sharepoint/target/

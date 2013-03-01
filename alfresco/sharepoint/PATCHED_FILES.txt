@@ -6,3 +6,7 @@ org.alfresco.module.vti.web.fp.GetDocsMetaInfoMethod
 
 // Url not encoded properly for ceratain folder
 org.alfresco.module.vti.handler.alfresco.DefaultAuthenticationHandler:87
+
+//A change was made in this file which has been commented out since it
+seems to be some testing going on
+org.alfresco.module.vti.web.VtiFilter
