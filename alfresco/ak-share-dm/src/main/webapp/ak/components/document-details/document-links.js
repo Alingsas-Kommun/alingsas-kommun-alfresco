@@ -81,7 +81,14 @@
           * @property fileName
           * @type string
           */
-         fileName: null
+         fileName: null,
+         
+         /**
+          * The real hostname of the server
+          */
+         actualHostName: null,
+         
+         actualHostContext: null
       },
 
       /**
@@ -107,13 +114,18 @@
 
          // Make sure text fields auto select the text on focus
          Event.addListener(Selector.query("input", this.id), "focus", this._handleFocus);
-
+         
+         // Alingsås kommun customizations start
+         
          // Prefix some of the urls with values from the client
-         Dom.get(this.id + "-page").value = document.location.href;
+         //Dom.get(this.id + "-page").value = document.location.href;
+         Dom.get(this.id + "-page").value = this.options.actualHostName + document.location.pathname + document.location.search;
          
          //Download url
-         var contentUrl = Alfresco.constants.PROXY_URI +"api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ this.options.fileName;
+         //var contentUrl = Alfresco.constants.PROXY_URI +"api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
+         var contentUrl = this.options.actualHostName+ this.options.actualHostContext +"/proxy/alfresco/api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
          Dom.get(this.id + "-download").value = contentUrl;
+         // Alingsås kommun customizations end
       },
       
       /**
