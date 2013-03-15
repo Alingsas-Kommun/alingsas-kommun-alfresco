@@ -1,18 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>alfresco-spp</artifactId>
-	<name>Alfresco Sharepoint Protocol</name>
-	<packaging>amp</packaging>
-	<parent>
-		<groupId>se.alingsas.alfresco</groupId>
-		<artifactId>ak-base</artifactId>
-		<version>1.1.0.1</version>
-	</parent>
 
 	<properties>
 		<tomcat.home>.trash</tomcat.home>
 	</properties>
+
+	<parent>
+		<groupId>se.alingsas.alfresco</groupId>
+		<artifactId>ak-base</artifactId>
+		<version>1.1.0.2</version>
+	</parent>
+
+	<artifactId>sharepoint</artifactId>
+	<name>Alingsås Kommun Alfresco Sharepoint AMP Project</name>
+	<packaging>amp</packaging>
+
+	<build>
+		<sourceDirectory>source/java</sourceDirectory>
+		<outputDirectory>build/classes</outputDirectory>
+		<finalName>alfresco-vti-4.1.1.3-patched</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.alfresco.maven.plugin</groupId>
+				<artifactId>maven-amp-plugin</artifactId>
+				<version>3.0.3-SNAPSHOT</version>
+				<extensions>true</extensions>
+				<configuration>
+					<mAmpConfigDirectory>config</mAmpConfigDirectory>
+					<mAmpJarExcludes>alfresco/**</mAmpJarExcludes>
+					<archive>
+						<addMavenDescriptor>false</addMavenDescriptor>
+					</archive>
+					<mModuleProperties>config/alfresco/module/org.alfresco.module.vti/module.properties</mModuleProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.zeroturnaround
+										</groupId>
+										<artifactId>
+											jrebel-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.1.3,)
+										</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -32,80 +93,6 @@
 			<artifactId>jetty-util</artifactId>
 			<version>6.1.26</version>
 		</dependency>
-
-		<!-- Test dependencies -->
-		<dependency>
-			<groupId>org.alfresco.enterprise</groupId>
-			<artifactId>junit-dep-4.10</artifactId>
-			<version>4.1.1.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>1.8.0</version>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
-
-
-	<build>
-		<finalName>alfresco-vti-4.1.1.3-patched</finalName>
-		<plugins>
-
-
-			<plugin>
-				<groupId>org.alfresco.maven.plugin</groupId>
-				<artifactId>maven-amp-plugin</artifactId>
-				<version>3.0.3-SNAPSHOT</version>
-				<extensions>true</extensions>
-				<configuration>
-					<!-- <mAmpConfigDirectory>config</mAmpConfigDirectory> -->
-					<mAmpJarExcludes>alfresco/**</mAmpJarExcludes>
-					<archive>
-						<addMavenDescriptor>false</addMavenDescriptor>
-					</archive>
-					<mModuleProperties>src/main/config/alfresco/module/org.alfresco.module.vti/module.properties</mModuleProperties>
-				</configuration>
-			</plugin>
-		</plugins>
-
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.zeroturnaround
-										</groupId>
-										<artifactId>
-											jrebel-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.1.1,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 </project>

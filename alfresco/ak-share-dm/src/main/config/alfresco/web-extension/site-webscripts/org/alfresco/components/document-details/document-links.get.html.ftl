@@ -2,13 +2,19 @@
    <#if document.workingCopy??>
       <!-- Don't display links since this nodeRef points to one of a working copy pair -->
    <#else>
+   	<#assign linkUrl = url.server?replace(":443", "")>	
+
+
+   	  
       <#assign el=args.htmlid?html>
       <script type="text/javascript">//<![CDATA[
       new Alfresco.DocumentLinks("${el}").setOptions(
       {
          nodeRef: "${nodeRef?js_string}",
          fileName: "${document.fileName?js_string}",
-         siteId: <#if site??>"${site?js_string}"<#else>null</#if>
+         siteId: <#if site??>"${site?js_string}"<#else>null</#if>,
+         actualHostName: <#list linkUrl?split(".") as var>"${var?js_string}"<#if var_has_next>+ "." +</#if></#list>,
+         actualHostContext: "${url.getContext()?js_string}",
       }).setMessages(${messages});
       //]]></script>
       <div id="${el}-body" class="document-links document-details-panel">
