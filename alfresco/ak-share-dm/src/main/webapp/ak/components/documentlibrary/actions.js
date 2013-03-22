@@ -617,12 +617,7 @@
          "application/vnd.ms-excel.sheet.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.template.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.addin.macroenabled.12": "Excel.Sheet",
-         "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet",
-         //Alingsås customization start
-         "application/vnd.oasis.opendocument.presentation": "OpenDocumentFormat.Presentation",
-         "application/vnd.oasis.opendocument.spreadsheet": "OpenDocumentFormat.Spreadsheet",
-         "application/vnd.oasis.opendocument.text": "OpenDocumentFormat.Text"
-         //Alingsås customization end
+         "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet"
       },
 
       /**
@@ -687,12 +682,7 @@
                xlsm: "application/vnd.ms-excel.sheet.macroenabled.12",
                xltm: "application/vnd.ms-excel.template.macroenabled.12",
                xlam: "application/vnd.ms-excel.addin.macroenabled.12",
-               xlsb: "application/vnd.ms-excel.sheet.binary.macroenabled.12",
-               //Alingsås customization start  
-               odp: "application/vnd.oasis.opendocument.presentation",
-               ods: "application/vnd.oasis.opendocument.spreadsheet",
-               odt: "application/vnd.oasis.opendocument.text"
-               //Alingsås customization end
+               xlsb: "application/vnd.ms-excel.sheet.binary.macroenabled.12"
             };
 
          // Try to resolve the record to an application ProgID; by mimetype first, then file extension.
@@ -757,7 +747,8 @@
             
             /*
              * Alingsås kommun customization start
-             */
+             * DISABLED
+             
             //Disable edit online if access from outside of internal network
             if ((YAHOO.util.Cookie.get("WASID") || "").length != 0) {
             	Alfresco.util.PopupManager.displayPrompt(
@@ -765,7 +756,7 @@
                            text: this.msg("actions.editOnline.externalUserfailure", loc.file)
                         });
             	return false;
-            }
+            }*/
             /*
              * Alingsås kommun customization end
              */
