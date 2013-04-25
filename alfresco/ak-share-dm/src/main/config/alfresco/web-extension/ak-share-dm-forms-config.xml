@@ -16,7 +16,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<show id="akdm:protocolId" />
@@ -247,7 +247,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<show id="akdm:protocolId" />
@@ -481,7 +481,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<show id="akdm:manualFunction" />
@@ -709,7 +709,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<show id="akdm:protocolId" />
@@ -923,7 +923,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<show id="akdm:generalDocumentDescription" />
@@ -1150,7 +1150,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 					
 					<show id="sys:node-uuid" />
@@ -1298,7 +1298,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<!-- ByggReda -->
@@ -1627,7 +1627,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 
 					<show id="akdm:issuelistMeetingDate" />
@@ -1843,7 +1843,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 				</field-visibility>
 				<appearance>
@@ -2052,7 +2052,7 @@
 					<show id="cm:versionLabel" for-mode="view" />
 
 					<show id="akdm:documentNumber" for-mode="view" />
-					<show id="akdm:documentStatus" />
+					<show id="akdm:documentStatus" for-mode="view" />
 					<show id="akdm:documentSecrecy" />
 				</field-visibility>
 				<appearance>
