@@ -22,10 +22,6 @@
 
 package se.alingsas.alfresco.repo.behaviour;
 
-import java.io.Serializable;
-import java.util.Map;
-
-import org.alfresco.repo.copy.CopyServicePolicies;
 import org.alfresco.repo.node.NodeServicePolicies;
 import org.alfresco.repo.policy.Behaviour;
 import org.alfresco.repo.policy.Behaviour.NotificationFrequency;
@@ -41,7 +37,6 @@ import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
-import se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil;
 
 /**
  * Policy which fills in document status if its missing when creating new
@@ -50,63 +45,58 @@ import se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil;
  * @author Marcus Svensson - Redpill Linpro AB
  * 
  */
-public class DocumentStatusMissingWorkaroundPolicy implements
-		NodeServicePolicies.OnUpdateNodePolicy {
+public class DocumentStatusMissingWorkaroundPolicy implements NodeServicePolicies.OnUpdateNodePolicy {
 
-	private static final Logger LOG = Logger
-			.getLogger(DocumentStatusMissingWorkaroundPolicy.class);
-	private Behaviour onUpdateNode;
+  private static final Logger LOG = Logger.getLogger(DocumentStatusMissingWorkaroundPolicy.class);
+  private Behaviour onUpdateNode;
 
-	private PolicyComponent policyComponent;
-	private ServiceRegistry serviceRegistry;
-	private BehaviourFilter behaviourFilter;
-	private final String DOC_STATUS_WORKING = "Arbetsdokument";
+  private PolicyComponent policyComponent;
+  private ServiceRegistry serviceRegistry;
+  private BehaviourFilter behaviourFilter;
+  private final String DOC_STATUS_WORKING = "Arbetsdokument";
 
-	public void init() {
+  public void init() {
 
-		this.onUpdateNode = new JavaBehaviour(this, "onUpdateNode",
-				NotificationFrequency.TRANSACTION_COMMIT);
+    this.onUpdateNode = new JavaBehaviour(this, "onUpdateNode", NotificationFrequency.TRANSACTION_COMMIT);
 
-		this.policyComponent.bindClassBehaviour(QName.createQName(
-				NamespaceService.ALFRESCO_URI, "onUpdateNode"),
-				AkDmModel.TYPE_AKDM_DOCUMENT, this.onUpdateNode);
+    this.policyComponent.bindClassBehaviour(QName.createQName(NamespaceService.ALFRESCO_URI, "onUpdateNode"), AkDmModel.TYPE_AKDM_DOCUMENT, this.onUpdateNode);
 
-	}
- 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.alfresco.repo.node.NodeServicePolicies.OnUpdateNodePolicy#onUpdateNode
-	 * (org.alfresco.service.cmr.repository.NodeRef)
-	 */
-	@Override
-	public void onUpdateNode(NodeRef nodeRef) {
-		NodeService nodeService = serviceRegistry.getNodeService();
-		if (nodeService.exists(nodeRef)
-				&& nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
-			String docStatus = (String) nodeService.getProperty(nodeRef,
-					AkDmModel.PROP_AKDM_DOC_STATUS);
-			if (docStatus == null || !StringUtils.hasText(docStatus)) {
-				LOG.info("Document status is missing adding it for node: "+nodeRef.toString());
-				behaviourFilter.disableBehaviour(nodeRef);
-				nodeService.setProperty(nodeRef,
-						AkDmModel.PROP_AKDM_DOC_STATUS, DOC_STATUS_WORKING);
-				behaviourFilter.enableBehaviour(nodeRef);
-			}
-		}
-	}
+  }
 
-	public void setPolicyComponent(PolicyComponent policyComponent) {
-		this.policyComponent = policyComponent;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.alfresco.repo.node.NodeServicePolicies.OnUpdateNodePolicy#onUpdateNode
+   * (org.alfresco.service.cmr.repository.NodeRef)
+   */
+  @Override
+  public void onUpdateNode(NodeRef nodeRef) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("onUpdateNode");
+    }
+    NodeService nodeService = serviceRegistry.getNodeService();
+    if (nodeService.exists(nodeRef) && nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
+      String docStatus = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_STATUS);
+      if (docStatus == null || !StringUtils.hasText(docStatus)) {
+        LOG.info("Document status is missing adding it for node: " + nodeRef.toString());
+        behaviourFilter.disableBehaviour(nodeRef);
+        nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_STATUS, DOC_STATUS_WORKING);
+        behaviourFilter.enableBehaviour(nodeRef);
+      }
+    }
+  }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+  public void setPolicyComponent(PolicyComponent policyComponent) {
+    this.policyComponent = policyComponent;
+  }
 
-	public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
-		this.behaviourFilter = behaviourFilter;
-	}
+  public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+    this.serviceRegistry = serviceRegistry;
+  }
+
+  public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
+    this.behaviourFilter = behaviourFilter;
+  }
 
 }

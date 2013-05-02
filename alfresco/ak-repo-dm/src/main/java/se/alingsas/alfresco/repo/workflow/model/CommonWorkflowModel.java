@@ -38,6 +38,7 @@ public interface CommonWorkflowModel {
 	public static final String TARGET_CHOICE_OPTION_MY_HOME_FOLDER = "my_homefolder";
 	public static final String TARGET_CHOICE_OPTION_USER_HOME_FOLDER = "user_homefolder";	
 	public static final String AKWF_RESULTVARIABLE = "akwf_resultVariable";
+	public static final String DOCUMENT_SECRECY = "akwf_documentSecrecy";
 	
 	public static final String SITE_GROUP = "akwf_siteGroup";
 	public static final String SITE = "akwf_site";
