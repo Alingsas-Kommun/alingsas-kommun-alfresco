@@ -89,6 +89,8 @@
                                           handler : function dlA_onActionCompleteDocument_missingSecrecy_ok() {                                                                                        
                                             documentSecrecy = document.getElementById("complete_document_secrecy_id").value;
                                             this.destroy();
+                                            //Click the ok button of the parent form.
+                                            parent.getButtons()[0]._button.click();
                                           }
                                         },
                                         {
