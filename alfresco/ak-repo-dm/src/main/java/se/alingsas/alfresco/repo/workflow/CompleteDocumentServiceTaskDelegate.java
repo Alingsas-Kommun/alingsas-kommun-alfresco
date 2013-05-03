@@ -95,12 +95,12 @@ public class CompleteDocumentServiceTaskDelegate implements JavaDelegate {
 						LOG.debug("Moving document");
 						try {
 							fileFolderService.move(fileNodeRef, targetFolderNodeRef, null);
-						} catch (FileExistsException e) {
-							LOG.info("File exists, renaming...");
+						} catch (FileExistsException e) {							
 							String name = (String) nodeService.getProperty(fileNodeRef, ContentModel.PROP_NAME);
 							String strippedFileName = StringUtils.stripFilenameExtension(name);
 							String filenameExtension = StringUtils.getFilenameExtension(name);
 							name = strippedFileName + "_" +System.currentTimeMillis() + "." +filenameExtension;
+							LOG.info("File exists, renaming to "+name);
 							fileFolderService.move(fileNodeRef, targetFolderNodeRef, name);
 						}
 						ownableService.setOwner(fileNodeRef, akwfApprover);
