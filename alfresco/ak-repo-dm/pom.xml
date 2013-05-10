@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>se.alingsas.alfresco</groupId>
 		<artifactId>ak-base</artifactId>
-		<version>1.1.0.2</version>
+		<version>1.1.0.3</version>
 	</parent>
 	<artifactId>ak-repo-dm</artifactId>
 	<packaging>amp</packaging>
