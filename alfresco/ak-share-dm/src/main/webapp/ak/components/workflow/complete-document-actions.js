@@ -31,32 +31,29 @@
 
               var me = this, displayName = record.displayName, nodeRef = record.nodeRef, parentNodeRef = record.parent.nodeRef, action = Alfresco.doclib.Actions.prototype
                   .getAction(record, owner), params = action.params;
-              
+
               var documentSecrecy;
               if (record.jsNode.properties["akdm:documentSecrecy"] != undefined) {
                 documentSecrecy = record.jsNode.properties["akdm:documentSecrecy"];
               } else {
                 documentSecrecy = null;
               }
-              
+
               var siteName = null;
               if (siteName = record.location.site != undefined) {
                 siteName = record.location.site.name;
               } else {
-                if (documentSecrecy==null) {
-                  Alfresco.util.PopupManager
-                  .displayMessage({
-                    text : me
-                        .msg("message.completedocument.nosecrecyset")});
+                if (documentSecrecy == null) {
+                  Alfresco.util.PopupManager.displayMessage({
+                    text : me.msg("message.completedocument.nosecrecyset")
+                  });
                 } else {
-                location.href = "start-workflow?selectedItems="
-                  + nodeRef + "&startWorkflow=" + params.workflow
-                  + "";
+                  location.href = "start-workflow?selectedItems=" + nodeRef
+                      + "&startWorkflow=" + params.workflow + "";
                 }
                 return;
               }
-              
-              
+
               Alfresco.util.PopupManager
                   .displayPrompt({
                     title : this.msg("actions.complete-document.title"),
@@ -70,7 +67,7 @@
                           handler : function dlA_onActionCompleteDocument_completehere() {
 
                             if (documentSecrecy == null) {
-                              parent = this;
+                              var _ak_parent = this;
                               Alfresco.util.PopupManager
                                   .getUserInput({
                                     title : me
@@ -86,11 +83,14 @@
                                         {
                                           text : me
                                               .msg("button.complete-document.missing-secrecy.ok"),
-                                          handler : function dlA_onActionCompleteDocument_missingSecrecy_ok() {                                                                                        
-                                            documentSecrecy = document.getElementById("complete_document_secrecy_id").value;
+                                          handler : function dlA_onActionCompleteDocument_missingSecrecy_ok() {
+                                            documentSecrecy = document
+                                                .getElementById("complete_document_secrecy_id").value;
                                             this.destroy();
-                                            //Click the ok button of the parent form.
-                                            parent.getButtons()[0]._button.click();
+                                            // Click the ok button of the parent
+                                            // form.
+                                            _ak_parent.getButtons()[0]._button
+                                                .click();
                                           }
                                         },
                                         {
@@ -140,15 +140,16 @@
                               .msg("button.complete-document.completeother"),
                           handler : function dlA_onActionCompleteDocument_completeother() {
                             this.destroy();
-                            if (documentSecrecy==null) {
+                            if (documentSecrecy == null) {
                               Alfresco.util.PopupManager
-                              .displayMessage({
-                                text : me
-                                    .msg("message.completedocument.nosecrecyset")});
+                                  .displayMessage({
+                                    text : me
+                                        .msg("message.completedocument.nosecrecyset")
+                                  });
                             } else {
-                            location.href = "start-workflow?selectedItems="
-                              + nodeRef + "&startWorkflow=" + params.workflow
-                              + "";
+                              location.href = "start-workflow?selectedItems="
+                                  + nodeRef + "&startWorkflow="
+                                  + params.workflow + "";
                             }
                             return;
                           }
