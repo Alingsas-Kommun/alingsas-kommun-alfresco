@@ -227,10 +227,11 @@
             
             /**
              * Alingsås customization start
-             * If this is a request that goes through Portwise, then use htmlupload since the flashuploader won't work
-             */
-            if (this.hasRequiredFlashPlayer) {
-            	this.hasRequiredFlashPlayer = this.canAccessSession = (YAHOO.util.Cookie.get("WASID") || "").length == 0;
+             * Disable Flash uploader for all browsers but IE since flash plugin is not able to pick up SSO cookies for other browsers than IE. 
+            */
+            if (this.hasRequiredFlashPlayer && YAHOO.env.ua.ie == 0) {
+              this.canAccessSession = false;
+            	this.hasRequiredFlashPlayer = this.canAccessSession;
             }
             /**
              * Alingsås customization end
