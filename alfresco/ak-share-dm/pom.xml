@@ -1,138 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>se.alingsas.alfresco</groupId>
-		<artifactId>ak-base</artifactId>
-		<version>1.1.0.3</version>
-	</parent>
-	<artifactId>ak-share-dm</artifactId>
-	<packaging>amp</packaging>
-	<name>Alingsås Alfresco Share Document Management</name>
-	<description>Alfresco Share Customizations for Alingsås Document Management</description>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>se.alingsas.alfresco</groupId>
+    <artifactId>ak-base</artifactId>
+    <version>1.2.0.0</version>
+  </parent>
+  <artifactId>ak-share-dm</artifactId>
+  <packaging>amp</packaging>
+  <name>Alingsås Alfresco Share Document Management</name>
+  <description>Alfresco Share Customizations for Alingsås Document Management</description>
 
-	<properties>
-		<module.uid>ak-share-dm</module.uid>
-		<webapp.name>share</webapp.name>
-		<tomcat.home>${tomcat.share.home}</tomcat.home>
-	</properties>
+  <properties>
+    <!-- Defines the target WAR for this AMP. Allowed values: alfresco | 
+      share -->
+    <!-- Defaults to a repository AMP -->
+    <alfresco.client.war>share</alfresco.client.war>
+    <tomcat.home>${tomcat.share.home}</tomcat.home>
+    <tomcat.port>${tomcat.share.port}</tomcat.port>
+    <env>local</env>
+    <jetty.host>localhost</jetty.host>
+    <jetty.port>8080</jetty.port>
+    <alfresco.jetty.host>localhost</alfresco.jetty.host>
+    <alfresco.jetty.port>8080</alfresco.jetty.port>
+    <alfresco.jetty.context>ak-dm-repo</alfresco.jetty.context>
+  </properties>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>net.alchim31.maven</groupId>
-				<artifactId>yuicompressor-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>minimize-javascript</id>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.zeroturnaround
-										</groupId>
-										<artifactId>
-											jrebel-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.1.1,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
+  <dependencies>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-web-framework-commons</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
-					</plugin>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-share</artifactId>
+      <scope>provided</scope>
+      <version>${alfresco.version}</version>
+    </dependency>
+  </dependencies>
 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>default</id>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-dependencies</id>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-web-resources</id>
-								<phase>package</phase>
-							</execution>
-							<execution>
-								<id>copy-config-resources-share</id>
-								<phase>package</phase>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>com.redpill-linpro.alfresco</groupId>
-						<artifactId>maven-refresh-webscripts-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>webscripts</id>
-								<phase>package</phase>
-								<goals>
-									<goal>refresh</goal>
-								</goals>
-								<configuration>
-									<url>http://localhost:8081/share/page/index</url>
-									<password>admin</password>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+  <build>
+    <filters>
+      <filter>${app.properties.folder}/application.properties</filter>
+    </filters>
+  </build>
 
 </project>

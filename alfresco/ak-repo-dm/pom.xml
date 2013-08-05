@@ -1,172 +1,130 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>se.alingsas.alfresco</groupId>
+    <artifactId>ak-base</artifactId>
+    <version>1.2.0.0</version>
+  </parent>
+  <artifactId>ak-repo-dm</artifactId>
+  <packaging>amp</packaging>
+  <name>Alingsås Alfresco Repository Document Management</name>
+  <description>Alfresco Repository Customizations for Alingsås Document Management</description>
 
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>se.alingsas.alfresco</groupId>
-		<artifactId>ak-base</artifactId>
-		<version>1.1.0.3</version>
-	</parent>
-	<artifactId>ak-repo-dm</artifactId>
-	<packaging>amp</packaging>
-	<name>Alingsås Alfresco Repository Document Management</name>
-	<description>Alfresco Repository Customizations for Alingsås Document Management</description>
-	<properties>
-		<module.uid>ak-repo-dm</module.uid>
-		<webapp.name>alfresco</webapp.name>
-		<tomcat.home>${tomcat.repo.home}</tomcat.home>
-	</properties>
+  <properties>
+    <!-- Defines the target WAR for this AMP. Allowed values: alfresco | 
+      share -->
+    <!-- Defaults to a repository AMP -->
+    <alfresco.client.war>alfresco</alfresco.client.war>
+    <tomcat.home>${tomcat.repo.home}</tomcat.home>
+    <tomcat.port>${tomcat.repo.port}</tomcat.port>
+    <env>local</env>
+    <jetty.host>localhost</jetty.host>
+    <jetty.port>8080</jetty.port>
+  </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock</artifactId>
-		</dependency>
+  <dependencies>
+    <!-- Test dependecies -->
 
-		<dependency>
-			<groupId>org.jmock</groupId>
-			<artifactId>jmock-legacy</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-		</dependency>
-		
-		<dependency>
-		  <groupId>org.alfresco.enterprise</groupId>
-		  <artifactId>activiti-engine-5.7-20120820</artifactId>
-		  <version>4.1.1.3</version>
-		  <scope>provided</scope>
-		</dependency>
-	</dependencies>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-all</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
 
-	<profiles>
-		<profile>
-			<id>dev</id>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-library</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-unit-test</artifactId>
+        </exclusion>
+      </exclusions>
+      <scope>test</scope>
+    </dependency>
 
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-clean-plugin</artifactId>
-					</plugin>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-legacy</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>default</id>
-							</execution>
-						</executions>
-					</plugin>
+    <dependency>
+      <groupId>org.jmock</groupId>
+      <artifactId>jmock-junit4</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-dependencies</id>
-							</execution>
-						</executions>
-					</plugin>
+    <!-- Alfresco dependencies -->
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-data-model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-core</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-repository</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-enterprise-repository</artifactId>
+      <scope>provided</scope>
+      <version>${alfresco.version}</version>
+    </dependency>
 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>copy-web-resources</id>
-								<phase>package</phase>
-							</execution>
-							<execution>
-								<id>copy-config-resources-repo</id>
-								<phase>package</phase>
-							</execution>
-							<execution>
-								<id>copy-jrebel-config</id>
-								<phase>package</phase>
-							</execution>
-						</executions>
-					</plugin>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-remote-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
 
-					<plugin>
-						<groupId>org.zeroturnaround</groupId>
-						<artifactId>jrebel-maven-plugin</artifactId>
-					</plugin>
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-web-client</artifactId>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>axis2</groupId>
+          <artifactId>addressing</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-					<plugin>
-						<groupId>com.redpill-linpro.alfresco</groupId>
-						<artifactId>maven-refresh-webscripts-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>webscripts</id>
-								<phase>package</phase>
-								<goals>
-									<goal>refresh</goal>
-								</goals>
-								<configuration>
-									<url>http://localhost:8080/alfresco/service/</url>
-									<password>admin</password>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
 
-				<resources>
-					<resource>
-						<filtering>true</filtering>
-						<directory>src/main/config/alfresco/extension</directory>
-						<targetPath>alfresco/extension</targetPath>
-						<excludes>
-							<exclude>**README-*</exclude>
-						</excludes>
-					</resource>
-				</resources>
-			</build>
-		</profile>
-	</profiles>
+    <dependency>
+      <groupId>org.activiti</groupId>
+      <artifactId>activiti-engine</artifactId>
+      <version>5.7-alf-20121211</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.zeroturnaround
-										</groupId>
-										<artifactId>
-											jrebel-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.1.1,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 </project>
