@@ -39,6 +39,8 @@ import org.alfresco.service.cmr.repository.NodeService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
+import se.alingsas.alfresco.repo.model.AkDmModel;
+
 public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 	private static final Logger LOG = Logger
 			.getLogger(TemplatedContentFilter.class);
@@ -71,6 +73,8 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 				LOG.warn("The template " + templateNode
 						+ " could not be found.");
 			}
+			serviceRegistry.getNodeService().removeAssociation(persistedObject, templateNode, AkDmModel.ASSOC_AKDM_BASEDONTEMPLATE);
+			
 		}
 
 	}
@@ -111,6 +115,7 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 					name = name + "." + templateExtension;
 					data.addFieldData(PROP_NAME, name, true);
 				}
+				
 			} else {
 				LOG.warn("The template " + templateNode
 						+ " could not be found.");

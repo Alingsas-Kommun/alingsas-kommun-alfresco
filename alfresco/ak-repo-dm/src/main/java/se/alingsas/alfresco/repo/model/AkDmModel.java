@@ -146,4 +146,10 @@ public interface AkDmModel {
 			AKDM_URI, "docNumSettingPart2");
 	public static final QName PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_3 = QName.createQName(
 			AKDM_URI, "docNumSettingPart3");
+	
+	/**
+	 * Associations
+	 */
+	public static final QName ASSOC_AKDM_BASEDONTEMPLATE = QName.createQName(
+			AKDM_URI, "basedOnTemplate");
 }

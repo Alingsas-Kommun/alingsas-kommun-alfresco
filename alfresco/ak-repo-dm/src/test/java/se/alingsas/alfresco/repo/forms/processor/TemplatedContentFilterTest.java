@@ -36,6 +36,7 @@ import org.alfresco.service.cmr.repository.ContentWriter;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.repository.StoreRef;
+import org.alfresco.service.namespace.QName;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
@@ -84,6 +85,8 @@ public class TemplatedContentFilterTest {
 				allowing(fileFolderService).getWriter(exitingNodeRef);
 				will(returnValue(contentWriter));
 				allowing(contentWriter).putContent(contentReader);
+				allowing(nodeService).removeAssociation(with(any(NodeRef.class)), with(any(NodeRef.class)), with(any(QName.class)));
+
 			}
 		});
 	}
