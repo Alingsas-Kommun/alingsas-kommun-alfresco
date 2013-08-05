@@ -40,6 +40,60 @@
 	</config>
 
 
+	<!-- Disable the CSRF Token Filter -->
+   <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
+      <filter/>
+   </config>
+
+   <!--
+      To run the CSRF Token Filter behind 1 or more proxies that do not rewrite the Origin or Referere headers:
+
+      1. Copy the "CSRFPolicy" default config in share-security-config.xml and paste it into this file.
+      2. Replace the old config by setting the <config> element's "replace" attribute to "true" like below:
+         <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
+      3. To every <action name="assertReferer"> element add the following child element
+         <param name="referer">http://www.proxy1.com/.*|http://www.proxy2.com/.*</param>
+      4. To every <action name="assertOrigin"> element add the following child element
+         <param name="origin">http://www.proxy1.com|http://www.proxy2.com</param>
+   -->
+
+   <!--
+      Remove the default wildcard setting and use instead a strict whitelist of the only domains that shall be allowed
+      to be used inside iframes (i.e. in the WebView dashlet on the dashboards)
+   -->
+   <!--
+   <config evaluator="string-compare" condition="IFramePolicy" replace="true">
+      <cross-domain>
+         <url>http://www.trusted-domain-1.com/</url>
+         <url>http://www.trusted-domain-2.com/</url>
+      </cross-domain>
+   </config>
+   -->
+
+   <!-- Turn off header that stops Share from being displayed in iframes on pages from other domains -->
+   <!--
+   <config evaluator="string-compare" condition="SecurityHeadersPolicy">
+      <headers>
+         <header>
+            <name>X-Frame-Options</name>
+            <enabled>false</enabled>
+         </header>
+      </headers>
+   </config>
+   -->
+
+   <!-- Prevent browser communication over HTTP (for HTTPS servers) -->
+   <!--
+   <config evaluator="string-compare" condition="SecurityHeadersPolicy">
+      <headers>
+         <header>
+            <name>Strict-Transport-Security</name>
+            <value>max-age=31536000</value>
+         </header>
+      </headers>
+   </config>
+   -->
+
 	<!-- example port config used to access remote Alfresco server (default 
 		is 8080) -->
 	<config evaluator="string-compare" condition="Remote" replace="false">

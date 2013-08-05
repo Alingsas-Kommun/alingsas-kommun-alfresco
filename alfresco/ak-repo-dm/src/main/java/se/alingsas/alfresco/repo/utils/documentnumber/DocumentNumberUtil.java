@@ -28,6 +28,7 @@ package se.alingsas.alfresco.repo.utils.documentnumber;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.alfresco.model.ContentModel;
@@ -87,7 +88,7 @@ public class DocumentNumberUtil {
               public String execute() throws Throwable {
                 return getNextDocumentNumber();
               }
-            }, false, true);
+            }, false, false);
 
             if (documentNumber != null && StringUtils.hasText(documentNumber)) {
               lockService.suspendLocks();
@@ -147,7 +148,9 @@ public class DocumentNumberUtil {
     if (nodeService.exists(cachedFileRef)) {
       if (!nodeService.hasAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS)) {
         LOG.info("Document numbering setting file is missing aspect, adding it.");
-        nodeService.addAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS, null);
+        
+        Map<QName, Serializable> aspectProperties = new HashMap<QName, Serializable>();
+		nodeService.addAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS, aspectProperties );
       }
       return incrementDocumentNumber(cachedFileRef);
       /*

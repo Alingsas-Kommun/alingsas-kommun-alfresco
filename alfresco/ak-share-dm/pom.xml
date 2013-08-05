@@ -17,8 +17,8 @@
       share -->
     <!-- Defaults to a repository AMP -->
     <alfresco.client.war>share</alfresco.client.war>
-    <tomcat.home>${tomcat.repo.home}</tomcat.home>
-    <tomcat.port>${tomcat.repo.port}</tomcat.port>
+    <tomcat.home>${tomcat.share.home}</tomcat.home>
+    <tomcat.port>${tomcat.share.port}</tomcat.port>
     <env>local</env>
     <jetty.host>localhost</jetty.host>
     <jetty.port>8080</jetty.port>
