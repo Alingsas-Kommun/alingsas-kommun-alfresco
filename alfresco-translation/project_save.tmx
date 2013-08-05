@@ -632,7 +632,6 @@
       <tuv lang="EN-US">
         <seg>(None)</seg>
       </tuv>
-<<<<<<< Upstream, based on origin/release/1.1.0.0
       <tuv lang="SV-SE" changedate="20130212T055518Z" changeid="mars">
         <seg>(Tomt)</seg>
       </tuv>
@@ -49888,9 +49887,6 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T154253Z" changeid="mars">
         <seg>Tillbaka till medlemmar i samarbetsytan</seg>
-=======
-      <tuv lang="SV-SE">
-        <seg>(Inga)</seg>
       </tuv>
     </tu>
     <tu>
@@ -52243,7 +52239,7 @@ RESULT:
         <seg>Alfresco server doesn't support subsites.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T145913Z" changeid="mars">
-        <seg>Alfresco stödjer inte sub-sammarbetsytor.</seg>
+        <seg>Alfresco stödjer inte sub-samarbetsytor.</seg>
       </tuv>
     </tu>
     <tu>
@@ -56925,7 +56921,7 @@ RESULT:
         <seg>Collaborating</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T150708Z" changeid="mars">
-        <seg>Sammarbeta</seg>
+        <seg>Samarbeta</seg>
       </tuv>
     </tu>
     <tu>
@@ -57389,7 +57385,7 @@ RESULT:
         <seg>Component used to list sites a user belongs to</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T145936Z" changeid="mars">
-        <seg>Komponent för att lista sammarbetsytor användaren tillhör.</seg>
+        <seg>Komponent för att lista samarbetsytor användaren tillhör.</seg>
       </tuv>
     </tu>
     <tu>
@@ -68653,7 +68649,7 @@ RESULT:
         <seg>Have a look at the sites already in Alfresco.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T150613Z" changeid="mars">
-        <seg>Besök sammarbetsytor som redan finns i Alfresco.</seg>
+        <seg>Besök samarbetsytor som redan finns i Alfresco.</seg>
       </tuv>
     </tu>
     <tu>
@@ -70725,7 +70721,7 @@ RESULT:
         <seg>It shows the activities in all the sites you belong to, such as content that's been added, deleted, and edited.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T150850Z" changeid="mars">
-        <seg>Den visar aktiviteter i alla de sammarbetsytor du tillhör såsom innehåll som lagts till, uppdaterats och raderats.</seg>
+        <seg>Den visar aktiviteter i alla de samarbetsytor du tillhör såsom innehåll som lagts till, uppdaterats och raderats.</seg>
       </tuv>
     </tu>
     <tu>
@@ -74871,7 +74867,7 @@ RESULT:
         <seg>My Sites</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T145932Z" changeid="mars">
-        <seg>Mina sammarbetsytor</seg>
+        <seg>Mina samarbetsytor</seg>
       </tuv>
     </tu>
     <tu>
@@ -85322,7 +85318,7 @@ RESULT:
         <seg>Sites</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T144321Z" changeid="mars">
-        <seg>Sammarbetsytor</seg>
+        <seg>Samarbetsytor</seg>
       </tuv>
     </tu>
     <tu>
@@ -90132,7 +90128,7 @@ Identifikationen för en grupp kan inte ändras då den redan är fastställd. <
         <seg>The personal dashboard shows you what's going on in the sites you belong to.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T150332Z" changeid="mars">
-        <seg>Den personliga anslagstavlan visar vad som händer i de sammarbetsytor som du tillhör.</seg>
+        <seg>Den personliga anslagstavlan visar vad som händer i de samarbetsytor som du tillhör.</seg>
       </tuv>
     </tu>
     <tu>
@@ -91221,7 +91217,7 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
         <seg>This dashlet shows links relevant to this site.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T151647Z" changeid="mars">
-        <seg>Denna dashlet visar länkar som är relevanta för aktuell sammarbetsyta.</seg>
+        <seg>Denna dashlet visar länkar som är relevanta för aktuell samarbetsyta.</seg>
       </tuv>
     </tu>
     <tu>
@@ -96710,7 +96706,7 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
         <seg>View all sites</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T150624Z" changeid="mars">
-        <seg>Visa alla sammarbetsytor</seg>
+        <seg>Visa alla samarbetsytor</seg>
       </tuv>
     </tu>
     <tu>
@@ -97327,7 +97323,7 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
         <seg>Website User's Name</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T145620Z" changeid="mars">
-        <seg>Sammarbetsyteanvändarens namn</seg>
+        <seg>Samarbetsyteanvändarens namn</seg>
       </tuv>
     </tu>
     <tu>
@@ -97335,7 +97331,7 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
         <seg>Website User's Role</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T145631Z" changeid="mars">
-        <seg>Sammarbetsyteanvändarens roll</seg>
+        <seg>Samarbetsyteanvändarens roll</seg>
       </tuv>
     </tu>
     <tu>
@@ -98511,7 +98507,7 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
         <seg>You can visit public sites and join them straightaway.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T150619Z" changeid="mars">
-        <seg>Du kan besöka publika sammarbetsytor och bli medlemm direkt.</seg>
+        <seg>Du kan besöka publika samarbetsytor och bli medlemm direkt.</seg>
       </tuv>
     </tu>
     <tu>
@@ -99136,15 +99132,6 @@ Värdet {0} är ogiltigt för aktivitetens egenskap {1}.</seg>
       </tuv>
       <tuv lang="SV-SE" changedate="20130211T154233Z" changeid="mars">
         <seg>Tillbaka till grupper i samarbetsytan</seg>
-      </tuv>
-    </tu>
-    <tu>
-      <tuv lang="EN-US">
-        <seg>back to Site Members</seg>
-      </tuv>
-      <tuv lang="SV-SE" changedate="20130211T154253Z" changeid="mars">
-        <seg>Tillbaka till medlemmar i sammarbetsytan</seg>
->>>>>>> 29f64e0 #15022 - Disabled cancel workflow button to prevent invalid locking of files. #14756 - Changed some language terms. #15078 - Removed buttons for add and remove files in workflow screen. #13744 - Translation memory export.
       </tuv>
     </tu>
     <tu>

@@ -86,7 +86,9 @@ public class TemplatedContentFilterTest {
 				will(returnValue(contentWriter));
 				allowing(contentWriter).putContent(contentReader);
 				allowing(nodeService).removeAssociation(with(any(NodeRef.class)), with(any(NodeRef.class)), with(any(QName.class)));
-
+				allowing(nodeService).hasAspect(with(any(NodeRef.class)), with(any(QName.class)));
+				will(returnValue(true));
+				allowing(nodeService).removeAspect(with(any(NodeRef.class)), with(any(QName.class)));
 			}
 		});
 	}
