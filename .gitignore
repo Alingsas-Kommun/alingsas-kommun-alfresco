@@ -6,6 +6,7 @@ target
 tomcat-home
 ${tomcat.repo.home}
 ${tomcat.share.home}
+${tomcat.home}
 *~
 *.log
 rebel.xml

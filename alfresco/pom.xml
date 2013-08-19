@@ -1,208 +1,133 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
- 
-	<parent>
-		<groupId>com.redpill-linpro.alfresco</groupId>
-		<artifactId>alfresco-base</artifactId>
-		<version>4.1.1.3-enterprise</version>
-	</parent>
+  <modelVersion>4.0.0</modelVersion>
 
-	<groupId>se.alingsas.alfresco</groupId>
-	<artifactId>ak-base</artifactId>
-	<version>1.1.0.3</version>
-	<packaging>pom</packaging>
-	<name>Alfresco Base Project for Alingsås Document Management</name>
+  <parent>
+    <groupId>com.redpill-linpro.alfresco</groupId>
+    <artifactId>alfresco-base</artifactId>
+    <version>1.0.2.2</version>
+  </parent>
 
-	<modules>
-		<module>ak-repo-dm</module>
-		<module>ak-share-dm</module>
-		<module>ak-ldapmapper</module>
-		<module>sharepoint</module>
-	</modules>
+  <groupId>se.alingsas.alfresco</groupId>
+  <artifactId>ak-base</artifactId>
+  <version>1.2.0.0</version>
+  <packaging>pom</packaging>
+  <name>Alfresco Base Project for Alingsås Document Management</name>
+  <inceptionYear>2013</inceptionYear>
+  <url>https://code.google.com/p/alingsas-kommun-alfresco/</url>
+  <organization>
+    <name>Alingsås Kommun</name>
+    <url>http://www.alingsas.se</url>
+  </organization>
+  <scm>
+    <developerConnection>scm:git:https://marsv024@code.google.com/p/alingsas-kommun-alfresco/</developerConnection>
+    <connection>scm:git:https://marsv024@code.google.com/p/alingsas-kommun-alfresco/</connection>
+  </scm>
 
-	<build>
-		<plugins>
+  <developers>
+    <developer>
+      <id>mars</id>
+      <name>Marcus Svensson</name>
+      <email>mars@redpill-linpro.com</email>
+      <organization>Redpill Linpro AB</organization>
+      <roles>
+        <role>Architect</role>
+        <role>Developer</role>
+      </roles>
+      <timezone>+2</timezone>
+    </developer>
+  </developers>
 
-			<plugin>
-				<groupId>org.zeroturnaround</groupId>
-				<artifactId>jrebel-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<executions>
-					<execution>
-						<id>generate-rebel-xml</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+  <!-- | SDK properties have sensible defaults in the SDK parent, | but you 
+    can override the properties below to use another version. | For more available 
+    properties see the alfresco-sdk-parent POM. -->
+  <properties>
+    <alfresco.groupId>org.alfresco.enterprise</alfresco.groupId>
+    <alfresco.version>4.1.5</alfresco.version>
+    <app.log.root.level>WARN</app.log.root.level>
+    <alfresco.data.location>alf_data_dev</alfresco.data.location>
+    <!-- This controls which properties will be picked in src/test/properties 
+      for embedded run -->
+    <env>local</env>
+  </properties>
 
-			<plugin>
-				<groupId>com.sourcesense.maven</groupId>
-				<artifactId>maven-nosnapshot-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default</id>
-					</execution>
-				</executions>
-			</plugin>
+  <modules>
+    <module>ak-repo-dm</module>
+    <module>ak-share-dm</module>
+    <module>ak-ldapmapper</module>
+  </modules>
 
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>buildnumber-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default</id>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.alfresco.maven.plugin</groupId>
-				<artifactId>maven-amp-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.m2e</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<version>1.0.0</version>
-				<configuration>
-					<lifecycleMappingMetadata>
-						<pluginExecutions>
-							<pluginExecution>
-								<pluginExecutionFilter>
-									<groupId>com.sourcesense.maven</groupId>
-									<artifactId>maven-nosnapshot-plugin</artifactId>
-									<versionRange>[0.0.7-SNAPSHOT,)</versionRange>
-									<goals>
-										<goal>strip</goal>
-									</goals>
-								</pluginExecutionFilter>
-								<action>
-									<execute />
-								</action>
-							</pluginExecution>
-							<pluginExecution>
-								<pluginExecutionFilter>
-									<groupId>org.apache.maven.plugins</groupId>
-									<artifactId>maven-dependency-plugin</artifactId>
-									<versionRange>[2.4,)</versionRange>
-									<goals>
-										<goal>copy-dependencies</goal>
-									</goals>
-								</pluginExecutionFilter>
-								<action>
-									<ignore />
-								</action>
-							</pluginExecution>
-							<pluginExecution>
-								<pluginExecutionFilter>
-									<groupId>net.alchim31.maven</groupId>
-									<artifactId>yuicompressor-maven-plugin</artifactId>
-									<versionRange>[1.1,)</versionRange>
-									<goals>
-										<goal>compress</goal>
-									</goals>
-								</pluginExecutionFilter>
-								<action>
-									<execute />
-								</action>
-							</pluginExecution>
-						</pluginExecutions>
-					</lifecycleMappingMetadata>
-				</configuration>
-			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>com.sourcesense.maven</groupId>
-										<artifactId>maven-nosnapshot-plugin</artifactId>
-										<versionRange>[0.0.7-SNAPSHOT,)</versionRange>
-										<goals>
-											<goal>strip</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[2.4,)</versionRange>
-										<goals>
-											<goal>copy-dependencies</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>net.alchim31.maven</groupId>
-										<artifactId>yuicompressor-maven-plugin</artifactId>
-										<versionRange>[1.1,)</versionRange>
-										<goals>
-											<goal>compress</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-
-
-	<profiles>
-		<profile>
-			<id>upload</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.redpill-linpro.alfresco</groupId>
-						<artifactId>artifact-upload-plugin</artifactId>
-						<version>1.0.0</version>
-						<executions>
-							<execution>
-								<id>artifact-upload</id>
-								<phase>install</phase>
-								<goals>
-									<goal>upload</goal>
-								</goals>
-								<inherited>true</inherited>
-							</execution>
-						</executions>
-						<configuration>
-							<username>${artifact-upload.username}</username>
-							<password>${artifact-upload.password}</password>
-							<site>${artifact-upload.site}</site>
-							<url>${artifact-upload.cmis.url}</url>
-							<path>${artifact-upload.client.upload.path}</path>
-							<overwrite>true</overwrite>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-changelog-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.0.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.15</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>2.3</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.5.2</version>
+      </plugin>
+    </plugins>
+  </reporting>
+  <build>
+  	<pluginManagement>
+  		<plugins>
+  			<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+  			<plugin>
+  				<groupId>org.eclipse.m2e</groupId>
+  				<artifactId>lifecycle-mapping</artifactId>
+  				<version>1.0.0</version>
+  				<configuration>
+  					<lifecycleMappingMetadata>
+  						<pluginExecutions>
+  							<pluginExecution>
+  								<pluginExecutionFilter>
+  									<groupId>
+  										org.alfresco.maven.plugin
+  									</groupId>
+  									<artifactId>
+  										alfresco-maven-plugin
+  									</artifactId>
+  									<versionRange>
+  										[1.0.2,)
+  									</versionRange>
+  									<goals>
+  										<goal>set-version</goal>
+  									</goals>
+  								</pluginExecutionFilter>
+  								<action>
+  									<ignore></ignore>
+  								</action>
+  							</pluginExecution>
+  						</pluginExecutions>
+  					</lifecycleMappingMetadata>
+  				</configuration>
+  			</plugin>
+  		</plugins>
+  	</pluginManagement>
+  </build>
 </project>

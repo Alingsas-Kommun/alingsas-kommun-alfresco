@@ -39,6 +39,8 @@ import org.alfresco.service.cmr.repository.NodeService;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
+import se.alingsas.alfresco.repo.model.AkDmModel;
+
 public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 	private static final Logger LOG = Logger
 			.getLogger(TemplatedContentFilter.class);
@@ -53,13 +55,14 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 	 */
 	@Override
 	public void afterPersist(Object item, FormData data, NodeRef persistedObject) {
+		NodeService nodeService = serviceRegistry.getNodeService();
 		FieldData fieldData = data.getFieldData(ASSOC_TEMPLATE);
 		if (fieldData != null
 				&& NodeRef.isNodeRef((String) fieldData.getValue())) {
 			NodeRef templateNode = new NodeRef((String) fieldData.getValue());
 			LOG.debug("Updating node " + persistedObject.toString()
 					+ " based on template " + templateNode);
-			if (serviceRegistry.getNodeService().exists(templateNode)) {
+			if (nodeService.exists(templateNode)) {
 				FileFolderService fileFolderService = serviceRegistry
 						.getFileFolderService();
 				ContentReader reader = fileFolderService
@@ -71,6 +74,11 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 				LOG.warn("The template " + templateNode
 						+ " could not be found.");
 			}
+			nodeService.removeAssociation(persistedObject, templateNode, AkDmModel.ASSOC_AKDM_BASEDONTEMPLATE);
+			if (nodeService.hasAspect(persistedObject, AkDmModel.ASPECT_AKDM_TEMPLATEDASPECT)) {
+				nodeService.removeAspect(persistedObject, AkDmModel.ASPECT_AKDM_TEMPLATEDASPECT);
+			}
+				
 		}
 
 	}
@@ -111,6 +119,7 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 					name = name + "." + templateExtension;
 					data.addFieldData(PROP_NAME, name, true);
 				}
+				
 			} else {
 				LOG.warn("The template " + templateNode
 						+ " could not be found.");
