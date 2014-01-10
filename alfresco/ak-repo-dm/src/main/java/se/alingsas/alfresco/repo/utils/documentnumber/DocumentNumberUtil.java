@@ -88,7 +88,7 @@ public class DocumentNumberUtil {
 							public String execute() throws Throwable {
 								return getNextDocumentNumber();
 							}
-						}, false, false);
+						}, false, true);
 
 						if (documentNumber != null && StringUtils.hasText(documentNumber)) {
 							lockService.suspendLocks();
