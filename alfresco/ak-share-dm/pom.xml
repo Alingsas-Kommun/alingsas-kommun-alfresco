@@ -32,6 +32,7 @@
       <groupId>${alfresco.groupId}</groupId>
       <artifactId>alfresco-web-framework-commons</artifactId>
       <scope>provided</scope>
+      <version>${alfresco.version}</version>
     </dependency>
 
     <dependency>
