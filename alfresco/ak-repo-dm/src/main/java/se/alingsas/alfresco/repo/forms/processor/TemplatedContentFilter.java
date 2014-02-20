@@ -55,7 +55,8 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 	 */
 	@Override
 	public void afterPersist(Object item, FormData data, NodeRef persistedObject) {
-		NodeService nodeService = serviceRegistry.getNodeService();
+	  LOG.trace("afterPersist begin");
+	  NodeService nodeService = serviceRegistry.getNodeService();
 		FieldData fieldData = data.getFieldData(ASSOC_TEMPLATE);
 		if (fieldData != null
 				&& NodeRef.isNodeRef((String) fieldData.getValue())) {
@@ -80,7 +81,7 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 			}
 				
 		}
-
+		LOG.trace("afterPersist end");
 	}
 
 	@Override
@@ -99,14 +100,15 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 	 */
 	@Override
 	public void beforePersist(Object item, FormData data) {
-		FieldData fieldData = data.getFieldData(PROP_NAME);
-		String name = (String) fieldData.getValue();
-		fieldData = data.getFieldData(ASSOC_TEMPLATE);
+	  LOG.trace("beforePersist begin");	  
+		FieldData fieldData = data.getFieldData(ASSOC_TEMPLATE);
 		if (fieldData != null
 				&& NodeRef.isNodeRef((String) fieldData.getValue())) {
 			NodeRef templateNode = new NodeRef((String) fieldData.getValue());
 			NodeService nodeService = serviceRegistry.getNodeService();
-
+			fieldData = data.getFieldData(PROP_NAME);
+			String name = (String) fieldData.getValue();
+			
 			if (nodeService.exists(templateNode)) {
 				String templateName = (String) nodeService.getProperty(
 						templateNode, ContentModel.PROP_NAME);
@@ -125,6 +127,7 @@ public class TemplatedContentFilter extends AbstractFilter<Object, NodeRef> {
 						+ " could not be found.");
 			}
 		}
+		LOG.trace("beforePersist end");
 	}
 
 	public ServiceRegistry getServiceRegistry() {
