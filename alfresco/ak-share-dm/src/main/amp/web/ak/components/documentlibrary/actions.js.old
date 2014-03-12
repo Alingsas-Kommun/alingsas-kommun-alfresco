@@ -353,7 +353,7 @@
 
          editDetails.setOptions(
          {
-            width: "auto",
+            width: "40em",
             templateUrl: templateUrl,
             actionUrl: null,
             destroyOnHide: true,
@@ -416,14 +416,9 @@
             {
                fn: function dLA_onActionDetails_failure(response)
                {
-                  var failureMsg = this.msg("message.details.failure");
-                  if (response.json.message.indexOf("Failed to persist field 'prop_cm_name'") !== -1)
-                  {
-                     failureMsg = this.msg("message.details.failure.name");
-                  }
                   Alfresco.util.PopupManager.displayMessage(
                   {
-                     text: failureMsg
+                     text: this.msg("message.details.failure")
                   });
                },
                scope: this
@@ -622,8 +617,7 @@
          "application/vnd.ms-excel.sheet.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.template.macroenabled.12": "Excel.Sheet",
          "application/vnd.ms-excel.addin.macroenabled.12": "Excel.Sheet",
-         "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet",
-         "application/vnd.visio": "Visio.Drawing"
+         "application/vnd.ms-excel.sheet.binary.macroenabled.12": "Excel.Sheet"
       },
 
       /**
@@ -634,20 +628,7 @@
        */
       onActionEditOnline: function dlA_onActionEditOnline(record)
       {
-         //MNT-8609 Edit online fails for files which URL is too long      
-         if (!$isValueSet(record.onlineEditUrl))
-         {
-            record.onlineEditUrl = Alfresco.util.onlineEditUrl(this.doclistMetadata.custom.vtiServer, record.location);
-         }
-    
-         if (record.onlineEditUrl.length > 260)
-         {
-            Alfresco.util.PopupManager.displayMessage(
-            {
-               text: this.msg("message.edit-online.office.path.failure")
-            }); 
-         }
-         else if (this._launchOnlineEditor(record))
+         if (this._launchOnlineEditor(record))
          {
             YAHOO.Bubbling.fire("metadataRefresh");
          }
@@ -656,7 +637,7 @@
             Alfresco.util.PopupManager.displayMessage(
             {
                text: this.msg("message.edit-online.office.failure")
-            });    
+            });		 
          }
       },
 
@@ -704,15 +685,6 @@
                xlsb: "application/vnd.ms-excel.sheet.binary.macroenabled.12"
             };
 
-         if (!Alfresco.util.validLocationForOnlineEdit(loc))
-         {
-            Alfresco.util.PopupManager.displayPrompt(
-            {
-               text: this.msg("actions.editOnline.invalid", loc.file)
-            });
-            return true;
-         }
-
          // Try to resolve the record to an application ProgID; by mimetype first, then file extension.
          if (this.onlineEditMimetypes.hasOwnProperty(mimetype))
          {
@@ -740,20 +712,55 @@
             // Ensure we have the record's onlineEditUrl populated
             if (!$isValueSet(record.onlineEditUrl))
             {
-                //Alingsås customization start
+               //Alingsås customization start
                if (loc.site==undefined) {
-                 //We are not on a site, usually we are in User Home, so replace the loc.site 
-                 //The webdavurl holds the path to the file. Just simulate a site called user-homes and append the webdavpath to it.
-                 loc.path = decodeURIComponent(record.webdavUrl);
-                 loc.file = loc.path.substring(loc.path.lastIndexOf("/")+1);
-                 loc.path = loc.path.substring(7,loc.path.lastIndexOf("/"));
-                 loc.site = {name: "user-homes"};
-                 loc.container = {name: "documentLibrary"};
+            	   //We are not on a site, usually we are in User Home, so replace the loc.site 
+            	   //The webdavurl holds the path to the file. Just simulate a site called user-homes and append the webdavpath to it.
+            	   loc.path = decodeURIComponent(record.webdavUrl);
+            	   loc.file = loc.path.substring(loc.path.lastIndexOf("/")+1);
+            	   loc.path = loc.path.substring(7,loc.path.lastIndexOf("/"));
+            	   loc.site = {name: "user-homes"};
+            	   loc.container = {name: "documentLibrary"};
                }
                //Alingsås customization end
-               record.onlineEditUrl = Alfresco.util.onlineEditUrl(this.doclistMetadata.custom.vtiServer, loc);
-            }
+               var onlineEditUrl = this.doclistMetadata.custom.vtiServer.host + ":" +
+                     this.doclistMetadata.custom.vtiServer.port + "/" +
+                     $combine("alfresco", loc.site.name, loc.container.name, loc.path, loc.file.replace(/#/g,"%23"));
 
+               if (!(/^(http|https):\/\//).test(onlineEditUrl))
+               {
+                  // Did they specify the protocol on the vti server bean?
+                  var protocol = this.doclistMetadata.custom.vtiServer.protocol;
+                  if (protocol == null)
+                  {
+                      // If it's not set, assume it's the same as Share
+                      protocol = window.location.protocol;
+                      // Get it without the trailing colon, to match the vti property form
+                      protocol = protocol.substring(0, protocol.length-1);
+                  }
+
+                  // Build up the full HTTP / HTTPS URL
+                  onlineEditUrl = protocol + "://" + onlineEditUrl;
+               }
+               record.onlineEditUrl = onlineEditUrl;
+            }
+            
+            /*
+             * Alingsås kommun customization start
+             * DISABLED
+             
+            //Disable edit online if access from outside of internal network
+            if ((YAHOO.util.Cookie.get("WASID") || "").length != 0) {
+            	Alfresco.util.PopupManager.displayPrompt(
+                        {
+                           text: this.msg("actions.editOnline.externalUserfailure", loc.file)
+                        });
+            	return false;
+            }*/
+            /*
+             * Alingsås kommun customization end
+             */
+            
             if (YAHOO.env.ua.ie > 0)
             {
                return this._launchOnlineEditorIE(controlProgID, record, appProgID);
@@ -790,8 +797,6 @@
          // Try each version of the SharePoint control in turn, newest first
          try
          {
-            if (appProgID === "Visio.Drawing")
-               throw ("Visio should be invoked using activeXControl.EditDocument2.");
             activeXControl = new ActiveXObject(controlProgID + ".3");
             return activeXControl.EditDocument3(window, record.onlineEditUrl, true, appProgID);
          }
@@ -853,8 +858,6 @@
          
          try
          {
-            if (appProgID === "Visio.Drawing") 
-               throw ("Visio should be invoked using activeXControl.EditDocument2.");
             return plugin.EditDocument3(window, record.onlineEditUrl, true, appProgID);
          }
          catch(e)
@@ -921,10 +924,6 @@
          var params = this.getAction(record, owner).params,
             displayName = record.displayName;
 
-         //Deactivate action
-         var ownerTitle = owner.title;
-         owner.title = owner.title + "_deactivated";
-
          // Prepare genericAction config
          var config =
          {
@@ -938,12 +937,7 @@
             },
             failure:
             {
-               message: this.msg(params.failureMessage, displayName),
-               fn: function showAction()
-               {
-                  owner.title = ownerTitle;
-               },
-               scope: this
+               message: this.msg(params.failureMessage, displayName)
             },
             webscript:
             {
