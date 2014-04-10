@@ -7,7 +7,7 @@
   <parent>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>ak-base</artifactId>
-    <version>1.2.0.2</version>
+    <version>1.2.0.3</version>
   </parent>
   <artifactId>ldapmapper</artifactId>
   <packaging>jar</packaging>
