@@ -215,6 +215,7 @@
           <title>Secrecy</title>
           <type>d:text</type>
           <mandatory>true</mandatory>
+          <default>Offentligt</default>
           <constraints>
             <constraint ref="akdm:secrecyStatusConstraint" />
           </constraints>
