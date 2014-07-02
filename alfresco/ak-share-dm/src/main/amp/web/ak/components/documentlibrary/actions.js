@@ -1,3 +1,4 @@
+//@overridden projects/slingshot/source/web/components/documentlibrary/actions.js
 /**
  * Copyright (C) 2005-2012 Alfresco Software Limited.
  *

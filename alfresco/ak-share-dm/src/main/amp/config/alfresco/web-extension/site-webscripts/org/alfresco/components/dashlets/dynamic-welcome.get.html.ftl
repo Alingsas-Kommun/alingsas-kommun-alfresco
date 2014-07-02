@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/dashlets/dynamic-welcome.get.html.ftl -->
 <#if false>
    <#assign el=args.htmlid?html>
    <script type="text/javascript">//<![CDATA[

@@ -1,3 +1,4 @@
+<!-- <![CDATA[ @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/modules/create-event.get.config.xml ]]> -->
 <config>
    <enableDocFolder>false</enableDocFolder>
    <defaultStart>13:00</defaultStart>

@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/modules/documentlibrary/global-folder.get.html.ftl -->
 <#assign el=args.htmlid?html>
 <div id="${el}-dialog" class="global-folder">
    <div id="${el}-title" class="hd"></div>

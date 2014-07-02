@@ -1,3 +1,4 @@
+//@overridden projects/slingshot/source/web/components/object-finder/object-finder.js
 /**
  * Copyright (C) 2005-2010 Alfresco Software Limited.
  *

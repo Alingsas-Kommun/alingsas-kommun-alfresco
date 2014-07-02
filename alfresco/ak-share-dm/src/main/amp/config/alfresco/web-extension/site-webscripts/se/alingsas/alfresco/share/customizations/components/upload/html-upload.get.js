@@ -1,4 +1,5 @@
 <import resource="classpath:alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/upload/flash-upload.get.js">
+//@overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/upload/html-upload.get.js
 /*
  * Copyright (C) 2012-2013 Alingsås Kommun
  *

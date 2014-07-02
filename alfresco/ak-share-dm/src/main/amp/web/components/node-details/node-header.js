@@ -1,3 +1,4 @@
+//@overridden projects/slingshot/source/web/components/node-details/node-details.js
 /**
  * Copyright (C) 2005-2011 Alfresco Software Limited.
  *

@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/workflow/workflow-details-actions.get.html.ftl -->
 <#include "../../include/alfresco-macros.lib.ftl" />
 <#assign el=args.htmlid?js_string>
 <#-- Disable cancel action

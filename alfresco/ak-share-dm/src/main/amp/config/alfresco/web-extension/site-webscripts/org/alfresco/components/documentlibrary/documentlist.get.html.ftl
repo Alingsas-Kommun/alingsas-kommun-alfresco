@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/documentlibrary/documentlist.get.html.ftl -->
 <#include "include/documentlist.lib.ftl" />
 <@documentlistTemplate>
 <script type="text/javascript">//<![CDATA[

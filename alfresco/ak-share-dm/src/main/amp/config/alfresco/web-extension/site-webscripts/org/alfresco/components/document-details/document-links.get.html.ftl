@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-links.get.html.ftl -->
 <#if document??>
    <#if document.workingCopy??>
       <!-- Don't display links since this nodeRef points to one of a working copy pair -->

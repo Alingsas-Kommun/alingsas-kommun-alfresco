@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/wiki/toolbar.get.html.ftl -->
 <script type="text/javascript">//<![CDATA[
    new Alfresco.WikiToolbar("${args.htmlid}").setOptions(
    {

@@ -1,3 +1,4 @@
+//@overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/search/advsearch.get.js
 /*
  * Copyright (C) 2012-2013 Alingsås Kommun
  *

@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-permissions.get.html.ftl -->
 <#if displayName??>
    <#include "../../include/alfresco-macros.lib.ftl" />
    <#assign el=args.htmlid?html>

@@ -1,4 +1,5 @@
 <toolbar>
+   <!-- <![CDATA[ @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/documentlibrary/toolbar.get.config.xml ]]> -->
    <!-- The create content menu can be configured in share-documentlibrary-config.xml -->
    <actionSets>
       <actionSet id="default">
