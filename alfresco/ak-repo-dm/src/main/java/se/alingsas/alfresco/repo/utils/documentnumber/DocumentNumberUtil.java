@@ -52,170 +52,170 @@ import se.alingsas.alfresco.repo.model.AkDmModel;
  */
 public class DocumentNumberUtil {
 
-	private static final Logger LOG = Logger.getLogger(DocumentNumberUtil.class);
+  private static final Logger LOG = Logger.getLogger(DocumentNumberUtil.class);
 
-	private ServiceRegistry serviceRegistry;
-	private Repository repositoryHelper;
-	private RetryingTransactionHelper retryingTransactionHelper;
+  private ServiceRegistry serviceRegistry;
+  private Repository repositoryHelper;
+  private RetryingTransactionHelper retryingTransactionHelper;
 
-	private static NodeRef cachedFileRef;
+  private static NodeRef cachedFileRef;
 
-	public static final String SETTINGS = "Settings";
-	public static final String DOCUMENT_NUMBER_SETTINGS = "DocumentNumber.settings";
+  public static final String SETTINGS = "Settings";
+  public static final String DOCUMENT_NUMBER_SETTINGS = "DocumentNumber.settings";
 
-	/**
-	 * Sets the document number on a node if it doesn't already exist
-	 * 
-	 * Potential exceptions should be caught to make sure that files can always be
-	 * created in the system even if generating a document number fails.
-	 * 
-	 * @param nodeRef
-	 */
-	public void setDocumentNumber(final NodeRef nodeRef, boolean replace) throws Exception {
-		if (LOG.isTraceEnabled()) {
-			LOG.trace("setDocumentNumber");
-		}
-		final NodeService nodeService = serviceRegistry.getNodeService();
-		final LockService lockService = serviceRegistry.getLockService();
-		if (nodeService.exists(nodeRef) && nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
-			String docNumber = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
-			if (!StringUtils.hasText(docNumber) || replace == true) {
-				// TODO add transaction
-				String documentNumber = AuthenticationUtil.runAs(new AuthenticationUtil.RunAsWork<String>() {
-					public String doWork() throws Exception {
+  /**
+   * Sets the document number on a node if it doesn't already exist
+   * 
+   * Potential exceptions should be caught to make sure that files can always be
+   * created in the system even if generating a document number fails.
+   * 
+   * @param nodeRef
+   */
+  public void setDocumentNumber(final NodeRef nodeRef, boolean replace) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("setDocumentNumber");
+    }
+    final NodeService nodeService = serviceRegistry.getNodeService();
+    final LockService lockService = serviceRegistry.getLockService();
+    if (nodeService.exists(nodeRef) && nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
+      String docNumber = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
+      if (!StringUtils.hasText(docNumber) || replace == true) {
+        // TODO add transaction
+        String documentNumber = AuthenticationUtil.runAs(new AuthenticationUtil.RunAsWork<String>() {
+          public String doWork() throws Exception {
 
-						String documentNumber = retryingTransactionHelper.doInTransaction(new RetryingTransactionHelper.RetryingTransactionCallback<String>() {
-							public String execute() throws Throwable {
-								return getNextDocumentNumber();
-							}
-						}, false, false);
+            String documentNumber = retryingTransactionHelper.doInTransaction(new RetryingTransactionHelper.RetryingTransactionCallback<String>() {
+              public String execute() throws Throwable {
+                return getNextDocumentNumber();
+              }
+            }, false, false);
 
-						if (documentNumber != null && StringUtils.hasText(documentNumber)) {
-							lockService.suspendLocks();
-							nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
-							lockService.enableLocks();
-							if (LOG.isDebugEnabled())
-								LOG.debug("Setting document number for " + documentNumber + " for node " + nodeRef.toString());
-						}
-						return documentNumber;
+            if (documentNumber != null && StringUtils.hasText(documentNumber)) {
+              lockService.suspendLocks();
+              nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER, documentNumber);
+              lockService.enableLocks();
+              if (LOG.isDebugEnabled())
+                LOG.debug("Setting document number for " + documentNumber + " for node " + nodeRef.toString());
+            }
+            return documentNumber;
 
-					}
-				}, AuthenticationUtil.getSystemUserName());
+          }
+        }, AuthenticationUtil.getSystemUserName());
 
-			}
-		}
-	}
+      }
+    }
+  }
 
-	/**
-	 * Generates the next document number. Calling this method will increase the
-	 * global counter for document numbers.
-	 * 
-	 * Potential exceptions should be caught to make sure that files can always be
-	 * created in the system even if generating a document number fails.
-	 * 
-	 * @return Generated document number
-	 */
-	public String getNextDocumentNumber() throws Exception {
-		// Number format
-		// YYYY-MM-DD-XXX-XXX
-		if (LOG.isTraceEnabled()) {
-			LOG.trace("getNextDocumentNumber");
-		}
-		NodeService nodeService = serviceRegistry.getNodeService();
+  /**
+   * Generates the next document number. Calling this method will increase the
+   * global counter for document numbers.
+   * 
+   * Potential exceptions should be caught to make sure that files can always be
+   * created in the system even if generating a document number fails.
+   * 
+   * @return Generated document number
+   */
+  public String getNextDocumentNumber() throws Exception {
+    // Number format
+    // YYYY-MM-DD-XXX-XXX
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("getNextDocumentNumber");
+    }
+    NodeService nodeService = serviceRegistry.getNodeService();
 
-		if (cachedFileRef == null) {
-			FileFolderService fileFolderService = serviceRegistry.getFileFolderService();
-			NodeRef docNumSettingsRef = null;
-			NodeRef settingsNodeRef = fileFolderService.searchSimple(repositoryHelper.getCompanyHome(), SETTINGS);
-			if (settingsNodeRef == null) {
-				LOG.info("Settings folder does not exist, creating it.");
-				// Settings folder does not exist, create it
-				settingsNodeRef = fileFolderService.create(repositoryHelper.getCompanyHome(), SETTINGS, ContentModel.TYPE_FOLDER).getNodeRef();
-			}
-			if (nodeService.exists(settingsNodeRef)) {
-				docNumSettingsRef = fileFolderService.searchSimple(settingsNodeRef, DOCUMENT_NUMBER_SETTINGS);
-				if (docNumSettingsRef == null) {
-					LOG.info("Document numbering setting file does not exist, creating it");
-					docNumSettingsRef = fileFolderService.create(settingsNodeRef, DOCUMENT_NUMBER_SETTINGS, ContentModel.TYPE_CONTENT).getNodeRef();
-				}
-				cachedFileRef = docNumSettingsRef;
+    if (cachedFileRef == null) {
+      FileFolderService fileFolderService = serviceRegistry.getFileFolderService();
+      NodeRef docNumSettingsRef = null;
+      NodeRef settingsNodeRef = fileFolderService.searchSimple(repositoryHelper.getCompanyHome(), SETTINGS);
+      if (settingsNodeRef == null) {
+        LOG.info("Settings folder does not exist, creating it.");
+        // Settings folder does not exist, create it
+        settingsNodeRef = fileFolderService.create(repositoryHelper.getCompanyHome(), SETTINGS, ContentModel.TYPE_FOLDER).getNodeRef();
+      }
+      if (nodeService.exists(settingsNodeRef)) {
+        docNumSettingsRef = fileFolderService.searchSimple(settingsNodeRef, DOCUMENT_NUMBER_SETTINGS);
+        if (docNumSettingsRef == null) {
+          LOG.info("Document numbering setting file does not exist, creating it");
+          docNumSettingsRef = fileFolderService.create(settingsNodeRef, DOCUMENT_NUMBER_SETTINGS, ContentModel.TYPE_CONTENT).getNodeRef();
+        }
+        cachedFileRef = docNumSettingsRef;
 
-			} else {
-				throw new Exception("Settings folder does not exist and could not be created");
-			}
-		}
+      } else {
+        throw new Exception("Settings folder does not exist and could not be created");
+      }
+    }
 
-		if (nodeService.exists(cachedFileRef)) {
-			if (!nodeService.hasAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS)) {
-				LOG.info("Document numbering setting file is missing aspect, adding it.");
+    if (nodeService.exists(cachedFileRef)) {
+      if (!nodeService.hasAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS)) {
+        LOG.info("Document numbering setting file is missing aspect, adding it.");
 
-				Map<QName, Serializable> aspectProperties = new HashMap<QName, Serializable>();
-				nodeService.addAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS, aspectProperties);
-			}
-			return incrementDocumentNumber(cachedFileRef);
+        Map<QName, Serializable> aspectProperties = new HashMap<QName, Serializable>();
+        nodeService.addAspect(cachedFileRef, AkDmModel.ASPECT_AKDM_DOCUMENT_NUMBER_SETTINGS, aspectProperties);
+      }
+      return incrementDocumentNumber(cachedFileRef);
 
-		} else {
-			throw new Exception("Document number settings does not exist and could not be created");
-		}
-	}
+    } else {
+      throw new Exception("Document number settings does not exist and could not be created");
+    }
+  }
 
-	/**
-	 * Will increment the document number and return it. This method has no
-	 * checking if nodes exist but expects this to already have been done.
-	 * 
-	 * @param nodeRef
-	 * @return
-	 */
-	private String incrementDocumentNumber(NodeRef nodeRef) {
-		if (LOG.isTraceEnabled()) {
-			LOG.trace("incrementDocumentNumber");
-		}
+  /**
+   * Will increment the document number and return it. This method has no
+   * checking if nodes exist but expects this to already have been done.
+   * 
+   * @param nodeRef
+   * @return
+   */
+  private String incrementDocumentNumber(NodeRef nodeRef) {
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("incrementDocumentNumber");
+    }
 
-		String result;
+    String result;
 
-		NodeService nodeService = serviceRegistry.getNodeService();
+    NodeService nodeService = serviceRegistry.getNodeService();
 
-		Map<QName, Serializable> properties = nodeService.getProperties(cachedFileRef);
+    Map<QName, Serializable> properties = nodeService.getProperties(cachedFileRef);
 
-		SimpleDateFormat df = new SimpleDateFormat((String) properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_DATE_PATTERN));
-		String currentDate = df.format(new Date());
-		Integer counter;
-		// TODO investigate how this works in a clustered environment.
-		if (!currentDate.equals(properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1))) {
-			counter = (Integer) properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
-			if (counter >= 999000) {
-				// If series run out of space, then reset the numbering. Since a
-				// new date is used anyway, the series will not collide.
-				counter = 1;
-			}
-		} else {
-			counter = (Integer) properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
-			if (LOG.isDebugEnabled())
-				LOG.debug("Current date matches stored date, increasing counter to  " + counter);
+    SimpleDateFormat df = new SimpleDateFormat((String) properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_DATE_PATTERN));
+    String currentDate = df.format(new Date());
+    Integer counter;
+    // TODO investigate how this works in a clustered environment.
+    if (!currentDate.equals(properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1))) {
+      counter = (Integer) properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
+      if (counter >= 999000) {
+        // If series run out of space, then reset the numbering. Since a
+        // new date is used anyway, the series will not collide.
+        counter = 1;
+      }
+    } else {
+      counter = (Integer) properties.get(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2) + 1;
+      if (LOG.isDebugEnabled())
+        LOG.debug("Current date matches stored date, increasing counter to  " + counter);
 
-		}
-		properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1, currentDate);
-		properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2, counter);
-		nodeService.setProperties(cachedFileRef, properties);
+    }
+    properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_1, currentDate);
+    properties.put(AkDmModel.PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_2, counter);
+    nodeService.setProperties(cachedFileRef, properties);
 
-		String leftPad = org.apache.commons.lang.StringUtils.leftPad(counter.toString(), 6, '0');
-		result = currentDate + "-" + leftPad.substring(0, 3) + "-" + leftPad.substring(3);
-		if (LOG.isDebugEnabled())
-			LOG.debug("Generated document number: " + result);
+    String leftPad = org.apache.commons.lang.StringUtils.leftPad(counter.toString(), 6, '0');
+    result = currentDate + "-" + leftPad.substring(0, 3) + "-" + leftPad.substring(3);
+    if (LOG.isDebugEnabled())
+      LOG.debug("Generated document number: " + result);
 
-		return result;
-	}
+    return result;
+  }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+  public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+    this.serviceRegistry = serviceRegistry;
+  }
 
-	public void setRepositoryHelper(Repository repositoryHelper) {
-		this.repositoryHelper = repositoryHelper;
-	}
+  public void setRepositoryHelper(Repository repositoryHelper) {
+    this.repositoryHelper = repositoryHelper;
+  }
 
-	public void setRetryingTransactionHelper(RetryingTransactionHelper retryingTransactionHelper) {
-		this.retryingTransactionHelper = retryingTransactionHelper;
-	}
+  public void setRetryingTransactionHelper(RetryingTransactionHelper retryingTransactionHelper) {
+    this.retryingTransactionHelper = retryingTransactionHelper;
+  }
 
 }
