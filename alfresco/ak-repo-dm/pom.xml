@@ -93,13 +93,14 @@
       <artifactId>alfresco-repository</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!-- 
     <dependency>
       <groupId>${alfresco.groupId}</groupId>
       <artifactId>alfresco-enterprise-repository</artifactId>
       <scope>provided</scope>
       <version>${alfresco.version}</version>
     </dependency>
-
+ -->
     <dependency>
       <groupId>${alfresco.groupId}</groupId>
       <artifactId>alfresco-remote-api</artifactId>
