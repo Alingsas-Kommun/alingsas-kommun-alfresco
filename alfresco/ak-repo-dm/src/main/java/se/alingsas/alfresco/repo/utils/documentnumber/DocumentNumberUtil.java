@@ -88,7 +88,7 @@ public class DocumentNumberUtil {
 							public String execute() throws Throwable {
 								return getNextDocumentNumber();
 							}
-						}, false, true);
+						}, false, false);
 
 						if (documentNumber != null && StringUtils.hasText(documentNumber)) {
 							lockService.suspendLocks();
@@ -115,7 +115,7 @@ public class DocumentNumberUtil {
 	 * 
 	 * @return Generated document number
 	 */
-	synchronized public String getNextDocumentNumber() throws Exception {
+	public String getNextDocumentNumber() throws Exception {
 		// Number format
 		// YYYY-MM-DD-XXX-XXX
 		if (LOG.isTraceEnabled()) {

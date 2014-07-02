@@ -125,6 +125,12 @@
       <version>5.7-alf-20121211</version>
       <scope>provided</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.redpill-linpro.alfresco.translations</groupId>
+      <artifactId>alfresco-swedish-repo</artifactId>
+      <version>${languagepack.version}</version>
+    </dependency>
   </dependencies>
 
 </project>

@@ -51,6 +51,7 @@
 		<!-- This controls which properties will be picked in src/test/properties 
 			for embedded run -->
 		<env>local</env>
+		<languagepack.version>4.2.2.0-SNAPSHOT</languagepack.version>
 	</properties>
 
 	<modules>
