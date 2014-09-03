@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>se.alingsas.alfresco</groupId>
-    <artifactId>ak-base</artifactId>
-    <version>1.2.1.0</version>
-  </parent>
-  <artifactId>ak-share-dm</artifactId>
-  <packaging>amp</packaging>
-  <name>Alingsås Alfresco Share Document Management</name>
-  <description>Alfresco Share Customizations for Alingsås Document Management</description>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>se.alingsas.alfresco</groupId>
+		<artifactId>ak-base</artifactId>
+		<version>1.2.1.0</version>
+	</parent>
+	<artifactId>ak-share-dm</artifactId>
+	<packaging>amp</packaging>
+	<name>Alingsås Alfresco Share Document Management</name>
+	<description>Alfresco Share Customizations for Alingsås Document Management</description>
 
-  <properties>
-    <!-- Defines the target WAR for this AMP. Allowed values: alfresco | 
-      share -->
-    <!-- Defaults to a repository AMP -->
-    <alfresco.client.war>share</alfresco.client.war>
-    <tomcat.home>${tomcat.share.home}</tomcat.home>
-    <tomcat.port>${tomcat.share.port}</tomcat.port>
-    <env>local</env>
-    <jetty.host>localhost</jetty.host>
-    <jetty.port>8080</jetty.port>
-    <alfresco.jetty.host>localhost</alfresco.jetty.host>
-    <alfresco.jetty.port>8080</alfresco.jetty.port>
-    <alfresco.jetty.context>ak-dm-repo</alfresco.jetty.context>
-  </properties>
+	<properties>
+		<!-- Defines the target WAR for this AMP. Allowed values: alfresco | share -->
+		<!-- Defaults to a repository AMP -->
+		<alfresco.client.war>share</alfresco.client.war>
+		<tomcat.home>${tomcat.share.home}</tomcat.home>
+		<tomcat.port>${tomcat.share.port}</tomcat.port>
+		<env>local</env>
+		<jetty.host>localhost</jetty.host>
+		<jetty.port>8080</jetty.port>
+		<alfresco.jetty.host>localhost</alfresco.jetty.host>
+		<alfresco.jetty.port>8080</alfresco.jetty.port>
+		<alfresco.jetty.context>ak-dm-repo</alfresco.jetty.context>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>${alfresco.groupId}</groupId>
-      <artifactId>alfresco-web-framework-commons</artifactId>
-      <scope>provided</scope>
-      <version>${alfresco.version}</version>
-    </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>${alfresco.groupId}</groupId>
+			<artifactId>alfresco-web-framework-commons</artifactId>
+			<scope>provided</scope>
+			<version>${alfresco.version}</version>
+		</dependency>
 
-    <dependency>
-      <groupId>${alfresco.groupId}</groupId>
-      <artifactId>alfresco-share</artifactId>
-      <scope>provided</scope>
-      <version>${alfresco.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>org.redpill-linpro.alfresco.translations</groupId>
-      <artifactId>alfresco-swedish-share</artifactId>
-      <version>${languagepack.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.redpill-linpro.alfresco.translations</groupId>
-      <artifactId>alfresco-swedish-repo</artifactId>
-      <version>${languagepack.version}</version>
-    </dependency>
-  </dependencies>
+		<dependency>
+			<groupId>${alfresco.groupId}</groupId>
+			<artifactId>alfresco-share</artifactId>
+			<scope>provided</scope>
+			<version>${alfresco.version}</version>
+		</dependency>
 
-  <build>
-    <filters>
-      <filter>${app.properties.folder}/application.properties</filter>
-    </filters>
-  </build>
+		<dependency>
+			<groupId>org.redpill-linpro.alfresco.translations</groupId>
+			<artifactId>alfresco-swedish-share</artifactId>
+			<version>${languagepack.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.redpill-linpro.alfresco.translations</groupId>
+			<artifactId>alfresco-swedish-repo</artifactId>
+			<version>${languagepack.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.sharextras</groupId>
+			<artifactId>media-viewers</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<filters>
+			<filter>${app.properties.folder}/application.properties</filter>
+		</filters>
+	</build>
 
 </project>

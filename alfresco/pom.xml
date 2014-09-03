@@ -60,6 +60,17 @@
 		<module>ak-ldapmapper</module>
 	</modules>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.sharextras</groupId>
+				<artifactId>media-viewers</artifactId>
+				<version>2.6.0</version>
+				<scope>runtime</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<reporting>
 		<plugins>
 			<plugin>

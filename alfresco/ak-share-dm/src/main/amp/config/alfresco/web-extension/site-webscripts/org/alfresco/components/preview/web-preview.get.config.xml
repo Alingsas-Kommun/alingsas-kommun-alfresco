@@ -1,5 +1,5 @@
-<!-- <![CDATA[ @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/preview/web-preview.get.config.xml ]]> -->
 <config>
+	<!-- <![CDATA[ @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/preview/web-preview.get.config.xml ]]> -->
 
    <!--
       List of rule to decide which plugin that shall be used to preview the node's content or thumbnails.
