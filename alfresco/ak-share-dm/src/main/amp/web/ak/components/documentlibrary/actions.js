@@ -197,6 +197,9 @@
        */
       getActionUrls: function dlA_getActionUrls(record, siteId)
       {
+         //Alingsås customization begin
+         var currentBrowserBaseUrl = window.location.protocol + "//" +window.location.host;
+         //Alingsås customization end
          var jsNode = record.jsNode,
             nodeRef = jsNode.isLink ? jsNode.linkedNode.nodeRef : jsNode.nodeRef,
             strNodeRef = nodeRef.toString(),
@@ -216,6 +219,9 @@
                downloadUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "?a=true",
                viewUrl:  $combine(Alfresco.constants.PROXY_URI, contentUrl) + "\" target=\"_blank",
                documentDetailsUrl: fnPageURL("document-details?nodeRef=" + strNodeRef),
+               //Alingsås customization begin
+               completeDocumentDetailsUrl: $combine(currentBrowserBaseUrl, fnPageURL("document-details?nodeRef=" + strNodeRef)),
+               //Alingsås customization end
                folderDetailsUrl: fnPageURL("folder-details?nodeRef=" + strNodeRef),
                editMetadataUrl: fnPageURL("edit-metadata?nodeRef=" + strNodeRef),
                inlineEditUrl: fnPageURL("inline-edit?nodeRef=" + strNodeRef),
