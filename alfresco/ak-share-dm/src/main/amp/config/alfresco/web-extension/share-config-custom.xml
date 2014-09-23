@@ -373,9 +373,9 @@
         <evaluator negate="true">evaluator.doclib.action.isWorkingCopy
         </evaluator>
       </action>
-
+ 
       <action id="document-mail-to" type="link" label="ak.actions.mail-to" icon="document-publish">
-        <param name="href">mailto:?subject={jsNode.properties.cm_name}&amp;body={completeDocumentDetailsUrl}</param>
+        <param name="href">{mailtoLink}</param>
       </action>
 
 
