@@ -1,21 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="documentNumberingBehaviour"
-    class="se.alingsas.alfresco.repo.behaviour.DocumentNumberingPolicy"
-    init-method="init" depends-on="ak.dictionaryBootstrap">
+  <!-- Abstract policy bean which contain common bean references -->
+  <bean id="ak.abstractPolicy" class="se.alingsas.alfresco.repo.behaviour.AbstractPolicy" abstract="true">
+    <property name="nodeService" ref="NodeService" />
+    <property name="permissionService" ref="PermissionService" />
+    <property name="policyComponent" ref="policyComponent" />
+    <property name="behaviourFilter" ref="policyBehaviourFilter" />
+    <property name="lockService" ref="LockService" />
+  </bean>
+
+  <bean id="documentNumberingBehaviour" class="se.alingsas.alfresco.repo.behaviour.DocumentNumberingPolicy" init-method="init" depends-on="ak.dictionaryBootstrap">
     <property name="policyComponent" ref="policyComponent" />
     <property name="documentNumberUtil" ref="documentNumberUtil" />
     <property name="behaviourFilter" ref="policyBehaviourFilter" />
     <property name="nodeService" ref="NodeService" />
   </bean>
 
-  <bean id="documentStatusMissingWorkaround"
-    class="se.alingsas.alfresco.repo.behaviour.DocumentStatusMissingWorkaroundPolicy"
-    init-method="init" depends-on="ak.dictionaryBootstrap">
+  <bean id="documentStatusMissingWorkaround" class="se.alingsas.alfresco.repo.behaviour.DocumentStatusMissingWorkaroundPolicy" init-method="init" depends-on="ak.dictionaryBootstrap">
     <property name="policyComponent" ref="policyComponent" />
     <property name="behaviourFilter" ref="policyBehaviourFilter" />
     <property name="serviceRegistry" ref="ServiceRegistry" />

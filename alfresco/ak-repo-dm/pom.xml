@@ -133,6 +133,11 @@
       <groupId>org.sharextras</groupId>
       <artifactId>media-viewers</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.redpill-linpro.alfresco.module</groupId>
+      <artifactId>findwise-integration</artifactId>
+      <version>4.1.7.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
 
