@@ -747,7 +747,7 @@
          if (appProgID !== null)
          {
             // Ensure we have the record's onlineEditUrl populated
-            if (!$isValueSet(record.onlineEditUrl))
+            if (!$isValueSet(record.onlineEditUrl) || record.webdavUrl.indexOf("/webdav/User")!=-1)
             {
                 //Alingsås customization start
                if (loc.site==undefined) {
