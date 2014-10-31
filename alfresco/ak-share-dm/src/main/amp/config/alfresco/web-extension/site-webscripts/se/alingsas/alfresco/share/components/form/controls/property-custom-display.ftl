@@ -1,4 +1,4 @@
-<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/form/controls/selectone.ftl -->
+<#-- @overridden projects/web-framework-commons/config/alfresco/site-webscripts/org/alfresco/components/form/controls/selectone.ftl -->
 <#include "/org/alfresco/components/form/controls/common/utils.inc.ftl" />
 
 <#if field.control.params.optionSeparator??>

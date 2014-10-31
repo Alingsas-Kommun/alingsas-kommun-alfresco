@@ -53,5 +53,5 @@
          <div class="clear"></div>
       </div>
    </div>
-   <div id="${id}-sites" class="body scrollableList" <#if args.height??>style="height: ${args.height}px;"</#if>></div>
+   <div id="${id}-sites" class="body scrollableList" <#if args.height??>style="height: ${args.height?html}px;"</#if>></div>
 </div>

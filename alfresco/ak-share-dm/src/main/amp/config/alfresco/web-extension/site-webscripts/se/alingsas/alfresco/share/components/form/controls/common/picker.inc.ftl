@@ -1,4 +1,4 @@
-<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/form/controls/common/picker.inc.ftl -->
+<#-- @overridden projects/web-framework-commons/config/alfresco/site-webscripts/org/alfresco/components/form/controls/common/picker.inc.ftl -->
 <#assign compactMode = field.control.params.compactMode!false>
 
 <#macro renderPickerJS field picker="picker">

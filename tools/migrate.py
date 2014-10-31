@@ -12,11 +12,11 @@ from subprocess import PIPE,Popen
   - the source files in the project
   - the base directory for the alfresco sources to differ from
   - the base directory for the alfresco sources to differ to
-"""
-project_src = '/home/erik/projekt/alfresco-svk/alfresco'
-old_src = '/home/erik/alfresco/source/V4.1.7.3/root/'
-new_src = '/home/erik/alfresco/source/V4.2.2/root/'
 
+"""
+project_src = '/home/mars/Documents/alfresco/alingsas-kommun-alfresco'
+old_src = '/home/mars/Documents/alfresco/alfresco-source/ENTERPRISE/4.1.7.3'
+new_src = '/home/mars/Documents/alfresco/alfresco-source/ENTERPRISE/4.1.9.4'
 """
   Do a diff of two src trees, parse out file names, returns a dict
   with lists
