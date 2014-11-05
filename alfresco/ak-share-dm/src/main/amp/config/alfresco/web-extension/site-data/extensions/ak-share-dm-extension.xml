@@ -1,87 +1,85 @@
 <extension>
-	<modules>
+  <modules>
 
-		<module>
-			<id>Global changes</id>
-			<auto-deploy>true</auto-deploy>
+    <module>
+      <id>Global changes</id>
+      <auto-deploy>true</auto-deploy>
+      <version>${noSnapshotVersion}</version>
+      <!-- No evaluator since these are global changes which always are applied -->
 
-			<!-- No evaluator since these are global changes which always are applied -->
+      <!-- Enhance individual WebScripts when their paths match -->
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.share.customizations
+          </sourcePackageRoot>
+        </customization>
+      </customizations>
+     
+    </module>
+    <module>
+      <id>Public documents site changes</id>
+      <auto-deploy>true</auto-deploy>
+      <version>${noSnapshotVersion}</version>
+      <!-- Base evaluator that decides if any of the customizations, components or configurations should be used -->
+      <evaluator type="site.module.evaluator">
+        <params>
+          <sites>.*</sites>
+          <sitePresets>ak-dm-public</sitePresets>
+          <applyForNonSites>false</applyForNonSites>
+        </params>
+      </evaluator>
 
-			<!-- Enhance individual WebScripts when their paths match -->
-			<customizations>
-				<customization>
-					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations
-					</sourcePackageRoot>
-				</customization>
-			</customizations>
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.public
+          </sourcePackageRoot>
+        </customization>
+      </customizations>
+    </module>
+    <module>
+      <id>Secrecy documents site changes</id>
+      <auto-deploy>true</auto-deploy>
+      <version>${noSnapshotVersion}</version>
+      <!-- Base evaluator that decides if any of the customizations, components or configurations should be used -->
+      <evaluator type="site.module.evaluator">
+        <params>
+          <sites>.*</sites>
+          <sitePresets>ak-dm-secrecy</sitePresets>
+          <applyForNonSites>false</applyForNonSites>
+        </params>
+      </evaluator>
 
-		</module>
-		<module>
-			<id>Public documents site changes</id>
-			<auto-deploy>true</auto-deploy>
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.secrecy
+          </sourcePackageRoot>
+        </customization>
+      </customizations>
+    </module>
+    <module>
+      <id>Templates site changes</id>
+      <auto-deploy>true</auto-deploy>
+      <version>${noSnapshotVersion}</version>
+      <!-- Base evaluator that decides if any of the customizations, components or configurations should be used -->
+      <evaluator type="site.module.evaluator">
+        <params>
+          <sites>.*</sites>
+          <sitePresets>ak-dm-templates</sitePresets>
+          <applyForNonSites>false</applyForNonSites>
+        </params>
+      </evaluator>
 
-			<!-- Base evaluator that decides if any of the customizations, components 
-				or configurations should be used -->
-			<evaluator type="site.module.evaluator">
-				<params>
-					<sites>.*</sites>
-					<sitePresets>ak-dm-public</sitePresets>
-					<applyForNonSites>false</applyForNonSites>
-				</params>
-			</evaluator>
-			
-			<customizations>
-				<customization>
-					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.public
-					</sourcePackageRoot>
-				</customization>
-			</customizations>
-		</module>
-		<module>
-			<id>Secrecy documents site changes</id>
-			<auto-deploy>true</auto-deploy>
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.templates
+          </sourcePackageRoot>
+        </customization>
+      </customizations>
+    </module>
 
-			<!-- Base evaluator that decides if any of the customizations, components 
-				or configurations should be used -->
-			<evaluator type="site.module.evaluator">
-				<params>
-					<sites>.*</sites>
-					<sitePresets>ak-dm-secrecy</sitePresets>
-					<applyForNonSites>false</applyForNonSites>
-				</params>
-			</evaluator>
-			
-			<customizations>
-				<customization>
-					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.secrecy
-					</sourcePackageRoot>
-				</customization>
-			</customizations>
-		</module>
-		<module>
-			<id>Templates site changes</id>
-			<auto-deploy>true</auto-deploy>
-
-			<!-- Base evaluator that decides if any of the customizations, components 
-				or configurations should be used -->
-			<evaluator type="site.module.evaluator">
-				<params>
-					<sites>.*</sites>
-					<sitePresets>ak-dm-templates</sitePresets>
-					<applyForNonSites>false</applyForNonSites>
-				</params>
-			</evaluator>
-			
-			<customizations>
-				<customization>
-					<targetPackageRoot>org.alfresco</targetPackageRoot>
-					<sourcePackageRoot>se.alingsas.alfresco.share.customizations-site.templates
-					</sourcePackageRoot>
-				</customization>
-			</customizations>
-		</module>
-	</modules>
+  </modules>
 </extension>

@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/documentlibrary/documentlist.get.html.ftl -->
 <@markup id="customDocLibView" target="documentListContainer" action="after">
     <script type="text/javascript">//<![CDATA[
         YAHOO.Bubbling.subscribe("postSetupViewRenderers", function(layer, args) {

@@ -1,4 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
+<!-- <![CDATA[ @overridden projects/slingshot/config/alfresco/site-data/template-instances/document-details.xml ]]> -->
 <template-instance>
 	<template-type>org/alfresco/document-details</template-type>
 	<properties>

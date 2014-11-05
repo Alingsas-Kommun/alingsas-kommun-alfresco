@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/modules/header/sites.get.html.ftl -->
 <#assign siteActive = args.siteId?? && (siteTitle?length > 0)>
 <#assign id = args.htmlid?html>
 <#assign id_js = id?js_string>

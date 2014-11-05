@@ -1,3 +1,4 @@
+<#-- @overridden projects/web-framework-commons/config/alfresco/site-webscripts/org/alfresco/components/form/controls/association.ftl -->
 <#include "/org/alfresco/components/form/controls/common/picker.inc.ftl" />
 
 <#assign controlId = fieldHtmlId + "-cntrl">

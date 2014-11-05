@@ -7,12 +7,12 @@
 	<parent>
 		<groupId>com.redpill-linpro.alfresco</groupId>
 		<artifactId>alfresco-base</artifactId>
-		<version>1.1.1.3</version>
+		<version>1.1.1.5</version>
 	</parent>
 
 	<groupId>se.alingsas.alfresco</groupId>
 	<artifactId>ak-base</artifactId>
-	<version>1.2.0.3</version>
+	<version>1.2.1.0</version>
 	<packaging>pom</packaging>
 	<name>Alfresco Base Project for Alingsås Document Management</name>
 	<inceptionYear>2013</inceptionYear>
@@ -45,12 +45,13 @@
 		properties see the alfresco-sdk-parent POM. -->
 	<properties>
 		<alfresco.groupId>org.alfresco.enterprise</alfresco.groupId>
-		<alfresco.version>4.1.7.3</alfresco.version>
-		<app.log.root.level>TRACE</app.log.root.level>
+		<alfresco.version>4.1.9.4</alfresco.version>
+		<app.log.root.level>INFO</app.log.root.level>
 		<alfresco.data.location>alf_data_dev</alfresco.data.location>
 		<!-- This controls which properties will be picked in src/test/properties 
 			for embedded run -->
 		<env>local</env>
+		<languagepack.version>4.2.2.0-SNAPSHOT</languagepack.version>
 	</properties>
 
 	<modules>
@@ -58,6 +59,17 @@
 		<module>ak-share-dm</module>
 		<module>ak-ldapmapper</module>
 	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.sharextras</groupId>
+				<artifactId>media-viewers</artifactId>
+				<version>2.6.0</version>
+				<scope>runtime</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<reporting>
 		<plugins>

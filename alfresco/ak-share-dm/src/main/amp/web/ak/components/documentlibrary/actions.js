@@ -1,3 +1,4 @@
+//@overridden projects/slingshot/source/web/components/documentlibrary/actions.js
 /**
  * Copyright (C) 2005-2012 Alfresco Software Limited.
  *
@@ -196,6 +197,9 @@
        */
       getActionUrls: function dlA_getActionUrls(record, siteId)
       {
+         //Alingsås customization begin
+         var currentBrowserBaseUrl = window.location.protocol + "//" +window.location.host;    
+         
          var jsNode = record.jsNode,
             nodeRef = jsNode.isLink ? jsNode.linkedNode.nodeRef : jsNode.nodeRef,
             strNodeRef = nodeRef.toString(),
@@ -209,12 +213,17 @@
                {
                   site: YAHOO.lang.isString(siteId) ? siteId : recordSiteId
                });
-            }, this),
-            actionUrls =
+            }, this);
+
+          var currentMailToLink = "mailto:?subject=" + encodeURIComponent(jsNode.properties.cm_name) + "&amp;body=" + encodeURIComponent($combine(currentBrowserBaseUrl, fnPageURL("document-details?nodeRef=" + strNodeRef)));
+          var actionUrls =
             {
                downloadUrl: $combine(Alfresco.constants.PROXY_URI, contentUrl) + "?a=true",
                viewUrl:  $combine(Alfresco.constants.PROXY_URI, contentUrl) + "\" target=\"_blank",
                documentDetailsUrl: fnPageURL("document-details?nodeRef=" + strNodeRef),
+               //Alingsås customization begin
+               mailtoLink: currentMailToLink,
+               //Alingsås customization end
                folderDetailsUrl: fnPageURL("folder-details?nodeRef=" + strNodeRef),
                editMetadataUrl: fnPageURL("edit-metadata?nodeRef=" + strNodeRef),
                inlineEditUrl: fnPageURL("inline-edit?nodeRef=" + strNodeRef),
@@ -226,7 +235,7 @@
                explorerViewUrl: $combine(this.options.repositoryUrl, "/n/showSpaceDetails/", nodeRefUri) + "\" target=\"_blank",
                cloudViewUrl: $combine(Alfresco.constants.URL_SERVICECONTEXT, "cloud/cloudUrl?nodeRef=" +strNodeRef)
             };
-         
+         //Alingsås customization end
          actionUrls.sourceRepositoryUrl = this.viewInSourceRepositoryURL(record, actionUrls) + "\" target=\"_blank";
 
          return actionUrls;
@@ -738,7 +747,7 @@
          if (appProgID !== null)
          {
             // Ensure we have the record's onlineEditUrl populated
-            if (!$isValueSet(record.onlineEditUrl))
+            if (!$isValueSet(record.onlineEditUrl) || record.webdavUrl.indexOf("/webdav/User")!=-1)
             {
                 //Alingsås customization start
                if (loc.site==undefined) {

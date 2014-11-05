@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/dashlets/my-tasks.get.html.ftl -->
 <#assign id = args.htmlid>
 <#assign jsid = args.htmlid?js_string>
 <script type="text/javascript">//<![CDATA[
@@ -65,7 +66,7 @@
       </span>
       <div class="clear"></div>
    </div>
-   <div class="body scrollableList" <#if args.height??>style="height: ${args.height}px;"</#if>>
+   <div class="body scrollableList" <#if args.height??>style="height: ${args.height?html}px;"</#if>>
       <div id="${id}-tasks"></div>
    </div>
 </div>

@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/dashlets/my-sites.get.html.ftl -->
 <#assign id = args.htmlid>
 <#assign dashboardconfig=config.scoped['Dashboard']['dashboard']>
 <#assign jsid = args.htmlid?js_string>
@@ -52,5 +53,5 @@
          <div class="clear"></div>
       </div>
    </div>
-   <div id="${id}-sites" class="body scrollableList" <#if args.height??>style="height: ${args.height}px;"</#if>></div>
+   <div id="${id}-sites" class="body scrollableList" <#if args.height??>style="height: ${args.height?html}px;"</#if>></div>
 </div>

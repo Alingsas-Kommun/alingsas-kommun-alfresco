@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/documentlibrary/actions-common.get.head.ftl -->
 <#include "../component.head.inc">
 <#-- Document Library Actions: Supports concatenated JavaScript files via build scripts -->
 <#if DEBUG>

@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/workflow/workflow-list-toolbar.get.html.ftl -->
 <#assign el=args.htmlid?js_string>
 <div id="${el}-body" class="workflow-list-toolbar toolbar">
    <div id="${el}-headerBar" class="header-bar flat-button theme-bg-2">

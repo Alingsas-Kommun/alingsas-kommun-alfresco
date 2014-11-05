@@ -1,3 +1,4 @@
+<#-- @overridden projects/web-framework-commons/config/alfresco/site-webscripts/org/alfresco/components/form/controls/workflow/packageitems.ftl -->
 <#include "/org/alfresco/components/form/controls/association.ftl" />
 
 <#macro setPackageItemOptions field>

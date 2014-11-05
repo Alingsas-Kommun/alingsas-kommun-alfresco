@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-versions.get.html.ftl -->
 <#if allowNewVersionUpload??>
    <#if workingCopyVersion??>
       <!-- No version component is displayed since it is a working copy -->

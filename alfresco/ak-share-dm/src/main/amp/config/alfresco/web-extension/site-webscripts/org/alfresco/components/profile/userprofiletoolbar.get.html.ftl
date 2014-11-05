@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/profile/userprofiletoolbar.get.html.ftl -->
 <#assign activePage = page.url.templateArgs.pageid?lower_case!"">
 <div id="${args.htmlid}-body" class="toolbar userprofile">
 	<div class="link">

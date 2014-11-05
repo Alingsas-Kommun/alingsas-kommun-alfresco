@@ -1,3 +1,4 @@
+<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-workflows.get.html.ftl -->
 <#if workflows??>
    <#include "../../include/alfresco-macros.lib.ftl" />
    <#assign el=args.htmlid?js_string>

@@ -76,28 +76,23 @@ public class DocumentNumberingPolicy implements NodeServicePolicies.OnUpdateNode
    */
   @Override
   public void onUpdateNode(NodeRef nodeRef) {
-    try {
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("onUpdateNode");
-      }
-      if (nodeService.exists(nodeRef)) {
-        if (!nodeService.hasAspect(nodeRef, ContentModel.ASPECT_WORKING_COPY)) {
-          behaviourFilter.disableBehaviour(nodeRef);
-          documentNumberUtil.setDocumentNumber(nodeRef, false);
-          behaviourFilter.enableBehaviour(nodeRef);
-        } else {
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Node is working copy, will not generate a new document number");
-          }
-        }
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("onUpdateNode");
+    }
+    if (nodeService.exists(nodeRef)) {
+      if (!nodeService.hasAspect(nodeRef, ContentModel.ASPECT_WORKING_COPY)) {
+        behaviourFilter.disableBehaviour(nodeRef);
+        documentNumberUtil.setDocumentNumber(nodeRef, false);
+        behaviourFilter.enableBehaviour(nodeRef);
       } else {
         if (LOG.isTraceEnabled()) {
-          LOG.trace("Node does not exist " + nodeRef.toString());
+          LOG.trace("Node is working copy, will not generate a new document number");
         }
       }
-
-    } catch (Exception e) {
-      LOG.error("Failed to generate document number for node", e);
+    } else {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("Node does not exist " + nodeRef.toString());
+      }
     }
 
   }
@@ -112,27 +107,23 @@ public class DocumentNumberingPolicy implements NodeServicePolicies.OnUpdateNode
    */
   @Override
   public void onCopyComplete(QName classRef, NodeRef sourceNodeRef, NodeRef targetNodeRef, boolean copyToNewNode, Map<NodeRef, NodeRef> copyMap) {
-    try {
-      if (LOG.isTraceEnabled()) {
-        LOG.trace("onCopyComplete");
-      }
-      if (nodeService.exists(targetNodeRef)) {
-        if (!nodeService.hasAspect(targetNodeRef, ContentModel.ASPECT_WORKING_COPY)) {
-          behaviourFilter.disableBehaviour(targetNodeRef);
-          documentNumberUtil.setDocumentNumber(targetNodeRef, false);
-          behaviourFilter.enableBehaviour(targetNodeRef);
-        } else {
-          if (LOG.isTraceEnabled()) {
-            LOG.trace("Node is working copy, will not generate a new document number");
-          }
-        }
+    if (LOG.isTraceEnabled()) {
+      LOG.trace("onCopyComplete");
+    }
+    if (nodeService.exists(targetNodeRef)) {
+      if (!nodeService.hasAspect(targetNodeRef, ContentModel.ASPECT_WORKING_COPY)) {
+        behaviourFilter.disableBehaviour(targetNodeRef);
+        documentNumberUtil.setDocumentNumber(targetNodeRef, false);
+        behaviourFilter.enableBehaviour(targetNodeRef);
       } else {
         if (LOG.isTraceEnabled()) {
-          LOG.trace("Node does not exist " + targetNodeRef.toString());
+          LOG.trace("Node is working copy, will not generate a new document number");
         }
       }
-    } catch (Exception e) {
-      LOG.error("Failed to generate document number for node", e);
+    } else {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("Node does not exist " + targetNodeRef.toString());
+      }
     }
   }
 
