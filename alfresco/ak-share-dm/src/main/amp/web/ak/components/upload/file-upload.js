@@ -233,6 +233,11 @@
             if (this.hasRequiredFlashPlayer && YAHOO.env.ua.ie == 0) {
               this.canAccessSession = false;
             	this.hasRequiredFlashPlayer = this.canAccessSession;
+            }else if ((window.location.pathname.indexOf("/share/page/user/") == 0) && (window.location.pathname.indexOf("profile") == window.location.pathname.length - 7)) {
+              //Disable flash uploader on profile page
+              //Broken in 4.1.9.4
+              this.canAccessSession = false;
+              this.hasRequiredFlashPlayer = this.canAccessSession;
             }
             /**
              * Alingsås customization end
