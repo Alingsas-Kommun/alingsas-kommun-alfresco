@@ -12,11 +12,12 @@
    <#if activeUserProfile>
       <#if following &gt; -1>
    <div class="separator">&nbsp;</div>
-   <div class="link"><a href="following" <#if activePage=="following">class="activePage theme-color-4"</#if>>${msg("link.following")} (${following})</a></div>
+   <#-- #25842 - Removed (${following}) due to language pack incompatability -->
+   <div class="link"><a href="following" <#if activePage=="following">class="activePage theme-color-4"</#if>>${msg("link.following", following)}</a></div>
       </#if>
       <#if followers &gt; -1>
    <div class="separator">&nbsp;</div>
-   <div class="link"><a href="followers" <#if activePage=="followers">class="activePage theme-color-4"</#if>>${msg("link.followers")} (${followers})</a></div>
+   <div class="link"><a href="followers" <#if activePage=="followers">class="activePage theme-color-4"</#if>>${msg("link.followers", following)}</a></div>
       </#if>
       <#if user.capabilities.isMutable>
    <div class="separator">&nbsp;</div>
