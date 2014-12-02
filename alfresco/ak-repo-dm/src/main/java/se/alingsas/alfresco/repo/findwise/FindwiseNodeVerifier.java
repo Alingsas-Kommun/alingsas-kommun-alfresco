@@ -54,6 +54,16 @@ public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
         }
         result = false;
       }
+      // Check so that only completed documents are published
+      property = (String) nodeService.getProperty(node, AkDmModel.PROP_AKDM_DOC_STATUS);
+      if (AkDmModel.CONST_STATUS_WORKING_DOCUMENT.equalsIgnoreCase(property)) {
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("Verification failed - Document is not completed");
+        }
+        result = false;
+      }
+      
+      
     }
 
     if (LOG.isDebugEnabled() && !result) {

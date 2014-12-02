@@ -109,5 +109,8 @@ public interface AkDmModel {
 
   public static final String CONST_SECRECY_STATUS_PUBLIC = "Offentligt";
   public static final String CONST_SECRECY_STATUS_SECRET = "Sekretessbelagt";
+  
+  public static final String CONST_STATUS_WORKING_DOCUMENT = "Arbetsdokument";
+  public static final String CONST_STATUS_COMPLETED_DOCUMENT = "Färdigt dokument";
 
 }
