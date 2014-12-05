@@ -16,3 +16,4 @@ rebel.xml
 /alfresco/sharepoint/target/
 
 alf_data_dev
+*.sh
