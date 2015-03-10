@@ -23,6 +23,8 @@
 package se.alingsas.alfresco.repo.findwise;
 
 import org.alfresco.service.cmr.repository.NodeRef;
+import org.alfresco.service.cmr.site.SiteInfo;
+import org.alfresco.service.cmr.site.SiteService;
 import org.apache.log4j.Logger;
 import org.redpill.alfresco.repo.findwise.SearchIntegrationService;
 import org.redpill.alfresco.repo.findwise.processor.DefaultVerifierProcessor;
@@ -38,6 +40,11 @@ import se.alingsas.alfresco.repo.model.AkDmModel;
 public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
 
   private static final Logger LOG = Logger.getLogger(FindwiseNodeVerifier.class);
+  protected SiteService siteService;
+
+  public void setSiteService(SiteService siteService) {
+    this.siteService = siteService;
+  }
 
   @Override
   public boolean verifyDocument(final NodeRef node) {
@@ -62,8 +69,15 @@ public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
         }
         result = false;
       }
-      
-      
+      // Check so that only documents within sites are handled
+      SiteInfo site = siteService.getSite(node);
+      if (site == null) {
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("Verification failed - Document is not located within a site");
+        }
+        result = false;
+      }
+
     }
 
     if (LOG.isDebugEnabled() && !result) {

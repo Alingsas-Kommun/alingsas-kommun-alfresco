@@ -7,6 +7,7 @@
   
   <bean id="ak.FindwiseVerifierProcessor" class="se.alingsas.alfresco.repo.findwise.FindwiseNodeVerifier" parent="findwise.verifierProcessor">
     <property name="searchIntegrationService" ref="findwise.service.SearchIntegrationService" />  
+    <property name="siteService" ref="SiteService" />
   </bean>
 
 </beans>
