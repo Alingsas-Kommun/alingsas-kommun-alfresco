@@ -4,7 +4,7 @@
   <parent>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>ak-base</artifactId>
-    <version>1.2.1.1</version>
+    <version>1.3.0</version>
   </parent>
   <artifactId>ak-repo-dm</artifactId>
   <packaging>amp</packaging>
@@ -136,7 +136,7 @@
     <dependency>
       <groupId>org.redpill-linpro.alfresco.findwise</groupId>
       <artifactId>findwise-integration-repo</artifactId>
-      <version>4.1.9.0-SNAPSHOT</version>
+      <version>4.1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
