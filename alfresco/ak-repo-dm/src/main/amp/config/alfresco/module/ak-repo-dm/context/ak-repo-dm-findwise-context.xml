@@ -3,6 +3,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
   <bean id="ak.policy.EnableFindwiseIndexerPolicy" class="se.alingsas.alfresco.repo.behaviour.EnableFindwiseIndexerPolicy" parent="ak.abstractPolicy" depends-on="ak.dictionaryBootstrap">
+    <property name="enabled" value="${findwise.indexing.enabled}" />
   </bean>
   
   <bean id="ak.FindwiseVerifierProcessor" class="se.alingsas.alfresco.repo.findwise.FindwiseNodeVerifier" parent="findwise.verifierProcessor">
