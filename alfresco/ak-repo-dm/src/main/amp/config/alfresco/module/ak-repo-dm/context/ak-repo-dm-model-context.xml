@@ -8,6 +8,8 @@
     <property name="models">
       <list>
         <value>alfresco/module/ak-repo-dm/context/model/akDmModel.xml</value>
+        <!-- Had to bootstrap the workflow model here as well to make patches work -->
+        <value>alfresco/module/ak-repo-dm/context/model/akDmWfModel.xml</value>
       </list>
     </property>
   </bean>
