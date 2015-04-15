@@ -47,8 +47,8 @@
     <alfresco.data.location>alf_data_dev</alfresco.data.location>
     <!-- This controls which properties will be picked in src/test/properties for embedded run -->
     <env>local</env>
-    <languagepack.version>5.0.1</languagepack.version>
-    <findwise.version>4.1.10-SNAPSHOT</findwise.version>
+    <languagepack.version>5.0.3</languagepack.version>
+    <findwise.version>4.1.10</findwise.version>
     <testframework.version>1.0.5</testframework.version>
     <java.source.version>1.6</java.source.version>
     <java.target.version>1.6</java.target.version>
