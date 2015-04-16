@@ -26,7 +26,7 @@
   <bean id="ak.closeRunningWorkflowReceiptsTrigger" class="org.alfresco.util.CronTriggerBean">
     <property name="jobDetail" ref="ak.closeRunningWorkflowReceiptsJobDetail" />
     <property name="scheduler" ref="schedulerFactory" />
-    <property name="enabled" ref="${ak.closeRunningWorkflowReceipts.enabled}" />
+    <property name="enabled" value="${ak.closeRunningWorkflowReceipts.enabled}" />
     <!-- cron expression is set to fire at Every hour every day -->
     <property name="cronExpression" value="${ak.closeRunningWorkflowReceipts.schedule}" />
   </bean>
