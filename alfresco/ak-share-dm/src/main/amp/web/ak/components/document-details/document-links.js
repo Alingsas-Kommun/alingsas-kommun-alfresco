@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * Document links component.
- * 
+ *
  * @namespace Alfresco
  * @class Alfresco.DocumentLinks
  */
@@ -35,7 +35,7 @@
 
    /**
     * DocumentLinks constructor.
-    * 
+    *
     * @param {String} htmlId The HTML id of the parent element
     * @return {Alfresco.DocumentLinks} The new DocumentLinks instance
     * @constructor
@@ -46,10 +46,10 @@
 
       // Initialise prototype properties
       this.hasClipboard = window.clipboardData && window.clipboardData.setData;
-      
+
       return this;
    };
-   
+
    YAHOO.extend(Alfresco.DocumentLinks, Alfresco.component.Base,
    {
       /**
@@ -75,26 +75,26 @@
           * @type string
           */
          siteId: null,
-         
+
          /**
           * File name
-          * 
+          *
           * @property fileName
           * @type string
           */
          fileName: null,
-         
+
          /**
           * The real hostname of the server
           */
          actualHostName: null,
-         
+
          actualHostContext: null
       },
 
       /**
        * Does the browser natively support clipboard data?
-       * 
+       *
        * @property hasClipboard
        * @type boolean
        */
@@ -115,24 +115,24 @@
 
          // Make sure text fields auto select the text on focus
          Event.addListener(Selector.query("input", this.id), "focus", this._handleFocus);
-         
+
          // Alingsås kommun customizations start
-         
+
          // Prefix some of the urls with values from the client
          //Dom.get(this.id + "-page").value = document.location.href;
          Dom.get(this.id + "-page").value = this.options.actualHostName + document.location.pathname + document.location.search;
-         
+
          //Download url
          //var contentUrl = Alfresco.constants.PROXY_URI +"api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
-         var contentUrl = this.options.actualHostName+ this.options.actualHostContext +"/proxy/alfresco/api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
+         var contentUrl = this.options.actualHostName+ this.options.actualHostContext +"/proxy/alfresco/api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName) + "?a=true";
          Dom.get(this.id + "-download").value = contentUrl;
          // Alingsås kommun customizations end
       },
-      
+
       /**
        * called when the "onCopyLinkClick" link has been clicked.
        * Tries to copy URLs to the system clipboard.
-       * 
+       *
        * @method onCopyLinkClick
        * @param rel {string} The Dom Id of the element holding the URL to copy
        */

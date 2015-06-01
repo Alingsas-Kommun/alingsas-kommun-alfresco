@@ -4,7 +4,7 @@
   <parent>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>ak-base</artifactId>
-    <version>1.2.1.1</version>
+    <version>1.3.0</version>
   </parent>
   <artifactId>ak-repo-dm</artifactId>
   <packaging>amp</packaging>
@@ -100,7 +100,6 @@
     <dependency>
       <groupId>org.redpill-linpro.alfresco</groupId>
       <artifactId>alfresco-test-repo</artifactId>
-      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -133,8 +132,9 @@
       <groupId>org.sharextras</groupId>
       <artifactId>media-viewers</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.redpill-linpro.alfresco.findwise</groupId>
+      <artifactId>findwise-integration-repo</artifactId>
+    </dependency>
   </dependencies>
-
-
-
 </project>
