@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  <!-- Clustered excuter, making scheduled jobs work in clusters as well -->
+  <bean id="ak.clusteredExecuter" class="se.alingsas.alfresco.repo.jobs.ClusteredExecuter" abstract="true">
+    <property name="jobLockService" ref="jobLockService" />
+    <property name="transactionService" ref="TransactionService" />
+    <property name="lockTTL" value="30000" />
+    <property name="repositoryState" ref="repositoryState" />
+  </bean>
+  
+  <!-- Expire runnig workflow receipts -->
+  <bean id="ak.closeRunningWorkflowReceipts" class="se.alingsas.alfresco.repo.jobs.CloseRunningWorkflowReceipts" parent="ak.clusteredExecuter">
+    <property name="workflowService" ref="WorkflowService" />
+  </bean>
+
+  <bean id="ak.closeRunningWorkflowReceiptsJobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+    <property name="jobClass" value="se.alingsas.alfresco.repo.jobs.CloseRunningWorkflowReceiptsJob" />
+    <property name="jobDataAsMap">
+      <map>
+        <entry key="closeRunningWorkflowReceipts" value-ref="ak.closeRunningWorkflowReceipts" />
+      </map>
+    </property>
+  </bean>
+
+  <bean id="ak.closeRunningWorkflowReceiptsTrigger" class="org.alfresco.util.CronTriggerBean">
+    <property name="jobDetail" ref="ak.closeRunningWorkflowReceiptsJobDetail" />
+    <property name="scheduler" ref="schedulerFactory" />
+    <property name="enabled" value="${ak.closeRunningWorkflowReceipts.enabled}" />
+    <!-- cron expression is set to fire at Every hour every day -->
+    <property name="cronExpression" value="${ak.closeRunningWorkflowReceipts.schedule}" />
+  </bean>
+
+</beans>
+  

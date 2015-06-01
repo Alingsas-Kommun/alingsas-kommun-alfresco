@@ -25,42 +25,32 @@ package se.alingsas.alfresco.repo.model;
 import org.alfresco.service.namespace.QName;
 
 public interface AkWfModel {
-	/**
-	 * Namespaces
-	 */
-	public static final String AKWF_URI = "http://www.alingsas.se/alfresco/model/wf/1.0";
+  /**
+   * Namespaces
+   */
+  public static final String AKWF_URI = "http://www.alingsas.se/alfresco/model/wf/1.0";
+  public static final String AKWF_SHORT = "akwf";
+  /**
+   * Types
+   */
+  public static final QName TYPE_AKWF_COMPLETE_DOCUMENT = QName.createQName(AKWF_URI, "completeDocument");
+  public static final QName TYPE_AKWF_COMPLETE_DOCUMENT_REVIEW_TASK = QName.createQName(AKWF_URI, "completeDocumentReviewDocumentTask");
+  public static final QName TYPE_AKWF_COMPLETE_DOCUMENT_REVIEW_RESULT_RECEIPT_TASK = QName.createQName(AKWF_URI, "completeDocumentUserReviewResultReceiptTask");
 
-	/**
-	 * Types
-	 */
-	public static final QName TYPE_AKWF_COMPLETE_DOCUMENT = QName.createQName(AKWF_URI,
-			"completeDocument");
-	public static final QName TYPE_AKWF_COMPLETE_DOCUMENT_REVIEW_TASK = QName.createQName(AKWF_URI,
-      "completeDocumentReviewDocumentTask");
-	public static final QName TYPE_AKWF_COMPLETE_DOCUMENT_REVIEW_RESULT_RECEIPT_TASK = QName.createQName(AKWF_URI,
-      "completeDocumentUserReviewResultReceiptTask");
-	
-	/**
-	 * Aspects
-	 */
-	
-	public static final QName ASPECT_AKWF_WORK_INFO = QName.createQName(AKWF_URI,
-      "workInfo");
-	
-	/**
-	 * Properties
-	 */
-	public static final QName PROP_AKWF_COMPLETE_DOCUMENT_REVIEW_OUTCOME = QName.createQName(AKWF_URI,
-      "reviewOutcome");
-	public static final QName PROP_AKWF_RESULT_VARIABLE = QName.createQName(AKWF_URI,
-      "resultVariable");
-	public static final QName PROP_AKWF_TARGET_SITE = QName.createQName(AKWF_URI,
-      "targetSite");
-	public static final QName PROP_AKWF_TARGET_FOLDER = QName.createQName(AKWF_URI,
-      "targetFolder");
-	public static final QName PROP_AKWF_DOCUMENT_SECRECY = QName.createQName(AKWF_URI,
-      "documentSecrecy");
-	
-	
-	
+  public static final QName TYPE_AKWF_REVERT_DOCUMENT_REVIEW_RESULT_RECEIPT_TASK = QName.createQName(AKWF_URI, "revertDocumentReviewReceiptTask");
+  /**
+   * Aspects
+   */
+
+  public static final QName ASPECT_AKWF_WORK_INFO = QName.createQName(AKWF_URI, "workInfo");
+
+  /**
+   * Properties
+   */
+  public static final QName PROP_AKWF_COMPLETE_DOCUMENT_REVIEW_OUTCOME = QName.createQName(AKWF_URI, "reviewOutcome");
+  public static final QName PROP_AKWF_RESULT_VARIABLE = QName.createQName(AKWF_URI, "resultVariable");
+  public static final QName PROP_AKWF_TARGET_SITE = QName.createQName(AKWF_URI, "targetSite");
+  public static final QName PROP_AKWF_TARGET_FOLDER = QName.createQName(AKWF_URI, "targetFolder");
+  public static final QName PROP_AKWF_DOCUMENT_SECRECY = QName.createQName(AKWF_URI, "documentSecrecy");
+
 }

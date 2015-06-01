@@ -51,15 +51,20 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
 
   private static boolean isInitialized = false;
 
+  private boolean enabled = false;
+  
   @Override
   public void afterPropertiesSet() throws Exception {
     super.afterPropertiesSet();
-    if (!isInitialized()) {
+    if (!isInitialized() && enabled) {
+    	isInitialized = true;
       if (LOG.isTraceEnabled())
         LOG.trace("Initialized " + this.getClass().getName());
       policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.TRANSACTION_COMMIT));
       policyComponent.bindClassBehaviour(OnSetNodeTypePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onSetNodeType", NotificationFrequency.TRANSACTION_COMMIT));
 
+    } else if (!enabled) {
+      LOG.info("Findwise indexing is disabled. Change by setting the property findwise.indexing.enabled=true in alfresco-global.properties");
     }
   }
 
@@ -123,5 +128,9 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
 
     nodeService.addAspect(nodeRef, FindwiseIntegrationModel.ASPECT_FINDWISE_INDEXABLE, aspectProperties);
   }
+  
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  } 
 
 }
