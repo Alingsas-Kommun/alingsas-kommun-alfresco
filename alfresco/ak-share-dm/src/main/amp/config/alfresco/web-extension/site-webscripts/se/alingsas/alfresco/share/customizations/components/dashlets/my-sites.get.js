@@ -1,5 +1,6 @@
+//@overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/dashlets/my-sites.get.js
 /*
- * Copyright (C) 2012-2013 Alingsås Kommun
+ * Copyright (C) 2012-2015 Alingsås Kommun
  *
  * This file is part of Alfresco customizations made for Alingsås Kommun
  *
@@ -20,22 +21,14 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.alingsas.alfresco.repo.scripts.ddmigration;
-
-import java.util.Comparator;
-
-import org.alfresco.util.VersionNumber;
-
-public class VersionComparator implements Comparator<AlingsasDocument> {
-
-	@Override
-	public int compare(final AlingsasDocument document1,
-			final AlingsasDocument document2) {
-		final String v1 = document1.version;
-		final String v2 = document2.version;
-
-		// sort the list descending (ie. most recent first)
-		return new VersionNumber(v1).compareTo(new VersionNumber(v2));
-	}
-	
+/**
+ * Disable site creation for certain users
+ */
+function main_customdisablesitecreation()
+{
+  result = remote.call("/alingsas/user/createsiteenabled");
+  // Check if user is allowed to create a site
+  model.showCreateSite = (result.status == 200 && result == "true");   
 }
+
+main_customdisablesitecreation();

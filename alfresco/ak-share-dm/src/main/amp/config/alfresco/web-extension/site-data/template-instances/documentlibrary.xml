@@ -24,6 +24,9 @@
       <component>
          <region-id>actions-common</region-id>
          <url>/components/documentlibrary/actions-common</url>
+         <properties>
+            <dependencyGroup>documentlibrary</dependencyGroup>
+         </properties>
       </component>
 
       <!-- Toolbar -->
@@ -38,6 +41,16 @@
          <url>/components/documentlibrary/documentlist</url>
          <properties>
             <pagination>true</pagination>
+            <dependencyGroup>documentlibrary</dependencyGroup>
+         </properties>
+      </component>
+      
+      <component>
+         <region-id>documentlist_v2</region-id>
+         <url>/components/documentlibrary/documentlist_v2</url>
+         <properties>
+            <pagination>true</pagination>
+            <dependencyGroup>documentlibrary</dependencyGroup>
          </properties>
       </component>
 
@@ -103,15 +116,10 @@
       <component>
          <region-id>dnd-upload</region-id>
          <url>/components/upload/dnd-upload</url>
-         <sub-components>
-				<sub-component id="default">
-					<evaluations>
-						<evaluation id="guaranteedToHide">
-							<render>false</render>
-						</evaluation>
-					</evaluations>
-				</sub-component>
-			</sub-components>
+      </component>
+      <component>
+         <region-id>archive-and-download</region-id>
+         <url>/components/download/archive</url>
       </component>
 
       <!-- Custom Code -->

@@ -1,8 +1,0 @@
-<webscript>
-  <shortname>Link user homes to site</shortname>
-  <description>Link user homes to site</description>
-  <url>/alingsas/linkuserhome?site={site}</url>
-  <authentication>admin</authentication>
-  <format default="html">argument</format>
-  <family>Alingsås</family>
-</webscript>

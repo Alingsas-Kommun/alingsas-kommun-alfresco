@@ -11,28 +11,34 @@
 //]]></script>
 <div id="${id}-sites-menu" class="yuimenu menu-with-icons">
    <div class="bd">
-      <#assign favDisplay><#if favouriteSites?size != 0>block<#else>none</#if></#assign>
-      <h6 id="${id}-favouritesContainer" class="favourite-sites" style="display: ${favDisplay}">${msg("label.favourite-sites")}</h6>
-      <ul id="${id}-favouriteSites" class="favourite-sites-list separator" style="display: ${favDisplay}">
-      <#if favouriteSites?size != 0>
-         <#list favouriteSites as site>
+
+      <#if showFavourites>
+      <h6 id="${id}-favouritesContainer" class="favourite-sites">${msg("label.favourite-sites")}</h6>
+      <ul id="${id}-favouriteSites" class="favourite-sites-list separator">
+      <#list favouriteSites as site>
          <li>
             <a href="${url.context}/page/site/${site.shortName}/dashboard">${site.title?html}</a>
          </li>
-         </#list>
-      <#else><li></li></#if>
+      </#list>
       </ul>
-      <#assign addFavDisplay><#if (siteActive && !currentSiteIsFav)>block<#else>none</#if></#assign>
-      <ul id="${id}-addFavourite" class="add-favourite-menuitem separator" style="display: ${addFavDisplay}">
-         <li style="display: ${addFavDisplay}">
+      </#if>
+
+      <#if showAddFavourites>
+      <ul id="${id}-addFavourite" class="add-favourite-menuitem separator">
+         <li>
             <a href="#" onclick="Alfresco.util.ComponentManager.get('${id_js}').addAsFavourite(); return false;">${msg("label.add-favourite", siteTitle?html)}</a>
          </li>
       </ul>
-      <ul class="site-finder-menuitem<#if !user.isGuest> separator</#if>">
+      </#if>
+
+      <#if showFindSites>
+      <ul class="site-finder-menuitem">
          <li>
             <a href="${url.context}/page/site-finder">${msg("label.find-sites")}</a>
          </li>
       </ul>
+
+showCreateSite används i nya
       <#if createSiteEnabled>
       <ul class="create-site-menuitem">
          <li>

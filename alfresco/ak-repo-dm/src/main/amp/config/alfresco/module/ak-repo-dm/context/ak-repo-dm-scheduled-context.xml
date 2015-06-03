@@ -8,7 +8,7 @@
     <property name="lockTTL" value="30000" />
     <property name="repositoryState" ref="repositoryState" />
   </bean>
-  
+
   <!-- Expire runnig workflow receipts -->
   <bean id="ak.closeRunningWorkflowReceipts" class="se.alingsas.alfresco.repo.jobs.CloseRunningWorkflowReceipts" parent="ak.clusteredExecuter">
     <property name="workflowService" ref="WorkflowService" />

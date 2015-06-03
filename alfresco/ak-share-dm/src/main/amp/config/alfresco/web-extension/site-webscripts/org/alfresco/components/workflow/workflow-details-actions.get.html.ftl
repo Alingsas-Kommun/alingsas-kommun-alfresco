@@ -1,20 +1,27 @@
 <#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/workflow/workflow-details-actions.get.html.ftl -->
-<#include "../../include/alfresco-macros.lib.ftl" />
-<#assign el=args.htmlid?js_string>
-<#-- Disable cancel action
-<script type="text/javascript">//<![CDATA[
-new Alfresco.component.WorkflowDetailsActions("${el}").setOptions(
-{
-   submitUrl: "${siteURL("my-tasks")}"
-}).setMessages(
-   ${messages}
-);
-//]]></script>
 
+<@markup id="css" >
+   <#-- CSS Dependencies -->
+   <@link href="${url.context}/res/components/workflow/workflow-details-actions.css" group="workflow"/>
+</@>
 
-<div id="${el}-body" class="form-manager workflow-details-actions">
-   <div class="actions hidden">
-      <button id="${el}-cancel">${msg("button.cancelWorkflow")}</button>
-   </div>
-</div>
+<#--
+<@markup id="widgets">
+   <@createWidgets group="workflow"/>
+</@>
+
+<@markup id="html">
+   <@uniqueIdDiv>
+      <#include "../../include/alfresco-macros.lib.ftl" />
+      <#assign el=args.htmlid?html>
+      <div id="${el}-body" class="form-manager workflow-details-actions">
+         <div id="${el}-cancel-button" class="actions hidden">
+            <button id="${el}-cancel">${msg("button.cancelWorkflow")}</button>
+         </div>
+         <div id="${el}-delete-button" class="actions hidden">
+            <button id="${el}-delete">${msg("button.deleteWorkflow")}</button>
+         </div>
+      </div>
+   </@>
+</@>
 -->
