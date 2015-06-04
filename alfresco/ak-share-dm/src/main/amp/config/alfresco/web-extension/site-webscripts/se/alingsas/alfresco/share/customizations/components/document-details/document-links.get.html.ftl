@@ -1,5 +1,5 @@
-<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-links.get.html.ftl -->
-
+<#-- // @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-links.get.html.ftl -->
+<#-- Customization which adds a link to download a document and also add server url to prevent JS errors due to post render proxy filtering of urls -->
 <@markup id="ak-js" target="js" action="after">
    <#-- JavaScript Dependencies -->
    <@script src="${url.context}/res/ak/components/document-details/document-links.js" group="document-details"/>

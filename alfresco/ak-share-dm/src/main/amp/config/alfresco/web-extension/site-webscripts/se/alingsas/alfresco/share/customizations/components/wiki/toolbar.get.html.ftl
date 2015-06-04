@@ -1,20 +1,6 @@
 <#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/wiki/toolbar.get.html.ftl -->
 
-<@markup id="css" >
-   <#-- CSS Dependencies -->
-   <@link href="${url.context}/res/components/wiki/toolbar.css" group="wiki"/>
-</@>
-
-<@markup id="js">
-   <#-- JavaScript Dependencies -->
-   <@script src="${url.context}/res/components/wiki/toolbar.js" group="wiki"/>
-</@>
-
-<@markup id="widgets">
-   <@createWidgets group="wiki"/>
-</@>
-
-<@markup id="html">
+<@markup id="ak-html" target="html" action="replace">
    <@uniqueIdDiv>
       <div id="${args.htmlid}-body" class="share-toolbar wiki-toolbar flat-button theme-bg-2">
          <div class="navigation-bar theme-bg-1">

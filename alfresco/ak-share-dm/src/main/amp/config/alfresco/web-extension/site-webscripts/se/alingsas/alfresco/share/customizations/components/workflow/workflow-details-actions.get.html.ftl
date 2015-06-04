@@ -1,16 +1,8 @@
 <#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/workflow/workflow-details-actions.get.html.ftl -->
 
-<@markup id="css" >
-   <#-- CSS Dependencies -->
-   <@link href="${url.context}/res/components/workflow/workflow-details-actions.css" group="workflow"/>
-</@>
+<#-- Disable cancel and delete buttons -->
 
-<#--
-<@markup id="widgets">
-   <@createWidgets group="workflow"/>
-</@>
-
-<@markup id="html">
+<@markup id="ak-html" target="html" action="replace">
    <@uniqueIdDiv>
       <#include "../../include/alfresco-macros.lib.ftl" />
       <#assign el=args.htmlid?html>
@@ -24,4 +16,3 @@
       </div>
    </@>
 </@>
--->

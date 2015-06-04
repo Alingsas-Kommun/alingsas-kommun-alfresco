@@ -1,20 +1,6 @@
 <#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/workflow/workflow-list-toolbar.get.html.ftl -->
 
-<@markup id="css" >
-   <#-- CSS Dependencies -->
-   <@link href="${url.context}/res/components/workflow/workflow-list-toolbar.css" group="workflow"/>
-</@>
-
-<@markup id="js">
-   <#-- JavaScript Dependencies -->
-   <@script src="${url.context}/res/components/workflow/workflow-list-toolbar.js" group="workflow"/>
-</@>
-
-<@markup id="widgets">
-   <@createWidgets group="workflow"/>
-</@>
-
-<@markup id="html">
+<@markup id="ak-html" target="html" action="replace">
    <@uniqueIdDiv>
       <#assign el=args.htmlid?html>
       <div id="${el}-body" class="workflow-list-toolbar toolbar">

@@ -1,30 +1,9 @@
-<#-- @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-workflows.get.html.ftl -->
+<#-- // @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/document-details/document-workflows.get.html.ftl -->
 
-<@markup id="css" >
-   <#-- CSS Dependencies -->
-   <@link href="${url.context}/res/components/document-details/document-workflows.css" group="document-details"/>
-</@>
-
-<@markup id="js">
-   <#-- JavaScript Dependencies -->
-   <@script src="${url.context}/res/components/document-details/document-workflows.js" group="document-details"/>
-</@>
-
-<@markup id="widgets">
-   <#if workflows??>
-      <@createWidgets group="document-details"/>
-      <@inlineScript group="document-details">
-         YAHOO.util.Event.onContentReady("${args.htmlid?js_string}-heading", function() {
-            Alfresco.util.createTwister("${args.htmlid?js_string}-heading", "DocumentWorkflows");
-         });
-      </@>
-   </#if>
-</@>
-
-<@markup id="html">
+<@markup id="ak-html" target="html" action="replace">
    <@uniqueIdDiv>
       <#if workflows??>
-         <#include "../../include/alfresco-macros.lib.ftl" />
+         <#include "/org/alfresco/include/alfresco-macros.lib.ftl" />
          <#assign el=args.htmlid?html>
          <div id="${el}-body" class="document-workflows document-details-panel">
             <h2 id="${el}-heading" class="thin dark">
