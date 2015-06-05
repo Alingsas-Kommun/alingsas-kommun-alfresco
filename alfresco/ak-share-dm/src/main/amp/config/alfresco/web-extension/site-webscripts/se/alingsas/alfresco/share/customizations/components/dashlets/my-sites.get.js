@@ -1,4 +1,4 @@
-//@overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/search/advsearch.get.js
+//@overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/dashlets/my-sites.get.js
 /*
  * Copyright (C) 2012-2015 Alingsås Kommun
  *
@@ -21,10 +21,14 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-function ak_main()
+/**
+ * Disable site creation for certain users
+ */
+function main_customdisablesitecreation()
 {
-	//Force advanced searches to use sites as base
-	model.searchScope = "all_sites";
+  result = remote.call("/alingsas/user/createsiteenabled");
+  // Check if user is allowed to create a site
+  model.showCreateSite = (result.status == 200 && result == "true");   
 }
 
-ak_main();
+main_customdisablesitecreation();

@@ -6,12 +6,12 @@
   <parent>
     <groupId>com.redpill-linpro.alfresco</groupId>
     <artifactId>alfresco-base</artifactId>
-    <version>1.1.1.7</version>
+    <version>2.1.0-SNAPSHOT</version>
   </parent>
 
   <groupId>se.alingsas.alfresco</groupId>
   <artifactId>ak-base</artifactId>
-  <version>1.3.0</version>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Alfresco Base Project for Alingsås Document Management</name>
   <inceptionYear>2013</inceptionYear>
@@ -41,33 +41,27 @@
 
   <!-- | SDK properties have sensible defaults in the SDK parent, | but you can override the properties below to use another version. | For more available properties see the alfresco-sdk-parent POM. -->
   <properties>
-    <alfresco.groupId>org.alfresco.enterprise</alfresco.groupId>
-    <alfresco.version>4.1.9.4</alfresco.version>
+    <alfresco.groupId>org.alfresco</alfresco.groupId>
+    <alfresco.version>5.0.1</alfresco.version>
     <app.log.root.level>ERROR</app.log.root.level>
     <alfresco.data.location>alf_data_dev</alfresco.data.location>
     <!-- This controls which properties will be picked in src/test/properties for embedded run -->
     <env>local</env>
     <languagepack.version>5.0.3</languagepack.version>
-    <findwise.version>4.1.10</findwise.version>
-    <testframework.version>1.0.5</testframework.version>
-    <java.source.version>1.6</java.source.version>
-    <java.target.version>1.6</java.target.version>
+    <findwise.version>5.0.0-SNAPSHOT</findwise.version>
+    <testframework.version>2.1.0-SNAPSHOT</testframework.version>
+    <java.source.version>1.8</java.source.version>
+    <java.target.version>1.8</java.target.version>
   </properties>
 
   <modules>
     <module>ak-repo-dm</module>
     <module>ak-share-dm</module>
-    <module>ak-ldapmapper</module>
+    <!-- <module>ak-ldapmapper</module> -->
   </modules>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.sharextras</groupId>
-        <artifactId>media-viewers</artifactId>
-        <version>2.6.0</version>
-        <scope>runtime</scope>
-      </dependency>
       <dependency>
         <groupId>org.redpill-linpro.alfresco.findwise</groupId>
         <artifactId>findwise-integration-repo</artifactId>
@@ -119,7 +113,7 @@
   <repositories>
     <repository>
       <id>redpill-linpro</id>
-      <url>http://maven.redpill-linpro.com/nexus/content/groups/public</url>
+      <url>https://maven.redpill-linpro.com/nexus/content/groups/public</url>
       <snapshots>
         <enabled>true</enabled>
         <updatePolicy>daily</updatePolicy>
