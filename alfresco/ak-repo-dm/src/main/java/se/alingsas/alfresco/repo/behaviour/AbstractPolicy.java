@@ -27,9 +27,12 @@ import java.util.Map;
 
 import org.alfresco.repo.policy.BehaviourFilter;
 import org.alfresco.repo.policy.PolicyComponent;
+import org.alfresco.service.cmr.dictionary.DictionaryService;
 import org.alfresco.service.cmr.lock.LockService;
+import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.security.PermissionService;
+import org.alfresco.service.cmr.site.SiteService;
 import org.alfresco.service.namespace.QName;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
@@ -44,7 +47,9 @@ import org.springframework.util.Assert;
  */
 
 public abstract class AbstractPolicy implements InitializingBean {
-
+  
+  
+  
   protected NodeService nodeService;
 
   protected PermissionService permissionService;
@@ -54,6 +59,12 @@ public abstract class AbstractPolicy implements InitializingBean {
   protected BehaviourFilter behaviourFilter;
 
   protected LockService lockService;
+  
+  protected FileFolderService fileFolderService;
+
+  protected SiteService siteService;
+  
+  protected DictionaryService dictionaryService;
 
   public void setPolicyComponent(final PolicyComponent policyComponent) {
     this.policyComponent = policyComponent;
@@ -74,6 +85,18 @@ public abstract class AbstractPolicy implements InitializingBean {
   public void setLockService(final LockService lockService) {
     this.lockService = lockService;
   }
+  
+  public void setSiteService(SiteService siteService) {
+    this.siteService = siteService;
+  }
+
+  public void setFileFolderService(FileFolderService fileFolderService) {
+    this.fileFolderService = fileFolderService;
+  }
+  
+  public void setDictionaryService(DictionaryService dictionaryService) {
+    this.dictionaryService = dictionaryService;
+  }
 
   @Override
   public void afterPropertiesSet() throws Exception {
@@ -82,6 +105,9 @@ public abstract class AbstractPolicy implements InitializingBean {
     Assert.notNull(policyComponent, "You must provide an instance of PolicyComponent.");
     Assert.notNull(behaviourFilter, "You must provide an instance of BehaviourFilter.");
     Assert.notNull(lockService, "You must provide an instance of LockService.");
+    Assert.notNull(fileFolderService, "You must provide an instance of FileFolderService");
+    Assert.notNull(siteService, "You must provide an instance of SiteService");
+    Assert.notNull(dictionaryService, "You must provide an instance of DictionaryService");
   }
 
   /**
@@ -115,5 +141,7 @@ public abstract class AbstractPolicy implements InitializingBean {
 
     return false;
   }
+
+
 
 }
