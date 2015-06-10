@@ -55,8 +55,7 @@
 				<title-id>page.akdm.siteDashboard.public.title</title-id>
 				<description>Collaboration site's dashboard page</description>
 				<description-id>page.akdm.siteDashboard.public.description</description-id>
-				<template-instance>dashboard-2-columns-wide-right
-				</template-instance>
+				<template-instance>dashboard-2-columns-wide-right</template-instance>
 				<authentication>user</authentication>
 				<properties>
 					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>
@@ -120,8 +119,7 @@
 				<title-id>page.akdm.siteDashboard.secrecy.title</title-id>
 				<description>Collaboration site's dashboard page</description>
 				<description-id>page.akdm.siteDashboard.secrecy.description</description-id>
-				<template-instance>dashboard-2-columns-wide-right
-				</template-instance>
+				<template-instance>dashboard-2-columns-wide-right</template-instance>
 				<authentication>user</authentication>
 				<properties>
 					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>
@@ -185,8 +183,7 @@
 				<title-id>page.akdm.siteDashboard.template.title</title-id>
 				<description>Collaboration site's dashboard page</description>
 				<description-id>page.akdm.siteDashboard.template.description</description-id>
-				<template-instance>dashboard-2-columns-wide-right
-				</template-instance>
+				<template-instance>dashboard-2-columns-wide-right</template-instance>
 				<authentication>user</authentication>
 				<properties>
 					<sitePages>[{"pageId":"documentlibrary"}]</sitePages>

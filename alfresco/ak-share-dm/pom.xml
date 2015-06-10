@@ -41,17 +41,8 @@
 			<artifactId>alfresco-swedish-share</artifactId>
 			<version>${languagepack.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.redpill-linpro.alfresco.translations</groupId>
-			<artifactId>alfresco-swedish-repo</artifactId>
-			<version>${languagepack.version}</version>
-		</dependency>
 	</dependencies>
 
-	<build>
-		<filters>
-			<filter>${app.properties.folder}/application.properties</filter>
-		</filters>
-	</build>
+
 
 </project>
