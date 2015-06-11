@@ -9,5 +9,11 @@
         <value>alfresco/module/ak-repo-dm/context/model/akDmModel.xml</value>
       </list>
     </property>
+    <property name="labels">
+      <list>
+        <value>alfresco/module/ak-repo-dm/context/messages/ak-dm-model</value>
+      </list>
+    </property>
+    
   </bean>
 </beans>

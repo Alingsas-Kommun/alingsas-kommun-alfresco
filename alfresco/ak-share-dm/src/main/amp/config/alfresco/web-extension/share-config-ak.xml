@@ -7,7 +7,7 @@
 
     <!-- Used by the "Change Type" action Define valid subtypes using the following example: <type name="cm:content"> <subtype name="cm:mysubtype" /> </type> Remember to also add the relevant i18n string(s): type.cm_mysubtype=My SubType -->
     <types>
-      <type name="cm:content">
+      <type name="akdm:document">
         <subtype name="akdm:instruction" />
         <subtype name="akdm:ordinance" />
         <subtype name="akdm:manual" />
@@ -23,8 +23,15 @@
     </types>
 
     <create-content>
+      <content id="folder" label="create-content.folder" icon="folder" index="5" type="javascript">
+        <param name="function">onNewFolder</param>
+      </content>
       <content id="instruction" label="type.akdm_instruction" type="pagelink" index="10" icon="text">
         <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:instruction
+        </param>
+      </content>
+      <content id="document" label="type.akdm_document" type="pagelink" index="15" icon="text">
+        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:document
         </param>
       </content>
       <content id="ordinance" label="type.akdm_ordinance" type="pagelink" index="20" icon="text">
@@ -56,7 +63,8 @@
         <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:issuelist
         </param>
       </content>
-
+    
+    <create-content-by-template>false</create-content-by-template>
 
     </create-content>
   </config>
@@ -66,30 +74,17 @@
     <advanced-search>
       <!-- Forms for the advanced search type list -->
       <forms>
-        <!-- The 'form' config element contains the name of the model type of the form to display. The element supports the following optional attributes: id = form id, the id of "search" will be assumed if not set label = label text to display - defaults to model type if not set labelId = I18N message 
-          id of label text to display description = description text to display descriptionId = I18N message id of description text to display -->
+        <form labelId="search.form.akdm_document.title" descriptionId="search.form.akdm_document.desc">akdm:document</form>
+        <form labelId="search.form.label.cm_folder" descriptionId="search.form.desc.cm_folder">cm:folder</form>
         <form labelId="search.form.akdm_instruction.title" descriptionId="search.form.akdm_instruction.desc">akdm:instruction</form>
-        <form labelId="search.form.akdm_byggreda.title" descriptionId="search.form.akdm_byggreda.desc">akdm:byggredadocument
-        </form>
-        <form labelId="search.form.akdm_ordinance.title" descriptionId="search.form.akdm_ordinance.desc">
-          akdm:ordinance
-        </form>
-        <form labelId="search.form.akdm_listpul.title" descriptionId="search.form.akdm_listpul.desc">akdm:listpul
-        </form>
+        <form labelId="search.form.akdm_byggreda.title" descriptionId="search.form.akdm_byggreda.desc">akdm:byggredadocument</form>
+        <form labelId="search.form.akdm_ordinance.title" descriptionId="search.form.akdm_ordinance.desc">akdm:ordinance</form>
+        <form labelId="search.form.akdm_listpul.title" descriptionId="search.form.akdm_listpul.desc">akdm:listpul</form>
         <form labelId="search.form.akdm_generaldocument.title" descriptionId="search.form.akdm_generaldocument.desc">akdm:generaldocument</form>
-        <form labelId="search.form.akdm_manual.title" descriptionId="search.form.akdm_manual.desc">akdm:manual
-        </form>
+        <form labelId="search.form.akdm_manual.title" descriptionId="search.form.akdm_manual.desc">akdm:manual</form>
         <form labelId="search.form.akdm_internalvalidation.title" descriptionId="search.form.akdm_internalvalidation.desc">akdm:internalvalidation</form>
-        <form labelId="search.form.akdm_protocol.title" descriptionId="search.form.akdm_protocol.desc">akdm:protocol
-        </form>
-        <form labelId="search.form.akdm_issuelist.title" descriptionId="search.form.akdm_issuelist.desc">
-          akdm:issuelist
-        </form>
-        <form labelId="search.form.akdm_document.title" descriptionId="search.form.akdm_document.desc">
-          akdm:document
-        </form>
-        <form labelId="search.form.label.cm_folder" descriptionId="search.form.desc.cm_folder">cm:folder
-        </form>
+        <form labelId="search.form.akdm_protocol.title" descriptionId="search.form.akdm_protocol.desc">akdm:protocol</form>
+        <form labelId="search.form.akdm_issuelist.title" descriptionId="search.form.akdm_issuelist.desc">akdm:issuelist</form>
       </forms>
     </advanced-search>
   </config>
