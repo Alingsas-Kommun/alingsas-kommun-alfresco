@@ -64,7 +64,7 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
     QName nodeType = nodeService.getType(nodeRef);
     if (dictionaryService.isSubClass(nodeType, AkDmModel.TYPE_AKDM_DOCUMENT)) {
       behaviourFilter.disableBehaviour(nodeRef);
-      documentNumberUtil.setDocumentNumber(nodeRef, true);
+      documentNumberUtil.setDocumentNumber(nodeRef, forceNewNumber);
       behaviourFilter.enableBehaviour(nodeRef);
     }
   }

@@ -52,16 +52,16 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
   private static boolean isInitialized = false;
 
   private boolean enabled = false;
-  
+
   @Override
   public void afterPropertiesSet() throws Exception {
     super.afterPropertiesSet();
     if (!isInitialized() && enabled) {
-    	isInitialized = true;
+      isInitialized = true;
       if (LOG.isTraceEnabled())
         LOG.trace("Initialized " + this.getClass().getName());
-      policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.TRANSACTION_COMMIT));
-      policyComponent.bindClassBehaviour(OnSetNodeTypePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onSetNodeType", NotificationFrequency.TRANSACTION_COMMIT));
+      policyComponent.bindClassBehaviour(OnSetNodeTypePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onSetNodeType", NotificationFrequency.EVERY_EVENT));
+      policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.EVERY_EVENT));
 
     } else if (!enabled) {
       LOG.info("Findwise indexing is disabled. Change by setting the property findwise.indexing.enabled=true in alfresco-global.properties");
@@ -74,7 +74,10 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
       LOG.trace(this.getClass().getName() + " onSetNodeType begin");
     }
 
-    // TODO Investigate if this is needed
+    if (allowAddAspect(nodeRef)) {
+      if (dictionaryService.isSubClass(newType, AkDmModel.TYPE_AKDM_DOCUMENT))
+        addFindwiseIndexableAspect(nodeRef);
+    }
 
     if (LOG.isTraceEnabled()) {
       LOG.trace(this.getClass().getName() + " onSetNodeType end");
@@ -105,8 +108,15 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
 
     // Do not update nodes outside the workspace spacesstore
     if (!nodeRef.getStoreRef().equals(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE)) {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Tried to set document metadata on node (" + nodeRef + ") in store " + nodeRef.getStoreRef() + " which is ignored.");
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("Tried to set document metadata on node (" + nodeRef + ") in store " + nodeRef.getStoreRef() + " which is ignored.");
+      }
+      return false;
+    }
+
+    if (nodeService.hasAspect(nodeRef, FindwiseIntegrationModel.ASPECT_FINDWISE_INDEXABLE)) {
+      if (LOG.isTraceEnabled()) {
+        LOG.trace("Node already have findwise aspect. Skipping");
       }
       return false;
     }
@@ -128,9 +138,9 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
 
     nodeService.addAspect(nodeRef, FindwiseIntegrationModel.ASPECT_FINDWISE_INDEXABLE, aspectProperties);
   }
-  
+ 
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
-  } 
+  }
 
 }
