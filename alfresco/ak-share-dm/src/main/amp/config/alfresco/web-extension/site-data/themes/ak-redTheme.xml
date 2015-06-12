@@ -1,5 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <theme>
-	<title>Alingsås Red Theme</title>
-	<title-id>theme.ak-redTheme</title-id>
+  <title>Alingsås Red Theme</title>
+  <title-id>theme.ak-redTheme</title-id>
+  <css-tokens>
+  </css-tokens>
 </theme>
