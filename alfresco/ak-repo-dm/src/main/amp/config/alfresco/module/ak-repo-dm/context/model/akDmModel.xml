@@ -8,22 +8,17 @@
 
   <imports>
     <!-- Import Alfresco System Definitions -->
-    <import uri="http://www.alfresco.org/model/system/1.0"
-      prefix="sys" />
+    <import uri="http://www.alfresco.org/model/system/1.0" prefix="sys" />
     <!-- Import Alfresco Dictionary Definitions -->
-    <import uri="http://www.alfresco.org/model/dictionary/1.0"
-      prefix="d" />
+    <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d" />
     <!-- Import Alfresco Content Domain Model Definitions -->
-    <import uri="http://www.alfresco.org/model/content/1.0"
-      prefix="cm" />
+    <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
     <!-- Import Alfresco Rendition Domain Model Definitions -->
-    <import uri="http://www.alfresco.org/model/rendition/1.0"
-      prefix="rn" />
+    <import uri="http://www.alfresco.org/model/rendition/1.0" prefix="rn" />
   </imports>
 
   <namespaces>
-    <namespace uri="http://www.alingsas.se/alfresco/model/dm/1.0"
-      prefix="akdm" />
+    <namespace uri="http://www.alingsas.se/alfresco/model/dm/1.0" prefix="akdm" />
   </namespaces>
   <constraints>
 
@@ -207,6 +202,12 @@
           <type>d:text</type>
           <mandatory enforced="true">true</mandatory>
           <default>Arbetsdokument</default>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
           <constraints>
             <constraint ref="akdm:docStatusConstraint" />
           </constraints>
@@ -216,6 +217,12 @@
           <type>d:text</type>
           <mandatory>true</mandatory>
           <default>Offentligt</default>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
           <constraints>
             <constraint ref="akdm:secrecyStatusConstraint" />
           </constraints>
@@ -236,6 +243,12 @@
           <title>Group</title>
           <type>d:text</type>
           <mandatory>false</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
           <constraints>
             <constraint ref="akdm:groupConstraint" />
           </constraints>
@@ -250,6 +263,12 @@
           <title>Function</title>
           <type>d:text</type>
           <mandatory>false</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
           <constraints>
             <constraint ref="akdm:functionConstraint" />
           </constraints>
@@ -258,6 +277,12 @@
           <title>Manual</title>
           <type>d:text</type>
           <mandatory>false</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
           <constraints>
             <constraint ref="akdm:manualConstraint" />
           </constraints>
