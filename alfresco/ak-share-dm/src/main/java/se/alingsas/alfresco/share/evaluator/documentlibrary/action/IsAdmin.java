@@ -24,7 +24,6 @@ package se.alingsas.alfresco.share.evaluator.documentlibrary.action;
 
 import org.alfresco.error.AlfrescoRuntimeException;
 import org.alfresco.web.evaluator.BaseEvaluator;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.extensions.surf.RequestContext;
 import org.springframework.extensions.surf.support.ThreadLocalRequestContext;
