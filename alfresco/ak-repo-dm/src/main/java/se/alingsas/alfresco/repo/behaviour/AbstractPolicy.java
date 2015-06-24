@@ -25,6 +25,7 @@ package se.alingsas.alfresco.repo.behaviour;
 import java.io.Serializable;
 import java.util.Map;
 
+import org.alfresco.repo.model.Repository;
 import org.alfresco.repo.policy.BehaviourFilter;
 import org.alfresco.repo.policy.PolicyComponent;
 import org.alfresco.service.cmr.dictionary.DictionaryService;
@@ -48,7 +49,7 @@ import org.springframework.util.Assert;
 
 public abstract class AbstractPolicy implements InitializingBean {
   
-  
+  protected Repository repository;
   
   protected NodeService nodeService;
 
@@ -108,6 +109,7 @@ public abstract class AbstractPolicy implements InitializingBean {
     Assert.notNull(fileFolderService, "You must provide an instance of FileFolderService");
     Assert.notNull(siteService, "You must provide an instance of SiteService");
     Assert.notNull(dictionaryService, "You must provide an instance of DictionaryService");
+    Assert.notNull(repository, "You must provide an instance of Repository");
   }
 
   /**
@@ -140,6 +142,10 @@ public abstract class AbstractPolicy implements InitializingBean {
     }
 
     return false;
+  }
+
+  public void setRepository(Repository repository) {
+    this.repository = repository;
   }
 
 

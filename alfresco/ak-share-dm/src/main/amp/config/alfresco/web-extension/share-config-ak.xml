@@ -7,6 +7,9 @@
 
     <!-- Used by the "Change Type" action Define valid subtypes using the following example: <type name="cm:content"> <subtype name="cm:mysubtype" /> </type> Remember to also add the relevant i18n string(s): type.cm_mysubtype=My SubType -->
     <types>
+      <type name="cm:content">
+        <subtype name="akdm:document" />
+      </type>
       <type name="akdm:document">
         <subtype name="akdm:instruction" />
         <subtype name="akdm:ordinance" />
@@ -15,10 +18,6 @@
         <subtype name="akdm:generaldocument" />
         <subtype name="akdm:economydocument" />
         <subtype name="akdm:byggredadocument" />
-      </type>
-
-      <type name="cm:folder">
-        <subtype name="akdm:folder" />
       </type>
     </types>
 
@@ -63,10 +62,9 @@
         <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:issuelist
         </param>
       </content>
-    
-    <create-content-by-template>false</create-content-by-template>
-
     </create-content>
+
+    <create-content-by-template>false</create-content-by-template>
   </config>
 
 
@@ -150,6 +148,19 @@
         <evaluator negate="true">evaluator.doclib.action.isWorkingCopy</evaluator>
       </action>
 
+      <!-- Edit online AOS -->
+      <!-- Override message bundle -->
+      <action id="document-edit-online-aos" type="javascript" label="actions.document.edit-online-ak" icon="document-edit-online">
+        <param name="function">onActionEditOnlineAos</param>
+        <permissions>
+          <permission allow="true">Write</permission>
+        </permissions>
+        <evaluator>evaluator.doclib.action.isAosOnlineEditAvailable</evaluator>
+        <evaluator>evaluator.doclib.action.notEditBrowser</evaluator>
+        <evaluator negate="true">evaluator.doclib.action.isLockedForAos</evaluator>
+        <evaluator>evaluator.doclib.action.isMimetypeEditableAos</evaluator>
+      </action>
+
       <action id="document-mail-to" type="link" label="ak.actions.mail-to" icon="document-publish">
         <param name="href">{mailtoLink}</param>
       </action>
@@ -179,5 +190,23 @@
       </actionGroup>
 
     </actionGroups>
+  </config>
+
+  <config evaluator="string-compare" condition="Search" replace="true">
+    <search>
+      <!-- default minimum length for search terms -->
+      <min-search-term-length>1</min-search-term-length>
+
+      <!-- default maximum number of results for a search -->
+      <max-search-results>250</max-search-results>
+
+      <!-- Repository search configuration option -->
+      <!-- The 'repository-search' config element value can be one of: none - disable repository wide search option context - search depending on current context, including repository, all sites, current site (default) always - always search full repository no matter what the context, disables search 
+        context options always-options - always search full repository no matter what the context, still shows the search context options -->
+      <repository-search>context</repository-search>
+
+      <!-- default option to display filter pane. Override if solr1 is used. -->
+      <display-facets>true</display-facets>
+    </search>
   </config>
 </alfresco-config>

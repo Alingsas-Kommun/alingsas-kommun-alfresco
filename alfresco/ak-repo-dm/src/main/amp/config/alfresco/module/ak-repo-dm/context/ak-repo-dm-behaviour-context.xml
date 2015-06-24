@@ -4,6 +4,7 @@
 
   <!-- Abstract policy bean which contain common bean references -->
   <bean id="ak.abstractPolicy" class="se.alingsas.alfresco.repo.behaviour.AbstractPolicy" abstract="true">
+    <property name="repository" ref="repositoryHelper" />
     <property name="nodeService" ref="NodeService" />
     <property name="permissionService" ref="PermissionService" />
     <property name="policyComponent" ref="policyComponent" />

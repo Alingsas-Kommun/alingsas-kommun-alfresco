@@ -55,11 +55,11 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       nodeService.setProperty(nodeRef, ContentModel.PROP_AUTO_VERSION_PROPS, true);
     }
   }
-  
+
   protected void setDocumentNumber(NodeRef nodeRef) {
     setDocumentNumber(nodeRef, false);
   }
-  
+
   protected void setDocumentNumber(NodeRef nodeRef, boolean forceNewNumber) {
     QName nodeType = nodeService.getType(nodeRef);
     if (dictionaryService.isSubClass(nodeType, AkDmModel.TYPE_AKDM_DOCUMENT)) {
@@ -137,51 +137,88 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       return false;
     }
 
+    // Do not update nodes outside the workspace spacesstore
+    if (!nodeRef.getStoreRef().equals(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE)) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Tried to set document metadata on node (" + nodeRef + ") in store " + nodeRef.getStoreRef() + " which is ignored.");
+      }
+      return false;
+    }
+
+    QName nodeType = nodeService.getType(nodeRef);
+
+    if (ContentModel.TYPE_THUMBNAIL.equals(nodeType)) {
+      LOG.debug("Node type is cm:thumbnail. Skipping...");
+      return false;
+    }
     try {
-      // Do not update nodes outside the workspace spacesstore
-      if (!nodeRef.getStoreRef().equals(StoreRef.STORE_REF_WORKSPACE_SPACESSTORE)) {
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Tried to set document metadata on node (" + nodeRef + ") in store " + nodeRef.getStoreRef() + " which is ignored.");
-        }
-        return false;
-      }
-
-      QName nodeType = nodeService.getType(nodeRef);
-
-      if (ContentModel.TYPE_THUMBNAIL.equals(nodeType)) {
-        LOG.debug("Node type is cm:thumbnail. Skipping...");
-        return false;
-      }
-
       // Check that the node is not locked by another user
       lockService.checkForLock(nodeRef);
+    } catch (final NodeLockedException nle) {
+      LOG.debug("Tried to set document metadata on locked node: " + nodeRef + " which is ignored.");
+      return false;
+    }
 
+    if (nodeService.hasAspect(nodeRef, ContentModel.ASPECT_WORKING_COPY)) {
+      LOG.debug("Node is working copy, skipping: " + nodeRef);
+      return false;
+    }
+
+    // Check if file is within a sitedoclib , user home or shared files
+    boolean result = true;
+    try {
       // Find out if a node is within the document library. An exception will be
       // thrown if it is not within the document library.
       SiteInfo site = siteService.getSite(nodeRef);
 
       if (site == null) {
         LOG.debug("Not within a site. Skipping...");
-        return false;
+        result = false;
+      } else {
+        NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
+        fileFolderService.getNameOnlyPath(container, nodeRef);
       }
 
-      NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
-      fileFolderService.getNameOnlyPath(container, nodeRef);
-
-      if (nodeService.hasAspect(nodeRef, ContentModel.ASPECT_WORKING_COPY)) {
-        LOG.debug("Node is working copy, skipping: " + nodeRef);
-        return false;
-      }
-
-    } catch (final NodeLockedException nle) {
-      LOG.debug("Tried to set document metadata on locked node: " + nodeRef + " which is ignored.");
-      return false;
     } catch (FileNotFoundException e) {
       LOG.debug("Tried to set document metadata on node outside of document library: " + nodeRef);
-      return false;
+      result = false;
     }
 
-    return true;
+    NodeRef fullyAuthenticatedPersonNodeRef = repository.getFullyAuthenticatedPerson();
+    if (fullyAuthenticatedPersonNodeRef == null) {
+      LOG.debug("Not a valid authenticated user: " + nodeRef);
+      return false;
+    }
+    NodeRef userHomeNodeRef = repository.getUserHome(fullyAuthenticatedPersonNodeRef);
+    NodeRef sharedHomeNodeRef = repository.getSharedHome();
+    NodeRef companyHomeNodeRef = repository.getCompanyHome();
+    try {
+      // Test if node is within user home
+      if (userHomeNodeRef == null || companyHomeNodeRef == userHomeNodeRef) {
+        result = false;
+      } else {
+        fileFolderService.getNameOnlyPath(userHomeNodeRef, nodeRef);
+        result = true;
+      }
+    } catch (FileNotFoundException e) {
+      LOG.debug("Tried to set document metadata on node outside of user home: " + nodeRef);
+      result = false;
+    }
+
+    try {
+      // Test if node is within shared home
+      if (sharedHomeNodeRef == null) {
+        result = false;
+      } else {
+        fileFolderService.getNameOnlyPath(sharedHomeNodeRef, nodeRef);
+        result = true;
+      }
+    } catch (FileNotFoundException e) {
+      LOG.debug("Tried to set document metadata on node outside of shared home: " + nodeRef);
+      result = false;
+    }
+
+    return result;
   }
 
   @Override
@@ -192,7 +229,9 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (LOG.isTraceEnabled())
         LOG.trace("Initialized " + this.getClass().getName());
 
-      //policyComponent.bindClassBehaviour(OnUpdateNodePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onUpdateNode", NotificationFrequency.EVERY_EVENT));
+      // policyComponent.bindClassBehaviour(OnUpdateNodePolicy.QNAME,
+      // ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onUpdateNode",
+      // NotificationFrequency.EVERY_EVENT));
       policyComponent.bindClassBehaviour(OnCopyCompletePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onCopyComplete", NotificationFrequency.TRANSACTION_COMMIT));
 
       policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.EVERY_EVENT));

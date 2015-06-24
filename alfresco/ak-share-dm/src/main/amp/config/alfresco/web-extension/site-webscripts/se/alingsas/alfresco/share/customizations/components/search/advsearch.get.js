@@ -24,7 +24,7 @@
 function ak_main()
 {
 	//Force advanced searches to use sites as base
-	model.searchScope = "all_sites";
+	model.searchScope = "context";
 }
 
 ak_main();
