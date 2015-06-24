@@ -177,6 +177,8 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       } else {
         NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
         fileFolderService.getNameOnlyPath(container, nodeRef);
+        LOG.trace("Document is within a site. Allowing.");
+        return true;
       }
 
     } catch (FileNotFoundException e) {
@@ -194,11 +196,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
     NodeRef companyHomeNodeRef = repository.getCompanyHome();
     try {
       // Test if node is within user home
-      if (userHomeNodeRef == null || companyHomeNodeRef == userHomeNodeRef) {
+      if (userHomeNodeRef == null || companyHomeNodeRef.equals(userHomeNodeRef)) {
+        LOG.trace("User home is company home. Not allowing.");
         result = false;
       } else {
         fileFolderService.getNameOnlyPath(userHomeNodeRef, nodeRef);
         result = true;
+        LOG.trace("Document is within user home. Allowing.");
+        return true;
       }
     } catch (FileNotFoundException e) {
       LOG.debug("Tried to set document metadata on node outside of user home: " + nodeRef);
@@ -212,6 +217,8 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       } else {
         fileFolderService.getNameOnlyPath(sharedHomeNodeRef, nodeRef);
         result = true;
+        LOG.trace("Document is within shared home. Allowing.");
+        return true;
       }
     } catch (FileNotFoundException e) {
       LOG.debug("Tried to set document metadata on node outside of shared home: " + nodeRef);

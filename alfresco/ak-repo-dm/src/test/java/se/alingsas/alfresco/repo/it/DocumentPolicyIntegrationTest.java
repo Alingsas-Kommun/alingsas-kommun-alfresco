@@ -52,10 +52,13 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
 
   private static SiteInfo site;
   private static String siteManagerUser;
+  private static NodeRef siteManagerNodeRef;
   private static NodeRef documentLibrary;
 
   private static final int CREATE_FILE_ITERATIONS = 30;
   private static final int THREADS = 10;
+
+  
 
   @Override
   public void beforeClassSetup() {
@@ -69,7 +72,7 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
 
     // Create a user
     siteManagerUser = "sitemanager" + System.currentTimeMillis();
-    createUser(siteManagerUser);
+    siteManagerNodeRef = createUser(siteManagerUser);
 
     // Make user the site manager of the site
     _siteService.setMembership(site.getShortName(), siteManagerUser, SiteModel.SITE_MANAGER);
@@ -111,6 +114,7 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
 
   @Test
   public void testMultipleFileCreationsInSeparateTransactions() {
+    _authenticationComponent.setCurrentUser(siteManagerUser);
     LOG.debug("Creating " + CREATE_FILE_ITERATIONS + " random files in separate transactions");
     for (int i = 0; i < CREATE_FILE_ITERATIONS; i++) {
       createRandomFile();
@@ -119,32 +123,47 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
   
   @Test
   public void testAlingsasDocumentType() throws FileExistsException, FileNotFoundException {
-    NodeRef nodeRef = createRandomFile();
+    _authenticationComponent.setCurrentUser(siteManagerUser);
+    NodeRef userHomeNodeRef = _repository.getUserHome(siteManagerNodeRef);
+    NodeRef sharedHomeNodeRef = _repository.getSharedHome();
+    NodeRef companyHomeNodeRef = _repository.getCompanyHome();
+    NodeRef nodeRef;
     
-    assertEquals(AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(nodeRef));
+    nodeRef = createRandomFile(userHomeNodeRef);
+    _fileFolderService.move(nodeRef, documentLibrary, null);
+    assertEquals("Node in user home should get new type", AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(nodeRef));
     
-    NodeRef sharedHome = _repository.getSharedHome();
-    nodeRef = createRandomFile(sharedHome);
-    assertEquals("Files in shared folder should not become akdm documents", ContentModel.TYPE_CONTENT, _nodeService.getType(nodeRef));
+    nodeRef = createRandomFile(sharedHomeNodeRef);
+    _fileFolderService.move(nodeRef, documentLibrary, null);
+    assertEquals("Node in shared home should get new type", AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(nodeRef));
+    
+       
+    nodeRef = createRandomFile();
+    
+    assertEquals("Node in a site should get a new type", AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(nodeRef));
+    _authenticationComponent.setCurrentUser(AuthenticationUtil.getAdminUserName());
+    nodeRef = createRandomFile(companyHomeNodeRef);
+    assertEquals("Files in repository folder should not become akdm documents", ContentModel.TYPE_CONTENT, _nodeService.getType(nodeRef));
     
     FileInfo copy = _fileFolderService.copy(nodeRef, documentLibrary, null);
     assertEquals("Copied node should get new type", AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(copy.getNodeRef()));
     
-    nodeRef = createRandomFile(sharedHome);
+    nodeRef = createRandomFile(companyHomeNodeRef);
     _fileFolderService.move(nodeRef, documentLibrary, null);
     assertEquals("Moved node should get new type", AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(nodeRef));
   }
   
   @Test
   public void testNumbering() throws FileExistsException, FileNotFoundException {
+    _authenticationComponent.setCurrentUser(siteManagerUser);
     NodeRef nodeRef = createRandomFile();
     String number = (String) _nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
     assertNotNull(number);
-    
-    NodeRef sharedHome = _repository.getSharedHome();
-    nodeRef = createRandomFile(sharedHome);
+    _authenticationComponent.setCurrentUser(AuthenticationUtil.getAdminUserName());
+    NodeRef companyHome = _repository.getCompanyHome();
+    nodeRef = createRandomFile(companyHome);
     number = (String) _nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
-    assertNull("Documents in shared home should not have numbers", number);
+    assertNull("Documents in repo home should not have numbers", number);
     
     FileInfo copy = _fileFolderService.copy(nodeRef, documentLibrary, null);
     number = (String) _nodeService.getProperty(copy.getNodeRef(), AkDmModel.PROP_AKDM_DOC_NUMBER);
@@ -154,7 +173,7 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
     assertNotNull("Copied documents should have numbers", number2);
     assertNotEquals("Copied documents should get a NEW number", number, number2);
     
-    nodeRef = createRandomFile(sharedHome);
+    nodeRef = createRandomFile(companyHome);
     _fileFolderService.move(nodeRef, documentLibrary, null);
     assertEquals("Moved node should get new type", AkDmModel.TYPE_AKDM_DOCUMENT, _nodeService.getType(nodeRef));
     number = (String) _nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
@@ -163,6 +182,7 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
 
   @Test
   public void testMultipleFileCreationsInOneTransaction() {
+    _authenticationComponent.setCurrentUser(siteManagerUser);
     _transactionHelper.doInTransaction(new RetryingTransactionHelper.RetryingTransactionCallback<Void>() {
 
       @Override
