@@ -21,6 +21,10 @@ disableCreateSite();
 function setDefaultSearchScopeToSite() {
   var searchMenuBase = widgetUtils.findObject(model.jsonModel.widgets, "id", "HEADER_SEARCH");
   //searchMenuBase.config.site = page.url.templateArgs.site; //Does not work
-  searchMenuBase.config.defaultSearchScope = page.url.templateArgs.site;
+  var scope = page.url.templateArgs.site;
+  if (scope===null) {
+  	scope = "all_sites";
+  }
+  searchMenuBase.config.defaultSearchScope = scope;
 }
 setDefaultSearchScopeToSite();
