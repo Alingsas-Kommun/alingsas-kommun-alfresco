@@ -164,6 +164,13 @@
       <action id="document-mail-to" type="link" label="ak.actions.mail-to" icon="document-publish">
         <param name="href">{mailtoLink}</param>
       </action>
+
+      <!-- View document in browser -->
+      <!-- Override and hide! -->
+      <action id="document-view-content" type="link" label="actions.document.view">
+        <param name="href">{viewUrl}</param>
+        <evaluator>se.alingsas.evaluator.doclib.action.IsAdmin</evaluator>
+      </action>
     </actions>
 
 

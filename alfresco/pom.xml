@@ -48,7 +48,7 @@
     <!-- This controls which properties will be picked in src/test/properties for embedded run -->
     <env>local</env>
     <languagepack.version>5.0.6-SNAPSHOT</languagepack.version>
-    <findwise.version>5.0.0</findwise.version>
+    <findwise.version>5.0.1-SNAPSHOT</findwise.version>
     <testframework.version>2.1.1</testframework.version>
     <java.source.version>1.8</java.source.version>
     <java.target.version>1.8</java.target.version>
