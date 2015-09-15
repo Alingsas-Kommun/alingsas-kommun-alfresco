@@ -34,14 +34,16 @@ import se.alingsas.alfresco.repo.model.AkDmModel;
 /**
  * Verifies that a node can be exported to index service
  * 
- * @author Marcus Svensson - Redpill Linpro AB
+ * @author Marcus Svartmark - Redpill Linpro AB
  *
  */
 public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
 
   private static final Logger LOG = Logger.getLogger(FindwiseNodeVerifier.class);
   protected SiteService siteService;
-
+  
+  private static final String SECRET_PRESET = "ak-dm-secrecy";
+  
   public void setSiteService(SiteService siteService) {
     this.siteService = siteService;
   }
@@ -78,6 +80,12 @@ public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
         result = false;
       }
 
+      if (SECRET_PRESET.equalsIgnoreCase(site.getSitePreset())) {
+        if (LOG.isTraceEnabled()) {
+          LOG.trace("Verification failed - Document is not located within a public site");
+        }
+        result = false;
+      }
     }
 
     if (LOG.isDebugEnabled() && !result) {
