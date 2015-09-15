@@ -80,7 +80,7 @@ public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
         result = false;
       }
 
-      if (SECRET_PRESET.equalsIgnoreCase(site.getSitePreset())) {
+      if (site != null && SECRET_PRESET.equalsIgnoreCase(site.getSitePreset())) {
         if (LOG.isTraceEnabled()) {
           LOG.trace("Verification failed - Document is not located within a public site");
         }
