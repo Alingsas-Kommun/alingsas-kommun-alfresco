@@ -176,6 +176,10 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
         result = false;
       } else {
         NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
+        if (container==null) {
+          LOG.trace("Document library does not exist. Denying.");
+          return false;
+        }
         fileFolderService.getNameOnlyPath(container, nodeRef);
         LOG.trace("Document is within a site. Allowing.");
         return true;
