@@ -76,6 +76,7 @@ public class CloseRunningWorkflowReceipts extends ClusteredExecuter {
    * 
    * @param taskQName
    */
+  @SuppressWarnings("deprecation")
   private int cancelAllReceiptTasks(QName taskQName) {
     int counter = 0;
     WorkflowTaskQuery query = new WorkflowTaskQuery();

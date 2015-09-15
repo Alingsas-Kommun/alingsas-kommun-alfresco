@@ -1,4 +1,4 @@
-//@overridden projects/slingshot/source/web/components/document-details/document-links.js
+// @overridden projects/slingshot/source/web/components/document-details/document-links.js
 /**
  * Copyright (C) 2005-2010 Alfresco Software Limited.
  *

@@ -1,8 +1,0 @@
-<filters>
-   <!-- <![CDATA[ @overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/documentlibrary/filter.get.config.xml ]]> -->
-   <filter id="all" label="link.all" />
-   <filter id="editingMe" label="link.editingMe" />
-   <filter id="editingOthers" label="link.editingOthers" />
-   <filter id="recentlyModified" label="link.recentlyModified" />
-   <filter id="recentlyAdded" label="link.recentlyAdded" />
-</filters>

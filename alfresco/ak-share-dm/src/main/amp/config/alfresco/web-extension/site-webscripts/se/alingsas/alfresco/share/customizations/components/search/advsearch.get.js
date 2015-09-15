@@ -1,6 +1,6 @@
 //@overridden projects/slingshot/config/alfresco/site-webscripts/org/alfresco/components/search/advsearch.get.js
 /*
- * Copyright (C) 2012-2013 Alingsås Kommun
+ * Copyright (C) 2012-2015 Alingsås Kommun
  *
  * This file is part of Alfresco customizations made for Alingsås Kommun
  *
@@ -21,15 +21,10 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Advanced Search component GET method
- */
-
-function main()
+function ak_main()
 {
 	//Force advanced searches to use sites as base
-	model.searchRepo = false;
-	// Prepare the model
+	model.searchScope = "context";
 }
 
-main();
+ak_main();

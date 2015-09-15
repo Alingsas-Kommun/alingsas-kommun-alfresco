@@ -1,2 +1,0 @@
-Classpath: .
-Main-Class: se.alingsas.alfresco.migration.ldapmapper.Main

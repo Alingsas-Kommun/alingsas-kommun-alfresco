@@ -4,25 +4,26 @@
 
   <!-- Abstract policy bean which contain common bean references -->
   <bean id="ak.abstractPolicy" class="se.alingsas.alfresco.repo.behaviour.AbstractPolicy" abstract="true">
+    <property name="repository" ref="repositoryHelper" />
     <property name="nodeService" ref="NodeService" />
     <property name="permissionService" ref="PermissionService" />
     <property name="policyComponent" ref="policyComponent" />
     <property name="behaviourFilter" ref="policyBehaviourFilter" />
     <property name="lockService" ref="LockService" />
+    <property name="fileFolderService" ref="FileFolderService" />
+    <property name="siteService" ref="SiteService" />
+    <property name="dictionaryService" ref="DictionaryService" />
   </bean>
 
-  <bean id="documentNumberingBehaviour" class="se.alingsas.alfresco.repo.behaviour.DocumentNumberingPolicy" init-method="init" depends-on="ak.dictionaryBootstrap">
-    <property name="policyComponent" ref="policyComponent" />
+  <bean id="ak.documentPolicy" class="se.alingsas.alfresco.repo.behaviour.DocumentPolicy" depends-on="ak.dictionaryBootstrap" parent="ak.abstractPolicy">
     <property name="documentNumberUtil" ref="documentNumberUtil" />
-    <property name="behaviourFilter" ref="policyBehaviourFilter" />
-    <property name="nodeService" ref="NodeService" />
   </bean>
-
+<!-- DISABLED should not be needed any more 
   <bean id="documentStatusMissingWorkaround" class="se.alingsas.alfresco.repo.behaviour.DocumentStatusMissingWorkaroundPolicy" init-method="init" depends-on="ak.dictionaryBootstrap">
     <property name="policyComponent" ref="policyComponent" />
     <property name="behaviourFilter" ref="policyBehaviourFilter" />
     <property name="serviceRegistry" ref="ServiceRegistry" />
   </bean>
-
+ -->
 
 </beans>
