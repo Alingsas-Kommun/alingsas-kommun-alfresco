@@ -27,6 +27,7 @@
     <property name="serviceRegistry" ref="ServiceRegistry" />
     <property name="repositoryHelper" ref="repositoryHelper" />
     <property name="retryingTransactionHelper" ref="retryingTransactionHelper" />
+    <property name="behaviourFilter" ref="policyBehaviourFilter" />
   </bean>
 
 

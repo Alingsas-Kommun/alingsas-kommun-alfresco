@@ -81,5 +81,26 @@
       </customizations>
     </module>
 
+    <module>
+      <id>Header menu - Hide shared files</id>
+      <version>${project.version}</version>
+      <auto-deploy>false</auto-deploy>
+      <!-- Base evaluator that decides if any of the component bindings should be used at all -->
+      <evaluator type="site.module.evaluator">
+        <params>
+          <sites>.*</sites>
+          <sitePresets>.*</sitePresets>
+          <applyForNonSites>true</applyForNonSites>
+        </params>
+      </evaluator>
+
+      <!-- Apply the following customizations when the base evaluator above passes -->
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.share.headermenu-hidesharedfiles</sourcePackageRoot>
+        </customization>
+      </customizations>
+    </module>
   </modules>
 </extension>
