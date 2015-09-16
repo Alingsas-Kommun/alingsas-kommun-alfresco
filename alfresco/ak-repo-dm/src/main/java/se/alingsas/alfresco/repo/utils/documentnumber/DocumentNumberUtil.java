@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.model.Repository;
+import org.alfresco.repo.policy.BehaviourFilter;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.transaction.RetryingTransactionHelper;
 import org.alfresco.service.ServiceRegistry;
@@ -57,7 +58,8 @@ public class DocumentNumberUtil {
   private ServiceRegistry serviceRegistry;
   private Repository repositoryHelper;
   private RetryingTransactionHelper retryingTransactionHelper;
-
+  protected BehaviourFilter behaviourFilter;
+  
   private static NodeRef cachedFileRef;
 
   public static final String SETTINGS = "Settings";
@@ -86,7 +88,15 @@ public class DocumentNumberUtil {
 
             String documentNumber = retryingTransactionHelper.doInTransaction(new RetryingTransactionHelper.RetryingTransactionCallback<String>() {
               public String execute() throws Throwable {
-                return getNextDocumentNumber();
+                boolean enabled = behaviourFilter.isEnabled();
+                if (enabled) {
+                  behaviourFilter.disableBehaviour();
+                }
+                String nextDocumentNumber = getNextDocumentNumber();
+                if (enabled) {
+                  behaviourFilter.enableBehaviour();
+                }
+                return nextDocumentNumber;
               }
             }, false, false);
 
@@ -216,6 +226,10 @@ public class DocumentNumberUtil {
 
   public void setRetryingTransactionHelper(RetryingTransactionHelper retryingTransactionHelper) {
     this.retryingTransactionHelper = retryingTransactionHelper;
+  }
+  
+  public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
+    this.behaviourFilter = behaviourFilter;
   }
 
 }
