@@ -63,9 +63,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
   protected void setDocumentNumber(NodeRef nodeRef, boolean forceNewNumber) {
     QName nodeType = nodeService.getType(nodeRef);
     if (dictionaryService.isSubClass(nodeType, AkDmModel.TYPE_AKDM_DOCUMENT)) {
-      behaviourFilter.disableBehaviour(nodeRef);
+      boolean enabled = behaviourFilter.isEnabled(nodeRef);
+      if (enabled) {
+        behaviourFilter.disableBehaviour(nodeRef);
+      }
       documentNumberUtil.setDocumentNumber(nodeRef, forceNewNumber);
-      behaviourFilter.enableBehaviour(nodeRef);
+      if (enabled) {
+        behaviourFilter.enableBehaviour(nodeRef);
+      }
     }
   }
 
@@ -176,6 +181,10 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
         result = false;
       } else {
         NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
+        if (container==null) {
+          LOG.trace("Document library does not exist. Denying.");
+          return false;
+        }
         fileFolderService.getNameOnlyPath(container, nodeRef);
         LOG.trace("Document is within a site. Allowing.");
         return true;
