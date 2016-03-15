@@ -13,7 +13,7 @@
   <artifactId>ak-base</artifactId>
   <version>2.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Alfresco Base Project for Alingsås Document Management</name>
+  <name>Alingsås Kommun - Alfresco Base Project</name>
   <inceptionYear>2013</inceptionYear>
   <url>https://code.google.com/p/alingsas-kommun-alfresco/</url>
   <organization>

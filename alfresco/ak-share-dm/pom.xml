@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>ak-share-dm</artifactId>
 	<packaging>amp</packaging>
-	<name>Alingsås Alfresco Share Document Management</name>
+	<name>Alingsås Kommun - Share Document Management</name>
 	<description>Alfresco Share Customizations for Alingsås Document Management</description>
 
 	<properties>
