@@ -8,7 +8,7 @@
   </parent>
   <artifactId>ak-repo-dm</artifactId>
   <packaging>amp</packaging>
-  <name>Alingsås Alfresco Repository Document Management</name>
+  <name>Alingsås Kommun - Repository Document Management</name>
   <description>Alfresco Repository Customizations for Alingsås Document Management</description>
 
   <properties>
