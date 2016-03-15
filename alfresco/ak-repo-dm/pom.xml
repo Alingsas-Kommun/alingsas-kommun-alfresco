@@ -116,6 +116,11 @@
       <version>${languagepack.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.redpill-linpro.alfresco.translations</groupId>
+      <artifactId>alfresco-swedish-mail</artifactId>
+      <version>${languagepack.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.redpill-linpro.alfresco.findwise</groupId>
       <artifactId>findwise-integration-repo</artifactId>
     </dependency>
