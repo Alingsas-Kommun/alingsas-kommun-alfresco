@@ -161,10 +161,6 @@
         <evaluator>evaluator.doclib.action.isMimetypeEditableAos</evaluator>
       </action>
 
-      <action id="document-mail-to" type="link" label="ak.actions.mail-to" icon="document-publish">
-        <param name="href">{mailtoLink}</param>
-      </action>
-
       <!-- View document in browser -->
       <!-- Override and hide! -->
       <action id="document-view-content" type="link" label="actions.document.view">
@@ -184,7 +180,6 @@
         <action index="100" id="document-download" />
         <action index="370" id="document-wf-completeDocument" />
         <action index="405" id="document-wf-revertDocument" />
-        <action index="410" id="document-mail-to" />
       </actionGroup>
 
       <actionGroup id="document-details">
@@ -193,7 +188,6 @@
         <action index="100" id="document-download" />
         <action index="400" id="document-wf-completeDocument" />
         <action index="405" id="document-wf-revertDocument" />
-        <action index="410" id="document-mail-to" />
       </actionGroup>
 
     </actionGroups>
