@@ -39,13 +39,15 @@
     <dependency>
       <groupId>org.redpill-linpro.alfresco.translations</groupId>
       <artifactId>alfresco-swedish-share</artifactId>
-      <version>${languagepack.version}</version>
     </dependency>
     
     <dependency>
       <groupId>org.redpill-linpro.alfresco.email</groupId>
       <artifactId>alfresco-email-share-actions</artifactId>
-      <version>${rl-alfresco-email.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.redpill-linpro.alfresco.statistics</groupId>
+      <artifactId>alfresco-system-usage-statistics-share</artifactId>       
     </dependency>
   </dependencies>
 </project>
