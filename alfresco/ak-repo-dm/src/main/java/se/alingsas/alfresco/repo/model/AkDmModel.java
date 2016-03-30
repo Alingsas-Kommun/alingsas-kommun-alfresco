@@ -85,7 +85,7 @@ public interface AkDmModel {
   public static final QName PROP_AKDM_BYGGREDA_ADDRESS = QName.createQName(AKDM_URI, "byggRedaAddress");
   public static final QName PROP_AKDM_BYGGREDA_LAST_ADDRESS = QName.createQName(AKDM_URI, "byggRedaLastAddress");
   public static final QName PROP_AKDM_BYGGREDA_DECISION = QName.createQName(AKDM_URI, "byggRedaDecision");
-  public static final QName PROP_AKDM_BYGGREDA_FOR = QName.createQName(AKDM_URI, "For");
+  public static final QName PROP_AKDM_BYGGREDA_FOR = QName.createQName(AKDM_URI, "byggRedaFor");
   public static final QName PROP_AKDM_BYGGREDA_ISSUE_PURPOSE = QName.createQName(AKDM_URI, "byggRedaIssuePurpose");
   public static final QName PROP_AKDM_BYGGREDA_NOTE = QName.createQName(AKDM_URI, "byggRedaNote");
   public static final QName PROP_AKDM_BYGGREDA_RECORDS = QName.createQName(AKDM_URI, "byggRedaRecords");
