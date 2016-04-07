@@ -55,42 +55,42 @@ public class ImportDocumentsTest {
 
 		for (int i = 0; i < NUM_SUCCESSFUL_DOCS; i++) {
 			ByggRedaDocument document = new ByggRedaDocument();
-			document.readSuccessfully = true;
-			document.film = Integer.toString(i);
-			document.serialNumber = Integer.toString(i);
-			document.recordNumber = Integer.toString(i) + "."
-					+ Integer.toString(i);
-			document.buildingDescription = "A";
-			document.lastBuildingDescription = "A";
-			document.address = "A";
-			document.lastAddress = "A";
-			document.decision = "A";
-			document.forA = "A";
-			document.issuePurpose = "A";
-			document.note = "A";
-			document.records = "A";
-			document.fileName = "test.pdf";
+			document.setReadSuccessfully(true);
+			document.setFilm(Integer.toString(i));
+			document.setSerialNumber(Integer.toString(i));
+			document.setRecordNumber(Integer.toString(i) + "."
+              + Integer.toString(i));
+			document.setBuildingDescription("A");
+			document.setLastBuildingDescription("A");
+			document.setAddress("A");
+			document.setLastAddress("A");
+			document.setDecision("A");
+			document.setForA("A");
+			document.setIssuePurpose("A");
+			document.setNote("A");
+			document.setRecords("A");
+			document.setFileName("test.pdf");
 			documents.add(document);
 		}
 
 		for (int i = 0; i < NUM_FAILED_DOCS; i++) {
 			ByggRedaDocument document = new ByggRedaDocument();
-			document.readSuccessfully = false;
-			document.statusMsg = "Error";
-			document.film = Integer.toString(i);
-			document.serialNumber = Integer.toString(i);
-			document.recordNumber = Integer.toString(i) + "."
-					+ Integer.toString(i);
-			document.buildingDescription = "A";
-			document.lastBuildingDescription = "A";
-			document.address = "A";
-			document.lastAddress = "A";
-			document.decision = "A";
-			document.forA = "A";
-			document.issuePurpose = "A";
-			document.note = "A";
-			document.records = "A";
-			document.fileName = "test.pdf";
+			document.setReadSuccessfully(false);
+			document.setStatusMsg("Error");
+			document.setFilm(Integer.toString(i));
+			document.setSerialNumber(Integer.toString(i));
+			document.setRecordNumber(Integer.toString(i) + "."
+              + Integer.toString(i));
+			document.setBuildingDescription("A");
+			document.setLastBuildingDescription("A");
+			document.setAddress("A");
+			document.setLastAddress("A");
+			document.setDecision("A");
+			document.setForA("A");
+			document.setIssuePurpose("A");
+			document.setNote("A");
+			document.setRecords("A");
+			document.setFileName("test.pdf");
 			documents.add(document);
 		}
 		
