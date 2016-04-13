@@ -49,7 +49,7 @@
     <env>local</env>
     <languagepack.version>5.1.0-SNAPSHOT</languagepack.version>
     <findwise.version>5.0.1</findwise.version>
-    <rl-alfresco-email.version>1.0.0</rl-alfresco-email.version>
+    <rl-alfresco-email.version>1.0.2</rl-alfresco-email.version>
     <rl-alfresco-system-usage-statistics.version>1.0.0-SNAPSHOT</rl-alfresco-system-usage-statistics.version>
     <testframework.version>2.1.1</testframework.version>
     <java.source.version>1.8</java.source.version>
