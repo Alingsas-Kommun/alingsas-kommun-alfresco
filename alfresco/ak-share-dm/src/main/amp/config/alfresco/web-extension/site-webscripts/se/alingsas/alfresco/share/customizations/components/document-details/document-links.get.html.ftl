@@ -46,11 +46,17 @@
                   <input id="${el}-page" value=""/>
                   <a href="#" name=".onCopyLinkClick" class="${el} hidden">${msg("page.copy")}</a>
                </div>
+              <h3 class="thin dark">${msg("document-details.share.url.preview")}</h3>
+               <div class="link-info">
+                  <input id="${el}-preview" value=""/>
+                  <a href="#" name=".onCopyLinkClick" class="${el} hidden">${msg("page.copy")}</a>
+               </div>
                <h3 class="thin dark">${msg("document-details.share.url.download")}</h3>
                <div class="link-info">
                   <input id="${el}-download" value=""/>
                   <a href="#" name=".onCopyLinkClick" class="${el} hidden">${msg("page.copy")}</a>
                </div>
+
             </div>
          </div>
          </#if>
