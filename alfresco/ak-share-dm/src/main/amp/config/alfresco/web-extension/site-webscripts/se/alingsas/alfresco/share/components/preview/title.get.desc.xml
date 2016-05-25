@@ -1,5 +1,5 @@
 <webscript>
-  <shortname>Quickshare Title</shortname>
-  <description>Quickshare title component</description>
+  <shortname>Preview Title</shortname>
+  <description>Preview title component</description>
   <url>/ak/components/preview/title</url>
 </webscript>

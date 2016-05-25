@@ -1,5 +1,5 @@
 <webscript>
-  <shortname>Quickshare Header</shortname>
-  <description>Quickshare header component.</description>
+  <shortname>Preview Header</shortname>
+  <description>Preview header component.</description>
   <url>/ak/components/preview/header</url>
 </webscript>
