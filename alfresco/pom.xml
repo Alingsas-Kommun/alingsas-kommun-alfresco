@@ -47,7 +47,7 @@
     <alfresco.data.location>alf_data_dev</alfresco.data.location>
     <!-- This controls which properties will be picked in src/test/properties for embedded run -->
     <env>local</env>
-    <languagepack.version>5.1.0-SNAPSHOT</languagepack.version>
+    <languagepack.version>5.0.13</languagepack.version>
     <findwise.version>5.0.1</findwise.version>
     <rl-alfresco-email.version>1.0.2</rl-alfresco-email.version>
     <rl-alfresco-system-usage-statistics.version>1.0.0-SNAPSHOT</rl-alfresco-system-usage-statistics.version>
