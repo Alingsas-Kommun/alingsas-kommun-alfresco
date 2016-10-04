@@ -14,7 +14,7 @@
     {
       var siteDescriptions = Selector.query("span", this.id + "-sitePicker");
       for (var i = 0; i < siteDescriptions.length; i++) {
-        siteDescriptions[i].remove();
+        siteDescriptions[i].innerHTML="";
       }
     }
   }
