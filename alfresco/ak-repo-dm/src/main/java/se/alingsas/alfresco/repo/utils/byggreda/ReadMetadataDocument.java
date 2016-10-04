@@ -82,14 +82,14 @@ public class ReadMetadataDocument {
 				}
 				// Validation and error handling
 				ByggRedaDocument document = parseAndValidate(line);
-				document.lineNumber = lineNumber;
-				if (!document.readSuccessfully) {
+				document.setLineNumber(lineNumber);
+				if (!document.isReadSuccessfully()) {
 					// An error occured, we need to log this
-					LOG.error("Line #"+document.lineNumber+": "+document.statusMsg);
+					LOG.error("Line #"+document.getLineNumber()+": "+document.getStatusMsg());
 				} else {
 					// Document successfully read
-					LOG.debug("Line #"+document.lineNumber+": "+"Successfully read record. , Record number: "
-							+ document.recordDisplay);
+					LOG.debug("Line #"+document.getLineNumber()+": "+"Successfully read record. , Record number: "
+							+ document.getRecordDisplay());
 				}
 				result.add(document);
 			}
@@ -117,79 +117,79 @@ public class ReadMetadataDocument {
 			//If parts were not found, try without quotes
 			parts = StringUtils.delimitedListToStringArray(line, ";");
 		}
-		document.readSuccessfully = false;
+		document.setReadSuccessfully(false);
 		
 		for (String part : parts) {
 			if (part.indexOf(";")!=-1) {
-				document.statusMsg = "Semikolon påträffades i något av fälten på raden";
+				document.setStatusMsg("Semikolon påträffades i något av fälten på raden");
 				return document;
 			}
 		}
 		
 		// Verify that all parts were extracted
 		if (parts.length != 14) {
-			document.statusMsg = "Fel antal delar i rad. Antal delar funna:"
-					+ parts.length + " Förväntat antal delar: " + EXPECTED_NUM_PARTS
-					+ " Rad: " + line;
+			document.setStatusMsg("Fel antal delar i rad. Antal delar funna:"
+              + parts.length + " Förväntat antal delar: " + EXPECTED_NUM_PARTS
+              + " Rad: " + line);
 		} else {
 			// All parts were extracted successfully
 			int i = 0;
-			document.readSuccessfully = true;
-			document.film = parts[i++]; 
-			if (document.film.indexOf("\"")==0) {
+			document.setReadSuccessfully(true);
+			document.setFilm(parts[i++]); 
+			if (document.getFilm().indexOf("\"")==0) {
 				// Remove prefix "
-				document.film = document.film.substring(1);
+				document.setFilm(document.getFilm().substring(1));
 			}				
-			document.serialNumber = parts[i++];
+			document.setSerialNumber(parts[i++]);
 			try {
-				document.recordYear = Integer.parseInt(parts[i++]);
+				document.setRecordYear((Integer) Integer.parseInt(parts[i++]));
 			} catch (NumberFormatException e) {
-				document.readSuccessfully = false;
-				document.statusMsg = "Ogiltigt diarieår";
+				document.setReadSuccessfully(false);
+				document.setStatusMsg("Ogiltigt diarieår");
 				return document;
 			}
-			document.recordNumber =  parts[i++];
-			if (!StringUtils.hasText(document.recordNumber)) {
-				document.readSuccessfully = false;
-				document.statusMsg = "Diarienummer saknas";
+			document.setRecordNumber(parts[i++]);
+			if (!StringUtils.hasText(document.getRecordNumber())) {
+				document.setReadSuccessfully(false);
+				document.setStatusMsg("Diarienummer saknas");
 				return document;
 			}
-			document.recordDisplay = document.recordYear +RECORD_DISPLAY_SEPARATOR+ document.recordNumber; 
-			document.buildingDescription = parts[i++];
-			if (!StringUtils.hasText(document.buildingDescription)) {
-				document.readSuccessfully = false;
-				document.statusMsg = "Fastighetsbeteckning saknas";
+			document.setRecordDisplay(document.getRecordYear() + RECORD_DISPLAY_SEPARATOR + document.getRecordNumber()); 
+			document.setBuildingDescription(parts[i++]);
+			if (!StringUtils.hasText(document.getBuildingDescription())) {
+				document.setReadSuccessfully(false);
+				document.setStatusMsg("Fastighetsbeteckning saknas");
 				return document;
 			}
-			document.lastBuildingDescription = parts[i++];
-			document.address = parts[i++];
-			document.lastAddress = parts[i++];
-			document.decision = parts[i++];
-			document.forA = parts[i++];
-			document.issuePurpose = parts[i++];
-			document.note = parts[i++];
-			document.records = parts[i++];
-			document.fileName = parts[i];
-			if (!StringUtils.hasText(document.fileName)) {
-				document.readSuccessfully = false;
-				document.statusMsg = "Filnamn saknas";
+			document.setLastBuildingDescription(parts[i++]);
+			document.setAddress(parts[i++]);
+			document.setLastAddress(parts[i++]);
+			document.setDecision(parts[i++]);
+			document.setForA(parts[i++]);
+			document.setIssuePurpose(parts[i++]);
+			document.setNote(parts[i++]);
+			document.setRecords(parts[i++]);
+			document.setFileName(parts[i]);
+			if (!StringUtils.hasText(document.getFileName())) {
+				document.setReadSuccessfully(false);
+				document.setStatusMsg("Filnamn saknas");
 				return document;
 			}
-			if (document.fileName.indexOf("\"") ==(document.fileName.length()-1)) {
+			if (document.getFileName().indexOf("\"") ==(document.getFileName().length()-1)) {
 				// Remove postfix " from last part
-				document.fileName = document.fileName.substring(0, document.fileName.length() - 1);
+				document.setFileName(document.getFileName().substring(0, document.getFileName().length() - 1));
 			}
-			document.fileName = CommonFileUtil.parseValidFileName(document.fileName);
-			document.mimetype = CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.fileName));
-			String originalPart1 = document.buildingDescription.substring(0, 1).toUpperCase();
+			document.setFileName(CommonFileUtil.parseValidFileName(document.getFileName()));
+			document.setMimetype(CommonFileUtil.getMimetypeByExtension(FilenameUtils.getExtension(document.getFileName())));
+			String originalPart1 = document.getBuildingDescription().substring(0, 1).toUpperCase();
 			String part1 = CommonFileUtil.parseValidFileName(originalPart1);
-			String originalPart2 = document.buildingDescription.toUpperCase();
+			String originalPart2 = document.getBuildingDescription().toUpperCase();
 			String part2 = CommonFileUtil.parseValidFileName(originalPart2);
-			String originalPart3 = document.recordDisplay + " "+ document.issuePurpose.toUpperCase();
+			String originalPart3 = document.getRecordDisplay() + " "+ document.getIssuePurpose().toUpperCase();
 			String part3 = CommonFileUtil.parseValidFileName(originalPart3);
-			document.path = part1 + "/" + part2 + "/"+ part3;
-			document.originalPath = originalPart1 +"#/#"+originalPart2+"#/#"+originalPart3;
-			document.title = document.recordDisplay+ " " + document.issuePurpose;
+			document.setPath(part1 + "/" + part2 + "/"+ part3);
+			document.setOriginalPath(originalPart1 +"#/#"+originalPart2+"#/#"+originalPart3);
+			document.setTitle(document.getRecordDisplay() + " " + document.getIssuePurpose());
 		}
 		return document;
 	}

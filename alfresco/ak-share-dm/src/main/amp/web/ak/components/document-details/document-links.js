@@ -24,132 +24,127 @@
  * @namespace Alfresco
  * @class Alfresco.DocumentLinks
  */
-(function()
+(function ()
 {
-   /**
-    * YUI Library aliases
-    */
-   var Dom = YAHOO.util.Dom,
-      Event = YAHOO.util.Event,
-      Selector = YAHOO.util.Selector;
+  /**
+   * YUI Library aliases
+   */
+  var Dom = YAHOO.util.Dom,
+          Event = YAHOO.util.Event,
+          Selector = YAHOO.util.Selector;
 
-   /**
-    * DocumentLinks constructor.
-    *
-    * @param {String} htmlId The HTML id of the parent element
-    * @return {Alfresco.DocumentLinks} The new DocumentLinks instance
-    * @constructor
-    */
-   Alfresco.DocumentLinks = function(htmlId)
-   {
-      Alfresco.DocumentLinks.superclass.constructor.call(this, "Alfresco.DocumentLinks", htmlId, []);
+  /**
+   * DocumentLinks constructor.
+   *
+   * @param {String} htmlId The HTML id of the parent element
+   * @return {Alfresco.DocumentLinks} The new DocumentLinks instance
+   * @constructor
+   */
+  Alfresco.DocumentLinks = function (htmlId)
+  {
+    Alfresco.DocumentLinks.superclass.constructor.call(this, "Alfresco.DocumentLinks", htmlId, []);
 
-      // Initialise prototype properties
-      this.hasClipboard = window.clipboardData && window.clipboardData.setData;
+    // Initialise prototype properties
+    this.hasClipboard = window.clipboardData && window.clipboardData.setData;
 
-      return this;
-   };
+    return this;
+  };
 
-   YAHOO.extend(Alfresco.DocumentLinks, Alfresco.component.Base,
-   {
-      /**
-       * Object container for initialization options
-       *
-       * @property options
-       * @type object
-       */
-      options:
-      {
-         /**
-          * Reference to the current document
-          *
-          * @property nodeRef
-          * @type string
-          */
-         nodeRef: null,
+  YAHOO.extend(Alfresco.DocumentLinks, Alfresco.component.Base,
+          {
+            /**
+             * Object container for initialization options
+             *
+             * @property options
+             * @type object
+             */
+            options:
+                    {
+                      /**
+                       * Reference to the current document
+                       *
+                       * @property nodeRef
+                       * @type string
+                       */
+                      nodeRef: null,
+                      /**
+                       * Current siteId, if any.
+                       *
+                       * @property siteId
+                       * @type string
+                       */
+                      siteId: null,
+                      /**
+                       * File name
+                       *
+                       * @property fileName
+                       * @type string
+                       */
+                      fileName: null,
+                      /**
+                       * The real hostname of the server
+                       */
+                      actualHostName: null,
+                      actualHostContext: null
+                    },
+            /**
+             * Does the browser natively support clipboard data?
+             *
+             * @property hasClipboard
+             * @type boolean
+             */
+            hasClipboard: null,
+            /**
+             *
+             *
+             * @method: onReady
+             */
+            onReady: function DocumentLinks_onReady()
+            {
+              // Display copy links
+              if (this.hasClipboard)
+              {
+                Dom.removeClass(Selector.query("a.hidden", this.id), "hidden");
+              }
 
-         /**
-          * Current siteId, if any.
-          *
-          * @property siteId
-          * @type string
-          */
-         siteId: null,
+              // Make sure text fields auto select the text on focus
+              Event.addListener(Selector.query("input", this.id), "focus", this._handleFocus);
 
-         /**
-          * File name
-          *
-          * @property fileName
-          * @type string
-          */
-         fileName: null,
+              // Alingsås kommun customizations start
 
-         /**
-          * The real hostname of the server
-          */
-         actualHostName: null,
+              // Prefix some of the urls with values from the client
+              //Dom.get(this.id + "-page").value = document.location.href;
+              Dom.get(this.id + "-page").value = this.options.actualHostName + document.location.pathname + document.location.search;
 
-         actualHostContext: null
-      },
+              //Preview url
+              Dom.get(this.id + "-preview").value = this.options.actualHostName + this.options.actualHostContext + "/page/preview" + document.location.search;
 
-      /**
-       * Does the browser natively support clipboard data?
-       *
-       * @property hasClipboard
-       * @type boolean
-       */
-      hasClipboard: null,
-
-      /**
-       *
-       *
-       * @method: onReady
-       */
-      onReady: function DocumentLinks_onReady()
-      {
-         // Display copy links
-         if (this.hasClipboard)
-         {
-            Dom.removeClass(Selector.query("a.hidden", this.id), "hidden");
-         }
-
-         // Make sure text fields auto select the text on focus
-         Event.addListener(Selector.query("input", this.id), "focus", this._handleFocus);
-
-         // Alingsås kommun customizations start
-
-         // Prefix some of the urls with values from the client
-         //Dom.get(this.id + "-page").value = document.location.href;
-         Dom.get(this.id + "-page").value = this.options.actualHostName + document.location.pathname + document.location.search;
-
-         //Download url
-         //var contentUrl = Alfresco.constants.PROXY_URI +"api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
-         var contentUrl = this.options.actualHostName+ this.options.actualHostContext +"/proxy/alfresco/api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName) + "?a=true";
-         Dom.get(this.id + "-download").value = contentUrl;
-         // Alingsås kommun customizations end
-      },
-
-      /**
-       * called when the "onCopyLinkClick" link has been clicked.
-       * Tries to copy URLs to the system clipboard.
-       *
-       * @method onCopyLinkClick
-       * @param rel {string} The Dom Id of the element holding the URL to copy
-       */
-      onCopyLinkClick: function DocumentLinks_onCopyLinkClick(rel, anchor)
-      {
-         var link = Dom.getPreviousSibling(anchor);
-         window.clipboardData.setData("Text", link.value);
-      },
-
-      /**
-       * Event handler used to select text in the field when focus is received
-       *
-       * @method _handleFocus
-       */
-      _handleFocus: function DocumentLinks__handleFocus()
-      {
-         this.select();
-      }
-   });
+              //Download url
+              //var contentUrl = Alfresco.constants.PROXY_URI +"api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
+              var contentUrl = this.options.actualHostName + this.options.actualHostContext + "/proxy/alfresco/api/node/content/" + this.options.nodeRef.replace("://", "/") + "/" + encodeURIComponent(this.options.fileName) + "?a=true";
+              Dom.get(this.id + "-download").value = contentUrl;
+              // Alingsås kommun customizations end
+            },
+            /**
+             * called when the "onCopyLinkClick" link has been clicked.
+             * Tries to copy URLs to the system clipboard.
+             *
+             * @method onCopyLinkClick
+             * @param rel {string} The Dom Id of the element holding the URL to copy
+             */
+            onCopyLinkClick: function DocumentLinks_onCopyLinkClick(rel, anchor)
+            {
+              var link = Dom.getPreviousSibling(anchor);
+              window.clipboardData.setData("Text", link.value);
+            },
+            /**
+             * Event handler used to select text in the field when focus is received
+             *
+             * @method _handleFocus
+             */
+            _handleFocus: function DocumentLinks__handleFocus()
+            {
+              this.select();
+            }
+          });
 })();

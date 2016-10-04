@@ -270,9 +270,9 @@ public class ByggRedaUtil implements Runnable {
 
 		@Override
 		public int compare(ByggRedaDocument o1, ByggRedaDocument o2) {
-			if (o1.lineNumber<o2.lineNumber) {
+			if (o1.getLineNumber()<o2.getLineNumber()) {
 				return -1;
-			} else if (o1.lineNumber>o2.lineNumber) {
+			} else if (o1.getLineNumber()>o2.getLineNumber()) {
 				return 1;
 			} else  {
 				return 0;
@@ -309,13 +309,13 @@ public class ByggRedaUtil implements Runnable {
 		Iterator<ByggRedaDocument> it = sortedDocuments.iterator();
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
-			if (!next.readSuccessfully) {
+			if (!next.isReadSuccessfully()) {
 				failedCount++;
 			}
-			if (!next.readSuccessfully || StringUtils.hasText(next.statusMsg)) {
-				logged.append("#" + next.lineNumber + " - "
-						+ next.recordDisplay + " - " + next.buildingDescription
-						+ ": " + next.statusMsg + LINE_BREAK);
+			if (!next.isReadSuccessfully() || StringUtils.hasText(next.getStatusMsg())) {
+				logged.append("#" + next.getLineNumber() + " - "
+						+ next.getRecordDisplay() + " - " + next.getBuildingDescription()
+						+ ": " + next.getStatusMsg() + LINE_BREAK);
 			}
 		}
 		common.append("Sammaställning av importkörning " + LINE_BREAK);
@@ -373,10 +373,10 @@ public class ByggRedaUtil implements Runnable {
 		Iterator<ByggRedaDocument> it = documents.iterator();
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
-			if (next.readSuccessfully) {
-				common.append(next.recordYear + ";");
-				common.append(next.recordNumber + ";");
-				common.append(next.buildingDescription + ";");
+			if (next.isReadSuccessfully()) {
+				common.append(next.getRecordYear() + ";");
+				common.append(next.getRecordNumber() + ";");
+				common.append(next.getBuildingDescription() + ";");
 				// TODO perhaps modify to point to SSO URL
 				String shareURL = "";
 				String shareProtocol = (String) globalProperties
@@ -399,9 +399,9 @@ public class ByggRedaUtil implements Runnable {
 
 				String url = shareURL + "/"
 						+ "proxy/alfresco/api/node/content/"
-						+ next.nodeRef.getStoreRef().getProtocol() + "/"
-						+ next.nodeRef.getStoreRef().getIdentifier() + "/"
-						+ next.nodeRef.getId() + "/" + next.fileName
+						+ next.getNodeRef().getStoreRef().getProtocol() + "/"
+						+ next.getNodeRef().getStoreRef().getIdentifier() + "/"
+						+ next.getNodeRef().getId() + "/" + next.getFileName()
 						+ "?a=true";
 
 				// http://localhost:8081/share/proxy/alfresco/api/node/content/workspace/SpacesStore/abb7a6c6-1329-473e-b1b0-621e7aff4d2c/2012-12-03%20095912%20Output.log?a=true
@@ -595,7 +595,7 @@ public class ByggRedaUtil implements Runnable {
 		Iterator<ByggRedaDocument> it = documentSet.iterator();
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
-			if (next.readSuccessfully) {
+			if (next.isReadSuccessfully()) {
 				ByggRedaDocument importedDocument = importDocument(site,
 						sourcePath, next);
 				result.add(importedDocument);
@@ -618,7 +618,7 @@ public class ByggRedaUtil implements Runnable {
 	private ByggRedaDocument importDocument(SiteInfo site, String sourcePath,
 			ByggRedaDocument document) {
 		final String currentDestinationPath = destinationPath + "/"
-				+ document.path;
+				+ document.getPath();
 		UserTransaction trx = getTransactionService()
 				.getNonPropagatingUserTransaction();
 		
@@ -626,11 +626,11 @@ public class ByggRedaUtil implements Runnable {
 			trx.begin();
 			// Check if file exists already
 			FileInfo repoFileFolder = getRepoFileFolder(site,
-					currentDestinationPath + "/" + document.fileName);
+					currentDestinationPath + "/" + document.getFileName());
 			if (repoFileFolder != null) {
 				if (this.updateExisting) {
 					try {
-						String fullFilenamePath = checkFileExistsIgnoreExtensionCase(sourcePath + "/" + document.fileName);
+						String fullFilenamePath = checkFileExistsIgnoreExtensionCase(sourcePath + "/" + document.getFileName());
 						if (fullFilenamePath == null) {
 							throw new java.io.FileNotFoundException();					
 						}
@@ -642,7 +642,7 @@ public class ByggRedaUtil implements Runnable {
 							throw new java.io.FileNotFoundException();
 						}
 						LOG.debug("File "
-								+ document.fileName
+								+ document.getFileName()
 								+ " already exists, attempting to creating a new version at "
 								+ currentDestinationPath);
 						final NodeRef workingCopy = checkOutCheckInService
@@ -657,52 +657,47 @@ public class ByggRedaUtil implements Runnable {
 								VersionType.MAJOR);
 						NodeRef checkin = checkOutCheckInService.checkin(
 								workingCopy, properties);
-						document.nodeRef = checkin;
+						document.setNodeRef(checkin);
 						if (checkin != null && nodeService.exists(checkin)) {
-							document.readSuccessfully = true;
-							document.statusMsg = "Filen " + sourcePath + "/"
-									+ document.fileName
-									+ " uppdaterades till ny version";
+							document.setReadSuccessfully(true);
+							document.setStatusMsg("Filen " + sourcePath + "/" + document.getFileName() + " uppdaterades till ny version");
 							trx.commit();
 						} else {
-							document.readSuccessfully = false;
-							document.statusMsg = "Uppdatering av fil "
-									+ currentDestinationPath + "/"
-									+ document.fileName + " misslyckades.";
-							LOG.error(document.statusMsg);
-							throw new Exception(document.statusMsg);
+							document.setReadSuccessfully(false);
+							document.setStatusMsg("Uppdatering av fil "
+                      + currentDestinationPath + "/" + document.getFileName() + " misslyckades.");
+							LOG.error(document.getStatusMsg());
+							throw new Exception(document.getStatusMsg());
 						}
 					} catch (java.io.FileNotFoundException e) {
-						document.readSuccessfully = false;
-						document.statusMsg = "Inläsning av fil misslyckades, filen "
-								+ sourcePath
-								+ "/"
-								+ document.fileName
-								+ " kunde inte hittas.";
-						LOG.error(document.statusMsg);
-						throw new Exception(document.statusMsg, e);
+						document.setReadSuccessfully(false);
+						document.setStatusMsg("Inläsning av fil misslyckades, filen "
+                    + sourcePath
+                    + "/" + document.getFileName() + " kunde inte hittas.");
+						LOG.error(document.getStatusMsg());
+						throw new Exception(document.getStatusMsg(), e);
 					} catch (FileExistsException e) {
-						document.readSuccessfully = false;
-						document.statusMsg = "Inläsning av fil misslyckades, målfilen "
-								+ currentDestinationPath + " finns redan.";
-						LOG.error(document.statusMsg);
-						throw new Exception(document.statusMsg, e);
+						document.setReadSuccessfully(false);
+						document.setStatusMsg("Inläsning av fil misslyckades, målfilen "
+                    + currentDestinationPath + " finns redan.");
+						LOG.error(document.getStatusMsg());
+						throw new Exception(document.getStatusMsg(), e);
 					} catch (Exception e) {
-						document.readSuccessfully = false;
-						document.statusMsg = e.getMessage();
+						document.setReadSuccessfully(false);
+						document.setStatusMsg(e.getMessage());
 						LOG.error("Error importing document "
-								+ document.recordNumber, e);
-						throw new Exception(document.statusMsg, e);
+								+ document.getRecordNumber(), e);
+						throw new Exception(document.getStatusMsg(), e);
 					}
 				} else {
-					document.readSuccessfully = false;
-					document.statusMsg = "Filen existerar redan, hoppar över.";
+					document.setReadSuccessfully(false);
+					document.setStatusMsg("Filen existerar redan, hoppar över.");
 					LOG.debug("File already exists");
 					trx.commit();
 				}
 			} else {
 				try {
-					String fullFilenamePath = checkFileExistsIgnoreExtensionCase(sourcePath + "/" + document.fileName);
+					String fullFilenamePath = checkFileExistsIgnoreExtensionCase(sourcePath + "/" + document.getFileName());
 					if (fullFilenamePath == null) {
 						throw new java.io.FileNotFoundException();					
 					}
@@ -710,40 +705,36 @@ public class ByggRedaUtil implements Runnable {
 					if (!f.exists()) {
 						throw new java.io.FileNotFoundException();
 					}
-					NodeRef folderNodeRef = createFolder(destinationPath,
-							document.path, document.originalPath, site);
-					final FileInfo fileInfo = fileFolderService.create(
-							folderNodeRef, document.fileName,
+					NodeRef folderNodeRef = createFolder(destinationPath, document.getPath(), document.getOriginalPath(), site);
+					final FileInfo fileInfo = fileFolderService.create(folderNodeRef, document.getFileName(),
 							AkDmModel.TYPE_AKDM_BYGGREDA_DOC);
-					document.nodeRef = fileInfo.getNodeRef();
-					addProperties(document.nodeRef, document, false);
-					createFile(document.nodeRef, site, sourcePath, document);
-					createVersionHistory(document.nodeRef);
-					document.readSuccessfully = true;
-					LOG.debug("Imported document " + document.recordDisplay);
+					document.setNodeRef(fileInfo.getNodeRef());
+					addProperties(document.getNodeRef(), document, false);
+					createFile(document.getNodeRef(), site, sourcePath, document);
+					createVersionHistory(document.getNodeRef());
+					document.setReadSuccessfully(true);
+					LOG.debug("Imported document " + document.getRecordDisplay());
 					trx.commit();
 				} catch (java.io.FileNotFoundException e) {
-					document.readSuccessfully = false;
-					document.statusMsg = "Inläsning av fil misslyckades, filen "
-							+ sourcePath
-							+ "/"
-							+ document.fileName
-							+ " kunde inte hittas.";
-					LOG.error(document.statusMsg);
-					throw new Exception(document.statusMsg, e);
+					document.setReadSuccessfully(false);
+					document.setStatusMsg("Inläsning av fil misslyckades, filen "
+                  + sourcePath
+                  + "/" + document.getFileName() + " kunde inte hittas.");
+					LOG.error(document.getStatusMsg());
+					throw new Exception(document.getStatusMsg(), e);
 				} catch (FileExistsException e) {
-					document.readSuccessfully = false;
-					document.statusMsg = "Inläsning av fil misslyckades, målfilen "
-							+ currentDestinationPath + " finns redan.";
-					LOG.error(document.statusMsg);
-					throw new Exception(document.statusMsg, e);
+					document.setReadSuccessfully(false);
+					document.setStatusMsg("Inläsning av fil misslyckades, målfilen "
+                  + currentDestinationPath + " finns redan.");
+					LOG.error(document.getStatusMsg());
+					throw new Exception(document.getStatusMsg(), e);
 				} catch (Exception e) {
-					document.readSuccessfully = false;
-					document.statusMsg = "Fel vid inläsning av fil, systemmeddelande: "
-							+ e.getMessage();
+					document.setReadSuccessfully(false);
+					document.setStatusMsg("Fel vid inläsning av fil, systemmeddelande: "
+                  + e.getMessage());
 					LOG.error("Error importing document "
-							+ document.recordNumber, e);
-					throw new Exception(document.statusMsg, e);
+							+ document.getRecordNumber(), e);
+					throw new Exception(document.getStatusMsg(), e);
 				}
 			}
 		} catch (Exception e) {
@@ -793,13 +784,13 @@ public class ByggRedaUtil implements Runnable {
 	 */
 	private void createFile(NodeRef nodeRef, SiteInfo site, String sourcePath,
 			ByggRedaDocument document) throws java.io.FileNotFoundException {
-		InputStream inputStream = readFile(site, sourcePath, document.fileName);
+		InputStream inputStream = readFile(site, sourcePath, document.getFileName());
 		if (inputStream != null) {
 			try {
 				final ContentWriter writer = contentService.getWriter(nodeRef,
 						ContentModel.PROP_CONTENT, true);
 
-				writer.setMimetype(document.mimetype);
+				writer.setMimetype(document.getMimetype());
 
 				writer.putContent(inputStream);
 			} finally {
@@ -808,7 +799,7 @@ public class ByggRedaUtil implements Runnable {
 		} else {
 			throw new java.io.FileNotFoundException(
 					"Input file could not be read. " + sourcePath + "/"
-							+ document.fileName);
+							+ document.getFileName());
 		}
 	}
 
@@ -889,7 +880,7 @@ public class ByggRedaUtil implements Runnable {
 			final String name = nodeService.getProperty(nodeRef,
 					ContentModel.PROP_NAME).toString();
 
-			final String workingCopyName = createWorkingCopyName(document.fileName);
+			final String workingCopyName = createWorkingCopyName(document.getFileName());
 
 			if (!name.equalsIgnoreCase(workingCopyName)) {
 				/*
@@ -899,14 +890,14 @@ public class ByggRedaUtil implements Runnable {
 				 */
 			}
 		} else {
-			addProperty(properties, ContentModel.PROP_NAME, document.fileName);
+			addProperty(properties, ContentModel.PROP_NAME, document.getFileName());
 		}
 
 		// final String checksum = _serviceUtils.getChecksum(document.file);
 		// Alfresco general properties
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION_PROPS, true);
 		addProperty(properties, ContentModel.PROP_AUTO_VERSION, true);
-		addProperty(properties, ContentModel.PROP_TITLE, document.title);
+		addProperty(properties, ContentModel.PROP_TITLE, document.getTitle());
 		addProperty(properties, ContentModel.PROP_CREATOR,
 				AuthenticationUtil.SYSTEM_USER_NAME);
 		addProperty(properties, ContentModel.PROP_MODIFIER,
@@ -925,34 +916,21 @@ public class ByggRedaUtil implements Runnable {
 		addProperty(properties, AkDmModel.PROP_AKDM_DOC_SECRECY,
 				DOC_SECRECY_PUBLIC);
 		// ByggReda
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FILM,
-				document.film);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_SERIAL_NUMBER,
-				document.serialNumber);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_NUMBER,
-				document.recordNumber);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_YEAR,
-				document.recordYear);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_DISPLAY,
-				document.recordDisplay);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_BUILDING_DESCR,
-				document.buildingDescription);
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FILM, document.getFilm());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_SERIAL_NUMBER, document.getSerialNumber());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_NUMBER, document.getRecordNumber());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_YEAR, document.getRecordYear());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORD_DISPLAY, document.getRecordDisplay());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_BUILDING_DESCR, document.getBuildingDescription());
 		addProperty(properties,
-				AkDmModel.PROP_AKDM_BYGGREDA_LAST_BUILDING_DESCR,
-				document.lastBuildingDescription);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_ADDRESS,
-				document.address);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_LAST_ADDRESS,
-				document.lastAddress);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_DECISION,
-				document.decision);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FOR, document.forA);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_ISSUE_PURPOSE,
-				document.issuePurpose);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_NOTE,
-				document.note);
-		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORDS,
-				document.records);
+				AkDmModel.PROP_AKDM_BYGGREDA_LAST_BUILDING_DESCR, document.getLastBuildingDescription());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_ADDRESS, document.getAddress());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_LAST_ADDRESS, document.getLastAddress());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_DECISION, document.getDecision());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_FOR, document.getForA());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_ISSUE_PURPOSE, document.getIssuePurpose());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_NOTE, document.getNote());
+		addProperty(properties, AkDmModel.PROP_AKDM_BYGGREDA_RECORDS, document.getRecords());
 
 		nodeService.addProperties(nodeRef, properties);
 	}

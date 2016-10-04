@@ -6,14 +6,14 @@
   <parent>
     <groupId>com.redpill-linpro.alfresco</groupId>
     <artifactId>alfresco-base</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
   </parent>
 
   <groupId>se.alingsas.alfresco</groupId>
   <artifactId>ak-base</artifactId>
-  <version>2.0.1</version>
+  <version>2.1.0</version>
   <packaging>pom</packaging>
-  <name>Alfresco Base Project for Alingsås Document Management</name>
+  <name>Alingsås Kommun - Alfresco Base Project</name>
   <inceptionYear>2013</inceptionYear>
   <url>https://code.google.com/p/alingsas-kommun-alfresco/</url>
   <organization>
@@ -42,13 +42,15 @@
   <!-- | SDK properties have sensible defaults in the SDK parent, | but you can override the properties below to use another version. | For more available properties see the alfresco-sdk-parent POM. -->
   <properties>
     <alfresco.groupId>org.alfresco</alfresco.groupId>
-    <alfresco.version>5.0.1.5</alfresco.version>
+    <alfresco.version>5.0.3</alfresco.version>
     <app.log.root.level>ERROR</app.log.root.level>
     <alfresco.data.location>alf_data_dev</alfresco.data.location>
     <!-- This controls which properties will be picked in src/test/properties for embedded run -->
     <env>local</env>
-    <languagepack.version>5.0.6</languagepack.version>
+    <languagepack.version>5.0.13</languagepack.version>
     <findwise.version>5.0.1</findwise.version>
+    <rl-alfresco-email.version>1.0.2</rl-alfresco-email.version>
+    <rl-alfresco-system-usage-statistics.version>1.0.0</rl-alfresco-system-usage-statistics.version>
     <testframework.version>2.1.1</testframework.version>
     <java.source.version>1.8</java.source.version>
     <java.target.version>1.8</java.target.version>
@@ -71,6 +73,36 @@
         <artifactId>alfresco-test-repo</artifactId>
         <version>${testframework.version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.redpill-linpro.alfresco.statistics</groupId>
+        <artifactId>alfresco-system-usage-statistics-repo</artifactId>
+        <version>${rl-alfresco-system-usage-statistics.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.redpill-linpro.alfresco.statistics</groupId>
+        <artifactId>alfresco-system-usage-statistics-share</artifactId>
+        <version>${rl-alfresco-system-usage-statistics.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.redpill-linpro.alfresco.email</groupId>
+        <artifactId>alfresco-email-share-actions</artifactId>
+        <version>${rl-alfresco-email.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.redpill-linpro.alfresco.translations</groupId>
+        <artifactId>alfresco-swedish-share</artifactId>
+        <version>${languagepack.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.redpill-linpro.alfresco.translations</groupId>
+        <artifactId>alfresco-swedish-repo</artifactId>
+        <version>${languagepack.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.redpill-linpro.alfresco.translations</groupId>
+        <artifactId>alfresco-swedish-mail</artifactId>
+        <version>${languagepack.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

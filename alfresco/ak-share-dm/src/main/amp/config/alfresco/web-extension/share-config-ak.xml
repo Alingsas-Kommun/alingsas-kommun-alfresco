@@ -1,7 +1,18 @@
 <alfresco-config>
+  <!-- Global config section -->
+  <config replace="true">
+    <header>
 
+      <!-- The number of sites to display in the recent history group of the sites menu -->
+      <max-recent-sites>5</max-recent-sites>
 
+      <!--  The number of sites page links (e.g. "Dashboard", "Document Library", "Calendar", etc
+      that will be displayed on any site page for navigation. All other site pages will be
+      displayed under a "More" drop down menu. The current site page will always be displayed -->
+      <max-displayed-site-pages>10</max-displayed-site-pages>
 
+    </header>
+  </config>
   <!-- Document Library config section -->
   <config evaluator="string-compare" condition="DocumentLibrary" replace="true">
 
@@ -161,10 +172,6 @@
         <evaluator>evaluator.doclib.action.isMimetypeEditableAos</evaluator>
       </action>
 
-      <action id="document-mail-to" type="link" label="ak.actions.mail-to" icon="document-publish">
-        <param name="href">{mailtoLink}</param>
-      </action>
-
       <!-- View document in browser -->
       <!-- Override and hide! -->
       <action id="document-view-content" type="link" label="actions.document.view">
@@ -184,7 +191,6 @@
         <action index="100" id="document-download" />
         <action index="370" id="document-wf-completeDocument" />
         <action index="405" id="document-wf-revertDocument" />
-        <action index="410" id="document-mail-to" />
       </actionGroup>
 
       <actionGroup id="document-details">
@@ -193,7 +199,6 @@
         <action index="100" id="document-download" />
         <action index="400" id="document-wf-completeDocument" />
         <action index="405" id="document-wf-revertDocument" />
-        <action index="410" id="document-mail-to" />
       </actionGroup>
 
     </actionGroups>
@@ -203,17 +208,22 @@
     <search>
       <!-- default minimum length for search terms -->
       <min-search-term-length>1</min-search-term-length>
-
+      
       <!-- default maximum number of results for a search -->
       <max-search-results>250</max-search-results>
+      
+      <!-- default maximum number of results for user search -->
+      <max-users-search-results>50</max-users-search-results>
 
       <!-- Repository search configuration option -->
       <!-- The 'repository-search' config element value can be one of: none - disable repository wide search option context - search depending on current context, including repository, all sites, current site (default) always - always search full repository no matter what the context, disables search 
-        context options always-options - always search full repository no matter what the context, still shows the search context options -->
+      context options always-options - always search full repository no matter what the context, still shows the search context options -->
       <repository-search>context</repository-search>
 
       <!-- default option to display filter pane. Override if solr1 is used. -->
       <display-facets>true</display-facets>
     </search>
+    
+    
   </config>
 </alfresco-config>

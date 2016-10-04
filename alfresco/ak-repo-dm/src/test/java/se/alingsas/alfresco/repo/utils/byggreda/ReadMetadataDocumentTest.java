@@ -139,7 +139,7 @@ public class ReadMetadataDocumentTest {
 		int result = 0;
 		while (it.hasNext()) {
 			ByggRedaDocument next = it.next();
-			if (next.readSuccessfully) {
+			if (next.isReadSuccessfully()) {
 				result++;
 			}
 		}

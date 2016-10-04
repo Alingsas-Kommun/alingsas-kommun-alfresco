@@ -17,3 +17,6 @@ rebel.xml
 
 alf_data_dev
 *.sh
+
+nbactions-*.xml
+nb-configuration.xml
