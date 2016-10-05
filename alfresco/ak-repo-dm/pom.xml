@@ -23,6 +23,20 @@
   </properties>
 
   <dependencies>
+    
+    <dependency>
+      <groupId>${alfresco.groupId}</groupId>
+      <artifactId>alfresco-repository</artifactId>
+      <version>${alfresco.version}</version>
+      <classifier>h2scripts</classifier>
+      <scope>compile</scope> <!--Cannot be in test scope iffunctional tests should work. -->
+      <exclusions>
+        <exclusion>
+          <artifactId>*</artifactId>
+          <groupId>*</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <!-- Test dependecies -->
 
     <dependency>
