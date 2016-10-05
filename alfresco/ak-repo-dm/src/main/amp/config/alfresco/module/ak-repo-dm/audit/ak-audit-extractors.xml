@@ -23,6 +23,8 @@
 			target="/ak-access/transaction/cm:versionLabel" />
 		<PathMap source="/alfresco-access/transaction/properties/to/cm:versionLabel"
 			target="/ak-access/transaction/cm:versionLabel" />
+    <PathMap source="/alfresco-api/post/SiteService/removeMembership" target="/ak-sitememberships/removeMembership" />
+    <PathMap source="/alfresco-api/post/SiteService/setMembership" target="/ak-sitememberships/setMembership" />
 	</PathMappings>
 
 	<Application name="ak-access" key="ak-access">
@@ -95,6 +97,22 @@
 			</AuditPath>
 			<AuditPath key="error">
 				<RecordValue key="value" dataExtractor="simpleValue" />
+			</AuditPath>
+		</AuditPath>
+	</Application>
+  
+  <Application name="ak-sitememberships" key="ak-sitememberships">
+		<AuditPath key="removeMembership">
+			<AuditPath key="args">
+        <RecordValue key="authorityName" dataExtractor="simpleValue" dataSource="/ak-sitememberships/removeMembership/args/authorityName" dataTrigger="/ak-sitememberships/removeMembership/args/authorityName" />
+        <RecordValue key="shortName" dataExtractor="simpleValue" dataSource="/ak-sitememberships/removeMembership/args/shortName" dataTrigger="/ak-sitememberships/removeMembership/args/shortName" />
+			</AuditPath>
+		</AuditPath>
+    <AuditPath key="setMembership">
+			<AuditPath key="args">
+				<RecordValue key="role" dataExtractor="simpleValue" dataSource="/ak-sitememberships/setMembership/args/role" dataTrigger="/ak-sitememberships/setMembership/args/role" />
+        <RecordValue key="authorityName" dataExtractor="simpleValue" dataSource="/ak-sitememberships/setMembership/args/authorityName" dataTrigger="/ak-sitememberships/setMembership/args/authorityName" />
+        <RecordValue key="shortName" dataExtractor="simpleValue" dataSource="/ak-sitememberships/setMembership/args/shortName" dataTrigger="/ak-sitememberships/setMembership/args/shortName" />
 			</AuditPath>
 		</AuditPath>
 	</Application>
