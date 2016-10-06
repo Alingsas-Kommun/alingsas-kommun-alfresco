@@ -147,6 +147,7 @@
         <action index="100" id="document-change-type" />
         <action index="100" id="document-download-locked" />
         <action index="100" id="document-download" />
+        <action index="310" id="document-manage-aspects" />
         <action index="370" id="document-wf-completeDocument" />
         <action index="405" id="document-wf-revertDocument" />
       </actionGroup>
