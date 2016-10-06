@@ -19,12 +19,12 @@ public class GoverningAspectPolicy extends AbstractPolicy implements OnAddAspect
 
   @Override
   public void onAddAspect(NodeRef nodeRef, QName aspectTypeQName) {
-    if(nodeRef != null && AkDmModel.ASPECT_AKDM_GOVERNING.equals(aspectTypeQName)){
-    // Get creator of document
-    Serializable creator = nodeService.getProperty(nodeRef, ContentModel.PROP_CREATOR);
-    
-    // Set aspect property "akdm:governingDocResponsible"
-    nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_GOVERNING_DOC_RESPONSIBLE, creator);
+    if (nodeRef != null && AkDmModel.ASPECT_AKDM_GOVERNING.equals(aspectTypeQName)) {
+      // Get creator of document
+      Serializable creator = nodeService.getProperty(nodeRef, ContentModel.PROP_CREATOR);
+
+      // Set aspect property "akdm:governingDocResponsible"
+      nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_GOVERNING_DOC_RESPONSIBLE, creator);
     }
   }
 
@@ -33,10 +33,10 @@ public class GoverningAspectPolicy extends AbstractPolicy implements OnAddAspect
     super.afterPropertiesSet();
     if (!isInitialized()) {
       if (LOG.isDebugEnabled()) {
-        LOG.debug("Initializing policy logger behaviour");
+        LOG.debug("Initializing " + this.getClass().getName());
       }
       // Create behaviours
-      policyComponent.bindClassBehaviour(OnAddAspectPolicy.QNAME, AkDmModel.ASPECT_AKDM_GOVERNING, new JavaBehaviour(this, "onAddAspect", NotificationFrequency.FIRST_EVENT));
+      policyComponent.bindClassBehaviour(OnAddAspectPolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onAddAspect", NotificationFrequency.FIRST_EVENT));
     }
 
   }
