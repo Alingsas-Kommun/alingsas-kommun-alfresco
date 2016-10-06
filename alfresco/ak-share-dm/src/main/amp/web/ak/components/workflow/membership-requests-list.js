@@ -199,7 +199,7 @@
          // initiator may not be present, see MNT-11622
          if (workflowInstance.initiator)
          {
-            initiator = $html(workflowInstance.initiator.firstName);
+            initiator = $html(workflowInstance.initiator.firstName + " " + workflowInstance.initiator.lastName + " (" + workflowInstance.initiator.userName + ")");
          }
                
          // if there is a property label available for the status use that instead
@@ -225,7 +225,7 @@
             href = $siteURL('task-details?taskId=' + taskId + '&referrer=tasks&myTasksLinkBack=true') + '" class="theme-color-1" title="' + this.msg("link.viewTask");
          }
 
-         var info = '<h3><a href="' + href + '">' + message + '</a></h3>';
+         var info = '<h3><a href="' + href + '" style="font-weight: bold; text-decoration: underline">' + message + '</a></h3>';
          info += '<div class="due"><label>' + this.msg("label.due") + ':</label><span>' + (dueDate ? Alfresco.util.formatDate(dueDate, "longDate") : this.msg("label.none")) + '</span></div>';
          info += '<div class="started"><label>' + this.msg("label.started") + ':</label><span>' + (startedDate ? Alfresco.util.formatDate(startedDate, "longDate") : this.msg("label.none")) + '</span></div>';
          if (!workflowInstance.isActive)
