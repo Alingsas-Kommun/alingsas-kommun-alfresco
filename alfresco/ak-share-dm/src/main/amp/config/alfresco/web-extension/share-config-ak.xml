@@ -134,6 +134,15 @@
         <param name="href">{viewUrl}</param>
         <evaluator>se.alingsas.evaluator.doclib.action.IsAdmin</evaluator>
       </action>
+
+      <!-- Manage aspects -->
+      <action id="document-manage-aspects" type="javascript" label="actions.document.manage-aspects.new">
+        <param name="function">onActionManageAspects</param>
+        <permissions>
+          <permission allow="true">Write</permission>
+        </permissions>
+        <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+      </action>
     </actions>
 
 

@@ -12,6 +12,13 @@ import org.apache.log4j.Logger;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
 
+/**
+ * 
+ * 
+ * @author Jimmie Aleksic - Redpill Linpro AB
+ * 
+ */
+
 public class GoverningAspectPolicy extends AbstractPolicy implements OnAddAspectPolicy {
 
   private static final Logger LOG = Logger.getLogger(GoverningAspectPolicy.class);
@@ -36,7 +43,7 @@ public class GoverningAspectPolicy extends AbstractPolicy implements OnAddAspect
         LOG.debug("Initializing " + this.getClass().getName());
       }
       // Create behaviours
-      policyComponent.bindClassBehaviour(OnAddAspectPolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onAddAspect", NotificationFrequency.FIRST_EVENT));
+      policyComponent.bindClassBehaviour(OnAddAspectPolicy.QNAME, AkDmModel.ASPECT_AKDM_GOVERNING, new JavaBehaviour(this, "onAddAspect", NotificationFrequency.FIRST_EVENT));
     }
 
   }
