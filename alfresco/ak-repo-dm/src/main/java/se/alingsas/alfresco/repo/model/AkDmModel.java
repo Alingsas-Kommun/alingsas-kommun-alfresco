@@ -97,6 +97,13 @@ public interface AkDmModel {
   public static final QName PROP_AKDM_DOCUMENT_NUMBER_SETTINGS_3 = QName.createQName(AKDM_URI, "docNumSettingPart3");
 
   public static final QName ASPECT_AKDM_TEMPLATEDASPECT = QName.createQName(AKDM_URI, "templatedAspect");
+  
+  public static final QName ASPECT_AKDM_GOVERNING = QName.createQName(AKDM_URI, "governingAspect");
+  public static final QName PROP_AKDM_GOVERNING_DOC_RESPONSIBLE = QName.createQName(AKDM_URI, "governingDocResponsible");
+  public static final QName PROP_AKDM_GOVERNING_DECISION_DATE = QName.createQName(AKDM_URI, "governingDecisionDate");
+  public static final QName PROP_AKDM_GOVERNING_INSTANCE = QName.createQName(AKDM_URI, "governingInstance");
+  public static final QName PROP_AKDM_GOVERNING_GROUP = QName.createQName(AKDM_URI, "governingGroup");
+  public static final QName PROP_AKDM_GOVERNING_TARGET_GROUP = QName.createQName(AKDM_URI, "governingTargetGroup");
 
   /**
    * Associations

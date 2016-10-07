@@ -16,6 +16,7 @@
           <show id="akdm:documentNumber" for-mode="view" />
           <show id="akdm:documentStatus" for-mode="view" />
           <show id="akdm:documentSecrecy" />
+          <show id="akdm:department" />
         </field-visibility>
         <appearance>
           <set id="documentdescription" appearance="bordered-panel" label-id="set.akdm.documentdescription" />
@@ -33,6 +34,29 @@
           <field id="akdm:documentNumber" set="documentdescription" />
           <field id="akdm:documentStatus" set="documentdescription" />
           <field id="akdm:documentSecrecy" set="documentdescription" />
+          <field id="akdm:department" set="documentdescription" />
+        </appearance>
+      </form>
+    </forms>
+  </config>
+
+  <config evaluator="aspect" condition="akdm:governingAspect">
+    <forms>
+      <form>
+        <field-visibility>
+          <show id="akdm:governingDecisionDate" />
+          <show id="akdm:governingInstance" />
+          <show id="akdm:governingGroup" />
+          <show id="akdm:governingTargetGroup" />
+          <show id="akdm:governingDocResponsible" />
+        </field-visibility>
+        <appearance>
+          <set id="governing" appearance="bordered-panel" label-id="set.akdm.governing" />
+          <field id="akdm:governingDecisionDate" set="governing" />
+          <field id="akdm:governingInstance" set="governing" />
+          <field id="akdm:governingGroup" set="governing" />
+          <field id="akdm:governingTargetGroup" set="governing" />
+          <field id="akdm:governingDocResponsible" set="governing" />
         </appearance>
       </form>
     </forms>
@@ -83,7 +107,7 @@
       </form>
     </forms>
   </config>
-  
+
   <config evaluator="aspect" condition="akdm:manualAspect">
     <forms>
       <form>
@@ -113,8 +137,8 @@
       </form>
     </forms>
   </config>
-  
-  
+
+
   <config evaluator="aspect" condition="akdm:byggRedaAspect">
     <forms>
       <form>
@@ -151,6 +175,6 @@
       </form>
     </forms>
   </config>
-  
+
 
 </alfresco-config>
