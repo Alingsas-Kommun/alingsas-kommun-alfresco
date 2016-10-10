@@ -6,9 +6,7 @@
       <!-- The number of sites to display in the recent history group of the sites menu -->
       <max-recent-sites>5</max-recent-sites>
 
-      <!--  The number of sites page links (e.g. "Dashboard", "Document Library", "Calendar", etc
-      that will be displayed on any site page for navigation. All other site pages will be
-      displayed under a "More" drop down menu. The current site page will always be displayed -->
+      <!-- The number of sites page links (e.g. "Dashboard", "Document Library", "Calendar", etc that will be displayed on any site page for navigation. All other site pages will be displayed under a "More" drop down menu. The current site page will always be displayed -->
       <max-displayed-site-pages>10</max-displayed-site-pages>
 
     </header>
@@ -21,56 +19,14 @@
       <type name="cm:content">
         <subtype name="akdm:document" />
       </type>
-      <type name="akdm:document">
-        <subtype name="akdm:instruction" />
-        <subtype name="akdm:ordinance" />
-        <subtype name="akdm:manual" />
-        <subtype name="akdm:protocol" />
-        <subtype name="akdm:generaldocument" />
-        <subtype name="akdm:economydocument" />
-        <subtype name="akdm:byggredadocument" />
-      </type>
     </types>
 
     <create-content>
       <content id="folder" label="create-content.folder" icon="folder" index="5" type="javascript">
         <param name="function">onNewFolder</param>
       </content>
-      <content id="instruction" label="type.akdm_instruction" type="pagelink" index="10" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:instruction
-        </param>
-      </content>
       <content id="document" label="type.akdm_document" type="pagelink" index="15" icon="text">
         <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:document
-        </param>
-      </content>
-      <content id="ordinance" label="type.akdm_ordinance" type="pagelink" index="20" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:ordinance
-        </param>
-      </content>
-      <content id="listpul" label="type.akdm_listpul" type="pagelink" index="30" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:listpul
-        </param>
-      </content>
-      <content id="generaldocument" label="type.akdm_generaldocument" type="pagelink" index="40" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:generaldocument
-        </param>
-      </content>
-      <content id="manual" label="type.akdm_manual" type="pagelink" index="50" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:manual
-        </param>
-      </content>
-      <content id="internalvalidation" label="type.akdm_internalvalidation" type="pagelink" index="60" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:internalvalidation
-        </param>
-      </content>
-      <content id="protocol" label="type.akdm_protocol" type="pagelink" index="70" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:protocol
-        </param>
-      </content>
-
-      <content id="issuelist" label="type.akdm_issuelist" type="pagelink" index="80" icon="text">
-        <param name="page">create-content?destination={nodeRef}&amp;itemId=akdm:issuelist
         </param>
       </content>
     </create-content>
@@ -178,6 +134,15 @@
         <param name="href">{viewUrl}</param>
         <evaluator>se.alingsas.evaluator.doclib.action.IsAdmin</evaluator>
       </action>
+
+      <!-- Manage aspects -->
+      <action id="document-manage-aspects" type="javascript" label="actions.document.manage-aspects.new">
+        <param name="function">onActionManageAspects</param>
+        <permissions>
+          <permission allow="true">Write</permission>
+        </permissions>
+        <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+      </action>
     </actions>
 
 
@@ -189,6 +154,7 @@
         <action index="100" id="document-change-type" />
         <action index="100" id="document-download-locked" />
         <action index="100" id="document-download" />
+        <action index="310" id="document-manage-aspects" />
         <action index="370" id="document-wf-completeDocument" />
         <action index="405" id="document-wf-revertDocument" />
       </actionGroup>
@@ -208,22 +174,22 @@
     <search>
       <!-- default minimum length for search terms -->
       <min-search-term-length>1</min-search-term-length>
-      
+
       <!-- default maximum number of results for a search -->
       <max-search-results>250</max-search-results>
-      
+
       <!-- default maximum number of results for user search -->
       <max-users-search-results>50</max-users-search-results>
 
       <!-- Repository search configuration option -->
       <!-- The 'repository-search' config element value can be one of: none - disable repository wide search option context - search depending on current context, including repository, all sites, current site (default) always - always search full repository no matter what the context, disables search 
-      context options always-options - always search full repository no matter what the context, still shows the search context options -->
+        context options always-options - always search full repository no matter what the context, still shows the search context options -->
       <repository-search>context</repository-search>
 
       <!-- default option to display filter pane. Override if solr1 is used. -->
       <display-facets>true</display-facets>
     </search>
-    
-    
+
+
   </config>
 </alfresco-config>

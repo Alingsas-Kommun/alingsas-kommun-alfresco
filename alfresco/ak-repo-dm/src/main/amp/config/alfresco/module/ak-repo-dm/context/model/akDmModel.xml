@@ -102,6 +102,61 @@
         <value>false</value>
       </parameter>
     </constraint>
+    <constraint name="akdm:governingInstanceConstraint" type="LIST">
+      <parameter name="allowedValues">
+        <list>
+          <value></value>
+          <value>KS</value>
+          <value>KF</value>
+          <value>Namnd</value>
+          <value>Forvaltning</value>
+        </list>
+      </parameter>
+      <parameter name="caseSensitive">
+        <value>false</value>
+      </parameter>
+    </constraint>
+    <constraint name="akdm:governingGroupConstraint" type="LIST">
+      <parameter name="allowedValues">
+        <list>
+          <value></value>
+          <value>Foreskrift</value>
+          <value>Policy</value>
+          <value>Reglemente</value>
+          <value>Regel</value>
+          <value>Rutin</value>
+          <value>Strategi</value>
+          <value>Taxa_Avgift</value>
+        </list>
+      </parameter>
+      <parameter name="caseSensitive">
+        <value>false</value>
+      </parameter>
+    </constraint>
+    <constraint name="akdm:governingConstraint" type="LIST">
+      <parameter name="allowedValues">
+        <list>
+          <value></value>
+          <value>BoU</value>
+          <value>KLK</value>
+          <value>KUF</value>
+          <value>MN</value>
+          <value>SBK</value>
+          <value>SOC</value>
+          <value>TN</value>
+          <value>UTB</value>
+          <value>VoA</value>
+          <value>Fabs_AB</value>
+          <value>AB_Alingsashem</value>
+          <value>AB_Alingsas_radhus</value>
+          <value>Overformyndarnamnden</value>
+          <value>A_V_Raddningsforbund</value>
+        </list>
+      </parameter>
+      <parameter name="caseSensitive">
+        <value>false</value>
+      </parameter>
+    </constraint>
   </constraints>
   <types>
     <type name="akdm:document">
@@ -226,6 +281,91 @@
           <constraints>
             <constraint ref="akdm:secrecyStatusConstraint" />
           </constraints>
+        </property>
+        <property name="akdm:department">
+          <title>Department</title>
+          <type>d:text</type>
+          <mandatory>true</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
+          <constraints>
+            <constraint ref="akdm:governingConstraint" />
+          </constraints>
+        </property>
+      </properties>
+    </aspect>
+
+    <aspect name="akdm:governingAspect">
+      <title>Governing</title>
+      <parent>akdm:aspect</parent>
+      <properties>
+        <property name="akdm:governingDecisionDate">
+          <title>Governing Decision Date</title>
+          <type>d:date</type>
+          <mandatory>true</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
+        </property>
+        <property name="akdm:governingInstance">
+          <title>Governing Instance</title>
+          <type>d:text</type>
+          <mandatory>true</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
+          <constraints>
+            <constraint ref="akdm:governingInstanceConstraint" />
+          </constraints>
+        </property>
+        <property name="akdm:governingGroup">
+          <title>Governing Group</title>
+          <type>d:text</type>
+          <mandatory>true</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
+          <constraints>
+            <constraint ref="akdm:governingGroupConstraint" />
+          </constraints>
+        </property>
+        <property name="akdm:governingTargetGroup">
+          <title>Governing Target Group</title>
+          <type>d:text</type>
+          <mandatory>true</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>false</tokenised>
+            <facetable>true</facetable>
+          </index>
+          <constraints>
+            <constraint ref="akdm:governingConstraint" />
+          </constraints>
+        </property>
+        <property name="akdm:governingDocResponsible">
+          <title>Governing Document Responsible</title>
+          <type>d:text</type>
+          <mandatory>true</mandatory>
+          <index enabled="true">
+            <atomic>true</atomic>
+            <stored>false</stored>
+            <tokenised>both</tokenised>
+            <facetable>true</facetable>
+          </index>
         </property>
       </properties>
     </aspect>

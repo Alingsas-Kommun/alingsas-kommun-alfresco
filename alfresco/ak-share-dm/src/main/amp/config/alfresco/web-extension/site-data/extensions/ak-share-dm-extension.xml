@@ -15,7 +15,28 @@
           </sourcePackageRoot>
         </customization>
       </customizations>
-     
+
+      <configurations>
+        <!-- Document Library config section -->
+        <config evaluator="string-compare" condition="DocumentLibrary" replace="true">
+          <aspects>
+            <!-- Aspects that a user can see in UI. Used by Rules, aspects are the listed aspects for rule's "has-aspect" action condition. -->
+            <visible>
+              <aspect name="akdm:commonAspect" />
+              <aspect name="akdm:governingAspect" />
+            </visible>
+            <!-- Aspects that a user can add in UI. Used by Rules, aspects are the listed aspects for rule's "add-features" action. Same as "visible" if left empty. -->
+            <addable>
+              <aspect name="akdm:governingAspect" />
+            </addable>
+            <!-- Aspects that a user can remove in UI. Used by Rules, aspects are the listed aspects for rule's "remove-features" action. Same as "visible" if left empty -->
+            <removeable>
+              <aspect name="akdm:governingAspect" />
+            </removeable>
+          </aspects>
+        </config>
+      </configurations>
+
     </module>
     <module>
       <id>Public documents site changes</id>
@@ -98,11 +119,12 @@
       <customizations>
         <customization>
           <targetPackageRoot>org.alfresco</targetPackageRoot>
-          <sourcePackageRoot>se.alingsas.alfresco.share.headermenu-hidesharedfiles</sourcePackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.share.headermenu-hidesharedfiles
+          </sourcePackageRoot>
         </customization>
       </customizations>
     </module>
-    
+
     <module>
       <id>Alingsås Piwik</id>
       <version>${project.version}</version>
