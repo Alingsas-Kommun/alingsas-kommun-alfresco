@@ -102,31 +102,10 @@
         <value>false</value>
       </parameter>
     </constraint>
-    <constraint name="akdm:departmentConstraint" type="LIST">
-      <parameter name="allowedValues">
-        <list>
-          <value>BOU</value>
-          <value>KLK</value>
-          <value>KUF</value>
-          <value>MK</value>
-          <value>SBK</value>
-          <value>SOC</value>
-          <value>TK</value>
-          <value>UTB</value>
-          <value>VOA</value>
-          <value>Fabs</value>
-          <value>AHE</value>
-          <value>AEN</value>
-          <value>RTJ</value>
-        </list>
-      </parameter>
-      <parameter name="caseSensitive">
-        <value>false</value>
-      </parameter>
-    </constraint>
     <constraint name="akdm:governingInstanceConstraint" type="LIST">
       <parameter name="allowedValues">
         <list>
+          <value></value>
           <value>KS</value>
           <value>KF</value>
           <value>Namnd</value>
@@ -140,35 +119,37 @@
     <constraint name="akdm:governingGroupConstraint" type="LIST">
       <parameter name="allowedValues">
         <list>
+          <value></value>
           <value>Foreskrift</value>
           <value>Policy</value>
           <value>Reglemente</value>
           <value>Regel</value>
           <value>Rutin</value>
-          <value>Taxa_Avgift</value>
           <value>Strategi</value>
+          <value>Taxa_Avgift</value>
         </list>
       </parameter>
       <parameter name="caseSensitive">
         <value>false</value>
       </parameter>
     </constraint>
-    <constraint name="akdm:governingTargetGroupConstraint" type="LIST">
+    <constraint name="akdm:governingConstraint" type="LIST">
       <parameter name="allowedValues">
         <list>
-          <value>KLK</value>
-          <value>Overformyndarnamnden</value>
+          <value></value>
           <value>BoU</value>
-          <value>UTB</value>
+          <value>KLK</value>
           <value>KUF</value>
-          <value>VoA</value>
-          <value>SOC</value>
-          <value>TN</value>
           <value>MN</value>
           <value>SBK</value>
+          <value>SOC</value>
+          <value>TN</value>
+          <value>UTB</value>
+          <value>VoA</value>
           <value>Fabs_AB</value>
           <value>AB_Alingsashem</value>
           <value>AB_Alingsas_radhus</value>
+          <value>Overformyndarnamnden</value>
           <value>A_V_Raddningsforbund</value>
         </list>
       </parameter>
@@ -312,7 +293,7 @@
             <facetable>true</facetable>
           </index>
           <constraints>
-            <constraint ref="akdm:departmentConstraint" />
+            <constraint ref="akdm:governingConstraint" />
           </constraints>
         </property>
       </properties>
@@ -372,7 +353,7 @@
             <facetable>true</facetable>
           </index>
           <constraints>
-            <constraint ref="akdm:governingTargetGroupConstraint" />
+            <constraint ref="akdm:governingConstraint" />
           </constraints>
         </property>
         <property name="akdm:governingDocResponsible">
