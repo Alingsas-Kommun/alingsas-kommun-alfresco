@@ -43,7 +43,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (LOG.isDebugEnabled()) {
         LOG.debug("Changing type of content to " + AkDmModel.TYPE_AKDM_DOCUMENT + ": " + nodeRef);
       }
+      boolean enabled = behaviourFilter.isEnabled(nodeRef);
+      if (enabled) {
+        behaviourFilter.disableBehaviour(nodeRef);
+      }
       nodeService.setType(nodeRef, AkDmModel.TYPE_AKDM_DOCUMENT);
+      if (enabled) {
+        behaviourFilter.enableBehaviour(nodeRef);
+      }
     }
   }
 
@@ -53,7 +60,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (LOG.isDebugEnabled()) {
         LOG.debug("Setting auto version properties to true for node: " + nodeRef);
       }
+      boolean enabled = behaviourFilter.isEnabled(nodeRef);
+      if (enabled) {
+        behaviourFilter.disableBehaviour(nodeRef);
+      }
       nodeService.setProperty(nodeRef, ContentModel.PROP_AUTO_VERSION_PROPS, true);
+      if (enabled) {
+        behaviourFilter.enableBehaviour(nodeRef);
+      }
     }
   }
 
