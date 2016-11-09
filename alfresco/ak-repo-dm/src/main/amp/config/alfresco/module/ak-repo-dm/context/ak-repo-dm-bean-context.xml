@@ -23,13 +23,27 @@
     </property>
   </bean>
 
-  <bean id="documentNumberUtil" class="se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil">
-    <property name="serviceRegistry" ref="ServiceRegistry" />
-    <property name="repositoryHelper" ref="repositoryHelper" />
-    <property name="retryingTransactionHelper" ref="retryingTransactionHelper" />
-    <property name="behaviourFilter" ref="policyBehaviourFilter" />
+  <bean id="ak.currentDatePrefixNumberingComponent" parent="rl.abstractNumberingComponent" depends-on="dictionaryBootstrap">
+    <property name="id" value="currentDatePrefixDocumentNumber" />
+    <property name="startValue" value="1" />
+    <property name="bindTypes">
+      <list>
+        <value>cm:content</value>
+      </list>
+    </property>
+    <property name="ignoreTypes">
+      <list>
+        <value>cm:thumbnail</value>
+      </list>
+    </property>
+    <property name="ignoreAspects">
+      <list>
+        <value>cm:workingcopy</value>
+      </list>
+    </property>  
+    <property name="decorator" ref="rl.currentDatePrefixNumberingDecorator" />
+    <property name="numberingStorage" ref="rl.nodeNumberingStorage" />  
   </bean>
-
 
 
 </beans>

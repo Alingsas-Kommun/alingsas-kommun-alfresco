@@ -158,7 +158,7 @@ public class DocumentPolicyIntegrationTest extends AbstractRepoIntegrationTest {
     _authenticationComponent.setCurrentUser(siteManagerUser);
     NodeRef nodeRef = createRandomFile();
     String number = (String) _nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
-    assertNotNull(number);
+    assertNotNull("Document number missing!",number);
     _authenticationComponent.setCurrentUser(AuthenticationUtil.getAdminUserName());
     NodeRef companyHome = _repository.getCompanyHome();
     nodeRef = createRandomFile(companyHome);

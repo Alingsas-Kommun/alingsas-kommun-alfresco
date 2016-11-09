@@ -18,22 +18,23 @@ import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
 import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
+import org.redpill.alfresco.numbering.component.NumberingComponent;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
-import se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil;
 
 /**
  * Sets new content inside document library to akdm:document
- * 
+ *
  * @author Marcus Svensson - Redpill Linpro AB
  *
  */
 public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy, OnMoveNodePolicy, OnUpdateNodePolicy, OnCopyCompletePolicy, InitializingBean {
 
   private static final Logger LOG = Logger.getLogger(DocumentPolicy.class);
-  private DocumentNumberUtil documentNumberUtil;
+  private NumberingComponent numberingComponent;
   private static boolean isInitialized = false;
 
   protected void setType(NodeRef nodeRef) {
@@ -67,7 +68,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (enabled) {
         behaviourFilter.disableBehaviour(nodeRef);
       }
-      documentNumberUtil.setDocumentNumber(nodeRef, forceNewNumber);
+      String docNumber = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
+      if (docNumber == null || !StringUtils.hasText(docNumber) || forceNewNumber) {
+        String decoratedNextNumber = numberingComponent.getDecoratedNextNumber(nodeRef);
+        nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER, decoratedNextNumber);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Setting document number for " + decoratedNextNumber + " for node " + nodeRef.toString());
+        }
+      }
       if (enabled) {
         behaviourFilter.enableBehaviour(nodeRef);
       }
@@ -181,7 +189,7 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
         result = false;
       } else {
         NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
-        if (container==null) {
+        if (container == null) {
           LOG.trace("Document library does not exist. Denying.");
           return false;
         }
@@ -240,10 +248,11 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
   @Override
   public void afterPropertiesSet() throws Exception {
     super.afterPropertiesSet();
-    Assert.notNull(documentNumberUtil);
+    Assert.notNull(numberingComponent);
     if (!isInitialized()) {
-      if (LOG.isTraceEnabled())
+      if (LOG.isTraceEnabled()) {
         LOG.trace("Initialized " + this.getClass().getName());
+      }
 
       // policyComponent.bindClassBehaviour(OnUpdateNodePolicy.QNAME,
       // ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onUpdateNode",
@@ -255,8 +264,8 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
     }
   }
 
-  public void setDocumentNumberUtil(DocumentNumberUtil documentNumberUtil) {
-    this.documentNumberUtil = documentNumberUtil;
+  public void setNumberingComponent(NumberingComponent numberingComponent) {
+    this.numberingComponent = numberingComponent;
   }
 
   private Boolean isInitialized() {

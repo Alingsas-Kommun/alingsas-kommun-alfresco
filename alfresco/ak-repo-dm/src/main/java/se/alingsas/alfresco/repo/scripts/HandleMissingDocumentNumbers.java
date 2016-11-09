@@ -19,11 +19,8 @@
  * along with the Alfresco customizations made for Alingsås Kommun. 
  * If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.alingsas.alfresco.repo.scripts;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,13 +33,9 @@ import org.alfresco.service.cmr.model.FileFolderService;
 import org.alfresco.service.cmr.model.FileInfo;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
-import org.alfresco.service.cmr.repository.NodeService.FindNodeParameters;
-import org.alfresco.service.cmr.search.ResultSet;
-import org.alfresco.service.cmr.search.ResultSetRow;
-import org.alfresco.service.cmr.search.SearchParameters;
 import org.alfresco.service.cmr.search.SearchService;
-import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
+import org.redpill.alfresco.numbering.component.NumberingComponent;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.extensions.webscripts.Cache;
 import org.springframework.extensions.webscripts.DeclarativeWebScript;
@@ -51,114 +44,85 @@ import org.springframework.extensions.webscripts.WebScriptRequest;
 import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
-import se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil;
 
 public class HandleMissingDocumentNumbers extends DeclarativeWebScript
-		implements InitializingBean {
+        implements InitializingBean {
 
-	private static final Logger LOG = Logger
-			.getLogger(HandleMissingDocumentNumbers.class);
-	private ServiceRegistry serviceRegistry;
-	private BehaviourFilter behaviourFilter;
-	private DocumentNumberUtil documentNumberUtil;
-	private Repository repositoryHelper;
-	
-	
-	@Override
-	protected Map<String, Object> executeImpl(final WebScriptRequest req,
-			final Status status, final Cache cache) {
-		final Map<String, Object> model = new HashMap<String, Object>();
+  private static final Logger LOG = Logger
+          .getLogger(HandleMissingDocumentNumbers.class);
+  private ServiceRegistry serviceRegistry;
+  private BehaviourFilter behaviourFilter;
+  private NumberingComponent numberingComponent;
+  private Repository repositoryHelper;
 
-		SearchService searchService = serviceRegistry.getSearchService();
-		NodeService nodeService = serviceRegistry.getNodeService();
-		NodeLocatorService nodeLocatorService = serviceRegistry.getNodeLocatorService();
-		FileFolderService fileFolderService = serviceRegistry.getFileFolderService();
-		
-		int result = 0;
-		/*
-		SearchParameters sp = new SearchParameters();
-		sp.setLanguage(SearchService.LANGUAGE_LUCENE);
-		sp.addStore(repositoryHelper.getCompanyHome().getStoreRef());
-		sp.setQuery("+TYPE:\""+AkDmModel.TYPE_AKDM_DOCUMENT.toString()+"\" +ISNULL:\"akdm:documentNumber\"");
-		sp.setLimit(5000);
-		LOG.debug("Query: "+sp.getQuery());
-		
-		ResultSet results = null;
-		
-        try
-        {
-        	
-        	results = searchService.query(sp);
-        	 
-        	 LOG.debug("Query returned "+results.length()+" results.");
-        	 result = results.length();
-             for(ResultSetRow row : results)
-             {
-                 NodeRef currentNodeRef = row.getNodeRef();
-                 try {
-					documentNumberUtil.setDocumentNumber(currentNodeRef, false);
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-             }
-         }
-         finally
-         {
-             if(results != null)
-             {
-                 results.close();
-             }
-         } 
-		*/
-		List<FileInfo> search = fileFolderService.search(repositoryHelper.getCompanyHome(), "*",true, false, true);
-		for (FileInfo item : search) {
-			NodeRef nodeRef = item.getNodeRef();
-			if (nodeService.exists(nodeRef) && nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
-				String property = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
-				if (property==null || !StringUtils.hasText(property)) {
-					try {
-						documentNumberUtil.setDocumentNumber(nodeRef, false);
-					} catch (Exception e) {
-						throw new RuntimeException(e);
-					}
-					result++;
-				}
-			}
-		}
-		model.put("documents", result);
-		return model;
-	}
+  @Override
+  protected Map<String, Object> executeImpl(final WebScriptRequest req,
+          final Status status, final Cache cache) {
+    final Map<String, Object> model = new HashMap<String, Object>();
 
-	/*
+    SearchService searchService = serviceRegistry.getSearchService();
+    NodeService nodeService = serviceRegistry.getNodeService();
+    NodeLocatorService nodeLocatorService = serviceRegistry.getNodeLocatorService();
+    FileFolderService fileFolderService = serviceRegistry.getFileFolderService();
+
+    int result = 0;
+
+    List<FileInfo> search = fileFolderService.search(repositoryHelper.getCompanyHome(), "*", true, false, true);
+    behaviourFilter.disableBehaviour();
+    for (FileInfo item : search) {
+      NodeRef nodeRef = item.getNodeRef();
+      if (nodeService.exists(nodeRef) && nodeService.hasAspect(nodeRef, AkDmModel.ASPECT_AKDM_COMMON)) {
+        String property = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
+        if (property == null || !StringUtils.hasText(property)) {
+          try {
+            String decoratedNextNumber = numberingComponent.getDecoratedNextNumber(nodeRef);
+            nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER, decoratedNextNumber);
+            if (LOG.isDebugEnabled()) {
+              LOG.debug("Setting document number for " + decoratedNextNumber + " for node " + nodeRef.toString());
+            }
+
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+          result++;
+        }
+      }
+    }
+    behaviourFilter.enableBehaviour();
+    model.put("documents", result);
+    return model;
+  }
+
+  /*
 	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
-	 */
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		// TODO Auto-generated method stub
+   */
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    // TODO Auto-generated method stub
 
-	}
+  }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+  public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+    this.serviceRegistry = serviceRegistry;
+  }
 
-	public void setDocumentNumberUtil(DocumentNumberUtil documentNumberUtil) {
-		this.documentNumberUtil = documentNumberUtil;
-	}
-	
-	public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
-		this.behaviourFilter = behaviourFilter;
-	}
+  public void setNumberingComponent(NumberingComponent numberingComponent) {
+    this.numberingComponent = numberingComponent;
+  }
 
-	public Repository getRepositoryHelper() {
-		return repositoryHelper;
-	}
+  public void setBehaviourFilter(BehaviourFilter behaviourFilter) {
+    this.behaviourFilter = behaviourFilter;
+  }
 
-	public void setRepositoryHelper(Repository repositoryHelper) {
-		this.repositoryHelper = repositoryHelper;
-	}
+  public Repository getRepositoryHelper() {
+    return repositoryHelper;
+  }
+
+  public void setRepositoryHelper(Repository repositoryHelper) {
+    this.repositoryHelper = repositoryHelper;
+  }
 
 }

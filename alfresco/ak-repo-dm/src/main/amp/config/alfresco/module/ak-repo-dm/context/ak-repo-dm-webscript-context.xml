@@ -13,7 +13,7 @@
   <bean id="webscript.se.alingsas.alfresco.repo.scripts.documentnumbering.handlemissing.get" class="se.alingsas.alfresco.repo.scripts.HandleMissingDocumentNumbers" parent="webscript">
     <property name="serviceRegistry" ref="ServiceRegistry" />
     <property name="behaviourFilter" ref="policyBehaviourFilter" />
-    <property name="documentNumberUtil" ref="documentNumberUtil" />
+    <property name="numberingComponent" ref="ak.currentDatePrefixNumberingComponent" />
     <property name="repositoryHelper" ref="repositoryHelper" />
   </bean>
 
