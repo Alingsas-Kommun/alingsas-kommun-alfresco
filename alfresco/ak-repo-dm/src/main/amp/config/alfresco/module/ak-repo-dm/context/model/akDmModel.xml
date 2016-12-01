@@ -136,7 +136,7 @@
     <constraint name="akdm:governingConstraint" type="LIST">
       <parameter name="allowedValues">
         <list>
-          <value></value>
+          <value>AEN</value>
           <value>BoU</value>
           <value>KLK</value>
           <value>KUF</value>
@@ -346,6 +346,7 @@
           <title>Governing Target Group</title>
           <type>d:text</type>
           <mandatory>true</mandatory>
+          <multiple>true</multiple>
           <index enabled="true">
             <atomic>true</atomic>
             <stored>false</stored>
