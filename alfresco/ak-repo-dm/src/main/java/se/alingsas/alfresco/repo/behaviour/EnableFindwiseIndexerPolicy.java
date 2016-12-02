@@ -19,17 +19,19 @@
  * along with the Alfresco customizations made for Alingsås Kommun. 
  * If not, see <http://www.gnu.org/licenses/>.
  */
-
 package se.alingsas.alfresco.repo.behaviour;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import org.alfresco.model.ContentModel;
 
 import org.alfresco.repo.node.NodeServicePolicies.OnCreateNodePolicy;
 import org.alfresco.repo.node.NodeServicePolicies.OnSetNodeTypePolicy;
 import org.alfresco.repo.policy.Behaviour.NotificationFrequency;
 import org.alfresco.repo.policy.JavaBehaviour;
+import org.alfresco.repo.security.authentication.AuthenticationUtil;
+import org.alfresco.repo.security.authentication.AuthenticationUtil.RunAsWork;
 import org.alfresco.service.cmr.repository.ChildAssociationRef;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.StoreRef;
@@ -42,11 +44,12 @@ import se.alingsas.alfresco.repo.model.AkDmModel;
 
 /**
  * Enabled the findwise indexer for a node by attaching an aspect
- * 
+ *
  * @author Marcus Svensson - Redpill Linpro AB
  *
  */
 public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCreateNodePolicy, OnSetNodeTypePolicy, InitializingBean {
+
   private static final Logger LOG = Logger.getLogger(EnableFindwiseIndexerPolicy.class);
 
   private static boolean isInitialized = false;
@@ -58,8 +61,9 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
     super.afterPropertiesSet();
     if (!isInitialized() && enabled) {
       isInitialized = true;
-      if (LOG.isTraceEnabled())
+      if (LOG.isTraceEnabled()) {
         LOG.trace("Initialized " + this.getClass().getName());
+      }
       policyComponent.bindClassBehaviour(OnSetNodeTypePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onSetNodeType", NotificationFrequency.EVERY_EVENT));
       policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, AkDmModel.TYPE_AKDM_DOCUMENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.EVERY_EVENT));
 
@@ -75,8 +79,9 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
     }
 
     if (allowAddAspect(nodeRef)) {
-      if (dictionaryService.isSubClass(newType, AkDmModel.TYPE_AKDM_DOCUMENT))
+      if (dictionaryService.isSubClass(newType, AkDmModel.TYPE_AKDM_DOCUMENT)) {
         addFindwiseIndexableAspect(nodeRef);
+      }
     }
 
     if (LOG.isTraceEnabled()) {
@@ -133,12 +138,22 @@ public class EnableFindwiseIndexerPolicy extends AbstractPolicy implements OnCre
     return false;
   }
 
-  private final void addFindwiseIndexableAspect(final NodeRef nodeRef) {
+  private void addFindwiseIndexableAspect(final NodeRef nodeRef) {
     final Map<QName, Serializable> aspectProperties = new HashMap<QName, Serializable>(1);
 
-    nodeService.addAspect(nodeRef, FindwiseIntegrationModel.ASPECT_FINDWISE_INDEXABLE, aspectProperties);
+    behaviourFilter.disableBehaviour(ContentModel.ASPECT_AUDITABLE);
+    behaviourFilter.disableBehaviour(ContentModel.ASPECT_VERSIONABLE);
+    AuthenticationUtil.runAsSystem(new RunAsWork<Void>() {
+      @Override
+      public Void doWork() throws Exception {
+        nodeService.addAspect(nodeRef, FindwiseIntegrationModel.ASPECT_FINDWISE_INDEXABLE, aspectProperties);
+        return null;
+      }
+    });
+    behaviourFilter.enableBehaviour(ContentModel.ASPECT_AUDITABLE);
+    behaviourFilter.enableBehaviour(ContentModel.ASPECT_VERSIONABLE);
   }
- 
+
   public void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
