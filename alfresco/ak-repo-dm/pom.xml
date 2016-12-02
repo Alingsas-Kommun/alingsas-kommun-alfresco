@@ -20,6 +20,7 @@
     <env>local</env>
     <jetty.host>localhost</jetty.host>
     <jetty.port>8080</jetty.port>
+    <jacoco.agent.arg/>
   </properties>
 
   <dependencies>

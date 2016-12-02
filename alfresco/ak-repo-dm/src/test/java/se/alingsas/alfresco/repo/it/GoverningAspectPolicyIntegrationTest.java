@@ -24,32 +24,25 @@ package se.alingsas.alfresco.repo.it;
 import static org.junit.Assert.*;
 
 import java.io.Serializable;
-import java.lang.Thread.State;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.security.authentication.AuthenticationUtil;
 import org.alfresco.repo.site.SiteModel;
-import org.alfresco.repo.transaction.RetryingTransactionHelper;
-import org.alfresco.service.cmr.model.FileExistsException;
 import org.alfresco.service.cmr.model.FileInfo;
-import org.alfresco.service.cmr.model.FileNotFoundException;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
 import org.alfresco.service.namespace.QName;
-import org.alfresco.util.GUID;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.redpill.alfresco.test.AbstractRepoIntegrationTest;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
 
-public class GoverningAspectPolicyIntegrationTest extends AbstractRepoIntegrationTest {
+public class GoverningAspectPolicyIntegrationTest extends AbstractAkRepoIntegrationTest {
+
   private static final Logger LOG = Logger.getLogger(GoverningAspectPolicyIntegrationTest.class);
 
   private static SiteInfo site;
@@ -102,7 +95,7 @@ public class GoverningAspectPolicyIntegrationTest extends AbstractRepoIntegratio
   @Test
   public void testGoverningAspectPolicy() {
     _authenticationComponent.setCurrentUser(siteManagerUser);
-    
+
     Date date = new Date();
     FileInfo testFolder = _fileFolderService.create(documentLibrary, "testFolder", ContentModel.TYPE_CONTENT);
     Serializable creator = _nodeService.getProperty(testFolder.getNodeRef(), ContentModel.PROP_CREATOR);
@@ -120,10 +113,10 @@ public class GoverningAspectPolicyIntegrationTest extends AbstractRepoIntegratio
 
     _nodeService.addAspect(testFolder.getNodeRef(), AkDmModel.ASPECT_AKDM_GOVERNING, props);
     assertTrue(_nodeService.hasAspect(testFolder.getNodeRef(), AkDmModel.ASPECT_AKDM_GOVERNING));
-    
+
     //jämför testFolders skapare med aspekt propertyn dokumentansvarig (AkDmModel.PROP_AKDM_GOVERNING_DOC_RESPONSIBLE)
     assertEquals(creator, _nodeService.getProperty(testFolder.getNodeRef(), AkDmModel.PROP_AKDM_GOVERNING_DOC_RESPONSIBLE));
-    
+
   }
 
 }

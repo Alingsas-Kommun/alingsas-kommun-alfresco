@@ -32,14 +32,14 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.StoreRef;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.junit.Test;
-import org.redpill.alfresco.test.AbstractRepoIntegrationTest;
 
 /**
  * Bootstrap test, used to assure that everything is loaded okay
+ *
  * @author Marcus Svensson
  *
  */
-public class BootstrapIntegrationTest extends AbstractRepoIntegrationTest {
+public class BootstrapIntegrationTest extends AbstractAkRepoIntegrationTest {
 
   static SiteInfo site;
   static String siteManagerUser;
