@@ -51,8 +51,8 @@
     <findwise.version>5.0.1</findwise.version>
     <rl-alfresco-email.version>1.0.2</rl-alfresco-email.version>
     <rl-alfresco-system-usage-statistics.version>1.0.0</rl-alfresco-system-usage-statistics.version>
-    <rl-alfresco-numbering.version>1.1.0-SNAPSHOT</rl-alfresco-numbering.version>
-    <rl-alfresco-audit-tools.version>1.0.0-SNAPSHOT</rl-alfresco-audit-tools.version>
+    <rl-alfresco-numbering.version>1.1.0</rl-alfresco-numbering.version>
+    <rl-alfresco-audit-tools.version>1.0.0</rl-alfresco-audit-tools.version>
     <testframework.version>2.1.1</testframework.version>
     <java.source.version>1.8</java.source.version>
     <java.target.version>1.8</java.target.version>
