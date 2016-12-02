@@ -136,21 +136,22 @@
     <constraint name="akdm:governingConstraint" type="LIST">
       <parameter name="allowedValues">
         <list>
-          <value>AEN</value>
-          <value>BoU</value>
+          <value>BOU</value>
           <value>KLK</value>
           <value>KUF</value>
-          <value>MN</value>
+          <value>MK</value>
           <value>SBK</value>
           <value>SOC</value>
-          <value>TN</value>
           <value>UTB</value>
-          <value>VoA</value>
-          <value>Fabs_AB</value>
-          <value>AB_Alingsashem</value>
-          <value>AB_Alingsas_radhus</value>
-          <value>Overformyndarnamnden</value>
-          <value>A_V_Raddningsforbund</value>
+          <value>VN</value>
+          <value>VOA</value>
+          <value>OFN</value>
+          <value>ABAR</value>
+          <value>AEAB</value>
+          <value>AENAB</value>
+          <value>AHEM</value>
+          <value>AVRF</value>
+          <value>FABS</value>
         </list>
       </parameter>
       <parameter name="caseSensitive">
