@@ -143,6 +143,10 @@
       <groupId>org.redpill-linpro.alfresco.numbering</groupId>
       <artifactId>alfresco-numbering-repo</artifactId>
     </dependency>
-
+    <dependency>
+	            <groupId>org.redpill-linpro.alfresco.audit-tools</groupId>
+		            <artifactId>alfresco-audit-tools-repo</artifactId>
+			            
+				          </dependency>
   </dependencies>
 </project>
