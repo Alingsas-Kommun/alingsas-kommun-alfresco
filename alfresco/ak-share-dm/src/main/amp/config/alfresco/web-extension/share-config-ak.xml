@@ -143,6 +143,16 @@
         </permissions>
         <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
       </action>
+      
+      <!-- Change type -->
+      <action id="document-change-type" type="javascript" label="actions.document.change-type">
+        <param name="function">onActionChangeType</param>
+        <permissions>
+          <permission allow="true">Write</permission>
+        </permissions>
+        <evaluator negate="true">evaluator.doclib.action.isLocked</evaluator>
+        <evaluator>se.alingsas.evaluator.doclib.action.IsAdmin</evaluator>
+      </action>
     </actions>
 
 
@@ -183,7 +193,7 @@
 
       <!-- Repository search configuration option -->
       <!-- The 'repository-search' config element value can be one of: none - disable repository wide search option context - search depending on current context, including repository, all sites, current site (default) always - always search full repository no matter what the context, disables search 
-        context options always-options - always search full repository no matter what the context, still shows the search context options -->
+      context options always-options - always search full repository no matter what the context, still shows the search context options -->
       <repository-search>context</repository-search>
 
       <!-- default option to display filter pane. Override if solr1 is used. -->
