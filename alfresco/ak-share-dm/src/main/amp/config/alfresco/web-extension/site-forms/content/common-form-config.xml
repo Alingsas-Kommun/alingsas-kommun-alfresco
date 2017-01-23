@@ -17,6 +17,7 @@
           <show id="akdm:documentStatus" for-mode="view" />
           <show id="akdm:documentSecrecy" />
           <show id="akdm:department" />
+          <show id="cm:categories" force="true" />
         </field-visibility>
         <appearance>
           <set id="documentdescription" appearance="bordered-panel" label-id="set.akdm.documentdescription" />
@@ -35,6 +36,7 @@
           <field id="akdm:documentStatus" set="documentdescription" />
           <field id="akdm:documentSecrecy" set="documentdescription" />
           <field id="akdm:department" set="documentdescription" />
+          <field id="cm:categories" set="documentdescription" />
         </appearance>
       </form>
     </forms>
