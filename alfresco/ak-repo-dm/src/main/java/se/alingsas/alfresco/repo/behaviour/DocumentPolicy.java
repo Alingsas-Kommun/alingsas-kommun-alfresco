@@ -1,9 +1,13 @@
 package se.alingsas.alfresco.repo.behaviour;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.alfresco.model.ContentModel;
+import org.alfresco.repo.copy.CopyBehaviourCallback;
+import org.alfresco.repo.copy.CopyDetails;
 import org.alfresco.repo.copy.CopyServicePolicies.OnCopyCompletePolicy;
+import org.alfresco.repo.copy.DefaultCopyBehaviourCallback;
 import org.alfresco.repo.node.NodeServicePolicies.OnCreateNodePolicy;
 import org.alfresco.repo.node.NodeServicePolicies.OnMoveNodePolicy;
 import org.alfresco.repo.node.NodeServicePolicies.OnUpdateNodePolicy;
@@ -16,6 +20,7 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.StoreRef;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
+import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
 import org.redpill.alfresco.numbering.component.NumberingComponent;
@@ -267,14 +272,10 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (LOG.isTraceEnabled()) {
         LOG.trace("Initialized " + this.getClass().getName());
       }
-
-      // policyComponent.bindClassBehaviour(OnUpdateNodePolicy.QNAME,
-      // ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onUpdateNode",
-      // NotificationFrequency.EVERY_EVENT));
-      policyComponent.bindClassBehaviour(OnCopyCompletePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onCopyComplete", NotificationFrequency.TRANSACTION_COMMIT));
-
       policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.EVERY_EVENT));
       policyComponent.bindClassBehaviour(OnMoveNodePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onMoveNode", NotificationFrequency.EVERY_EVENT));
+      policyComponent.bindClassBehaviour(QName.createQName(NamespaceService.ALFRESCO_URI, "getCopyCallback"), AkDmModel.ASPECT_AKDM_COMMON, new JavaBehaviour(this, "getCopyCallback"));
+
     }
   }
 
@@ -291,4 +292,27 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
     return false;
   }
 
+  /**
+   * @return Returns the CopyBehaviourCallback
+   */
+  public CopyBehaviourCallback getCopyCallback(QName classRef, CopyDetails copyDetails) {
+    return DocumentNumberCopyBehaviourCallback.INSTANCE;
+  }
+
+  private static class DocumentNumberCopyBehaviourCallback extends DefaultCopyBehaviourCallback {
+
+    private static final CopyBehaviourCallback INSTANCE = new DocumentNumberCopyBehaviourCallback();
+
+    @Override
+    public Map<QName, Serializable> getCopyProperties(
+            QName classQName,
+            CopyDetails copyDetails,
+            Map<QName, Serializable> properties) {
+      //Do not copy the document id, this should be reset instead!
+      if (AkDmModel.ASPECT_AKDM_COMMON.equals(classQName)) {
+        properties.remove(AkDmModel.PROP_AKDM_DOC_NUMBER);
+      }
+      return properties;
+    }
+  }
 }
