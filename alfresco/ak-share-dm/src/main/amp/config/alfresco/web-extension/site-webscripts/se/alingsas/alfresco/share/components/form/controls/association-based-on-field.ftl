@@ -1,5 +1,5 @@
 <#-- @overridden projects/web-framework-commons/config/alfresco/site-webscripts/org/alfresco/components/form/controls/association.ftl -->
-<#include "/org/alfresco/components/form/controls/common/picker.inc.ftl" />
+<#include "common/picker.inc.ftl" />
 
 <#assign controlId = fieldHtmlId + "-cntrl">
 
@@ -35,14 +35,14 @@
    <#if field.control.params.allowNavigationToContentChildren??>
       allowNavigationToContentChildren: ${field.control.params.allowNavigationToContentChildren},
    </#if>
-      itemType: "${field.endpointType}",
+      itemType: "${field.endpointType?js_string}",
       multipleSelectMode: ${field.endpointMany?string},
       parentNodeRef: "alfresco://company/home",
    <#if field.control.params.rootNode??>
-      rootNode: "${field.control.params.rootNode}",
+      rootNode: "${field.control.params.rootNode?js_string}",
    </#if>
       itemFamily: "node",
-      displayMode: "${field.control.params.displayMode!"items"}"
+      displayMode: "${(field.control.params.displayMode!"items")?js_string}"
    });
 })();
 //]]></script>

@@ -38,13 +38,13 @@
    <#if field.control.params.startLocationParams??>
       startLocationParams: "${field.control.params.startLocationParams?js_string}",
    </#if>
-      currentValue: "${field.value}",
+      currentValue: "${field.value?js_string}",
       <#if field.control.params.valueType??>valueType: "${field.control.params.valueType}",</#if>
       <#if renderPickerJSSelectedValue??>selectedValue: "${renderPickerJSSelectedValue}",</#if>
       <#if field.control.params.selectActionLabelId??>selectActionLabelId: "${field.control.params.selectActionLabelId}",</#if>
       selectActionLabel: "${field.control.params.selectActionLabel!msg("button.select")}",
       minSearchTermLength: ${field.control.params.minSearchTermLength!'1'},
-      maxSearchResults: ${field.control.params.maxSearchResults!'1000'}
+      maxSearchResults: ${field.control.params.maxSearchResults!'100'}
    }).setMessages(
       ${messages}
    );
@@ -68,8 +68,8 @@
                </div>
             </div>
          </div>
-         <div id="${pickerId}-searchContainer" class="search">
-            <input type="text" class="search-input" name="-" id="${pickerId}-searchText" value="" maxlength="256" />
+         <div id="${pickerId}-searchContainer" class="picker-search">
+            <input type="text" class="picker-search-input" name="-" id="${pickerId}-searchText" value="" maxlength="256" />
             <span class="search-button"><button id="${pickerId}-searchButton">${msg("form.control.object-picker.search")}</button></span>
          </div>
       </div>
