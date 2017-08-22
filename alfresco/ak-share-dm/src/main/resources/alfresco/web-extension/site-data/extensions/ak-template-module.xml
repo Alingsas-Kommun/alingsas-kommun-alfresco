@@ -1,0 +1,17 @@
+<extension>
+  <modules>
+    <module>
+      <id>ak - Site Templates Module</id>
+      <version>${project.version}</version>
+      <auto-deploy>true</auto-deploy>
+
+      <customizations>
+        <customization>
+          <targetPackageRoot>org.alfresco</targetPackageRoot>
+          <sourcePackageRoot>se.alingsas.alfresco.ak-customizations.site-templates</sourcePackageRoot>
+        </customization>
+      </customizations>
+    </module>
+  </modules>
+</extension>
+        

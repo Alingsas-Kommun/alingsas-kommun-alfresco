@@ -2,52 +2,51 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <artifactId>ak-share-dm</artifactId>
+  <name>alingsas - Alfresco Share Document Management</name>
+  <packaging>jar</packaging>
+  <description>Sample Share JAR Module (to be included in the share.war) - part of AIO - SDK 3</description>
+
   <parent>
     <groupId>se.alingsas.alfresco</groupId>
-    <artifactId>ak-base</artifactId>
-    <version>2.3.0-SNAPSHOT</version>
+    <artifactId>alfresco-alingsas</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>ak-share-dm</artifactId>
-  <packaging>amp</packaging>
-  <name>Alingsås Kommun - Share Document Management</name>
-  <description>Alfresco Share Customizations for Alingsås Document Management</description>
 
   <properties>
-    <!-- Defines the target WAR for this AMP. Allowed values: alfresco | share -->
-    <!-- Defaults to a repository AMP -->
     <alfresco.client.war>share</alfresco.client.war>
     <tomcat.home>${tomcat.share.home}</tomcat.home>
     <tomcat.port>${tomcat.share.port}</tomcat.port>
-    <env>local</env>
-    <jetty.host>localhost</jetty.host>
-    <jetty.port>8080</jetty.port>
-    <alfresco.jetty.host>localhost</alfresco.jetty.host>
-    <alfresco.jetty.port>8080</alfresco.jetty.port>
-    <alfresco.jetty.context>ak-dm-repo</alfresco.jetty.context>
   </properties>
 
+  <!-- Following dependencies are needed for compiling Java code in src/main/java;
+  <scope>provided</scope> is inherited for each of the following;
+  for more info, please refer to alfresco-platform-distribution POM -->
   <dependencies>
-
     <dependency>
       <groupId>${alfresco.groupId}</groupId>
-      <artifactId>share</artifactId>
-      <scope>provided</scope>
-      <version>${alfresco.version}</version>
+      <artifactId>${alfresco.share.war.artifactId}</artifactId>
       <classifier>classes</classifier>
     </dependency>
 
     <dependency>
-      <groupId>org.redpill-linpro.alfresco.translations</groupId>
-      <artifactId>alfresco-swedish-share</artifactId>
+      <groupId>org.alfresco.surf</groupId>
+      <artifactId>spring-surf-api</artifactId>
     </dependency>
     
     <dependency>
-      <groupId>org.redpill-linpro.alfresco.email</groupId>
-      <artifactId>alfresco-email-share-actions</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.redpill-linpro.alfresco.statistics</groupId>
-      <artifactId>alfresco-system-usage-statistics-share</artifactId>       
+      <groupId>org.redpill-linpro.alfresco.translations</groupId>
+      <artifactId>alfresco-swedish-share</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

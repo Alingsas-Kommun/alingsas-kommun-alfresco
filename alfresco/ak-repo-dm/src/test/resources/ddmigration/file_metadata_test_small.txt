@@ -1,6 +1,0 @@
-2002-07-01-G8FM-03F1#!#t#!#2002-07-01 10:59:18#!#2001-01-08#!#x.txt#!#1.0#!#Förteckning - PUL#!#Färdigt dokument#!#Offentligt#!##!##!##!##!##!##!##!#2001-01-08#!#/Test#!#x#!#test#!#
-2002-07-01-G8FM-03F2#!#t#!#2002-07-01 10:59:18#!#2001-01-08#!#x.txt#!#1.0#!#Ärendelista#!#Färdigt dokument#!#Offentligt#!##!##!##!##!##!##!##!#2001-01-08#!#/Test#!#x#!#test#!#
-2002-07-01-G8FM-03F4#!#t#!#2002-07-01 10:59:18#!#2001-01-08#!#x.txt#!#1.0#!#Ärendelista#!#Färdigt dokument#!#Offentligt#!##!##!##!##!##!##!##!#2001-01-08#!#/Test#!#x#!#test#!#
-2002-07-01-G8FM-03F4#!#t#!#2002-07-01 10:59:18#!#2001-01-08#!#x.txt#!#2.0#!#Ärendelista#!#Färdigt dokument#!#Offentligt#!##!##!##!##!##!##!##!#2001-01-08#!#/Test#!#x#!#test#!#
-2002-07-01-G8FM-03F4#!#t#!#2002-07-01 10:59:18#!#2001-01-08#!#x.txt#!#3.0#!#Ärendelista#!#Färdigt dokument#!#Offentligt#!##!##!##!##!##!##!##!#2001-01-08#!#/Test#!#x#!#test#!#
-2002-07-01-G8FM-03F4#!#t#!#2002-07-01 10:59:18#!#2001-01-08#!#x.txt#!#4.0#!#Ärendelista#!#Färdigt dokument#!#Offentligt#!##!##!##!##!##!##!##!#2001-01-08#!##/#Test#/#Special/char:s.#/##!#x#!#test#!#
