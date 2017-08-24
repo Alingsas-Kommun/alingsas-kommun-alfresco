@@ -62,6 +62,7 @@
         <findwise.version>5.0.1</findwise.version>
         <alfresco.document-templates.version>1.1.0</alfresco.document-templates.version>
         <rl.alfresco-test.version>3.0.0</rl.alfresco-test.version>
+        <alfresco.swedish.version>5.2.0-SNAPSHOT</alfresco.swedish.version>
     </properties>
 
     <!-- Libs used in Unit and Integration tests -->
@@ -182,6 +183,21 @@
                 <groupId>org.redpill-linpro.alfresco</groupId>
                 <artifactId>alfresco-test-repo</artifactId>
                 <version>${rl.alfresco-test.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.redpill-linpro.alfresco.translations</groupId>
+                <artifactId>alfresco-swedish-repo</artifactId>
+                <version>${alfresco.swedish.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.redpill-linpro.alfresco.translations</groupId>
+                <artifactId>alfresco-swedish-share</artifactId>
+                <version>${alfresco.swedish.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>org.redpill-linpro.alfresco.translations</groupId>
+                <artifactId>alfresco-swedish-mail</artifactId>
+                <version>${alfresco.swedish.version}</version>
               </dependency>
         </dependencies>
     </dependencyManagement>

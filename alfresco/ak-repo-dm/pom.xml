@@ -67,6 +67,14 @@
           <scope>compile</scope>
           <version>3.2.16.RELEASE</version>
         </dependency>
+        <dependency>
+          <groupId>org.redpill-linpro.alfresco.translations</groupId>
+          <artifactId>alfresco-swedish-repo</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.redpill-linpro.alfresco.translations</groupId>
+          <artifactId>alfresco-swedish-mail</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
