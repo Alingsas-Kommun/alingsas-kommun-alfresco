@@ -8,13 +8,13 @@
       <list>
         <props>
           <prop key="engineId">activiti</prop>
-          <prop key="location">alfresco/workflow/ak-complete-document.bpmn</prop>
+          <prop key="location">alfresco/module/ak-repo-dm/workflow/ak-complete-document.bpmn</prop>
           <prop key="mimetype">text/xml</prop>
           <prop key="redeploy">false</prop>
         </props>
         <props>
           <prop key="engineId">activiti</prop>
-          <prop key="location">alfresco/workflow/ak-revert-document.bpmn</prop>
+          <prop key="location">alfresco/module/ak-repo-dm/workflow/ak-revert-document.bpmn</prop>
           <prop key="mimetype">text/xml</prop>
           <prop key="redeploy">false</prop>
         </props>
@@ -27,8 +27,8 @@
     </property>
     <property name="labels">
       <list>
-        <value>alfresco/workflow/ak-complete-document-workflow-messages</value>
-        <value>alfresco/workflow/ak-revert-document-workflow-messages</value>
+        <value>alfresco/module/ak-repo-dm/workflow/ak-complete-document-workflow-messages</value>
+        <value>alfresco/module/ak-repo-dm/workflow/ak-revert-document-workflow-messages</value>
       </list>
     </property>
   </bean>
