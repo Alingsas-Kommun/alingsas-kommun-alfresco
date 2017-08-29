@@ -1,0 +1,2 @@
+"Film";"Löpnr";"Diarieår";"Dnr";"Fastbet";"TidFastbet";"Adress";"TidAdress";"Beslut";"Avser";"Ärendemening";"Anteckning";"Handlingar";"Filnamn "
+"1";"1-1";"1";"1";"A";"B";"A";"B";"C";"A";"A";"B";"A";"test.pdf"

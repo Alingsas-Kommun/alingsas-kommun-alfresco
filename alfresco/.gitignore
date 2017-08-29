@@ -9,6 +9,7 @@ ${tomcat.share.home}
 ${tomcat.home}
 *~
 *.log
+*.log.*
 rebel.xml
 
 /alfresco/sharepoint/build/
@@ -22,3 +23,4 @@ nbactions-*.xml
 nb-configuration.xml
 
 *.bat
+old/
