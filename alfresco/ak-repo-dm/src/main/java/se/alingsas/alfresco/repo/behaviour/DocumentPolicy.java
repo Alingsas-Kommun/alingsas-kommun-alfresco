@@ -1,9 +1,13 @@
 package se.alingsas.alfresco.repo.behaviour;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.alfresco.model.ContentModel;
+import org.alfresco.repo.copy.CopyBehaviourCallback;
+import org.alfresco.repo.copy.CopyDetails;
 import org.alfresco.repo.copy.CopyServicePolicies.OnCopyCompletePolicy;
+import org.alfresco.repo.copy.DefaultCopyBehaviourCallback;
 import org.alfresco.repo.node.NodeServicePolicies.OnCreateNodePolicy;
 import org.alfresco.repo.node.NodeServicePolicies.OnMoveNodePolicy;
 import org.alfresco.repo.node.NodeServicePolicies.OnUpdateNodePolicy;
@@ -16,24 +20,26 @@ import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.StoreRef;
 import org.alfresco.service.cmr.site.SiteInfo;
 import org.alfresco.service.cmr.site.SiteService;
+import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.apache.log4j.Logger;
+import org.redpill.alfresco.numbering.component.NumberingComponent;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import se.alingsas.alfresco.repo.model.AkDmModel;
-import se.alingsas.alfresco.repo.utils.documentnumber.DocumentNumberUtil;
 
 /**
  * Sets new content inside document library to akdm:document
- * 
+ *
  * @author Marcus Svensson - Redpill Linpro AB
  *
  */
 public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy, OnMoveNodePolicy, OnUpdateNodePolicy, OnCopyCompletePolicy, InitializingBean {
 
   private static final Logger LOG = Logger.getLogger(DocumentPolicy.class);
-  private DocumentNumberUtil documentNumberUtil;
+  private NumberingComponent numberingComponent;
   private static boolean isInitialized = false;
 
   protected void setType(NodeRef nodeRef) {
@@ -42,7 +48,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (LOG.isDebugEnabled()) {
         LOG.debug("Changing type of content to " + AkDmModel.TYPE_AKDM_DOCUMENT + ": " + nodeRef);
       }
+      boolean enabled = behaviourFilter.isEnabled(nodeRef);
+      if (enabled) {
+        behaviourFilter.disableBehaviour(nodeRef);
+      }
       nodeService.setType(nodeRef, AkDmModel.TYPE_AKDM_DOCUMENT);
+      if (enabled) {
+        behaviourFilter.enableBehaviour(nodeRef);
+      }
     }
   }
 
@@ -52,7 +65,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (LOG.isDebugEnabled()) {
         LOG.debug("Setting auto version properties to true for node: " + nodeRef);
       }
+      boolean enabled = behaviourFilter.isEnabled(nodeRef);
+      if (enabled) {
+        behaviourFilter.disableBehaviour(nodeRef);
+      }
       nodeService.setProperty(nodeRef, ContentModel.PROP_AUTO_VERSION_PROPS, true);
+      if (enabled) {
+        behaviourFilter.enableBehaviour(nodeRef);
+      }
     }
   }
 
@@ -67,7 +87,14 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
       if (enabled) {
         behaviourFilter.disableBehaviour(nodeRef);
       }
-      documentNumberUtil.setDocumentNumber(nodeRef, forceNewNumber);
+      String docNumber = (String) nodeService.getProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER);
+      if (docNumber == null || !StringUtils.hasText(docNumber) || forceNewNumber) {
+        String decoratedNextNumber = numberingComponent.getDecoratedNextNumber(nodeRef);
+        nodeService.setProperty(nodeRef, AkDmModel.PROP_AKDM_DOC_NUMBER, decoratedNextNumber);
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Setting document number for " + decoratedNextNumber + " for node " + nodeRef.toString());
+        }
+      }
       if (enabled) {
         behaviourFilter.enableBehaviour(nodeRef);
       }
@@ -181,7 +208,7 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
         result = false;
       } else {
         NodeRef container = siteService.getContainer(site.getShortName(), SiteService.DOCUMENT_LIBRARY);
-        if (container==null) {
+        if (container == null) {
           LOG.trace("Document library does not exist. Denying.");
           return false;
         }
@@ -240,23 +267,20 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
   @Override
   public void afterPropertiesSet() throws Exception {
     super.afterPropertiesSet();
-    Assert.notNull(documentNumberUtil);
+    Assert.notNull(numberingComponent);
     if (!isInitialized()) {
-      if (LOG.isTraceEnabled())
+      if (LOG.isTraceEnabled()) {
         LOG.trace("Initialized " + this.getClass().getName());
-
-      // policyComponent.bindClassBehaviour(OnUpdateNodePolicy.QNAME,
-      // ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onUpdateNode",
-      // NotificationFrequency.EVERY_EVENT));
-      policyComponent.bindClassBehaviour(OnCopyCompletePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onCopyComplete", NotificationFrequency.TRANSACTION_COMMIT));
-
+      }
       policyComponent.bindClassBehaviour(OnCreateNodePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onCreateNode", NotificationFrequency.EVERY_EVENT));
       policyComponent.bindClassBehaviour(OnMoveNodePolicy.QNAME, ContentModel.TYPE_CONTENT, new JavaBehaviour(this, "onMoveNode", NotificationFrequency.EVERY_EVENT));
+      policyComponent.bindClassBehaviour(QName.createQName(NamespaceService.ALFRESCO_URI, "getCopyCallback"), AkDmModel.ASPECT_AKDM_COMMON, new JavaBehaviour(this, "getCopyCallback"));
+
     }
   }
 
-  public void setDocumentNumberUtil(DocumentNumberUtil documentNumberUtil) {
-    this.documentNumberUtil = documentNumberUtil;
+  public void setNumberingComponent(NumberingComponent numberingComponent) {
+    this.numberingComponent = numberingComponent;
   }
 
   private Boolean isInitialized() {
@@ -268,4 +292,27 @@ public class DocumentPolicy extends AbstractPolicy implements OnCreateNodePolicy
     return false;
   }
 
+  /**
+   * @return Returns the CopyBehaviourCallback
+   */
+  public CopyBehaviourCallback getCopyCallback(QName classRef, CopyDetails copyDetails) {
+    return DocumentNumberCopyBehaviourCallback.INSTANCE;
+  }
+
+  private static class DocumentNumberCopyBehaviourCallback extends DefaultCopyBehaviourCallback {
+
+    private static final CopyBehaviourCallback INSTANCE = new DocumentNumberCopyBehaviourCallback();
+
+    @Override
+    public Map<QName, Serializable> getCopyProperties(
+            QName classQName,
+            CopyDetails copyDetails,
+            Map<QName, Serializable> properties) {
+      //Do not copy the document id, this should be reset instead!
+      if (AkDmModel.ASPECT_AKDM_COMMON.equals(classQName)) {
+        properties.remove(AkDmModel.PROP_AKDM_DOC_NUMBER);
+      }
+      return properties;
+    }
+  }
 }
