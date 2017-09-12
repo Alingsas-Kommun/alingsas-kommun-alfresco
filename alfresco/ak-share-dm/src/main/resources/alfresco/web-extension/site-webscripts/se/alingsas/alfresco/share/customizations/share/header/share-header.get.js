@@ -66,3 +66,13 @@ function addCustomizeDashboardLink() {
   }
 }
 addCustomizeDashboardLink();
+
+function addAlingsasSitePresets(){
+  var siteService = widgetUtils.findObject(model.jsonModel, "id", "SITE_SERVICE");
+  if (siteService && siteService.config)
+  {
+    siteService.config.sitePresetsToRemove = ["site-dashboard"];
+    siteService.config.additionalSitePresets = [{ label: "preset.ak-dm-public.title", value: "ak-dm-public" }, { label: "preset.ak-dm-secrecy.title", value: "ak-dm-secrecy" }, { label: "preset.ak-dm-template.title", value: "ak-dm-template" }];
+  }
+}
+addAlingsasSitePresets();
