@@ -6,12 +6,12 @@
   <bean id="ak.dictionaryBootstrap" parent="dictionaryModelBootstrap" depends-on="dictionaryBootstrap">
     <property name="models">
       <list>
-        <value>alfresco/module/ak-repo-dm/context/model/akDmModel.xml</value>
+        <value>alfresco/module/ak-repo-dm/model/akDmModel.xml</value>
       </list>
     </property>
     <property name="labels">
       <list>
-        <value>alfresco/module/ak-repo-dm/context/messages/ak-dm-model</value>
+        <value>alfresco/module/ak-repo-dm/messages/ak-dm-model</value>
       </list>
     </property>
     

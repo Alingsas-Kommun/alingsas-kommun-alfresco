@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>alfresco-alingsas</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <name>Alingsas - Alfresco SDK3</name>
     <description>All-In-One (AIO) project for SDK 3.0</description>
     <packaging>pom</packaging>
@@ -47,6 +47,10 @@
 
         <!-- Alfresco Surf version, if you change Share version you might need to change Surf version -->
         <alfresco.surf.version>6.11</alfresco.surf.version>
+
+        <!-- Aikau framework version, it is released separately, so it can be useful to be able
+        to bring in newer versions with bug fixes etc -->
+        <aikau.version>1.0.102</aikau.version>
 
         <!-- JRebel Hot reloading of classpath stuff and web resource stuff -->
         <jrebel.version>1.1.6</jrebel.version>
