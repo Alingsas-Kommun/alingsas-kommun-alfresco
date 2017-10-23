@@ -393,7 +393,6 @@
                             <groupId>${project.groupId}</groupId>
                             <artifactId>ak-share-dm</artifactId>
                             <version>${project.version}</version>
-                            <type>amp</type>
                         </moduleDependency>
                     </shareModules>
                 </configuration>
