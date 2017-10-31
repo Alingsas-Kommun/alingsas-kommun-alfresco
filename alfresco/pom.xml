@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>alfresco-alingsas</artifactId>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <name>Alingsas - Alfresco SDK3</name>
     <description>All-In-One (AIO) project for SDK 3.0</description>
     <packaging>pom</packaging>
@@ -63,7 +63,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <findwise.version>5.0.1</findwise.version>
+        <findwise.version>5.1.0</findwise.version>
         <alfresco.document-templates.version>1.1.0</alfresco.document-templates.version>
         <rl.alfresco-test.version>3.0.0</rl.alfresco-test.version>
         <alfresco.swedish.version>5.2.0-SNAPSHOT</alfresco.swedish.version>
