@@ -4,7 +4,7 @@
       <id>ak - Site Templates Module</id>
       <version>${project.version}</version>
       <auto-deploy>true</auto-deploy>
-
+      <evaluator>se.alingsas.evaluator.doclib.action.IsAdmin</evaluator>
       <customizations>
         <customization>
           <targetPackageRoot>org.alfresco</targetPackageRoot>
