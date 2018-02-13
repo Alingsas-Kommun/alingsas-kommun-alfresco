@@ -44,6 +44,16 @@
       this.containerNodeRef = new Alfresco.util.NodeRef(response.json.container);
       this.widgets.newList.set("disabled", !response.json.permissions.create);
 
+      function compare(a,b) {
+        if (a.title < b.title)
+          return 1;
+        if (a.title > b.title)
+          return -1;
+        return 0;
+      }
+
+      lists.sort(compare);
+
       for (var i = lists.length-1; i >= 0; i--)
       {
         list = lists[i];
