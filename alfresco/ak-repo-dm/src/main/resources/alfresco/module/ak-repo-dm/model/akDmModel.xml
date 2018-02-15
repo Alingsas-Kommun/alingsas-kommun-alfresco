@@ -589,6 +589,11 @@
         </property>
       </properties>
     </aspect>
+
+    <aspect name="akdm:onlyofficeAspect">
+      <title>Enable Onlyoffice in doclib</title>
+    </aspect>
+
   </aspects>
 
 </model>

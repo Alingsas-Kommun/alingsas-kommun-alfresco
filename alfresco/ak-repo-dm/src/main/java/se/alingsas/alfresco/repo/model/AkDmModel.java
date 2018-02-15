@@ -105,6 +105,8 @@ public interface AkDmModel {
   public static final QName PROP_AKDM_GOVERNING_GROUP = QName.createQName(AKDM_URI, "governingGroup");
   public static final QName PROP_AKDM_GOVERNING_TARGET_GROUP = QName.createQName(AKDM_URI, "governingTargetGroup");
 
+  public static final QName ASPECT_AKDM_ONLYOFFICE = QName.createQName(AKDM_URI, "onlyofficeAspect");
+
   /**
    * Associations
    */

@@ -67,5 +67,7 @@
   <bean id="se.alingsas.evaluator.doclib.action.IsAlingsasDocument" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAlingsasDocument" />
   <bean id="se.alingsas.evaluator.doclib.action.IsAdmin" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAdmin" />
 
+  <bean id="se.alingsas.evaluator.doclib.action.HasOnlyofficeAspect" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.OnlyOfficeEvaluator" />
+
 
 </beans>

@@ -382,6 +382,13 @@
                           <type>amp</type>
                         </moduleDependency>
 
+                        <moduleDependency>
+                          <groupId>de.fmaul</groupId>
+                          <artifactId>javascript-console-repo</artifactId>
+                          <version>0.6</version>
+                          <type>amp</type>
+                        </moduleDependency>
+
                     </platformModules>
 
                     <!--
@@ -394,6 +401,21 @@
                             <artifactId>ak-share-dm</artifactId>
                             <version>${project.version}</version>
                         </moduleDependency>
+
+                        <moduleDependency>
+                          <groupId>com.parashift.onlyoffice-alfresco</groupId>
+                          <artifactId>onlyoffice-integration-share</artifactId>
+                          <version>1.0.0</version>
+                          <type>amp</type>
+                        </moduleDependency>
+
+                        <moduleDependency>
+                          <groupId>de.fmaul</groupId>
+                          <artifactId>javascript-console-share</artifactId>
+                          <version>0.6</version>
+                          <type>amp</type>
+                        </moduleDependency>
+
                     </shareModules>
                 </configuration>
             </plugin>
