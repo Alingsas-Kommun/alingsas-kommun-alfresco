@@ -108,6 +108,7 @@
           <value></value>
           <value>KS</value>
           <value>KF</value>
+          <value>TN</value>
           <value>Namnd</value>
           <value>Forvaltning</value>
         </list>
@@ -143,6 +144,7 @@
           <value>MK</value>
           <value>SBK</value>
           <value>SOC</value>
+          <value>TN</value>
           <value>UTB</value>
           <value>VN</value>
           <value>VOA</value>
@@ -587,6 +589,11 @@
         </property>
       </properties>
     </aspect>
+
+    <aspect name="akdm:onlyofficeAspect">
+      <title>Enable Onlyoffice in doclib</title>
+    </aspect>
+
   </aspects>
 
 </model>

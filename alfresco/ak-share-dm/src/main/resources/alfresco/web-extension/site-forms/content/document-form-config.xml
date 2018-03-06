@@ -42,9 +42,9 @@
           <show id="cm:title" />
           <show id="cm:description" />
           <show id="akdm:documentSecrecy" />
-          <show id="cm:categories" force="true" />
           <show id="rplpdt:template" force="true" />
-        </field-visibility>
+          <show id="cm:categories" force="true" />
+          </field-visibility>
         <appearance>
           <set id="documentdescription" appearance="bordered-panel" label-id="set.akdm.documentdescription" />
           <field id="cm:name" set="documentdescription" />
@@ -53,7 +53,6 @@
           </field>
           <field id="cm:description" set="documentdescription" />
           <field id="akdm:documentSecrecy" set="documentdescription" />
-          <field id="cm:categories" set="documentdescription" />
           <!-- This field is used to control document templates for this type. A temporary aspect attached to the node when created and cleared by a formfilter afterwards -->
           <field id="rplpdt:template" label-id="property.akdm_basedOnTemplate" set="documentdescription" mandatory="true">
             <control template="/org/alfresco/components/form/controls/association.ftl">
@@ -61,6 +60,7 @@
               <control-param name="rootNode">/app:company_home/st:sites/cm:templates/cm:documentLibrary/cm:Dokument</control-param>
             </control>
           </field>
+          <field id="cm:categories" set="documentdescription" />
         </appearance>
       </form>
     </forms>

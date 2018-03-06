@@ -76,3 +76,13 @@ function addAlingsasSitePresets(){
   }
 }
 addAlingsasSitePresets();
+
+
+//Disable edit site menu if not admin
+function disableEditSite() {
+  var shareMenu = widgetUtils.findObject(model.jsonModel.widgets, "id", "HEADER_SITE_CONFIGURATION_DROPDOWN");
+  if(!user.isAdmin){
+    widgetUtils.deleteObjectFromArray(model.jsonModel, "id", "HEADER_EDIT_SITE_DETAILS");
+  }
+}
+disableEditSite();

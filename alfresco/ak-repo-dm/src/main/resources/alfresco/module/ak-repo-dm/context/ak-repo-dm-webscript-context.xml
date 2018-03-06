@@ -24,4 +24,10 @@
     <property name="siteService" ref="SiteService" />
     <property name="workflowService" ref="WorkflowService" />
   </bean>
+  
+  <bean id="webscript.se.alingsas.alfresco.repo.scripts.sitehasaspect.sitehasaspect.get" class="se.alingsas.alfresco.repo.webscripts.SiteHasAspect" parent="webscript">
+    <property name="nodeService" ref="NodeService" />
+    <property name="siteService" ref="SiteService" />
+  </bean>
+  
 </beans>
