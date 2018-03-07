@@ -30,6 +30,9 @@ public class OnlyOfficeEvaluator extends BaseEvaluator {
     if (nodeRef == null) {
       nodeRef = context.getParameter("nodeRef");
     }
+    if (nodeRef == null) {
+      return false;
+    }
 
     try {
       final Connector conn = context.getServiceRegistry().getConnectorService().getConnector("alfresco", context.getUserId(), ServletUtil.getSession());
