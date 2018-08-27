@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>alfresco-alingsas</artifactId>
-    <version>3.1.3</version>
+    <version>3.1.4</version>
     <name>Alingsas - Alfresco SDK3</name>
     <description>All-In-One (AIO) project for SDK 3.0</description>
     <packaging>pom</packaging>
@@ -70,7 +70,6 @@
         <alfresco.swedish.version>5.2.0-SNAPSHOT</alfresco.swedish.version>
 
         <alfresco.swedish.version>5.2.3</alfresco.swedish.version>
-        <rl-alfresco-system-usage-statistics.version>1.1.4</rl-alfresco-system-usage-statistics.version>
 
     </properties>
 
@@ -208,16 +207,6 @@
                 <artifactId>alfresco-swedish-mail</artifactId>
                 <version>${alfresco.swedish.version}</version>
               </dependency>
-            <dependency>
-                <groupId>org.redpill-linpro.alfresco.statistics</groupId>
-                <artifactId>alfresco-system-usage-statistics-repo</artifactId>
-                <version>${rl-alfresco-system-usage-statistics.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.redpill-linpro.alfresco.statistics</groupId>
-                <artifactId>alfresco-system-usage-statistics-share</artifactId>
-                <version>${rl-alfresco-system-usage-statistics.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
