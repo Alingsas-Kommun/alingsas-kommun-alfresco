@@ -25,4 +25,5 @@ nb-configuration.xml
 *.bat
 old/
 
-*/.idea*
+*.idea*
+*.iml
