@@ -3,7 +3,7 @@
 
     <module>
       <id>Global changes</id>
-      <auto-deploy>true</auto-deploy>
+      <auto-deploy>false</auto-deploy>
       <version>${noSnapshotVersion}</version>
       <!-- No evaluator since these are global changes which always are applied -->
 

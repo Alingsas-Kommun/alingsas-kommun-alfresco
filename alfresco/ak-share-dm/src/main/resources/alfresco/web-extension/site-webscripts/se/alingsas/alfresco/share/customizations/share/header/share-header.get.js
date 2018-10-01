@@ -62,6 +62,31 @@ function addCustomizeDashboardLink() {
           });
         }
       }
+      //If the user is an admin then add the become site manager action and remove the join action
+      if (user.isAdmin && !siteData.userIsSiteManager) {
+        if (page.titleId == "page.akdm.siteDashboard.public.title" || page.titleId == "page.akdm.siteDashboard.secrecy.title" || page.titleId == "page.akdm.siteDashboard.template.title")
+        {
+          // Add Become Site Manager
+          siteConfig.config.widgets.splice(0,0,{
+            id: "HEADER_BECOME_SITE_MANAGER",
+            name: "alfresco/menus/AlfMenuItem",
+            config: {
+              id: "HEADER_BECOME_SITE_MANAGER",
+              label: "become_site_manager.label",
+              iconClass: "alf-cog-icon",
+              publishTopic: "ALF_BECOME_SITE_MANAGER",
+              publishPayload: {
+                 site: page.url.templateArgs.site,
+                 siteTitle: siteData.profile.title,
+                 user: user.name,
+                 userFullName: user.fullName,
+                 reloadPage: true
+              }
+           }
+          });
+          widgetUtils.deleteObjectFromArray(model.jsonModel, "id", "HEADER_JOIN_SITE");
+        }
+      }
     }
   }
 }
