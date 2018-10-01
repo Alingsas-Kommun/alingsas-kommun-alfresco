@@ -30,8 +30,8 @@ function widgets()
          createContentActions: model.createContent
       }
    };
-      var rendererName = "Bildbanken";
-      if(page.url.templateArgs.site == "y"){
+      var rendererName = "detailed";
+      if(page.url.templateArgs.site == "Bildbanken"){
        rendererName = "gallery";
       }
    var documentList = {
