@@ -27,3 +27,4 @@ old/
 
 *.idea*
 *.iml
+.idea/workspace.xml
