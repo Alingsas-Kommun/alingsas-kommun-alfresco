@@ -102,6 +102,41 @@ function addAlingsasSitePresets(){
 }
 addAlingsasSitePresets();
 
+function updateEditSiteForm() {
+    var siteData = getSiteData();
+    var publishDocument = siteData.profile.customProperties["{http:\/\/www.alfresco.org\/model\/sitecustomproperty\/1.0}publishDocument"].value;
+    var presetProperty = siteData.profile.customProperties["{http:\/\/www.alfresco.org\/model\/sitecustomproperty\/1.0}presetValue"].value;
+    var siteService = widgetUtils.findObject(model.jsonModel, "id", "SITE_SERVICE");
+    if (siteService && siteService.config)
+    {
+      siteService.config.legacyMode = false;
+      siteService.config.widgetsForEditSiteDialogOverrides = [
+         {
+           id: "EDIT_SITE_PRESET",
+           targetPosition: "AFTER",
+           targetId: "EDIT_SITE_FIELD_DESCRIPTION",
+           name: "alfresco/html/Label",
+           config: {
+             label: presetProperty
+           }
+         },
+        {
+          id: "EDIT_PUBLISH_DOCUMENT",
+          name: "alfresco/forms/controls/CheckBox",
+          targetPosition: "AFTER",
+          targetId: "EDIT_SITE_PRESET",
+          config: {
+            fieldId: "EDIT_PUBLISH_DOCUMENT",
+            label: "actions.edit.site.publish.document.title",
+            description: Alfresco.util.message("actions.edit.site.publish.document.description"),
+            name: "stcp_presetValue",
+            value: publishDocument
+          }
+        }
+      ];
+    }
+}
+
 
 //Disable edit site menu if not admin
 function disableEditSite() {
