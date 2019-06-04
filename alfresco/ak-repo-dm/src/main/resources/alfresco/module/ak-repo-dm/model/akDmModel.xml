@@ -15,6 +15,8 @@
     <import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
     <!-- Import Alfresco Rendition Domain Model Definitions -->
     <import uri="http://www.alfresco.org/model/rendition/1.0" prefix="rn" />
+    <!-- Import Alfresco Site Custom Property Model Definitions -->
+    <import uri="http://www.alfresco.org/model/sitecustomproperty/1.0" prefix="stcp"/>
   </imports>
 
   <namespaces>
@@ -139,21 +141,21 @@
           <value></value>
           <value>BOU</value>
           <value>KLK</value>
-          <value>KUF</value>
+          <value>KUF</value><!--kommer i gränssnittet heta KOU-->
           <value>MK</value>
           <value>SBK</value>
           <value>SOC</value>
-          <value>TN</value>
-          <value>UTB</value>
+          <!--<value>TN</value>Kombineras nu med SBK under namnet SBK-->
+          <!--<value>UTB</value> byter namn till KOU och komineras med KUF-->
           <value>VN</value>
-          <value>VOA</value>
+          <value>VOA</value><!--kommer i gränssnittet heta VOO-->
           <value>OFN</value>
           <value>ABAR</value>
           <value>AEAB</value>
           <value>AENAB</value>
           <value>AHEM</value>
           <value>AVRF</value>
-          <value>FABS</value>
+          <value>FABS</value><!--kombineras nu med AHEM under namnet AHEM-->
         </list>
       </parameter>
       <parameter name="caseSensitive">
@@ -589,8 +591,20 @@
       </properties>
     </aspect>
 
-    <aspect name="akdm:onlyofficeAspect">
-      <title>Enable Onlyoffice in doclib</title>
+    <aspect name="akdm:siteSecrecyAspect">
+      <title>Site Secrecy Aspect</title>
+      <properties>
+        <property name="stcp:publishDocument">
+          <title>Publish the document</title>
+          <type>d:boolean</type>
+          <mandatory>true</mandatory>
+        </property>
+        <property name="stcp:presetValue">
+          <title>Publish the document</title>
+          <type>d:text</type>
+          <mandatory>true</mandatory>
+        </property>
+      </properties>
     </aspect>
 
   </aspects>

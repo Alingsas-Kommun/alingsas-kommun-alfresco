@@ -29,5 +29,11 @@
     <property name="nodeService" ref="NodeService" />
     <property name="siteService" ref="SiteService" />
   </bean>
+
+  <bean id="webscript.se.alingsas.alfresco.repo.scripts.script.email.service" class="se.alingsas.alfresco.repo.service.ScriptEmailService" parent="baseJavaScriptExtension">
+    <property name="extensionName" value="emailService" />
+    <property name="nodeService" ref="NodeService" />
+    <property name="searchService" ref="SearchService" />
+  </bean>
   
 </beans>
