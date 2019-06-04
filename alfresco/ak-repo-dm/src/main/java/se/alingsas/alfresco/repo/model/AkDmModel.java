@@ -29,6 +29,7 @@ public interface AkDmModel {
    * Namespaces
    */
   public static final String AKDM_URI = "http://www.alingsas.se/alfresco/model/dm/1.0";
+  public static final String STCP_URI = "http://www.alfresco.org/model/sitecustomproperty/1.0";
 
   /**
    * Types
@@ -105,7 +106,10 @@ public interface AkDmModel {
   public static final QName PROP_AKDM_GOVERNING_GROUP = QName.createQName(AKDM_URI, "governingGroup");
   public static final QName PROP_AKDM_GOVERNING_TARGET_GROUP = QName.createQName(AKDM_URI, "governingTargetGroup");
 
-  public static final QName ASPECT_AKDM_ONLYOFFICE = QName.createQName(AKDM_URI, "onlyofficeAspect");
+  public static final QName ASPECT_SITE_SECRECY = QName.createQName(AKDM_URI, "siteSecrecyAspect");
+  public static final QName PROP_SITE_SECRECY = QName.createQName(STCP_URI, "siteSecrecy");
+  public static final QName PROP_SITE_PRESET_VALUE = QName.createQName(STCP_URI, "presetValue");
+
 
   /**
    * Associations

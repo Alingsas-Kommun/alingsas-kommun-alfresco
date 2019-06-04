@@ -51,7 +51,7 @@ public class FindwiseNodeVerifier extends DefaultVerifierProcessor {
   @Override
   public boolean verifyDocument(final NodeRef node) {
     if (LOG.isTraceEnabled()) {
-      LOG.trace("Starting to execute FindwiseNodeVerifier#verifyDocument");
+      LOG.trace("Starting to execute FindwiseNodeVerifier#verifyDocument for node: " + node.getId());
     }
     boolean result = super.verifyDocument(node);
     if (result) {
