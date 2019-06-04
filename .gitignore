@@ -20,3 +20,6 @@ alf_data_dev
 
 nbactions-*.xml
 nb-configuration.xml
+*.idea/*
+alfresco/.idea/*
+*.iml
