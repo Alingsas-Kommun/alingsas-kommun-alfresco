@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b07712e7-97c6-4cf1-af66-ceaf4f930fa2" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="bb15e8a5-18e1-44b7-89e9-d45b2885a67b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/findwise/FindwiseNodeVerifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/findwise/FindwiseNodeVerifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/model/AkDmModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/model/AkDmModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/extension/templates/webscripts/org/alfresco/repository/site/sites.post.json.js" beforeDir="false" afterPath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/extension/templates/webscripts/org/alfresco/repository/site/sites.post.json.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model_sv.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model_sv.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/model/akDmModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/model/akDmModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/ak-dm.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/ak-dm.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/share/header/share-header.get.js" beforeDir="false" afterPath="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/share/header/share-header.get.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist.get.js" beforeDir="false" afterPath="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist.get.js" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/target/" />
-    <ignored path="$PROJECT_DIR$/ak-repo-dm/target/" />
     <ignored path="$PROJECT_DIR$/integration-tests/target/" />
+    <ignored path="$PROJECT_DIR$/ak-repo-dm/target/" />
+    <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/ak-share-dm/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,125 +18,33 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/modules/create-site.get.js">
+        <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist-v2.get.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="38" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="38" />
+            <state relative-caret-position="270">
+              <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/findwise/FindwiseNodeVerifier.java">
+        <entry file="file://$PROJECT_DIR$/src/test/resources/share/share-config-custom.xml">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
-            <state>
-              <caret line="20" column="3" lean-forward="true" selection-start-line="20" selection-start-column="3" selection-end-line="20" selection-end-column="3" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-=======
-            <state relative-caret-position="120">
-              <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
->>>>>>> Stashed changes
+            <state relative-caret-position="570">
+              <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/model/AkDmModel.java">
+        <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist.get.js">
           <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
-            <state relative-caret-position="836">
-              <caret line="109" column="5" selection-start-line="109" selection-start-column="5" selection-end-line="109" selection-end-column="5" />
-=======
-            <state relative-caret-position="1425">
-              <caret line="115" column="5" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
->>>>>>> Stashed changes
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/extension/templates/webscripts/org/alfresco/repository/site/sites.post.json.js">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
-            <state relative-caret-position="210">
-              <caret line="14" selection-start-line="14" selection-end-line="14" />
-=======
-            <state relative-caret-position="255">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
->>>>>>> Stashed changes
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/share/header/share-header.get.js">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
-            <state relative-caret-position="1560">
-              <caret line="104" selection-start-line="104" selection-end-line="104" />
-=======
-            <state relative-caret-position="2085">
-              <caret line="139" selection-start-line="139" selection-end-line="139" />
->>>>>>> Stashed changes
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/filing-action_sv.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/ak-dm.properties">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1995">
-<<<<<<< Updated upstream
-              <caret line="133" selection-start-line="133" selection-end-line="133" />
-=======
-              <caret line="133" selection-start-line="133" selection-end-line="133" selection-end-column="40" />
->>>>>>> Stashed changes
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/model/akDmModel.xml">
-          <provider selected="true" editor-type-id="text-editor">
-<<<<<<< Updated upstream
-            <state relative-caret-position="8805">
-              <caret line="587" column="19" selection-start-line="587" selection-start-column="19" selection-end-line="587" selection-end-column="19" />
-=======
-            <state relative-caret-position="9015">
-              <caret line="601" column="40" selection-start-line="601" selection-start-column="40" selection-end-line="601" selection-end-column="40" />
->>>>>>> Stashed changes
+            <state relative-caret-position="150">
+              <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-<<<<<<< Updated upstream
-=======
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>ak-dm-public</find>
-      <find>ak-dm-secrecy</find>
-      <find>ak-dm-publ</find>
-      <find>akdm:documentmanagement</find>
-      <find>auto-de</find>
-      <find>SECRET_PRESET</find>
-      <find>become_site_manage</find>
-      <find>become</find>
-      <find>akdm_documentmanagement.property.stcp_presetValue.secrecy.description</find>
-    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -152,30 +52,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/findwise/FindwiseNodeVerifier.java" />
-        <option value="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/ak-dm.properties" />
-        <option value="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/share/header/share-header.get.js" />
-        <option value="$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/model/AkDmModel.java" />
-        <option value="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/model/akDmModel.xml" />
-        <option value="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model_sv.properties" />
-        <option value="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model.properties" />
-        <option value="$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/extension/templates/webscripts/org/alfresco/repository/site/sites.post.json.js" />
+        <option value="$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist.get.js" />
+        <option value="$PROJECT_DIR$/src/test/resources/share/share-config-custom.xml" />
       </list>
     </option>
   </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
->>>>>>> Stashed changes
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="10" />
-    <option name="y" value="200" />
-    <option name="width" value="1910" />
-    <option name="height" value="789" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="20" />
+    <option name="y" value="2" />
+    <option name="width" value="1900" />
+    <option name="height" value="1036" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -193,154 +79,168 @@
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-              <item name="behaviour" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-              <item name="findwise" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-              <item name="jobs" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-              <item name="behaviour" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-              <item name="findwise" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
               <item name="alfresco" type="462c0819:PsiDirectoryNode" />
-              <item name="ak-repo-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="repo" type="462c0819:PsiDirectoryNode" />
-              <item name="jobs" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="share" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="share" type="462c0819:PsiDirectoryNode" />
+              <item name="customizations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="share" type="462c0819:PsiDirectoryNode" />
+              <item name="customizations" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="ak-share-dm" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="web-extension" type="462c0819:PsiDirectoryNode" />
+              <item name="site-webscripts" type="462c0819:PsiDirectoryNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="share" type="462c0819:PsiDirectoryNode" />
+              <item name="customizations" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="documentlibrary" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="integration-tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="integration-tests" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="alfresco-alingsas" type="b2602c69:ProjectViewProjectNode" />
+              <item name="alfresco" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561985579745" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/pom.xml" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -355,25 +255,10 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="Application" factoryName="Application">
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-<<<<<<< Updated upstream
-=======
-    <configuration name="Unnamed" type="Remote">
+    <configuration name="Unnamed" type="Remote" nameIsGenerated="true">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="SHMEM_ADDRESS" />
       <option name="HOST" value="localhost" />
       <option name="PORT" value="8000" />
       <option name="AUTO_RESTART" value="false" />
@@ -383,52 +268,25 @@
       </RunnerSettings>
       <method v="2" />
     </configuration>
->>>>>>> Stashed changes
-    <configuration default="true" type="TestNG">
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b07712e7-97c6-4cf1-af66-ceaf4f930fa2" name="Default" comment="" />
-      <created>1541060830684</created>
+      <changelist id="bb15e8a5-18e1-44b7-89e9-d45b2885a67b" name="Default Changelist" comment="" />
+      <created>1561982722576</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1541060830684</updated>
+      <updated>1561982722576</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="-1" width="1920" height="1040" extended-state="6" />
+    <frame x="20" y="2" width="1900" height="1036" extended-state="0" />
     <editor active="true" />
     <layout>
-<<<<<<< Updated upstream
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27267876" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Designer" order="2" />
-      <window_info id="UI Designer" order="3" />
-      <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="SonarLint" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-=======
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26947704" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25512406" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -436,146 +294,44 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.3995633" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="SonarLint" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" weight="0.329718" />
->>>>>>> Stashed changes
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-<<<<<<< Updated upstream
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Maven Projects" order="5" />
-    </layout>
-  </component>
-=======
-      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Maven" order="4" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Maven Projects" order="7" />
-      <window_info anchor="right" id="Maven" order="8" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/context/ak-repo-dm-model-context.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/redpill-linpro/alfresco/findwise/findwise-integration-repo/5.1.0/findwise-integration-repo-5.1.0.jar!/org/redpill/alfresco/repo/findwise/processor/DefaultVerifierProcessor.class" />
-    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/headermenu-hidesharedfiles/share/header/share-header.get.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model.properties">
-      <provider editor-type-id="ResourceBundle" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="58" column="118" selection-start-line="58" selection-start-column="118" selection-end-line="58" selection-end-column="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/messages/ak-dm-model_sv.properties">
-      <provider editor-type-id="ResourceBundle" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="110" selection-start-line="110" selection-end-line="110" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/jobs/CloseRunningWorkflowReceipts.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/jobs/CloseRunningWorkflowReceiptsJob.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/behaviour/AbstractPolicy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="49" column="22" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/behaviour/DocumentPolicy.java">
+    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist.get.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <caret line="10" column="23" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/modules/create-site.get.js">
+    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/components/documentlibrary/documentlist-v2.get.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="38" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="38" />
+        <state relative-caret-position="270">
+          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/extension/templates/webscripts/org/alfresco/repository/site/sites.post.json.js">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/share/share-config-custom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" selection-start-line="17" selection-end-line="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/site-webscripts/se/alingsas/alfresco/share/customizations/share/header/share-header.get.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2085">
-          <caret line="139" selection-start-line="139" selection-end-line="139" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/filing-action_sv.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-share-dm/src/main/resources/alfresco/web-extension/messages/ak-dm.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1995">
-          <caret line="133" selection-start-line="133" selection-end-line="133" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/resources/alfresco/module/ak-repo-dm/model/akDmModel.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9015">
-          <caret line="601" column="40" selection-start-line="601" selection-start-column="40" selection-end-line="601" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/behaviour/EnableFindwiseIndexerPolicy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="126" column="5" lean-forward="true" selection-start-line="126" selection-start-column="5" selection-end-line="126" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/model/AkDmModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1425">
-          <caret line="115" column="5" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ak-repo-dm/src/main/java/se/alingsas/alfresco/repo/findwise/FindwiseNodeVerifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="28" column="30" lean-forward="true" selection-start-line="28" selection-start-column="30" selection-end-line="28" selection-end-column="30" />
+        <state relative-caret-position="570">
+          <caret line="38" lean-forward="true" selection-start-line="38" selection-end-line="38" />
         </state>
       </provider>
     </entry>
@@ -584,7 +340,7 @@
     <states>
       <state key="ProjectJDKs.UI">
         <settings>
-          <last-edited>1.8</last-edited>
+          <last-edited>11</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -596,5 +352,4 @@
       </state>
     </states>
   </component>
->>>>>>> Stashed changes
 </project>
