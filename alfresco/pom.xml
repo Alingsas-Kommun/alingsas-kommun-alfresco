@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>alfresco-alingsas</artifactId>
-    <version>3.1.5</version>
+    <version>4.1.0</version>
     <name>Alingsas - Alfresco SDK3</name>
     <description>All-In-One (AIO) project for SDK 3.0</description>
     <packaging>pom</packaging>
@@ -16,7 +17,7 @@
 
     <properties>
         <!-- Alfresco Maven Plugin version to use -->
-        <alfresco.sdk.version>3.0.1-SNAPSHOT</alfresco.sdk.version>
+        <alfresco.sdk.version>3.0.2-RL</alfresco.sdk.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -39,8 +40,8 @@
         <!-- Alfresco Platform and Share webapp versions, these are the original Alfresco webapps that will be
              customized and then deployed and run by the tomcat maven plugin when
              executing for example $ mvn clean install alfresco:run -->
-        <alfresco.platform.version>5.2.0</alfresco.platform.version>
-        <alfresco.share.version>5.2.0</alfresco.share.version>
+        <alfresco.platform.version>5.2.5</alfresco.platform.version>
+        <alfresco.share.version>5.2.5</alfresco.share.version>
 
         <!-- Default is to run with a Community edition, change to 'enterprise' if using Enterprise edition -->
         <maven.alfresco.edition>enterprise</maven.alfresco.edition>
@@ -67,10 +68,9 @@
         <alfresco.document-templates.version>1.1.0</alfresco.document-templates.version>
         <rl.alfresco-test.version>3.0.0</rl.alfresco-test.version>
 
-        <alfresco.swedish.version>5.2.0-SNAPSHOT</alfresco.swedish.version>
+        <alfresco.swedish.version>6.0.0</alfresco.swedish.version>
 
-        <alfresco.swedish.version>5.2.3</alfresco.swedish.version>
-
+        <alfresco.email.version>1.0.2</alfresco.email.version>
     </properties>
 
     <!-- Libs used in Unit and Integration tests -->
@@ -185,28 +185,33 @@
                 <groupId>org.redpill-linpro.alfresco.findwise</groupId>
                 <artifactId>findwise-integration-repo</artifactId>
                 <version>${findwise.version}</version>
-              </dependency>
-              <!-- Test dependencies -->
-              <dependency>
+            </dependency>
+            <!-- Test dependencies -->
+            <dependency>
                 <groupId>org.redpill-linpro.alfresco</groupId>
                 <artifactId>alfresco-test-repo</artifactId>
                 <version>${rl.alfresco-test.version}</version>
-              </dependency>
-              <dependency>
+            </dependency>
+            <dependency>
                 <groupId>org.redpill-linpro.alfresco.translations</groupId>
                 <artifactId>alfresco-swedish-repo</artifactId>
                 <version>${alfresco.swedish.version}</version>
-              </dependency>
-              <dependency>
+            </dependency>
+            <dependency>
                 <groupId>org.redpill-linpro.alfresco.translations</groupId>
                 <artifactId>alfresco-swedish-share</artifactId>
                 <version>${alfresco.swedish.version}</version>
-              </dependency>
-              <dependency>
+            </dependency>
+            <dependency>
                 <groupId>org.redpill-linpro.alfresco.translations</groupId>
                 <artifactId>alfresco-swedish-mail</artifactId>
                 <version>${alfresco.swedish.version}</version>
-              </dependency>
+            </dependency>
+            <dependency>
+                <groupId>org.redpill-linpro.alfresco.email</groupId>
+                <artifactId>alfresco-email-share-actions</artifactId>
+                <version>${alfresco.email.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -220,7 +225,7 @@
                     the layout of your AMP. The end result is that Maven will produce both a JAR file and an AMP with your
                     module.
                 -->
-                
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-assembly-plugin</artifactId>
@@ -246,7 +251,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                
+
 
                 <!-- Filter resources in any sub-project with this config -->
                 <plugin>
@@ -358,9 +363,9 @@
                             <type>amp</type>
                         </moduleDependency>
                         <moduleDependency>
-                          <groupId>org.redpill-linpro.alfresco</groupId>
-                          <artifactId>alfresco-test-repo</artifactId>
-                          <version>${rl.alfresco-test.version}</version>
+                            <groupId>org.redpill-linpro.alfresco</groupId>
+                            <artifactId>alfresco-test-repo</artifactId>
+                            <version>${rl.alfresco-test.version}</version>
                         </moduleDependency>
 
                         <!-- Bring in custom Modules -->
@@ -380,17 +385,17 @@
                         </moduleDependency>
 
                         <moduleDependency>
-                          <groupId>org.redpill-linpro.alfresco</groupId>
-                          <artifactId>alfresco-document-templates-repo</artifactId>
-                          <version>${alfresco.document-templates.version}</version>
-                          <type>amp</type>
+                            <groupId>org.redpill-linpro.alfresco</groupId>
+                            <artifactId>alfresco-document-templates-repo</artifactId>
+                            <version>${alfresco.document-templates.version}</version>
+                            <type>amp</type>
                         </moduleDependency>
 
                         <moduleDependency>
-                          <groupId>de.fmaul</groupId>
-                          <artifactId>javascript-console-repo</artifactId>
-                          <version>0.6</version>
-                          <type>amp</type>
+                            <groupId>de.fmaul</groupId>
+                            <artifactId>javascript-console-repo</artifactId>
+                            <version>0.6</version>
+                            <type>amp</type>
                         </moduleDependency>
 
                     </platformModules>
@@ -408,10 +413,10 @@
                         </moduleDependency>
 
                         <moduleDependency>
-                          <groupId>de.fmaul</groupId>
-                          <artifactId>javascript-console-share</artifactId>
-                          <version>0.6</version>
-                          <type>amp</type>
+                            <groupId>de.fmaul</groupId>
+                            <artifactId>javascript-console-share</artifactId>
+                            <version>0.6</version>
+                            <type>amp</type>
                         </moduleDependency>
 
                     </shareModules>
@@ -479,12 +484,12 @@
         </repository>
         <!-- Redpill Linpro repository -->
         <repository>
-          <id>redpill-linpro</id>
-          <url>https://maven.redpill-linpro.com/nexus/content/groups/public</url>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>daily</updatePolicy>
-          </snapshots>
+            <id>redpill-linpro</id>
+            <url>https://maven.redpill-linpro.com/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -501,9 +506,9 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-  <modules>
-    <module>ak-repo-dm</module>
-    <module>ak-share-dm</module>
-    <module>integration-tests</module>
-  </modules>
+    <modules>
+        <module>ak-repo-dm</module>
+        <module>ak-share-dm</module>
+        <module>integration-tests</module>
+    </modules>
 </project>

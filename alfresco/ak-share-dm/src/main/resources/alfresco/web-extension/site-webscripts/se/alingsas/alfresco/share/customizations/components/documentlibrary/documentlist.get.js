@@ -5,7 +5,7 @@ doclibCommon();
 function main()
 {
    var rendererName = "detailed";
-   if(page.url.templateArgs.site == "y"){
+   if(page.url.templateArgs.site == "Bildbanken"){
     rendererName = "gallery";
    }
    var documentList = {

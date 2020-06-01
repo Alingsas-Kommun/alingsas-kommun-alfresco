@@ -92,13 +92,13 @@ function main()
       var acceptUrl = json.get("acceptURL");
       var rejectUrl = json.get("rejectURL");
 
-      if(!emailService.validateEmailExistance(json.get("inviteeFirstName"),json.get("inviteeLastName"), json.get("inviteeUserName"))){
-        status.setCode(status.STATUS_BAD_REQUEST, "Unable to find existing email or creating a default");
-      }
 
       // Get the optional properties
       if (json.has("inviteeUserName") && json.get("inviteeUserName") != "")
       {
+         if(!emailService.validateEmailExistance(json.get("inviteeUserName"))){
+             status.setCode(status.STATUS_BAD_REQUEST, "Unable to find existing email or creating a default");
+          }
          invitation = site.inviteNominated(json.get("inviteeUserName"), inviteeRoleName, acceptUrl, rejectUrl);
       }
       else
