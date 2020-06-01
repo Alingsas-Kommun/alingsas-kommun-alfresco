@@ -4,7 +4,7 @@
     <module>
       <id>Global changes</id>
       <auto-deploy>false</auto-deploy>
-      <version>${noSnapshotVersion}</version>
+      <version>${project.version}</version>
       <!-- No evaluator since these are global changes which always are applied -->
 
       <!-- Enhance individual WebScripts when their paths match -->
