@@ -5,31 +5,6 @@
    <@script src="${url.context}/res/ak/components/document-details/document-links.js" group="document-details"/>
 </@>
 
-<@markup id="ak-widgets" target="widgets" action="replace">
-  <#if document??>
-      <#if document.workingCopy??>
-          <!-- Don't display links since this nodeRef points to one of a working copy pair -->
-      <#else>
-         <#assign el=args.htmlid?html>
-         <#assign linkUrl = url.server?replace(":443", "")>    
-         <@inlineScript group="document-details">
-            new Alfresco.DocumentLinks("${el}").setOptions(
-            {
-               nodeRef: "${nodeRef?js_string}",
-               fileName: "${document.fileName?js_string}",
-               siteId: <#if site??>"${site?js_string}"<#else>null</#if>,
-               actualHostName: <#list linkUrl?split(".") as var>"${var?js_string}"<#if var_has_next>+ "." +</#if></#list>,
-               actualHostContext: "${url.getContext()?js_string}",
-            }).setMessages(${messages});
-                  
-            YAHOO.util.Event.onContentReady("${args.htmlid?js_string}-heading", function() {
-               Alfresco.util.createTwister("${args.htmlid?js_string}-heading", "DocumentLinks");
-            });
-         </@>
-      </#if>
-   </#if>
-</@>
-
 <@markup id="ak-html" target="html" action="replace">
    <@uniqueIdDiv>
       <#if document??>

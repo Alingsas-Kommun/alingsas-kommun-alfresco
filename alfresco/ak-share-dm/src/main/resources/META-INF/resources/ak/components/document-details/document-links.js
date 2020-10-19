@@ -19,10 +19,10 @@
  */
 
 /**
- * Document links component.
+ * Custom document links component.
  *
  * @namespace Alfresco
- * @class Alfresco.DocumentLinks
+ * @class Alfresco.CustomDocumentLinks
  */
 (function ()
 {
@@ -40,9 +40,9 @@
    * @return {Alfresco.DocumentLinks} The new DocumentLinks instance
    * @constructor
    */
-  Alfresco.DocumentLinks = function (htmlId)
+  Alfresco.CustomDocumentLinks = function (htmlId)
   {
-    Alfresco.DocumentLinks.superclass.constructor.call(this, "Alfresco.DocumentLinks", htmlId, []);
+    Alfresco.CustomDocumentLinks.superclass.constructor.call(this, "Alfresco.CustomDocumentLinks", htmlId, []);
 
     // Initialise prototype properties
     this.hasClipboard = window.clipboardData && window.clipboardData.setData;
@@ -50,7 +50,7 @@
     return this;
   };
 
-  YAHOO.extend(Alfresco.DocumentLinks, Alfresco.component.Base,
+  YAHOO.extend(Alfresco.CustomDocumentLinks, Alfresco.component.Base,
           {
             /**
              * Object container for initialization options
@@ -114,14 +114,14 @@
 
               // Prefix some of the urls with values from the client
               //Dom.get(this.id + "-page").value = document.location.href;
-              Dom.get(this.id + "-page").value = this.options.actualHostName + document.location.pathname + document.location.search;
+
+              Dom.get(this.id + "-page").value = document.location.protocol + "//" + document.location.host + document.location.pathname + document.location.search;
 
               //Preview url
-              Dom.get(this.id + "-preview").value = this.options.actualHostName + this.options.actualHostContext + "/page/preview" + document.location.search;
+              Dom.get(this.id + "-preview").value = document.location.protocol + "//" + document.location.host + Alfresco.constants.URL_PAGECONTEXT + "preview" + document.location.search;
 
               //Download url
-              //var contentUrl = Alfresco.constants.PROXY_URI +"api/node/content/"+this.options.nodeRef.replace("://","/")+"/"+ encodeURIComponent(this.options.fileName);
-              var contentUrl = this.options.actualHostName + this.options.actualHostContext + "/proxy/alfresco/api/node/content/" + this.options.nodeRef.replace("://", "/") + "/" + encodeURIComponent(this.options.fileName) + "?a=true";
+              var contentUrl = Alfresco.constants.PROXY_URI + "api/node/content/" + this.options.nodeRef.replace("://", "/") + "/" + encodeURIComponent(this.options.fileName) + "?a=true";
               Dom.get(this.id + "-download").value = contentUrl;
               // Alingsås kommun customizations end
             },
