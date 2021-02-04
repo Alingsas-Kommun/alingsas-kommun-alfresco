@@ -24,3 +24,8 @@ nb-configuration.xml
 alfresco/.idea/*
 *.iml
 .DS_Store
+alfresco.old
+
+*.tar.gz
+
+*.war
