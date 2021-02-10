@@ -25,6 +25,14 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
 
+        <!-- https://github.com/Alfresco/share/tree/develop/share-services -->
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-share-services</artifactId>
+            <version>${alfresco.share.version}</version>
+            <scope>provided</scope>
+            <classifier>classes</classifier>
+        </dependency>
 
         <!-- https://github.com/Redpill-Linpro/alfresco-swedish -->
         <dependency>

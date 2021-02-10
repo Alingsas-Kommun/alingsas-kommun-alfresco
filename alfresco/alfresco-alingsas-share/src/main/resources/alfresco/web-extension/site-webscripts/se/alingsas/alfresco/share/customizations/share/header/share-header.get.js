@@ -29,7 +29,8 @@ function setDefaultSearchScopeToSite() {
   }
   searchMenuBase.config.defaultSearchScope = scope;
 }
-setDefaultSearchScopeToSite();
+//Disable, should not be a problem any more
+//setDefaultSearchScopeToSite();
 
 /**
  Customize site dashboard is not visible for presets with a custom title-id
