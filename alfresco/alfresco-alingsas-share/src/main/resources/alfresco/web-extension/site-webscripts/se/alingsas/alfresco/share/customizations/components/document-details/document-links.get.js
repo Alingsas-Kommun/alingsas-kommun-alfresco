@@ -17,7 +17,7 @@ function custom_documentlinks() {
       options: {
          nodeRef: model.nodeRef,
          siteId: model.site,
-         fileName: model.document.fileName,
+         fileName: (model.document!==null)?model.document.fileName:"",
       }
    };
    model.widgets = [documentActions];
