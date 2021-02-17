@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>se.alingsas.alfresco</groupId>
     <artifactId>alfresco-alingsas</artifactId>
-    <version>5.0.0-SNAPSHOT</version>
-    <name>AIO - SDK 4.0</name>
-    <description>All-In-One (AIO) project for SDK 4.0</description>
+    <version>5.0.0</version>
+    <name>Alfresco - Alingsås Kommun</name>
+    <description>Alfresco - Alingsås Kommun</description>
     <packaging>pom</packaging>
 
     <prerequisites>
