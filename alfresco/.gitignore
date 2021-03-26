@@ -36,3 +36,6 @@ tmp/
 
 # macOS
 *.DS_Store
+
+*.lic
+.java-version
