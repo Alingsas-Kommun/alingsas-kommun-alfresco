@@ -1,6 +1,6 @@
 (function() {
   YAHOO.Bubbling.fire("registerAction", {
-      actionName: "onActionMultiEmail",
+      actionName: "onActionMultiEmailMembers",
       fn: function multiEmail(record, owner)
       {
         var payload = [];

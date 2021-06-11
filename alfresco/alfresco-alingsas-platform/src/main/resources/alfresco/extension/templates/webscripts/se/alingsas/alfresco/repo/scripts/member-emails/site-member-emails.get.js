@@ -2,7 +2,7 @@
 function getMails(siteShortName) {
 
     var site = siteService.getSite(siteShortName);
-    var members = site.listMembers(null, null);
+    var members = site.listMembers(null, null, 50, false);
 
     var emails = []
     for (userName in members) {

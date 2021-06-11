@@ -38,6 +38,13 @@
             <artifactId>alfresco-email-share-actions</artifactId>
             <version>${rl.alfresco.email.version}</version>
         </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.1.0</version>
+        <scope>provided</scope>
+      </dependency>
     </dependencies>
 
     <build>
