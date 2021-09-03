@@ -48,5 +48,6 @@
    <bean id="se.alingsas.evaluator.doclib.action.DocumentStatusIsComplete" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.DocumentStatusIsComplete" />
    <bean id="se.alingsas.evaluator.doclib.action.IsAlingsasDocument" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAlingsasDocument" />
    <bean id="se.alingsas.evaluator.doclib.action.IsAdmin" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsAdmin" />
+   <bean id="se.alingsas.evaluator.doclib.action.IsPublicSite" class="se.alingsas.alfresco.share.evaluator.documentlibrary.action.IsPublicSite" />
 
 </beans>
