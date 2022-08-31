@@ -1,7 +1,7 @@
 # Alfresco - Alingsås Kommun
 
 ## Run
-Run with `./mutagen-run.sh build_start` (Mac) `./run.sh build_start` (Linux) or `./run.bat build_start` (Windows) and verify that it
+Run with `./run.sh build_start` (Mac) `./run.sh build_start` (Linux) or `./run.bat build_start` (Windows) and verify that it
 
 Run script parameters:
  * `build_start`. Build the whole project, recreate the ACS and Share docker images, start the dockerised environment composed by ACS, Share, ASS and 

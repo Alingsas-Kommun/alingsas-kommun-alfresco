@@ -18,6 +18,10 @@ services:
       dockerfile: ./Dockerfile
       context: ../../../alfresco-alingsas-platform-docker/target
     environment:
+      JAVA_TOOL_OPTIONS: "${keystore.settings}"
+      JAVA_OPTS: "
+        -Dmessaging.broker.url=\"failover:(nio://alfresco-alingsas-activemq:61616)?timeout=3000&jms.useCompression=true\"
+        "
       CATALINA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888"
     ports:
       - "${acs.port}:8080"
@@ -87,8 +91,9 @@ services:
       - "8099:8099"
     volumes:
       - shared-file-store-volume:/tmp/Alfresco/sfs
-    activemq:
-      image: alfresco/alfresco-activemq:5.15.8
+  activemq:
+      image: alfresco/alfresco-activemq:5.16.1
+      mem_limit: 1g
       ports:
         - 8161:8161 # Web Console
         - 5672:5672 # AMQP
