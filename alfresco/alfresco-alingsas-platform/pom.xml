@@ -34,12 +34,6 @@
             <classifier>classes</classifier>
         </dependency>
 
-        <!-- https://github.com/Redpill-Linpro/alfresco-swedish -->
-        <dependency>
-            <groupId>org.redpill-linpro.alfresco.translations</groupId>
-            <artifactId>alfresco-swedish-repo</artifactId>
-        </dependency>
-
         <!-- https://github.com/Redpill-Linpro/alfresco-findwise-integration -->
         <dependency>
             <groupId>org.redpill-linpro.alfresco.findwise</groupId>
