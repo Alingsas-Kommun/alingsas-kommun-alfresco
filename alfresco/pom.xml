@@ -52,7 +52,7 @@
         <!-- This parameter is only required for those cases in which ACS is not exposed in http://localhost:8080/alfresco (i.e. Windows Docker) -->
         <test.acs.endpoint.path/>
 
-        <alfresco.swedish.version>6.2.4</alfresco.swedish.version>
+        <alfresco.swedish.version>6.2.5</alfresco.swedish.version>
         <rl.alfresco-test.version>4.0.2</rl.alfresco-test.version>
         <rl.alfresco.findwise.version>5.1.0</rl.alfresco.findwise.version>
         <rl.alfresco.document-templates.version>1.1.0</rl.alfresco.document-templates.version>
