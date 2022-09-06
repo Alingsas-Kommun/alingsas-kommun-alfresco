@@ -52,13 +52,13 @@
         <!-- This parameter is only required for those cases in which ACS is not exposed in http://localhost:8080/alfresco (i.e. Windows Docker) -->
         <test.acs.endpoint.path/>
 
-        <alfresco.swedish.version>6.2.5</alfresco.swedish.version>
-        <rl.alfresco-test.version>4.4.0</rl.alfresco-test.version>
+        <alfresco.swedish.version>6.2.5</alfresco.swedish.version> <!-- Done -->
+        <rl.alfresco-test.version>4.4.0</rl.alfresco-test.version> <!-- Done -->
         <rl.alfresco.findwise.version>5.1.0</rl.alfresco.findwise.version>
-        <rl.alfresco.document-templates.version>1.1.0</rl.alfresco.document-templates.version>
+        <rl.alfresco.document-templates.version>1.4.0</rl.alfresco.document-templates.version> <!-- Done -->
         <rl.alfresco.numbering.version>1.3.0</rl.alfresco.numbering.version>
-        <rl.alfresco.jobs>1.0.2</rl.alfresco.jobs>
-        <rl.alfresco.email.version>1.1.0</rl.alfresco.email.version>
+        <rl.alfresco.jobs>1.0.3</rl.alfresco.jobs> <!-- Done -->
+        <rl.alfresco.email.version>1.1.0</rl.alfresco.email.version> <!-- Done -->
         <sonar.jacoco.reportPath>target/jacoco-ut.exec</sonar.jacoco.reportPath>
         <sonar.jacoco.itReportPath>target/jacoco-it.exec</sonar.jacoco.itReportPath>
         <failsafeArgLine></failsafeArgLine>
