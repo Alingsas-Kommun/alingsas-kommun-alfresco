@@ -20,6 +20,8 @@ services:
     environment:
       JAVA_TOOL_OPTIONS: "${keystore.settings}"
       JAVA_OPTS: "
+        -Dsolr.secureComms=secret
+        -Dsolr.sharedSecret=secret
         -Dmessaging.broker.url=\"failover:(nio://alfresco-alingsas-activemq:61616)?timeout=3000&jms.useCompression=true\"
         "
       CATALINA_OPTS: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:8888"
@@ -42,13 +44,15 @@ services:
     volumes:
       - alfresco-alingsas-db-volume:/var/lib/postgresql/data
   alfresco-alingsas-ass:
-    image: alfresco/alfresco-search-services:1.2.0
+    image: alfresco/alfresco-search-services:2.0.3
     environment:
       SOLR_ALFRESCO_HOST: alfresco-alingsas-acs
       SOLR_ALFRESCO_PORT: 8080
       SOLR_SOLR_HOST: alfresco-alingsas-ass
       SOLR_SOLR_PORT: 8983
       SOLR_CREATE_ALFRESCO_DEFAULTS: alfresco,archive
+      ALFRESCO_SECURE_COMMS: "secret"
+      JAVA_TOOL_OPTIONS: "-Dalfresco.secureComms.secret=secret"
     ports:
       - "8983:8983"
     volumes:
