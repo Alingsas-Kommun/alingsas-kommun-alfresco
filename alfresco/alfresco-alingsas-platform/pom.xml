@@ -3,9 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>alfresco-alingsas-platform</artifactId>
-    <name>Alfresco Platform/Repository JAR Module</name>
-    <description>Platform/Repo JAR Module (to be included in the alfresco.war) - part of AIO - SDK 4.0
-    </description>
+    <name>Alingsås Plaform AMP module.</name>
+    <description>Contains modifications for Alingsås Plaform AMP module.</description>
     <packaging>jar</packaging>
 
     <parent>
@@ -32,13 +31,6 @@
             <version>${alfresco.share.version}</version>
             <scope>provided</scope>
             <classifier>classes</classifier>
-        </dependency>
-
-        <!-- https://github.com/Redpill-Linpro/alfresco-findwise-integration -->
-        <dependency>
-            <groupId>org.redpill-linpro.alfresco.findwise</groupId>
-            <artifactId>findwise-integration-repo</artifactId>
-            <version>${rl.alfresco.findwise.version}</version>
         </dependency>
 
         <!-- https://github.com/Redpill-Linpro/alfresco-numbering -->

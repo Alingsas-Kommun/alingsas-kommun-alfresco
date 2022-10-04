@@ -35,7 +35,6 @@ Run script parameters:
   * Custom metadata when creating document
   * Select template when creating document
   * Document numbering
-* Findwise integration (disabled, but still required due to datamodel)
 * Workflows and actions for approval/publishing of documents
 * Email links to document
 

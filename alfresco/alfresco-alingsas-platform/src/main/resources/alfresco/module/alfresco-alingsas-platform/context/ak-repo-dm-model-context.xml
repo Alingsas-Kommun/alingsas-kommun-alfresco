@@ -8,6 +8,7 @@
       <list>
         <value>alfresco/module/${project.artifactId}/model/akDmModel.xml</value>
         <value>alfresco/module/${project.artifactId}/model/filelinkModel.xml</value>
+        <value>alfresco/module/${project.artifactId}/model/findwiseIntegrationModel.xml</value>
       </list>
     </property>
     <property name="labels">
