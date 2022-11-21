@@ -10,7 +10,7 @@
     <parent>
         <groupId>se.alingsas.alfresco</groupId>
         <artifactId>alfresco-alingsas</artifactId>
-        <version>5.2.0-SNAPSHOT</version>
+        <version>5.2.0</version>
     </parent>
 
     <properties>
@@ -18,13 +18,20 @@
     </properties>
 
     <dependencies>
+        <!-- This is a patch to fix the problem when spaces in filenames are replaced by + in 7.2.
+             It should only be used to 7.2 and should have been fixed by 7.3. -->
+        <dependency>
+            <groupId>se.redpill-linpro</groupId>
+            <artifactId>mnt-23103</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
 
-        <!-- https://github.com/Alfresco/share/tree/develop/share-services -->
+        <!-- https://github.com/alfresco/share/tree/develop/share-services -->
         <dependency>
             <groupId>org.alfresco</groupId>
             <artifactId>alfresco-share-services</artifactId>
@@ -33,7 +40,16 @@
             <classifier>classes</classifier>
         </dependency>
 
-        <!-- https://github.com/Redpill-Linpro/alfresco-numbering -->
+        <!-- https://github.com/alfresco/share/tree/develop/share-services -->
+        <dependency>
+            <groupId>org.alfresco</groupId>
+            <artifactId>alfresco-share-services</artifactId>
+            <version>${alfresco.share.version}</version>
+            <scope>provided</scope>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <!-- https://github.com/redpill-linpro/alfresco-numbering -->
         <dependency>
             <groupId>org.redpill-linpro.alfresco.numbering</groupId>
             <artifactId>alfresco-numbering-repo</artifactId>

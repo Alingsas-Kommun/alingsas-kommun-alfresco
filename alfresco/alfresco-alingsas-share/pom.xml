@@ -10,7 +10,7 @@
     <parent>
         <groupId>se.alingsas.alfresco</groupId>
         <artifactId>alfresco-alingsas</artifactId>
-        <version>5.2.0-SNAPSHOT</version>
+        <version>5.2.0</version>
     </parent>
 
     <properties>
@@ -20,16 +20,16 @@
          <scope>provided</scope> is inherited for each of the following;
          for more info, please refer to alfresco-platform-distribution POM -->
     <dependencies>
-        <dependency>
-            <groupId>${alfresco.groupId}</groupId>
-            <artifactId>share</artifactId>
-            <classifier>classes</classifier>
-        </dependency>
-
         <!-- https://github.com/Redpill-Linpro/alfresco-swedish -->
         <dependency>
             <groupId>org.redpill-linpro.alfresco.translations</groupId>
             <artifactId>alfresco-swedish-share</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${alfresco.groupId}</groupId>
+            <artifactId>share</artifactId>
+            <classifier>classes</classifier>
         </dependency>
 
         <!-- https://github.com/Redpill-Linpro/alfresco-email -->
